@@ -29,8 +29,8 @@ Repositório destinado ao desenvolvimento do trabalho realizado em 2026.2 pela e
 
 <table>
   <tr>
-   <td align="center"> <img height="180" src="https://virtual.ufc.br/wp-content/uploads/2022/10/servletrecuperafoto-22.png" alt="Foto da professora Cátia Luzia"> </td>
-   <td align="center"> <img height="180" src="https://virtual.ufc.br/wp-content/uploads/2022/10/servletrecuperafoto-44.png" alt="Foto do professor Wellington Sarmento"> </td>
+   <td align="center" width="520"> <img height="180" src="https://virtual.ufc.br/wp-content/uploads/2022/10/servletrecuperafoto-22.png" alt="Foto da professora Cátia Luzia"> </td>
+   <td align="center" width="520"> <img height="180" src="https://virtual.ufc.br/wp-content/uploads/2022/10/servletrecuperafoto-44.png" alt="Foto do professor Wellington Sarmento"> </td>
   </tr>
 
   <tr>

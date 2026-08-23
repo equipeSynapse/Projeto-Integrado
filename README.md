@@ -1,5 +1,5 @@
 # Projeto Integrado I
-Repositório destinado ao desenvolvimento do trabalho realizado em 2026.2 pela equipe ? para a disciplina de Projeto Integrado I
+Repositório destinado ao desenvolvimento do trabalho realizado em 2026.2 pela equipe Synapse para a disciplina de Projeto Integrado I
 
 ## Membros da Equipe
 
@@ -14,13 +14,27 @@ Repositório destinado ao desenvolvimento do trabalho realizado em 2026.2 pela e
   </tr>
 
   <tr>
-    <td align="center"> <b> Alisson da Silva Lucas </b> </td>
-    <td align="center"> <b> Anderson Maia Santos </b> </td>
-    <td align="center"> <b> Naamã Alecsander de Sousa Tavares </b> </td>
-    <td align="center"> <b> Pedro Bruno Rodrigues de Almeida </b> </td>
-    <td align="center"> <b> Thalita Suzy Rodrigues Sampaio </b> </td>
-    <td align="center"> <b> Yan Lucas Gondim Rabelo </b> </td>
+    <td align="center"> <a href="https://github.com/AlissonLucas01"> <b> Alisson da Silva Lucas </b> </a> </td>
+    <td align="center"> <a href="https://github.com/TheAnders007"> <b> Anderson Maia Santos </b> </a> </td>
+    <td align="center"> <a href="https://github.com/alecsandernst"> <b> Naamã Alecsander de Sousa Tavares </b> </a> </td>
+    <td align="center"> <a href="https://github.com/Pedro-Bruno41">  <b> Pedro Bruno Rodrigues de Almeida </b> </a> </td>
+    <td align="center"> <a href="https://github.com/thalitaasuzy"> <b> Thalita Suzy Rodrigues Sampaio </b> </a> </td>
+    <td align="center"> <a href="https://github.com/YanRabelo">  <b> Yan Lucas Gondim Rabelo </b> </a> </td>
   </tr>
+</table>
+
+## Orientação Docente
+
+<table>
+  <tr>
+   <td> <img height="320" src="https://virtual.ufc.br/wp-content/uploads/2022/10/servletrecuperafoto-22.png" alt="Foto da professora Cátia Luzia"> </td>
+   <td> <img height="320" src="https://virtual.ufc.br/wp-content/uploads/2022/10/servletrecuperafoto-44.png" alt="Foto do professor Wellington Sarmento"> </td>
+  <tr>
+
+  <tr>
+   <td align="center"> <a href="http://lattes.cnpq.br/2462245257053946"> <b> Cátia Luzia Oliveira da Silva </b> </a> </td>
+   <td align="center"> <a href="http://lattes.cnpq.br/1015561507843037"> <b> Wellington Wagner Ferreira Sarmento </b> </a> </td>
+  <tr>
 </table>
 
 

@@ -23,18 +23,20 @@ Repositório destinado ao desenvolvimento do trabalho realizado em 2026.2 pela e
   </tr>
 </table>
 
+<br>
+
 ## Orientação Docente
 
 <table>
   <tr>
-   <td> <img height="320" src="https://virtual.ufc.br/wp-content/uploads/2022/10/servletrecuperafoto-22.png" alt="Foto da professora Cátia Luzia"> </td>
-   <td> <img height="320" src="https://virtual.ufc.br/wp-content/uploads/2022/10/servletrecuperafoto-44.png" alt="Foto do professor Wellington Sarmento"> </td>
-  <tr>
+   <td align="center"> <img height="180" src="https://virtual.ufc.br/wp-content/uploads/2022/10/servletrecuperafoto-22.png" alt="Foto da professora Cátia Luzia"> </td>
+   <td align="center"> <img height="180" src="https://virtual.ufc.br/wp-content/uploads/2022/10/servletrecuperafoto-44.png" alt="Foto do professor Wellington Sarmento"> </td>
+  </tr>
 
   <tr>
    <td align="center"> <a href="http://lattes.cnpq.br/2462245257053946"> <b> Cátia Luzia Oliveira da Silva </b> </a> </td>
    <td align="center"> <a href="http://lattes.cnpq.br/1015561507843037"> <b> Wellington Wagner Ferreira Sarmento </b> </a> </td>
-  <tr>
+  </tr>
 </table>
 
 

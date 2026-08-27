@@ -21,6 +21,15 @@ Repositório destinado ao desenvolvimento do trabalho realizado em 2026.2 pela e
     <td align="center"> <a href="https://github.com/thalitaasuzy"> <b> Thalita Suzy Rodrigues Sampaio </b> </a> </td>
     <td align="center"> <a href="https://github.com/YanRabelo">  <b> Yan Lucas Gondim Rabelo </b> </a> </td>
   </tr>
+
+  <tr>
+    <td align="center">  </td>
+    <td align="center"> Programação Full Stack </td>
+    <td align="center">  </td>
+    <td align="center"> Desenvolvimento Visual </td>
+    <td align="center">  </td>
+    <td align="center">  </td>
+  </tr>
 </table>
 
 <br>
@@ -38,13 +47,3 @@ Repositório destinado ao desenvolvimento do trabalho realizado em 2026.2 pela e
    <td align="center"> <a href="http://lattes.cnpq.br/1015561507843037"> <b> Wellington Wagner Ferreira Sarmento </b> </a> </td>
   </tr>
 </table>
-
-
-
-
-
-
-
-
-
-

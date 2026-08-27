@@ -1,5 +1,5 @@
 # Projeto Integrado I
-Repositório destinado ao desenvolvimento do trabalho realizado em 2026.2 pela equipe Synapse para a disciplina de Projeto Integrado I
+Repositório destinado ao desenvolvimento do trabalho realizado em 2026.2 pela equipe Synapse para a disciplina de Projeto Integrado I do curso de Sistemas e Mídias Digitais da Universidade Federal do Ceará (UFC).
 
 ## Membros da Equipe
 

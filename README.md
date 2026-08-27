@@ -28,7 +28,7 @@ Repositório destinado ao desenvolvimento do trabalho realizado em 2026.2 pela e
     <td align="center">  </td>
     <td align="center"> Desenvolvimento Visual </td>
     <td align="center">  </td>
-    <td align="center">  </td>
+    <td align="center"> Gestão e desenvolvimento visual </td>
   </tr>
 </table>
 

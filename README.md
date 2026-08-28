@@ -23,7 +23,6 @@ Repositório destinado ao desenvolvimento do trabalho realizado em 2026.2 pela e
   </tr>
 
   <tr>
-    <td align="center">  </td>
     <td align="center"> Desenvolvimento Visual </td>
     <td align="center">  </td>
     <td align="center"> Programação Full Stack </td>

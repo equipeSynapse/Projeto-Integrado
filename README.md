@@ -27,7 +27,7 @@ Repositório destinado ao desenvolvimento de um mural colaborativo para o comuni
     <td align="center"> Programação Full Stack </td>
     <td align="center"> Programação Front-End</td>
     <td align="center"> Desenvolvimento Visual </td>
-    <td align="center">  </td>
+    <td align="center"> Programação Back-End </td>
     <td align="center"> Gestão e desenvolvimento visual </td>
   </tr>
 </table>

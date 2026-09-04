@@ -1,5 +1,12 @@
+
+<div align="right" width="400">
+  <img width="150" height="81" alt="principal_Instituto" src="https://github.com/user-attachments/assets/8a3c6fdc-f4ed-4a26-9b60-a2cf098b8740" />
+  <img width="50" height="81" alt="ufc-logo" src="https://github.com/user-attachments/assets/4185e65f-d29b-4272-b75a-8531863aaaaf" />
+</div>
+
 # Mural Colaborativo 🖼️📰
-Repositório destinado ao desenvolvimento de um mural colaborativo para o comunidade acadêmica do SMD realizado em 2026.2 pela equipe Synapse para a disciplina de Projeto Integrado I do curso de Sistemas e Mídias Digitais da Universidade Federal do Ceará (UFC).
+
+<p> Repositório destinado ao desenvolvimento de um mural colaborativo para o comunidade acadêmica do SMD realizado em 2026.2 pela equipe Synapse para a disciplina de Projeto Integrado I do curso de Sistemas e Mídias Digitais da Universidade Federal do Ceará (UFC).</p>
 
 ## Membros da Equipe
 

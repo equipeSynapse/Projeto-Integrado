@@ -9,11 +9,22 @@
 <p> Repositório destinado ao desenvolvimento de um mural colaborativo para o comunidade acadêmica do SMD realizado em 2026.2 pela equipe Synapse para a disciplina de Projeto Integrado I do curso de Sistemas e Mídias Digitais da Universidade Federal do Ceará (UFC).</p>
 
 ---
+
+<div align="center">
+  
+  [Sobre](#sobre) • [Membros](#membros-da-equipe) • [Orientação](#orientação-docente) • [Tecnologias](#tecnologias)  • [Requisitos](#requisitos)
+  
+</div>
+
 <br>
 
-- [Sobre](#sobre)
-- [Membros](#membros-da-equipe)
-- [Orientação](#orientação-docente)
+## Sobre
+
+<p> 
+A partir de dados coletados com a secretaria, professores, alunos e Centro Acadêmico (CA) do SMD, foi identificado que a divulgação de informações ocorre atualmente de forma descentralizada, através de diferentes meios de comunicação. Essa descentralização pode fazer com que alunos que não possuem acesso ou vínculo com determinados canais de divulgação deixem de receber conteúdos relevantes. Além disso, foram identificadas a baixa atratividade das informações divulgadas e a ausência de mecanismos que permitam acompanhar o alcance das publicações. Como forma de aproximar o sistema do cotidiano acadêmico, o Mural Colaborativo SMD possui como metáfora de utilização o flanelógrafo, presente nos espaços de convivência do bloco do SMD, em que são fixados avisos e outras informações de interesse da comunidade acadêmica. O sistema deve ser um meio de divulgação que faça parte do cotidiano dos discentes, docentes e entes organizadores do curso, como a secretaria e CA do bloco de SMD. Para isso, a aplicação possui como premissa possibilitar que todos os usuários utilizem o recurso de maneira ética e harmoniosa para fortalecer um ambiente colaborativo de compartilhamento de informações. Também, apresentará os conteúdos de forma mais atrativa e organizada, a fim de facilitar sua compreensão e localização de publicações pelos usuários.
+</p>
+
+<br>
 
 ## Membros da Equipe
 
@@ -65,3 +76,48 @@
 <br>
 
 ## Tecnologias
+
+### Frontend
+
+- **React**
+- **Vite**
+- **Tailwind CSS**
+
+### Backend
+
+- **Node**
+- **Express**
+- **PostgreSQL**
+- **Bcrypt**
+
+<br>
+
+## Requisitos
+
+| Código | Descrição | Estado |
+| ---    | ---       | ---    |
+| RF01   | O sistema deve permitir que usuários logados ou não logados visualizem as publicações disponíveis no mural. | A fazer |
+| RF02   | O sistema deve permitir o registro de contas de usuários, guardando informações como nome completo, nome de usuário, e-mail institucional e senha. | A fazer |
+| RF03   | O sistema deve permitir o envio de um e-mail para que o usuário possa ativar sua conta. | A fazer |
+| RF04   | O sistema deve permitir que o usuário realize login através do e-mail institucional e senha. | A fazer |
+| RF05   | O sistema deve permitir que usuários logados criem novas publicações. | A fazer
+| RF06   | O sistema deve permitir o preenchimento de título, descrição, categoria, imagem, informação de contato, link para mais informações e prazo de validade no cadastro de uma publicação. | A fazer |
+| RF07   | O sistema deve mostrar o título, a descrição, a categoria, a imagem, as informações de contato, o nome de usuário e a data de publicação respectiva à postagem. | A fazer |
+| RF08   | O sistema deve permitir a classificação das publicações por categorias. | A fazer
+| RF09   | O sistema deve permitir que os usuários filtrem as publicações por título, por categoria, por período de publicação e por usuário. | A fazer |
+| RF10   | O sistema deve permitir que o usuário acesse o link para mais informações das publicações. | A fazer |
+| RF11   | O sistema deve mostrar as publicações de acordo com os filtros aplicados. | A fazer |
+| RF12   | O sistema deve permitir que o usuário visualize as suas publicações. | A fazer |
+| RF13   | O sistema deve permitir a exclusão e a edição das publicações criadas. | A fazer |
+| RF14   | O sistema deve permitir mostrar o número de visualizações das publicações. | A fazer |
+| RF15   | O sistema deve permitir que o usuário siga uma categoria para receber atualizações. | A fazer |
+| RF16   | O sistema deve permitir notificações de categorias seguidas pelo usuário. | A fazer |
+| RF17   | O sistema deve bloquear/censurar palavras indesejadas nos campos de título, descrição e informações de contato no formulário de cadastro de publicação. | A fazer |
+| RF18   | O sistema deve permitir que os usuários denunciem publicações através de uma justificativa. | A fazer |
+| RF19   | O sistema deve permitir que o usuário com o e-mail institucional casmd@virtual.ufc.br (CA) possua permissões de moderadores. | A fazer |
+| RF20   | O sistema deve permitir que o CA visualize as denúncias criadas das publicações. | A fazer |
+| RF21   | O sistema deve permitir que o moderador aprove ou rejeite uma denúncia. | A fazer |
+| RF22   | O sistema deve excluir uma publicação quando o moderador aprovar uma denúncia. | A fazer |
+| RF23   | O sistema deve permitir que o usuário exclua sua conta. | A fazer |
+| RF24   | O sistema deve permitir que o usuário edite suas informações da conta. | A fazer |
+

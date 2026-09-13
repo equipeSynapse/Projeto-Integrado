@@ -1,4 +1,4 @@
-export const emailConfirmacaoTemplate = `
+export const emailConfirmacaoTemplate = (link) => `
     <!DOCTYPE html>
         <html lang="en">
         <head>
@@ -8,6 +8,7 @@ export const emailConfirmacaoTemplate = `
         </head>
         <body>
             <h1> Olá, caro usuário!! </h1>
+            <a href=${link}> Ativar Conta </a>
         </body>
     </html>
 `

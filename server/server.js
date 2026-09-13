@@ -1,7 +1,6 @@
 import "dotenv/config";
 import express from "express";
 import authRoutes from "./routes/auth.routes.js";
-import { enviarEmailConfirmacao } from "./services/enviarEmail.js";
 
 const app = express();
 

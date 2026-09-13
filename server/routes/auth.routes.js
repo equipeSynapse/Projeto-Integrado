@@ -22,7 +22,11 @@ const router = express.Router();
 
 router.get('/ativar-conta', async (req, res) => {
     try {
-        const { token } = req.query;
+        const { token } = req.query; 
+
+        if (!token) {
+            return res.status(400).json({mensagem: "Token de Ativação Ausente!"})
+        }
 
         const resultado = await pool.query('SELECT email FROM usuarios WHERE token_ativacao = $1', [token]);
 

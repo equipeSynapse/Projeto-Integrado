@@ -15,6 +15,6 @@ export const enviarEmailConfirmacao = (destinatario = process.env.EMAIL_USER, to
             return console.log(error)
         }
 
-        console.log(info.response)
+        console.log("Email enviado! ->", info.response)
     })
 }

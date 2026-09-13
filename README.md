@@ -1,4 +1,3 @@
-
 <div align="right" width="400">
   <img width="150" height="81" alt="principal_Instituto" src="https://github.com/user-attachments/assets/8a3c6fdc-f4ed-4a26-9b60-a2cf098b8740" />
   <img width="50" height="81" alt="ufc-logo" src="https://github.com/user-attachments/assets/4185e65f-d29b-4272-b75a-8531863aaaaf" />
@@ -32,7 +31,7 @@ A partir de dados coletados com a secretaria, professores, alunos e Centro Acad�
   <tr>
     <td width="16%"> <img height="320" alt="Foto de Alisson Lucas" src="https://github.com/user-attachments/assets/335035b8-072d-4f52-815f-3947e60a954b" /> </td>
     <td width="16%"> <img height="320" alt="Foto de Anderson Maia" src="https://github.com/user-attachments/assets/a3341e75-7362-45d8-9697-f74d2631b342" /> </td>
-    <td width="16%"> <img height="320" alt="Foto de Naamã Alecsander" src="https://github.com/user-attachments/assets/d277653a-22ec-43b5-b1fa-ef5fd8deaae8" /> </td>
+    <td width="16%"> <img height="320" alt="Foto de Naamã Alecsander" src="https://github.com/user-attachments/assets/e23d5a86-d277-4238-9f3c-ee9ca7184629" /> </td>
     <td width="16%"> <img height="320" alt="Foto de Pedro Bruno" src="https://github.com/user-attachments/assets/7e8a7da8-6eb7-4b56-80f9-fdff70ca930d" /> </td>
     <td width="16%"> <img height="320" alt="Foto de Thalita Suzy" src="https://github.com/user-attachments/assets/3dda43b5-ea4a-45db-9fe3-4544ccc6c50a" /> </td>
     <td width="16%"> <img height="320" alt="Foto de Yan Lucas" src="https://github.com/user-attachments/assets/0af30c50-b714-4fb5-b9ec-1fc6ebea1816" /> </td>
@@ -98,7 +97,7 @@ A partir de dados coletados com a secretaria, professores, alunos e Centro Acad�
 | ---    | ---       | ---    |
 | RF01   | O sistema deve permitir que usuários logados ou não logados visualizem as publicações disponíveis no mural. | A fazer |
 | RF02   | O sistema deve permitir o registro de contas de usuários, guardando informações como nome completo, nome de usuário, e-mail institucional e senha. | A fazer |
-| RF03   | O sistema deve permitir o envio de um e-mail para que o usuário possa ativar sua conta. | A fazer |
+| RF03   | O sistema deve permitir o envio de um e-mail para que o usuário possa ativar sua conta. | Em Andamento |
 | RF04   | O sistema deve permitir que o usuário realize login através do e-mail institucional e senha. | A fazer |
 | RF05   | O sistema deve permitir que usuários logados criem novas publicações. | A fazer
 | RF06   | O sistema deve permitir o preenchimento de título, descrição, categoria, imagem, informação de contato, link para mais informações e prazo de validade no cadastro de uma publicação. | A fazer |

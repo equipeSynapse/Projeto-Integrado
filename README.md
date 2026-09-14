@@ -52,7 +52,7 @@ A partir de dados coletados com a secretaria, professores, alunos e Centro Acad�
     <td align="center"> Desenvolvimento Front-End </td>
     <td align="center"> Desenvolvimento Visual </td>
     <td align="center"> Desenvolvimento Full Stack </td>
-    <td align="center"> Gestão e Desenvolvimento Visual </td>
+    <td align="center"> Gestão do Projeto e Desenvolvimento Visual </td>
   </tr>
 </table>
 

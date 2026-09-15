@@ -1,5 +1,4 @@
-const supabase = require("@supabase/supabase-js");
-
+const supabase = require('../config/supabase');
 class UserServices {
     async createUser(email, nome, senha) {
         const { data, error } = await supabase
@@ -8,4 +7,4 @@ class UserServices {
     }
 }
 
-module.exports = UserServices;
+module.exports = new UserServices();

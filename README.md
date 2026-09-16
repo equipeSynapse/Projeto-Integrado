@@ -96,9 +96,9 @@ A partir de dados coletados com a secretaria, professores, alunos e Centro Acad�
 | Código | Descrição | Estado |
 | ---    | ---       | ---    |
 | RF01   | O sistema deve permitir que usuários logados ou não logados visualizem as publicações disponíveis no mural. | A fazer |
-| RF02   | O sistema deve permitir o registro de contas de usuários, guardando informações como nome completo, nome de usuário, e-mail institucional e senha. | A fazer |
+| RF02   | O sistema deve permitir o registro de contas de usuários, guardando informações como nome completo, nome de usuário, e-mail institucional e senha. | Em Andamento |
 | RF03   | O sistema deve permitir o envio de um e-mail para que o usuário possa ativar sua conta. | Em Andamento |
-| RF04   | O sistema deve permitir que o usuário realize login através do e-mail institucional e senha. | A fazer |
+| RF04   | O sistema deve permitir que o usuário realize login através do e-mail institucional e senha. | Em Andamento` |
 | RF05   | O sistema deve permitir que usuários logados criem novas publicações. | A fazer
 | RF06   | O sistema deve permitir o preenchimento de título, descrição, categoria, imagem, informação de contato, link para mais informações e prazo de validade no cadastro de uma publicação. | A fazer |
 | RF07   | O sistema deve mostrar o título, a descrição, a categoria, a imagem, as informações de contato, o nome de usuário e a data de publicação respectiva à postagem. | A fazer |

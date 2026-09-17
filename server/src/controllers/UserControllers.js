@@ -1,3 +1,4 @@
+const { json } = require('express');
 const UserService = require('../services/UserServices');
 
 exports.create = async (req, res) => {
@@ -20,7 +21,7 @@ exports.create = async (req, res) => {
             });
         }
 
-        await UserService.createUser(
+        const user = await UserService.createUser(
             email.trim(),
             nome_completo.trim(),
             username.trim().toLowerCase(),
@@ -28,7 +29,11 @@ exports.create = async (req, res) => {
         );
 
         return res.status(201).json({
-            mensagem: 'Usuário criado com sucesso.'
+            mensagem: 'Usuário criado com sucesso.', 
+            usuario: {
+                email: user.email,
+                nome_completo: user.nome_completo,
+            }
         });
 
     } catch (error) {

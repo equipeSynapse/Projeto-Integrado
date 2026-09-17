@@ -1,7 +1,8 @@
 CREATE TABLE usuarios (
   email VARCHAR(100) PRIMARY KEY,
-  nome VARCHAR(150) NOT NULL,
+  username VARCHAR(50) NOT NULL UNIQUE,
+  nome_completo VARCHAR(150) NOT NULL,
   senha VARCHAR(255) NOT NULL,
   ativo BOOLEAN NOT NULL DEFAULT FALSE,
   token_ativacao VARCHAR(255)
-)
+);

@@ -11,7 +11,7 @@
 
 <div align="center">
   
-  [Sobre](#sobre) • [Membros](#membros-da-equipe) • [Orientação](#orientação-docente) • [Tecnologias](#tecnologias)  • [Requisitos](#requisitos)
+  [Sobre](#sobre) • [Membros](#membros-da-equipe) • [Orientação](#orientação-docente) • [Tecnologias](#tecnologias)  • [Arquitetura](#arquitetura-de-pastas) • [Requisitos](#requisitos)
   
 </div>
 
@@ -86,37 +86,65 @@ A partir de dados coletados com a secretaria, professores, alunos e Centro Acad�
 
 - **Node**
 - **Express**
-- **PostgreSQL**
-- **Bcrypt**
+- **PostgreSQL/Supabase**
+- **bcrypt**
+- **uuid**
+- **jsonwebtoken**
 
 <br>
+
+## Arquitetura de Pastas
+
+````text
+projeto-mural-colaborativo/
+|
+├── client/
+|
+├── server/
+|    └── src/
+|          ├── controllers/
+|          ├── database/
+|          ├── routes/
+|          ├── services/
+|          ├── templates/
+|          ├── utils/
+|          ├── package-lock.json
+|          ├── package.json
+|          └── server.js
+|
+├── gitignore
+├── LICENSE
+└── README.md
+
+````
+
 
 ## Requisitos
 
 | Código | Descrição | Estado |
 | ---    | ---       | ---    |
-| RF01   | O sistema deve permitir que usuários logados ou não logados visualizem as publicações disponíveis no mural. | A fazer |
-| RF02   | O sistema deve permitir o registro de contas de usuários, guardando informações como nome completo, nome de usuário, e-mail institucional e senha. | Em Andamento |
-| RF03   | O sistema deve permitir o envio de um e-mail para que o usuário possa ativar sua conta. | Em Andamento |
-| RF04   | O sistema deve permitir que o usuário realize login através do e-mail institucional e senha. | Em Andamento` |
-| RF05   | O sistema deve permitir que usuários logados criem novas publicações. | A fazer
-| RF06   | O sistema deve permitir o preenchimento de título, descrição, categoria, imagem, informação de contato, link para mais informações e prazo de validade no cadastro de uma publicação. | A fazer |
-| RF07   | O sistema deve mostrar o título, a descrição, a categoria, a imagem, as informações de contato, o nome de usuário e a data de publicação respectiva à postagem. | A fazer |
-| RF08   | O sistema deve permitir a classificação das publicações por categorias. | A fazer
-| RF09   | O sistema deve permitir que os usuários filtrem as publicações por título, por categoria, por período de publicação e por usuário. | A fazer |
-| RF10   | O sistema deve permitir que o usuário acesse o link para mais informações das publicações. | A fazer |
-| RF11   | O sistema deve mostrar as publicações de acordo com os filtros aplicados. | A fazer |
-| RF12   | O sistema deve permitir que o usuário visualize as suas publicações. | A fazer |
-| RF13   | O sistema deve permitir a exclusão e a edição das publicações criadas. | A fazer |
-| RF14   | O sistema deve permitir mostrar o número de visualizações das publicações. | A fazer |
-| RF15   | O sistema deve permitir que o usuário siga uma categoria para receber atualizações. | A fazer |
-| RF16   | O sistema deve permitir notificações de categorias seguidas pelo usuário. | A fazer |
-| RF17   | O sistema deve bloquear/censurar palavras indesejadas nos campos de título, descrição e informações de contato no formulário de cadastro de publicação. | A fazer |
-| RF18   | O sistema deve permitir que os usuários denunciem publicações através de uma justificativa. | A fazer |
-| RF19   | O sistema deve permitir que o usuário com o e-mail institucional casmd@virtual.ufc.br (CA) possua permissões de moderadores. | A fazer |
-| RF20   | O sistema deve permitir que o CA visualize as denúncias criadas das publicações. | A fazer |
-| RF21   | O sistema deve permitir que o moderador aprove ou rejeite uma denúncia. | A fazer |
-| RF22   | O sistema deve excluir uma publicação quando o moderador aprovar uma denúncia. | A fazer |
-| RF23   | O sistema deve permitir que o usuário exclua sua conta. | A fazer |
-| RF24   | O sistema deve permitir que o usuário edite suas informações da conta. | A fazer |
+| RF01   | O sistema deve permitir que usuários logados ou não logados visualizem as publicações disponíveis no mural. | `A FAZER 📄` |
+| RF02   | O sistema deve permitir o registro de contas de usuários, guardando informações como nome completo, nome de usuário, e-mail institucional e senha. | `EM ANDAMENTO ⌛` |
+| RF03   | O sistema deve permitir o envio de um e-mail para que o usuário possa ativar sua conta. | `EM ANDAMENTO ⌛` |
+| RF04   | O sistema deve permitir que o usuário realize login através do e-mail institucional e senha. | `EM ANDAMENTO ⌛` |
+| RF05   | O sistema deve permitir que usuários logados criem novas publicações. | `A FAZER 📄` |
+| RF06   | O sistema deve permitir o preenchimento de título, descrição, categoria, imagem, informação de contato, link para mais informações e prazo de validade no cadastro de uma publicação. | `A FAZER 📄` |
+| RF07   | O sistema deve mostrar o título, a descrição, a categoria, a imagem, as informações de contato, o nome de usuário e a data de publicação respectiva à postagem. | `A FAZER 📄` |
+| RF08   | O sistema deve permitir a classificação das publicações por categorias. | `A FAZER 📄` |
+| RF09   | O sistema deve permitir que os usuários filtrem as publicações por título, por categoria, por período de publicação e por usuário. | `A FAZER 📄` |
+| RF10   | O sistema deve permitir que o usuário acesse o link para mais informações das publicações. | `A FAZER 📄` |
+| RF11   | O sistema deve mostrar as publicações de acordo com os filtros aplicados. | `A FAZER 📄` |
+| RF12   | O sistema deve permitir que o usuário visualize as suas publicações. | `A FAZER 📄` |
+| RF13   | O sistema deve permitir a exclusão e a edição das publicações criadas. | `A FAZER 📄` |
+| RF14   | O sistema deve permitir mostrar o número de visualizações das publicações. | `A FAZER 📄` |
+| RF15   | O sistema deve permitir que o usuário siga uma categoria para receber atualizações. | `A FAZER 📄` |
+| RF16   | O sistema deve permitir notificações de categorias seguidas pelo usuário. | `A FAZER 📄` |
+| RF17   | O sistema deve bloquear/censurar palavras indesejadas nos campos de título, descrição e informações de contato no formulário de cadastro de publicação. | `A FAZER 📄` |
+| RF18   | O sistema deve permitir que os usuários denunciem publicações através de uma justificativa. | `A FAZER 📄` |
+| RF19   | O sistema deve permitir que o usuário com o e-mail institucional casmd@virtual.ufc.br (CA) possua permissões de moderadores. | `A FAZER 📄` |
+| RF20   | O sistema deve permitir que o CA visualize as denúncias criadas das publicações. | `A FAZER 📄` |
+| RF21   | O sistema deve permitir que o moderador aprove ou rejeite uma denúncia. | `A FAZER 📄` |
+| RF22   | O sistema deve excluir uma publicação quando o moderador aprovar uma denúncia. | `A FAZER 📄` |
+| RF23   | O sistema deve permitir que o usuário exclua sua conta. | `A FAZER 📄` |
+| RF24   | O sistema deve permitir que o usuário edite suas informações da conta. | `A FAZER 📄` |
 

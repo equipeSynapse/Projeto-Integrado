@@ -102,15 +102,15 @@ projeto-mural-colaborativo/
 |
 ├── server/
 |    └── src/
-|          ├── controllers/
-|          ├── database/
-|          ├── routes/
-|          ├── services/
-|          ├── templates/
-|          ├── utils/
-|          ├── package-lock.json
-|          ├── package.json
-|          └── server.js
+|    |     ├── controllers/
+|    |     ├── database/
+|    |     ├── routes/
+|    |     ├── services/
+|    |     ├── templates/
+|    |     ├── utils/
+|    |     └── server.js
+|    ├── package-lock.json
+|    └── package.json
 |
 ├── gitignore
 ├── LICENSE

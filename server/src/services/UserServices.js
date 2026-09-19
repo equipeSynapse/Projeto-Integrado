@@ -1,8 +1,8 @@
 const pool = require('../config/supabase');
-const bcrypt = require('bcrypt');
+const hashConfig = require('../utils/hashConfig');
 class UserServices {
     async createUser(email, nome_completo, username, senha) {
-        const hashPass = await bcrypt.hash(senha, 10);
+        const hashPass = await hashConfig.gerarHash(senha);
         const query = `
             INSERT INTO usuarios (
                 email,

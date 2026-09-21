@@ -90,6 +90,11 @@ A partir de dados coletados com a secretaria, professores, alunos e Centro Acad�
 - **bcrypt**
 - **uuid**
 - **jsonwebtoken**
+- **nodemailer**
+
+### Testes
+
+- **Postman**
 
 <br>
 
@@ -114,7 +119,8 @@ projeto-mural-colaborativo/
 |
 ├── gitignore
 ├── LICENSE
-└── README.md
+├── README.md
+└── Relatório Técnico
 
 ````
 

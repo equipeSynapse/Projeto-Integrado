@@ -3,6 +3,7 @@
   <img width="50" height="81" alt="ufc-logo" src="https://github.com/user-attachments/assets/4185e65f-d29b-4272-b75a-8531863aaaaf" />
 </div>
 
+
 # Mural Colaborativo 🖼️📰
 
 <p> Repositório destinado ao desenvolvimento de um mural colaborativo para o comunidade acadêmica do SMD realizado em 2026.2 pela equipe Synapse para a disciplina de Projeto Integrado I do curso de Sistemas e Mídias Digitais da Universidade Federal do Ceará (UFC).</p>
@@ -12,7 +13,7 @@
 <div align="center">
   
   [Sobre](#sobre) • [Membros](#membros-da-equipe) • [Orientação](#orientação-docente) • [Tecnologias](#tecnologias)  • [Arquitetura](#arquitetura-de-pastas) • [Requisitos](#requisitos)
-  
+
 </div>
 
 <br>
@@ -155,8 +156,5 @@ projeto-mural-colaborativo/
 | RF24   | O sistema deve permitir que o usuário edite suas informações da conta. | `A FAZER 📄` |
 
 ---
-<br>
 
-<div align="center">
-  <img width="75" height="15" alt="Logotipo da Equipe Synapse" src="https://github.com/user-attachments/assets/7e9dfb0f-7f83-4317-be5e-7933eeaa41ec" />
-</div>
+<img width="1040" height="50" alt="Slide 16_9 - 3 (3)" src="https://github.com/user-attachments/assets/128722f2-2c54-4f19-b92e-dda2f37f05c5" />

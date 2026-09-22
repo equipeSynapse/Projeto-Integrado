@@ -154,3 +154,9 @@ projeto-mural-colaborativo/
 | RF23   | O sistema deve permitir que o usuário exclua sua conta. | `A FAZER 📄` |
 | RF24   | O sistema deve permitir que o usuário edite suas informações da conta. | `A FAZER 📄` |
 
+---
+<br>
+
+<div align="center">
+  <img width="75" height="15" alt="Logotipo da Equipe Synapse" src="https://github.com/user-attachments/assets/7e9dfb0f-7f83-4317-be5e-7933eeaa41ec" />
+</div>

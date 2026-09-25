@@ -1,4 +1,4 @@
-import UserService from "../services/user.services.js";
+import UserService from "../services/userServices.js";
 import {v4 as uuidv4} from "uuid";
 import { enviarEmailConfirmacao } from "../services/enviarEmail.js";
 

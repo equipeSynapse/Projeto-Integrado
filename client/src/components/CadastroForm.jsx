@@ -25,8 +25,6 @@ export default function CriarConta() {
     confirmarSenha: "",
   });
   const [errors, setErrors] = useState({});
-  const [submitted, setSubmitted] = useState(false);
-
   const isStep2 = step === 2;
   const passwordRequirements = getPasswordRequirements(formData.senha);
   const isPasswordValid = passwordRequirements.every((requirement) => requirement.met);
@@ -63,12 +61,11 @@ export default function CriarConta() {
 
   function handleBack() {
     setStep(1);
-    setSubmitted(false);
   }
 
   function handleSubmit(event) {
     event.preventDefault();
-    if (canSubmit) setSubmitted(true);
+    if (canSubmit) console.log("Formulário enviado com sucesso:", formData);
   }
 
   return (

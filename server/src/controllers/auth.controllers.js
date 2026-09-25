@@ -4,11 +4,11 @@ import { enviarEmailConfirmacao } from "../services/enviarEmail.js";
 
 export const cadastrar = async (req, res) => {
     try {
-        const { email, nomeCompleto, nomeUsuario, senha } = req.body;
+        const { email, nome_completo, nome_usuario, senha } = req.body;
 
         if (
-            !nomeCompleto || !nomeUsuario || !email || !senha ||
-            !nomeCompleto.trim() || !nomeUsuario.trim() || !email.trim() || !senha.trim()
+            !nome_completo || !nome_usuario || !email || !senha ||
+            !nome_completo.trim() || !nome_usuario.trim() || !email.trim() || !senha.trim()
         ) {
             return res.status(400).json({
                 mensagem: 'Todos os campos (nome completo, nome de usuário, email e senha) devem estar devidamente preenchidos.'
@@ -26,8 +26,8 @@ export const cadastrar = async (req, res) => {
 
         const user = await UserService.createUser(
             email.trim(),
-            nomeCompleto.trim(),
-            nomeUsuario.trim().toLowerCase(),
+            nome_completo.trim(),
+            nome_usuario.trim().toLowerCase(),
             senha,
             tokenAtivacao
         );
@@ -38,7 +38,7 @@ export const cadastrar = async (req, res) => {
             mensagem: 'Usuário criado com sucesso.',
             usuario: {
                 email: user.email,
-                nome_completo: user.nomeCompleto,
+                nome_completo: user.nome_completo,
             }
         });
     } catch (error) {

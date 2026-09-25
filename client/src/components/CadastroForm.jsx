@@ -3,6 +3,7 @@ import closeIcon from "../assets/icons/close.svg";
 import backArrowIcon from "../assets/icons/back-arrow.svg";
 import checkMetIcon from "../assets/icons/check-met.svg";
 import checkUnmetIcon from "../assets/icons/check-unmet.svg";
+import { cadastrarUsuario } from  "../services/cadastro";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -63,13 +64,19 @@ export default function CriarConta() {
     setStep(1);
   }
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    if (canSubmit) console.log("Formulário enviado com sucesso:", formData);
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      await cadastrarUsuario({ ...formData })
+      setFormData({ nome: "", email: "", senha: "", cpf: "", telefone: "", cargo: "", status: "ativo" })
+      console.log("Usuário cadastrado com sucesso")
+    } catch (error) {
+      console.error("Erro ao criar usuário:", error)
+  }
   }
 
   return (
-    <div className="bg-white border border-[#e5e5e5] border-solid h-[710px] relative rounded-[16px] w-[564px]">
+    <div className="bg-white border border-[#e5e5e5] border-solid h-177.5 relative rounded-[16px] w-141">
       <button type="button" className="absolute cursor-pointer left-[509px] size-[24px] top-[31px]" aria-label="Fechar">
         <img alt="" src={closeIcon} className="absolute block inset-0 max-w-none size-full" />
       </button>

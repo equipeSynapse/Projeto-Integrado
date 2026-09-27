@@ -15,10 +15,12 @@ function App() {
     email: "",
     senhaAtual: "",
     senhaNova: "",
-    confirmarSenhaNova: "",
+    confirmarSenhaNova: ""
   });
 
   const passwordsMismatch = formData.confirmarSenhaNova.length > 0 && formData.confirmarSenhaNova !== formData.senhaNova;
+  const isInputsEmpty = labelTab === "Dados gerais" ? (!formData.nomeCompleto || !formData.nomeUsuario || !formData.email) : 
+                                                      (!formData.senhaAtual || !formData.senhaNova || !formData.confirmarSenhaNova)
 
   function handleChange(field) {
     return (event) => {
@@ -46,7 +48,7 @@ function App() {
             <div className="flex flex-row flex-start md:justify-between items-center px-[30px] pt-[30px] pb-[8px] md:pb-[12px] gap-4">
               <button className="size-[20px] md:size-[24px] order-first md:hidden"> <img src={chevronLeftIcon} /> </button>
               <h2 className="text-[20px] md:text-[20px]"> Editar Perfil </h2>
-              <button className="size-[20px] md:size-[24px] hidden md:block"> <img src={closeIcon} /> </button>
+              <button onClick={() => console.log(isInputsEmpty, [!formData.senhaAtual, !formData.senhaNova, !formData.confirmarSenhaNova])} className="size-[20px] md:size-[24px] hidden md:block"> <img src={closeIcon} /> </button>
             </div>
 
             <div className="flex justify-center text-[12px] md:text-[14px] font-medium pt-3">
@@ -75,7 +77,7 @@ function App() {
               </form>
             </div>) : (<div>
               <form className="flex flex-col gap-[32px] px-[30px] py-[24px]">
-                <InputField typeInput="password" label="Senha atual" placeholder="Exemplo de senha atual" />
+                <InputField id="senhaAtual" typeInput="password" label="Senha atual" onChange={handleChange("senhaAtual")}placeholder="Exemplo de senha atual" />
 
                 <div className='flex flex-col gap-4'>
                   <InputField id="senhaNova" typeInput="password" label="Nova senha" onChange={handleChange("senhaNova")} placeholder="Exemplo de nova senha" />
@@ -103,7 +105,7 @@ function App() {
           <div className="absolute bottom-0 px-[16px] md:px-[30px] py-[16px] w-full bg-white border-t-2">
             <div className='flex justify-between items-center text-[12px] md:text-[14px] font-medium'>
               <button type="button" className="h-[42px] md:h-[48px] px-[18px] md:px-[20px] py-[4px] md:py-[8px] hover:bg-gray-100 rounded-full"> Cancelar </button>
-              <button type="submit" className=" bg-[#3c4043] text-white h-[42px] md:h-[48px] px-[18px] md:px-[20px] py-[2px] md:py-[8px] rounded-full"> Salvar </button>
+              <button type="submit" className={`${isInputsEmpty ? 'bg-gray-100':'bg-[#3c4043]'} text-white h-[42px] md:h-[48px] px-[18px] md:px-[20px] py-[2px] md:py-[8px] rounded-full`}> Salvar </button>
             </div>
           </div>
 

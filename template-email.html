@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seu lugar no mural está esperando por você!</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #f1f3f5;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #2b2f33;
+      padding: 40px 16px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .card {
+      background-color: #ffffff;
+      width: 100%;
+      max-width: 620px;
+      border-radius: 28px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header-section {
+      padding: 42px 40px 30px 40px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .logo-placeholder {
+      background-color: #dedede;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      padding: 8px 30px;
+      border-radius: 2px;
+      margin-bottom: 34px;
+      display: inline-block;
+      user-select: none;
+    }
+
+    .main-title {
+      font-size: 26px;
+      font-weight: 700;
+      line-height: 1.3;
+      color: #31373d;
+      margin-bottom: 22px;
+      max-width: 440px;
+      letter-spacing: -0.3px;
+    }
+
+    .description {
+      font-size: 14.5px;
+      line-height: 1.6;
+      color: #4b5259;
+      font-weight: 400;
+      max-width: 450px;
+      margin: 0 auto;
+    }
+
+    .description p + p {
+      margin-top: 14px;
+    }
+
+    .graphics-banner {
+      width: 100%;
+      background-color: #e0e0e0;
+      min-height: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+
+    .content-section {
+      padding: 34px 44px 30px 44px;
+    }
+
+    .cta-button {
+      display: block;
+      width: 100%;
+      background-color: #3C4043;
+      color: #ffffff;
+      text-align: center;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 15px 20px;
+      border-radius: 8px;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .cta-button:hover {
+      background-color: #2b3034;
+    }
+
+    .cta-button:active {
+      transform: translateY(1px);
+    }
+
+    .link-fallback {
+      margin-top: 18px;
+      font-size: 13.5px;
+      color: #2f3438;
+      line-height: 1.5;
+    }
+
+    .link-fallback a {
+      color: #202428;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      font-weight: 500;
+      word-break: break-all;
+    }
+
+    .features-list {
+      margin-top: 34px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .feature-icon {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      color: #111417;
+      margin-top: 1px;
+    }
+
+    .feature-text {
+      flex: 1;
+    }
+
+    .feature-title {
+      font-size: 14.5px;
+      font-weight: 600;
+      color: #22262a;
+      line-height: 1.35;
+      margin-bottom: 3px;
+    }
+
+    .feature-description {
+      font-size: 13.5px;
+      color: #3c4247;
+      line-height: 1.5;
+    }
+
+    .divider {
+      height: 1px;
+      background-color: #e8ecef;
+      margin-top: 42px;
+      margin-bottom: 22px;
+    }
+
+    .footer {
+      text-align: right;
+      padding-bottom: 12px;
+    }
+
+    .footer-text {
+      font-size: 11.5px;
+      color: #8c939b;
+      font-weight: 400;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 12px 8px;
+      }
+
+      .card {
+        border-radius: 20px;
+      }
+
+      .header-section {
+        padding: 30px 20px 24px 20px;
+      }
+
+      .main-title {
+        font-size: 22px;
+      }
+
+      .content-section {
+        padding: 24px 20px 20px 20px;
+      }
+
+      .graphics-banner {
+        min-height: 180px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="card">
+    <header class="header-section">
+      <div class="logo-placeholder">Logo</div>
+      <h1 class="main-title">Seu lugar no mural está esperando por você!</h1>
+      <div class="description">
+        <p>Sua conta foi criada com sucesso.</p>
+        <p>Ative sua conta para começar a publicar informações, oportunidades, eventos e avisos para a comunidade de SMD.</p>
+      </div>
+    </header>
+
+    <div class="graphics-banner" aria-label="Espaço reservado para arte ou imagem gráfica">
+      Grafismos
+    </div>
+
+    <section class="content-section">
+      <a href="https://www.site.com.br" class="cta-button" role="button">
+        Ativar minha conta
+      </a>
+
+      <p class="link-fallback">
+        Se o botão não funcionar, você pode copiar e colar a seguinte URL no seu navegador: 
+        <a href="https://www.site.com.br" target="_blank" rel="noopener noreferrer">https://www.site.com.br</a>
+      </p>
+
+      <ul class="features-list" style="list-style: none;">
+        <li class="feature-item">
+          <svg class="feature-icon lucide lucide-megaphone" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/>
+            <path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/>
+            <path d="M8 6v8"/>
+          </svg>
+          <div class="feature-text">
+            <h2 class="feature-title">Publique informações</h2>
+            <p class="feature-description">Compartilhe conteúdos que podem ser relevantes para outros estudantes, professores e membros da comunidade SMD.</p>
+          </div>
+        </li>
+
+        <li class="feature-item">
+          <svg class="feature-icon lucide lucide-graduation-cap" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/>
+            <path d="M22 10v6"/>
+            <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>
+          </svg>
+          <div class="feature-text">
+            <h2 class="feature-title">Divulgue oportunidades</h2>
+            <p class="feature-description">Compartilhe bolsas, projetos, atividades acadêmicas e outras oportunidades.</p>
+          </div>
+        </li>
+
+        <li class="feature-item">
+          <svg class="feature-icon lucide lucide-calendar-days" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M8 2v3"/>
+            <path d="M16 2v3"/>
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M3 9h18"/>
+            <path d="M8 13h.01"/>
+            <path d="M12 13h.01"/>
+            <path d="M16 13h.01"/>
+            <path d="M8 17h.01"/>
+            <path d="M12 17h.01"/>
+            <path d="M16 17h.01"/>
+          </svg>
+          <div class="feature-text">
+            <h2 class="feature-title">Divulgue eventos</h2>
+            <p class="feature-description">Informe a comunidade sobre eventos, encontros e atividades do curso.</p>
+          </div>
+        </li>
+
+        <li class="feature-item">
+          <svg class="feature-icon lucide lucide-user-round-group" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M17 21a5 5 0 00-10 0"/>
+            <path d="M22 10.5a3.5 3.5 0 00-5.507-2.868"/>
+            <path d="M7.507 7.632A3.5 3.5 0 002 10.5"/>
+            <circle cx="12" cy="13" r="3"/>
+            <circle cx="18.5" cy="4.5" r="2.5"/>
+            <circle cx="5.5" cy="4.5" r="2.5"/>
+          </svg>
+          <div class="feature-text">
+            <h2 class="feature-title">Contribua com a comunidade</h2>
+            <p class="feature-description">Ajude a manter as informações de SMD reunidas em um único espaço.</p>
+          </div>
+        </li>
+      </ul>
+
+      <div class="divider" role="separator"></div>
+
+      <footer class="footer">
+        <p class="footer-text">Esta é uma mensagem automática. Favor não responder.</p>
+      </footer>
+    </section>
+  </main>
+
+</body>
+</html>

@@ -1,6 +1,7 @@
 import UserService from "../services/userServices.js";
 import {v4 as uuidv4} from "uuid";
 import { enviarEmailConfirmacao } from "../services/enviarEmail.js";
+import { pool } from "../database/db.js";
 
 export const cadastrar = async (req, res) => {
     try {
@@ -32,7 +33,7 @@ export const cadastrar = async (req, res) => {
             tokenAtivacao
         );
 
-        //await enviarEmailConfirmacao(email, tokenAtivacao);
+        await enviarEmailConfirmacao(email, tokenAtivacao);
 
         return res.status(201).json({
             mensagem: 'Usuário criado com sucesso.',

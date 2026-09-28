@@ -1,8 +1,9 @@
 import { transporter } from "../utils/transporterMailConfig.js";
 import { emailConfirmacaoTemplate } from "../templates/emailConfirmacao.js";
+import { port } from "../server.js";
 
 export const enviarEmailConfirmacao = (destinatario = process.env.EMAIL_USER, token) => {
-   const link = `http://localhost:3000/api/auth/ativar-conta?token=${token}`
+   const link = `http://localhost:${port}/api/auth/ativar-conta?token=${token}`
 
    transporter.sendMail({
         from: process.env.EMAIL_USER,

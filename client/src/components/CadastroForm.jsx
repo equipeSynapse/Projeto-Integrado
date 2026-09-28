@@ -4,6 +4,7 @@ import backArrowIcon from "../assets/icons/back-arrow.svg";
 import checkMetIcon from "../assets/icons/check-met.svg";
 import checkUnmetIcon from "../assets/icons/check-unmet.svg";
 import { cadastrarUsuario } from  "../services/cadastro";
+import { InputField } from "./InputField";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -197,56 +198,36 @@ export default function CriarConta() {
       ) : (
         <form onSubmit={handleContinue}>
           <div className="absolute content-stretch flex flex-col gap-[24px] items-start left-[31px] right-[31px] top-[235px]">
-            <div className="content-stretch flex flex-col gap-[8px] items-start relative shrink-0 w-full">
-              <label htmlFor="nomeCompleto" className="font-poppins font-medium leading-none relative shrink-0 text-[14px] text-black w-full">
-                Nome completo *
-              </label>
-              <input
-                id="nomeCompleto"
-                type="text"
-                value={formData.nome_completo}
-                onChange={handleChange("nome_completo")}
-                placeholder="Nome completo"
-                className={`bg-white border ${errors.nome_completo ? 'border-[#d93025]' : 'border-[#e5e5e5]'} border-solid font-poppins font-normal h-[48px] leading-none outline-none px-[16px] py-[10px] relative rounded-[8px] shrink-0 text-[#1f1f1f] text-[14px] w-full placeholder:text-[#909090]`}
-              />
-              {errors.nome_completo && (
-                <p className="font-poppins font-normal text-[12px] text-[#d93025]">{errors.nome_completo}</p>
-              )}
-            </div>
 
-            <div className="content-stretch flex flex-col gap-[8px] items-start relative shrink-0 w-full">
-              <label htmlFor="nomeUsuario" className="font-poppins font-medium leading-none relative shrink-0 text-[14px] text-black w-full">
-                Usuário *
-              </label>
-              <input
-                id="nomeUsuario"
-                type="text"
-                value={formData.nome_usuario}
-                onChange={handleChange("nome_usuario")}
-                placeholder="Usuário"
-                className={`bg-white border ${errors.nome_usuario ? 'border-[#d93025]' : 'border-[#e5e5e5]'} border-solid font-poppins font-normal h-[48px] leading-none outline-none px-[16px] py-[10px] relative rounded-[8px] shrink-0 text-[#1f1f1f] text-[14px] w-full placeholder:text-[#909090]`}
-              />
-              {errors.nome_usuario && (
-                <p className="font-poppins font-normal text-[12px] text-[#d93025]">{errors.nome_usuario}</p>
-              )}
-            </div>
+            <InputField 
+              label="Nome completo *" 
+              inputId="nomeCompleto"
+              inputType="text"
+              inputValue={formData.nome_completo}
+              inputOnChange={handleChange("nome_completo")}
+              inputPlaceholder="Nome completo"
+              errorVar={errors.nome_completo}
+            />
 
-            <div className="content-stretch flex flex-col gap-[8px] items-start relative shrink-0 w-full">
-              <label htmlFor="email" className="font-poppins font-medium leading-none relative shrink-0 text-[14px] text-black w-full">
-                E-mail institucional *
-              </label>
-              <input
-                id="email"
-                type="text"
-                value={formData.email}
-                onChange={handleChange("email")}
-                placeholder="exemplo@ufc.br"
-                className={`bg-white border ${errors.email ? 'border-[#d93025]' : 'border-[#e5e5e5]'} border-solid font-poppins font-normal h-[48px] leading-none outline-none px-[16px] py-[10px] relative rounded-[8px] shrink-0 text-[14px] w-full placeholder:text-[#909090]`}
-              />
-              {errors.email && (
-                <p className="font-poppins font-normal text-[12px] text-[#d93025]">{errors.email}</p>
-              )}
-            </div>
+             <InputField 
+              label="Usuário *" 
+              inputId="nomeUsuario"
+              inputType="text"
+              inputValue={formData.nome_usuario}
+              inputOnChange={handleChange("nome_usuario")}
+              inputPlaceholder="Usuário"
+              errorVar={errors.nome_usuario}
+            />
+
+             <InputField 
+              label="E-mail institucional *" 
+              inputId="email"
+              inputType="text"
+              inputValue={formData.email}
+              inputOnChange={handleChange("email")}
+              inputPlaceholder="exemplo@ufc.br"
+              errorVar={errors.email}
+            />
           </div>
 
           <button

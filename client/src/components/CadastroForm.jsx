@@ -19,8 +19,8 @@ function getPasswordRequirements(senha) {
 export default function CriarConta() {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
-    nomeCompleto: "",
-    nomeUsuario: "",
+    nome_completo: "",
+    nome_usuario: "",
     email: "",
     senha: "",
     confirmarSenha: "",
@@ -33,8 +33,8 @@ export default function CriarConta() {
     formData.confirmarSenha.length > 0 && formData.confirmarSenha !== formData.senha;
   const canSubmit = isPasswordValid && formData.confirmarSenha.length > 0 && !passwordsMismatch;
   const isStep1Valid =
-    formData.nomeCompleto.trim() !== "" &&
-    formData.nomeUsuario.trim() !== "" &&
+    formData.nome_completo.trim() !== "" &&
+    formData.nome_usuario.trim() !== "" &&
     EMAIL_REGEX.test(formData.email.trim());
 
   function handleChange(field) {
@@ -48,8 +48,8 @@ export default function CriarConta() {
     event.preventDefault();
 
     const nextErrors = {};
-    if (!formData.nomeCompleto.trim()) nextErrors.nomeCompleto = "Campo obrigatório.";
-    if (!formData.nomeUsuario.trim()) nextErrors.nomeUsuario = "Campo obrigatório.";
+    if (!formData.nome_completo.trim()) nextErrors.nome_completo = "Campo obrigatório.";
+    if (!formData.nome_usuario.trim()) nextErrors.nome_usuario = "Campo obrigatório.";
     if (!formData.email.trim()) {
       nextErrors.email = "Campo obrigatório.";
     } else if (!EMAIL_REGEX.test(formData.email.trim())) {
@@ -68,7 +68,6 @@ export default function CriarConta() {
     e.preventDefault()
     try {
       await cadastrarUsuario({ ...formData })
-      setFormData({ nome: "", email: "", senha: "", cpf: "", telefone: "", cargo: "", status: "ativo" })
       console.log("Usuário cadastrado com sucesso")
     } catch (error) {
       console.error("Erro ao criar usuário:", error)
@@ -126,16 +125,14 @@ export default function CriarConta() {
                 <label htmlFor="senha" className="font-poppins font-medium leading-none relative shrink-0 text-[14px] text-black w-full">
                   Senha *
                 </label>
-                <div className={`bg-white border ${errors.senha ? 'border-[#d93025]' : 'border-[#e5e5e5]'} border-solid content-stretch flex h-[48px] items-center overflow-clip px-[16px] py-[10px] relative rounded-[8px] shrink-0 w-full`}>
-                  <input
-                    id="senha"
-                    type="password"
-                    value={formData.senha}
-                    onChange={handleChange("senha")}
-                    placeholder="Digite sua senha"
-                    className="font-poppins font-normal leading-none relative shrink-0 text-[#1f1f1f] text-[14px] w-full outline-none placeholder:text-[#909090]"
-                  />
-                </div>
+                <input
+                  id="senha"
+                  type="password"
+                  value={formData.senha}
+                  onChange={handleChange("senha")}
+                  placeholder="Digite sua senha"
+                  className={`bg-white border ${errors.senha ? 'border-[#d93025]' : 'border-[#e5e5e5]'} border-solid font-poppins font-normal h-[48px] leading-none outline-none px-[16px] py-[10px] relative rounded-[8px] shrink-0 text-[#1f1f1f] text-[14px] w-full placeholder:text-[#909090]`}
+                />
               </div>
 
               <div className="content-stretch flex flex-col gap-[12px] items-start justify-center relative shrink-0 w-[364px]">
@@ -159,16 +156,14 @@ export default function CriarConta() {
                 <label htmlFor="confirmarSenha" className="font-poppins font-medium leading-none relative shrink-0 text-[14px] text-black w-full">
                   Confirmar senha *
                 </label>
-                <div className={`bg-white border ${passwordsMismatch ? 'border-[#d93025]' : 'border-[#e5e5e5]'} border-solid content-stretch flex h-[48px] items-center overflow-clip px-[16px] py-[10px] relative rounded-[8px] shrink-0 w-full`}>
-                  <input
-                    id="confirmarSenha"
-                    type="password"
-                    value={formData.confirmarSenha}
-                    onChange={handleChange("confirmarSenha")}
-                    placeholder="Confirme sua senha"
-                    className="font-poppins font-normal leading-none relative shrink-0 text-[#1f1f1f] text-[14px] w-full outline-none placeholder:text-[#909090]"
-                  />
-                </div>
+                <input
+                  id="confirmarSenha"
+                  type="password"
+                  value={formData.confirmarSenha}
+                  onChange={handleChange("confirmarSenha")}
+                  placeholder="Confirme sua senha"
+                  className={`bg-white border ${passwordsMismatch ? 'border-[#d93025]' : 'border-[#e5e5e5]'} border-solid font-poppins font-normal h-[48px] leading-none outline-none px-[16px] py-[10px] relative rounded-[8px] shrink-0 text-[#1f1f1f] text-[14px] w-full placeholder:text-[#909090]`}
+                />
                 {passwordsMismatch && (
                   <p className="font-poppins font-normal text-[12px] text-[#d93025]">As senhas não coincidem.</p>
                 )}
@@ -206,18 +201,16 @@ export default function CriarConta() {
               <label htmlFor="nomeCompleto" className="font-poppins font-medium leading-none relative shrink-0 text-[14px] text-black w-full">
                 Nome completo *
               </label>
-              <div className={`bg-white border ${errors.nomeCompleto ? 'border-[#d93025]' : 'border-[#e5e5e5]'} border-solid content-stretch flex h-[48px] items-center overflow-clip px-[16px] py-[10px] relative rounded-[8px] shrink-0 w-full`}>
-                <input
-                  id="nomeCompleto"
-                  type="text"
-                  value={formData.nomeCompleto}
-                  onChange={handleChange("nomeCompleto")}
-                  placeholder="Nome completo"
-                  className="font-poppins font-normal leading-none relative shrink-0 text-[#1f1f1f] text-[14px] w-full outline-none placeholder:text-[#909090]"
-                />
-              </div>
-              {errors.nomeCompleto && (
-                <p className="font-poppins font-normal text-[12px] text-[#d93025]">{errors.nomeCompleto}</p>
+              <input
+                id="nomeCompleto"
+                type="text"
+                value={formData.nome_completo}
+                onChange={handleChange("nome_completo")}
+                placeholder="Nome completo"
+                className={`bg-white border ${errors.nome_completo ? 'border-[#d93025]' : 'border-[#e5e5e5]'} border-solid font-poppins font-normal h-[48px] leading-none outline-none px-[16px] py-[10px] relative rounded-[8px] shrink-0 text-[#1f1f1f] text-[14px] w-full placeholder:text-[#909090]`}
+              />
+              {errors.nome_completo && (
+                <p className="font-poppins font-normal text-[12px] text-[#d93025]">{errors.nome_completo}</p>
               )}
             </div>
 
@@ -225,18 +218,16 @@ export default function CriarConta() {
               <label htmlFor="nomeUsuario" className="font-poppins font-medium leading-none relative shrink-0 text-[14px] text-black w-full">
                 Usuário *
               </label>
-              <div className={`bg-white border ${errors.nomeUsuario ? 'border-[#d93025]' : 'border-[#e5e5e5]'} border-solid content-stretch flex h-[48px] items-center overflow-clip px-[16px] py-[10px] relative rounded-[8px] shrink-0 w-full`}>
-                <input
-                  id="nomeUsuario"
-                  type="text"
-                  value={formData.nomeUsuario}
-                  onChange={handleChange("nomeUsuario")}
-                  placeholder="Usuário"
-                  className="font-poppins font-normal leading-none relative shrink-0 text-[#1f1f1f] text-[14px] w-full outline-none placeholder:text-[#909090]"
-                />
-              </div>
-              {errors.nomeUsuario && (
-                <p className="font-poppins font-normal text-[12px] text-[#d93025]">{errors.nomeUsuario}</p>
+              <input
+                id="nomeUsuario"
+                type="text"
+                value={formData.nome_usuario}
+                onChange={handleChange("nome_usuario")}
+                placeholder="Usuário"
+                className={`bg-white border ${errors.nome_usuario ? 'border-[#d93025]' : 'border-[#e5e5e5]'} border-solid font-poppins font-normal h-[48px] leading-none outline-none px-[16px] py-[10px] relative rounded-[8px] shrink-0 text-[#1f1f1f] text-[14px] w-full placeholder:text-[#909090]`}
+              />
+              {errors.nome_usuario && (
+                <p className="font-poppins font-normal text-[12px] text-[#d93025]">{errors.nome_usuario}</p>
               )}
             </div>
 
@@ -244,16 +235,14 @@ export default function CriarConta() {
               <label htmlFor="email" className="font-poppins font-medium leading-none relative shrink-0 text-[14px] text-black w-full">
                 E-mail institucional *
               </label>
-              <div className={`bg-white border ${errors.email ? 'border-[#d93025]' : 'border-[#e5e5e5]'} border-solid content-stretch flex h-[48px] items-center overflow-clip px-[16px] py-[10px] relative rounded-[8px] shrink-0 w-full`}>
-                <input
-                  id="email"
-                  type="text"
-                  value={formData.email}
-                  onChange={handleChange("email")}
-                  placeholder="exemplo@ufc.br"
-                  className={`font-poppins font-normal leading-none relative shrink-0 text-[14px] w-full outline-none placeholder:text-[#909090]`}
-                />
-              </div>
+              <input
+                id="email"
+                type="text"
+                value={formData.email}
+                onChange={handleChange("email")}
+                placeholder="exemplo@ufc.br"
+                className={`bg-white border ${errors.email ? 'border-[#d93025]' : 'border-[#e5e5e5]'} border-solid font-poppins font-normal h-[48px] leading-none outline-none px-[16px] py-[10px] relative rounded-[8px] shrink-0 text-[14px] w-full placeholder:text-[#909090]`}
+              />
               {errors.email && (
                 <p className="font-poppins font-normal text-[12px] text-[#d93025]">{errors.email}</p>
               )}

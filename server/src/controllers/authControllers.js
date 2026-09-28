@@ -1,6 +1,8 @@
 import UserService from "../services/userServices.js";
+import jwt from "jsonwebtoken";
 import {v4 as uuidv4} from "uuid";
 import { enviarEmailConfirmacao } from "../services/enviarEmail.js";
+import { compararHash } from "../utils/hashConfig.js";
 import { pool } from "../database/db.js";
 
 export const cadastrar = async (req, res) => {

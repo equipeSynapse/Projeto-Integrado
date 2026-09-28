@@ -1,7 +1,7 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 import { pool } from "../database/db.js";
-import * as authController from "../controllers/auth.controllers.js"
+import * as authController from "../controllers/authControllers.js";
 import { compararHash } from "../utils/hashConfig.js";
 
 const router = express.Router();

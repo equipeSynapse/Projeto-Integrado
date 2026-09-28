@@ -34,9 +34,10 @@ A partir de dados coletados com a secretaria, professores, alunos e Centro Acad√
     <td width="16%"> <img height="320" alt="Foto de Anderson Maia" src="https://github.com/user-attachments/assets/a3341e75-7362-45d8-9697-f74d2631b342" /> </td>
     <td width="16%"> <img height="320" alt="Foto de Naam√£ Alecsander" src="https://github.com/user-attachments/assets/e23d5a86-d277-4238-9f3c-ee9ca7184629" /> </td>
     <td width="16%"> <img height="320" alt="Foto de Pedro Bruno" src="https://github.com/user-attachments/assets/7e8a7da8-6eb7-4b56-80f9-fdff70ca930d" /> </td>
-    <td width="16%"> <img height="320" alt="Foto de Thalita Suzy" src="https://github.com/user-attachments/assets/3dda43b5-ea4a-45db-9fe3-4544ccc6c50a" /> </td>
+    <td width="16%"> <img height="320" alt="Foto de Thalita Suzy" src="https://github.com/user-attachments/assets/56dfdfef-75ae-4b57-84ae-b96f38b0b557" /> </td>
     <td width="16%"> <img height="320" alt="Foto de Yan Lucas" src="https://github.com/user-attachments/assets/0af30c50-b714-4fb5-b9ec-1fc6ebea1816" /> </td>
   </tr>
+
 
   <tr>
     <td align="center"> <a href="https://github.com/AlissonLucas01"> <b> Alisson da Silva Lucas </b> </a> </td>

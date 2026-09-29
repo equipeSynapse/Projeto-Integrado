@@ -1,24 +1,43 @@
-
 <div align="right" width="400">
   <img width="150" height="81" alt="principal_Instituto" src="https://github.com/user-attachments/assets/8a3c6fdc-f4ed-4a26-9b60-a2cf098b8740" />
   <img width="50" height="81" alt="ufc-logo" src="https://github.com/user-attachments/assets/4185e65f-d29b-4272-b75a-8531863aaaaf" />
 </div>
 
+
 # Mural Colaborativo 🖼️📰
 
 <p> Repositório destinado ao desenvolvimento de um mural colaborativo para o comunidade acadêmica do SMD realizado em 2026.2 pela equipe Synapse para a disciplina de Projeto Integrado I do curso de Sistemas e Mídias Digitais da Universidade Federal do Ceará (UFC).</p>
+
+---
+
+<div align="center">
+  
+  [Sobre](#sobre) • [Membros](#membros-da-equipe) • [Orientação](#orientação-docente) • [Tecnologias](#tecnologias)  • [Arquitetura](#arquitetura-de-pastas) • [Requisitos](#requisitos)
+
+</div>
+
+<br>
+
+## Sobre
+
+<p> 
+A partir de dados coletados com a secretaria, professores, alunos e Centro Acadêmico (CA) do SMD, foi identificado que a divulgação de informações ocorre atualmente de forma descentralizada, através de diferentes meios de comunicação. Essa descentralização pode fazer com que alunos que não possuem acesso ou vínculo com determinados canais de divulgação deixem de receber conteúdos relevantes. Além disso, foram identificadas a baixa atratividade das informações divulgadas e a ausência de mecanismos que permitam acompanhar o alcance das publicações. Como forma de aproximar o sistema do cotidiano acadêmico, o Mural Colaborativo SMD possui como metáfora de utilização o flanelógrafo, presente nos espaços de convivência do bloco do SMD, em que são fixados avisos e outras informações de interesse da comunidade acadêmica. O sistema deve ser um meio de divulgação que faça parte do cotidiano dos discentes, docentes e entes organizadores do curso, como a secretaria e CA do bloco de SMD. Para isso, a aplicação possui como premissa possibilitar que todos os usuários utilizem o recurso de maneira ética e harmoniosa para fortalecer um ambiente colaborativo de compartilhamento de informações. Também, apresentará os conteúdos de forma mais atrativa e organizada, a fim de facilitar sua compreensão e localização de publicações pelos usuários.
+</p>
+
+<br>
 
 ## Membros da Equipe
 
 <table>
   <tr>
     <td width="16%"> <img height="320" alt="Foto de Alisson Lucas" src="https://github.com/user-attachments/assets/335035b8-072d-4f52-815f-3947e60a954b" /> </td>
-    <td width="16%"> <img height="320" alt="Foto de Anderson Maia" src="https://github.com/user-attachments/assets/4b8226ba-bbdd-4acd-8649-b92e2abf2b11" /> </td>
-    <td width="16%"> <img height="320" alt="Foto de Naamã Alecsander" src="https://github.com/user-attachments/assets/d277653a-22ec-43b5-b1fa-ef5fd8deaae8" /> </td>
-    <td width="16%"> <img height="320" alt="Foto de Pedro Bruno" src="https://github.com/user-attachments/assets/747ed25b-68fb-4a34-8d20-e227ace63002" /> </td>
-    <td width="16%"> <img height="320" alt="Foto de Thalita Suzy" src="https://github.com/user-attachments/assets/3dda43b5-ea4a-45db-9fe3-4544ccc6c50a" /> </td>
+    <td width="16%"> <img height="320" alt="Foto de Anderson Maia" src="https://github.com/user-attachments/assets/a3341e75-7362-45d8-9697-f74d2631b342" /> </td>
+    <td width="16%"> <img height="320" alt="Foto de Naamã Alecsander" src="https://github.com/user-attachments/assets/e23d5a86-d277-4238-9f3c-ee9ca7184629" /> </td>
+    <td width="16%"> <img height="320" alt="Foto de Pedro Bruno" src="https://github.com/user-attachments/assets/7e8a7da8-6eb7-4b56-80f9-fdff70ca930d" /> </td>
+    <td width="16%"> <img height="320" alt="Foto de Thalita Suzy" src="https://github.com/user-attachments/assets/56dfdfef-75ae-4b57-84ae-b96f38b0b557" /> </td>
     <td width="16%"> <img height="320" alt="Foto de Yan Lucas" src="https://github.com/user-attachments/assets/0af30c50-b714-4fb5-b9ec-1fc6ebea1816" /> </td>
   </tr>
+
 
   <tr>
     <td align="center"> <a href="https://github.com/AlissonLucas01"> <b> Alisson da Silva Lucas </b> </a> </td>
@@ -31,11 +50,11 @@
 
   <tr>
     <td align="center"> Desenvolvimento Visual </td>
-    <td align="center"> Programação Full Stack </td>
-    <td align="center"> Programação Front-End</td>
+    <td align="center"> Desenvolvimento Full Stack e Liderança Técnica </td>
+    <td align="center"> Desenvolvimento Front-End </td>
     <td align="center"> Desenvolvimento Visual </td>
     <td align="center"> Desenvolvimento Full Stack </td>
-    <td align="center"> Gestão e desenvolvimento visual </td>
+    <td align="center"> Gestão do Projeto e Desenvolvimento Visual </td>
   </tr>
 </table>
 
@@ -54,3 +73,122 @@
    <td align="center"> <a href="http://lattes.cnpq.br/1015561507843037"> <b> Wellington Wagner Ferreira Sarmento </b> </a> </td>
   </tr>
 </table>
+
+<br>
+
+## Tecnologias
+
+### Frontend
+
+- **React**
+- **Vite**
+- **Tailwind CSS**
+
+### Backend
+
+- **Node**
+- **Express**
+- **PostgreSQL/Supabase**
+- **bcrypt**
+- **uuid**
+- **jsonwebtoken**
+- **nodemailer**
+
+### Testes
+
+- **Postman**
+
+<br>
+
+## Arquitetura de Pastas
+
+````text
+projeto-mural-colaborativo/
+|
+├── client/
+|
+├── server/
+|    └── src/
+|    |     ├── controllers/
+|    |     ├── database/
+|    |     ├── routes/
+|    |     ├── services/
+|    |     ├── templates/
+|    |     ├── utils/
+|    |     └── server.js
+|    ├── package-lock.json
+|    └── package.json
+|
+├── gitignore
+├── LICENSE
+├── README.md
+└── Relatório Técnico
+
+````
+
+
+## Requisitos
+
+| Código | Descrição | Estado |
+| ---    | ---       | ---    |
+| RF01   | O sistema deve permitir que usuários logados ou não logados visualizem as publicações disponíveis no mural. | `A FAZER 📄` |
+| RF02   | O sistema deve permitir o registro de contas de usuários, guardando informações como nome completo, nome de usuário, e-mail institucional e senha. | `FEITO ✅` |
+| RF03   | O sistema deve permitir o envio de um e-mail para que o usuário possa ativar sua conta. | `FEITO ✅` |
+| RF04   | O sistema deve permitir que o usuário realize login através do e-mail institucional e senha. | `EM ANDAMENTO ⌛` |
+| RF05   | O sistema deve permitir que usuários logados criem novas publicações. | `A FAZER 📄` |
+| RF06   | O sistema deve permitir o preenchimento de título, descrição, categoria, imagem, informação de contato, link para mais informações e prazo de validade no cadastro de uma publicação. | `A FAZER 📄` |
+| RF07   | O sistema deve mostrar o título, a descrição, a categoria, a imagem, as informações de contato, o nome de usuário e a data de publicação respectiva à postagem. | `A FAZER 📄` |
+| RF08   | O sistema deve permitir a classificação das publicações por categorias. | `A FAZER 📄` |
+| RF09   | O sistema deve permitir que os usuários filtrem as publicações por título, por categoria, por período de publicação e por usuário. | `A FAZER 📄` |
+| RF10   | O sistema deve permitir que o usuário acesse o link para mais informações das publicações. | `A FAZER 📄` |
+| RF11   | O sistema deve mostrar as publicações de acordo com os filtros aplicados. | `A FAZER 📄` |
+| RF12   | O sistema deve permitir que o usuário visualize as suas publicações. | `A FAZER 📄` |
+| RF13   | O sistema deve permitir a exclusão e a edição das publicações criadas. | `A FAZER 📄` |
+| RF14   | O sistema deve permitir mostrar o número de visualizações das publicações. | `A FAZER 📄` |
+| RF15   | O sistema deve permitir que o usuário siga uma categoria para receber atualizações. | `A FAZER 📄` |
+| RF16   | O sistema deve permitir notificações de categorias seguidas pelo usuário. | `A FAZER 📄` |
+| RF17   | O sistema deve bloquear/censurar palavras indesejadas nos campos de título, descrição e informações de contato no formulário de cadastro de publicação. | `A FAZER 📄` |
+| RF18   | O sistema deve permitir que os usuários denunciem publicações através de uma justificativa. | `A FAZER 📄` |
+| RF19   | O sistema deve permitir que o usuário com o e-mail institucional casmd@virtual.ufc.br (CA) possua permissões de moderadores. | `A FAZER 📄` |
+| RF20   | O sistema deve permitir que o CA visualize as denúncias criadas das publicações. | `A FAZER 📄` |
+| RF21   | O sistema deve permitir que o moderador aprove ou rejeite uma denúncia. | `A FAZER 📄` |
+| RF22   | O sistema deve excluir uma publicação quando o moderador aprovar uma denúncia. | `A FAZER 📄` |
+| RF23   | O sistema deve permitir que o usuário exclua sua conta. | `A FAZER 📄` |
+| RF24   | O sistema deve permitir que o usuário edite suas informações da conta. | `A FAZER 📄` |
+
+---
+
+## Como Executar o Projeto
+
+### Frontend
+
+```bash
+>>> cd client
+>>> npm install
+>>> npm run dev
+```
+
+### Backend
+
+1. Instalação de dependências
+```bash
+>>> cd server
+>>> npm install
+```
+
+2. Configuração das variáveis secretas
+```env
+EMAIL_USER=Endereço de Email que vai enviar email de confirmação
+EMAIL_PASSWORD=Senha de App do endereço de email informado acima
+MAILTRAP_USER=Credencial de usuário no Mailtrap para teste de envio de email
+MAILTRAP_PASSWORD=Credencial de senha no Mailtrap para teste de envio de email
+DATABASE_URI=URI do Banco de Dados Supabase
+JWT_SECRET=Chave para assinatura e verificação dos tokens
+```
+
+3. Execução do servidor
+```bash
+npm start
+```
+
+<img width="1040" height="50" alt="banner_Synapse" src="https://github.com/user-attachments/assets/128722f2-2c54-4f19-b92e-dda2f37f05c5" />

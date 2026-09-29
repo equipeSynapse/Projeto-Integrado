@@ -1,7 +1,7 @@
 import './App.css'
 import { Routes, Route } from 'react-router-dom';
 
-import CadastroForm from './pages/cadastro/page';
+import { CadastroPage } from './pages/cadastro/page';
 
 function App() {
 
@@ -9,7 +9,7 @@ function App() {
 
         <Routes>
             <Route path="/" element={<h1> Home do Mural </h1>} />
-            <Route path="/cadastro" element={<CadastroForm />} />
+            <Route path="/cadastro" element={<CadastroPage />} />
         </Routes>
 
   )

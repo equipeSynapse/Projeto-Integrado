@@ -3,10 +3,10 @@ import closeIcon from "../assets/icons/close.svg";
 import backArrowIcon from "../assets/icons/back-arrow.svg";
 import checkMetIcon from "../assets/icons/check-met.svg";
 import checkUnmetIcon from "../assets/icons/check-unmet.svg";
-import { cadastrarUsuario } from  "../services/cadastro";
+import { cadastrarUsuario } from "../services/cadastro";
 import { InputField } from "./InputField";
 
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@(alu\.)?ufc\.br$/i;
 
 function getPasswordRequirements(senha) {
   return [
@@ -54,7 +54,7 @@ export default function CriarConta() {
     if (!formData.email.trim()) {
       nextErrors.email = "Campo obrigatório.";
     } else if (!EMAIL_REGEX.test(formData.email.trim())) {
-      nextErrors.email = "E-mail inválido.";
+      nextErrors.email = "E-mail inválido. Utilize seu e-mail da UFC.";
     }
 
     setErrors(nextErrors);
@@ -72,7 +72,7 @@ export default function CriarConta() {
       console.log("Usuário cadastrado com sucesso")
     } catch (error) {
       console.error("Erro ao criar usuário:", error)
-  }
+    }
   }
 
   return (
@@ -82,9 +82,8 @@ export default function CriarConta() {
       </button>
 
       <div
-        className={`absolute content-stretch flex flex-col gap-[14px] items-center left-[31px] not-italic text-center top-[67px] ${
-          isStep2 ? "w-[502px]" : "right-[31px]"
-        }`}
+        className={`absolute content-stretch flex flex-col gap-[14px] items-center left-[31px] not-italic text-center top-[67px] ${isStep2 ? "w-[502px]" : "right-[31px]"
+          }`}
       >
         <p className="font-poppins font-semibold leading-none min-w-full relative shrink-0 text-[28px] text-black w-[min-content]">
           Crie sua conta
@@ -104,14 +103,12 @@ export default function CriarConta() {
         </div>
         <div className="bg-[#3c4043] h-[3px] relative shrink-0 w-[70px]" />
         <div
-          className={`content-stretch flex flex-col items-center justify-center relative rounded-[15px] shrink-0 size-[30px] ${
-            isStep2 ? "bg-[#3c4043]" : "bg-[#e5e5e5]"
-          }`}
+          className={`content-stretch flex flex-col items-center justify-center relative rounded-[15px] shrink-0 size-[30px] ${isStep2 ? "bg-[#3c4043]" : "bg-[#e5e5e5]"
+            }`}
         >
           <p
-            className={`font-poppins font-normal leading-[normal] relative shrink-0 text-[14px] whitespace-nowrap ${
-              isStep2 ? "text-white" : "text-[#3c4043]"
-            }`}
+            className={`font-poppins font-normal leading-[normal] relative shrink-0 text-[14px] whitespace-nowrap ${isStep2 ? "text-white" : "text-[#3c4043]"
+              }`}
           >
             2
           </p>
@@ -122,19 +119,15 @@ export default function CriarConta() {
         <form onSubmit={handleSubmit}>
           <div className="absolute bottom-[33px] flex flex-col justify-between left-[31px] right-[31px] top-[235px]">
             <div className="content-stretch flex flex-col gap-[24px] items-start relative shrink-0 w-full">
-              <div className="content-stretch flex flex-col gap-[12px] items-start relative shrink-0 w-full">
-                <label htmlFor="senha" className="font-poppins font-medium leading-none relative shrink-0 text-[14px] text-black w-full">
-                  Senha *
-                </label>
-                <input
-                  id="senha"
-                  type="password"
-                  value={formData.senha}
-                  onChange={handleChange("senha")}
-                  placeholder="Digite sua senha"
-                  className={`bg-white border ${errors.senha ? 'border-[#d93025]' : 'border-[#e5e5e5]'} border-solid font-poppins font-normal h-[48px] leading-none outline-none px-[16px] py-[10px] relative rounded-[8px] shrink-0 text-[#1f1f1f] text-[14px] w-full placeholder:text-[#909090]`}
+               <InputField
+                  label="Senha *"
+                  inputId="senha"
+                  inputType="password"
+                  inputValue={formData.senha}
+                  inputOnChange={handleChange("senha")}
+                  inputPlaceholder="Digite sua senha"
+                  errorVar={errors.senha}
                 />
-              </div>
 
               <div className="content-stretch flex flex-col gap-[12px] items-start justify-center relative shrink-0 w-[364px]">
                 {passwordRequirements.map(({ label, met }) => (
@@ -153,21 +146,17 @@ export default function CriarConta() {
                 ))}
               </div>
 
-              <div className="content-stretch flex flex-col gap-[12px] items-start relative shrink-0 w-full">
-                <label htmlFor="confirmarSenha" className="font-poppins font-medium leading-none relative shrink-0 text-[14px] text-black w-full">
-                  Confirmar senha *
-                </label>
-                <input
-                  id="confirmarSenha"
-                  type="password"
-                  value={formData.confirmarSenha}
-                  onChange={handleChange("confirmarSenha")}
-                  placeholder="Confirme sua senha"
-                  className={`bg-white border ${passwordsMismatch ? 'border-[#d93025]' : 'border-[#e5e5e5]'} border-solid font-poppins font-normal h-[48px] leading-none outline-none px-[16px] py-[10px] relative rounded-[8px] shrink-0 text-[#1f1f1f] text-[14px] w-full placeholder:text-[#909090]`}
+              <div className="w-full">
+                <InputField
+                  label="Confirmar senha *"
+                  inputId="confirmarSenha"
+                  inputType="password"
+                  inputValue={formData.confirmarSenha}
+                  inputOnChange={handleChange("confirmarSenha")}
+                  inputPlaceholder="Confirme sua senha"
+                  errorVar={passwordsMismatch}
                 />
-                {passwordsMismatch && (
-                  <p className="font-poppins font-normal text-[12px] text-[#d93025]">As senhas não coincidem.</p>
-                )}
+                
               </div>
             </div>
 
@@ -175,9 +164,8 @@ export default function CriarConta() {
               <button
                 type="submit"
                 disabled={!canSubmit}
-                className={`content-stretch flex flex-col h-[48px] items-center justify-center overflow-clip px-[40px] py-[16px] relative rounded-[8px] shrink-0 w-full ${
-                  canSubmit ? "bg-[#3c4043] cursor-pointer" : "bg-[#9d9fa1] cursor-not-allowed"
-                }`}
+                className={`content-stretch flex flex-col h-[48px] items-center justify-center overflow-clip px-[40px] py-[16px] relative rounded-[8px] shrink-0 w-full ${canSubmit ? "bg-[#3c4043] cursor-pointer" : "bg-[#9d9fa1] cursor-not-allowed"
+                  }`}
               >
                 <p className="font-poppins font-medium leading-none relative shrink-0 text-[14px] text-center text-white whitespace-nowrap">
                   Criar conta
@@ -199,8 +187,8 @@ export default function CriarConta() {
         <form onSubmit={handleContinue}>
           <div className="absolute content-stretch flex flex-col gap-[24px] items-start left-[31px] right-[31px] top-[235px]">
 
-            <InputField 
-              label="Nome completo *" 
+            <InputField
+              label="Nome completo *"
               inputId="nomeCompleto"
               inputType="text"
               inputValue={formData.nome_completo}
@@ -209,8 +197,8 @@ export default function CriarConta() {
               errorVar={errors.nome_completo}
             />
 
-             <InputField 
-              label="Usuário *" 
+            <InputField
+              label="Usuário *"
               inputId="nomeUsuario"
               inputType="text"
               inputValue={formData.nome_usuario}
@@ -219,8 +207,8 @@ export default function CriarConta() {
               errorVar={errors.nome_usuario}
             />
 
-             <InputField 
-              label="E-mail institucional *" 
+            <InputField
+              label="E-mail institucional *"
               inputId="email"
               inputType="text"
               inputValue={formData.email}
@@ -237,9 +225,9 @@ export default function CriarConta() {
               isStep1Valid
                 ? { backgroundColor: "#3c4043" }
                 : {
-                    backgroundImage:
-                      "linear-gradient(90deg, rgba(60, 64, 67, 0.5) 0%, rgba(60, 64, 67, 0.5) 100%), linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 100%)",
-                  }
+                  backgroundImage:
+                    "linear-gradient(90deg, rgba(60, 64, 67, 0.5) 0%, rgba(60, 64, 67, 0.5) 100%), linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 100%)",
+                }
             }
           >
             <p className="font-poppins font-medium leading-none relative shrink-0 text-[14px] text-center text-white whitespace-nowrap">

@@ -1,6 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import authRoutes from "./routes/authRoutes.js";
+import postsRoutes from "./routes/postsRoutes.js";
 import cors from "cors";
 
 const app = express();
@@ -16,6 +17,7 @@ app.get('/', (req, res) => {
 });
 
 app.use("/api/auth", authRoutes)
+app.use(postsRoutes)
 
 app.listen(port, () => {
     console.log(`Servidor Rodando na porta ${port}`);

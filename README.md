@@ -106,6 +106,19 @@ A partir de dados coletados com a secretaria, professores, alunos e Centro Acad�
 projeto-mural-colaborativo/
 |
 ├── client/
+|    └── src/
+|    |     ├── assets/
+|    |     ├── components/
+|    |     ├── pages/
+|    |     ├── services/
+|    |     ├── App.jsx
+|    |     ├── index.css
+|    |     └── main.jsx
+|    ├── eslint.config.js
+|    ├── index.html
+|    ├── package-lock.json
+|    ├── package.json
+|    └── vite.config.js
 |
 ├── server/
 |    └── src/
@@ -131,13 +144,13 @@ projeto-mural-colaborativo/
 
 | Código | Descrição | Estado |
 | ---    | ---       | ---    |
-| RF01   | O sistema deve permitir que usuários logados ou não logados visualizem as publicações disponíveis no mural. | `A FAZER 📄` |
+| RF01   | O sistema deve permitir que usuários logados ou não logados visualizem as publicações disponíveis no mural. | `EM ANDAMENTO ⌛` |
 | RF02   | O sistema deve permitir o registro de contas de usuários, guardando informações como nome completo, nome de usuário, e-mail institucional e senha. | `FEITO ✅` |
 | RF03   | O sistema deve permitir o envio de um e-mail para que o usuário possa ativar sua conta. | `FEITO ✅` |
-| RF04   | O sistema deve permitir que o usuário realize login através do e-mail institucional e senha. | `EM ANDAMENTO ⌛` |
+| RF04   | O sistema deve permitir que o usuário realize login através do e-mail institucional e senha. | `FEITO ✅` |
 | RF05   | O sistema deve permitir que usuários logados criem novas publicações. | `A FAZER 📄` |
 | RF06   | O sistema deve permitir o preenchimento de título, descrição, categoria, imagem, informação de contato, link para mais informações e prazo de validade no cadastro de uma publicação. | `A FAZER 📄` |
-| RF07   | O sistema deve mostrar o título, a descrição, a categoria, a imagem, as informações de contato, o nome de usuário e a data de publicação respectiva à postagem. | `A FAZER 📄` |
+| RF07   | O sistema deve mostrar o título, a descrição, a categoria, a imagem, as informações de contato, o nome de usuário e a data de publicação respectiva à postagem. | `EM ANDAMENTO ⌛` |
 | RF08   | O sistema deve permitir a classificação das publicações por categorias. | `A FAZER 📄` |
 | RF09   | O sistema deve permitir que os usuários filtrem as publicações por título, por categoria, por período de publicação e por usuário. | `A FAZER 📄` |
 | RF10   | O sistema deve permitir que o usuário acesse o link para mais informações das publicações. | `A FAZER 📄` |
@@ -154,7 +167,7 @@ projeto-mural-colaborativo/
 | RF21   | O sistema deve permitir que o moderador aprove ou rejeite uma denúncia. | `A FAZER 📄` |
 | RF22   | O sistema deve excluir uma publicação quando o moderador aprovar uma denúncia. | `A FAZER 📄` |
 | RF23   | O sistema deve permitir que o usuário exclua sua conta. | `A FAZER 📄` |
-| RF24   | O sistema deve permitir que o usuário edite suas informações da conta. | `A FAZER 📄` |
+| RF24   | O sistema deve permitir que o usuário edite suas informações da conta. | `EM ANDAMENTO ⌛` |
 
 ---
 

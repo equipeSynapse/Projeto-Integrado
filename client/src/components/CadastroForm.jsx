@@ -6,7 +6,7 @@ import checkUnmetIcon from "../assets/icons/check-unmet.svg";
 import { cadastrarUsuario } from "../services/cadastro";
 import { InputField } from "./InputField";
 
-const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@(alu\.)?ufc\.br$/i;
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9.-]+\.)?ufc\.br$/i;
 
 function getPasswordRequirements(senha) {
   return [
@@ -70,8 +70,10 @@ export default function CriarConta() {
     try {
       await cadastrarUsuario({ ...formData })
       console.log("Usuário cadastrado com sucesso")
+      alert("Usuário cadastrado com sucesso! Um e-mail de ativação foi enviado.")
     } catch (error) {
       console.error("Erro ao criar usuário:", error)
+      alert("Erro ao criar usuário: " + error.response.data.mensagem);
     }
   }
 

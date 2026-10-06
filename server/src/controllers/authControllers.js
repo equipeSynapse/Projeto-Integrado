@@ -35,7 +35,7 @@ export const cadastrar = async (req, res) => {
             tokenAtivacao
         );
 
-        //await enviarEmailConfirmacao(email, tokenAtivacao);
+        await enviarEmailConfirmacao(email.trim(), tokenAtivacao)
 
         return res.status(201).json({
             mensagem: 'Usuário criado com sucesso.',

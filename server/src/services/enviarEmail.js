@@ -2,13 +2,13 @@ import { transporter } from "../utils/transporterMailConfig.js";
 import { emailConfirmacaoTemplate } from "../templates/emailConfirmacao.js";
 import { port } from "../server.js";
 
-export const enviarEmailConfirmacao = (destinatario = process.env.EMAIL_USER, token) => {
+export const enviarEmailConfirmacao = (destinatario, token) => {
    const link = `http://localhost:${port}/api/auth/ativar-conta?token=${token}`
 
    transporter.sendMail({
-        from: process.env.EMAIL_USER,
+        from: `Mural Colaborativo - <${process.env.EMAIL_USER}>`,
         to: destinatario,
-        subject: "Mensagem de Confirmação de Email para Mural",
+        subject: "Mensagem de Ativação de Conta - Mural Colaborativo",
         html: emailConfirmacaoTemplate(link)
     }, (error, info) => {
         

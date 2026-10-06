@@ -121,15 +121,15 @@ export default function CriarConta() {
         <form onSubmit={handleSubmit}>
           <div className="absolute bottom-[33px] flex flex-col justify-between left-[31px] right-[31px] top-[235px]">
             <div className="content-stretch flex flex-col gap-[24px] items-start relative shrink-0 w-full">
-               <InputField
-                  label="Senha *"
-                  inputId="senha"
-                  inputType="password"
-                  inputValue={formData.senha}
-                  inputOnChange={handleChange("senha")}
-                  inputPlaceholder="Digite sua senha"
-                  errorVar={errors.senha}
-                />
+              <InputField
+                label="Senha *"
+                inputId="senha"
+                inputType="password"
+                inputValue={formData.senha}
+                inputOnChange={handleChange("senha")}
+                inputPlaceholder="Digite sua senha"
+                errorVar={errors.senha}
+              />
 
               <div className="content-stretch flex flex-col gap-[12px] items-start justify-center relative shrink-0 w-[364px]">
                 {passwordRequirements.map(({ label, met }) => (
@@ -158,7 +158,9 @@ export default function CriarConta() {
                   inputPlaceholder="Confirme sua senha"
                   errorVar={passwordsMismatch}
                 />
-                
+                {passwordsMismatch && (
+                  <span className="text-[12px] text-[#d93025]">As senhas não coincidem. </span>
+                )}
               </div>
             </div>
 
@@ -166,7 +168,7 @@ export default function CriarConta() {
               <button
                 type="submit"
                 disabled={!canSubmit}
-                className={`content-stretch flex flex-col h-[48px] items-center justify-center overflow-clip px-[40px] py-[16px] relative rounded-[8px] shrink-0 w-full ${canSubmit ? "bg-[#3c4043] cursor-pointer" : "bg-[#9d9fa1] cursor-not-allowed"
+                className={`rounded-[50px] content-stretch flex flex-col h-[48px] items-center justify-center overflow-clip px-[40px] py-[16px] relative rounded-[8px] shrink-0 w-full ${canSubmit ? "bg-[#3c4043] cursor-pointer" : "bg-[#9d9fa1] cursor-not-allowed"
                   }`}
               >
                 <p className="font-poppins font-medium leading-none relative shrink-0 text-[14px] text-center text-white whitespace-nowrap">
@@ -225,10 +227,11 @@ export default function CriarConta() {
             className="absolute content-stretch cursor-pointer flex flex-col h-[48px] items-center justify-center left-[31px] right-[31px] rounded-[8px] top-[594px]"
             style={
               isStep1Valid
-                ? { backgroundColor: "#3c4043" }
+                ? { backgroundColor: "#3c4043", borderRadius: "50px" }
                 : {
                   backgroundImage:
                     "linear-gradient(90deg, rgba(60, 64, 67, 0.5) 0%, rgba(60, 64, 67, 0.5) 100%), linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 100%)",
+                  borderRadius: "50px"
                 }
             }
           >

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import eyeClosedIcon from '../assets/icons/eye-closed.svg'
 import eyeIcon from '../assets/icons/eye.svg'
 
-export function InputField({ label, inputId, inputType, inputValue, inputOnChange, inputPlaceholder, errorVar }) {
+export function InputField({ onBlur, label, inputId, inputType, inputValue, inputOnChange, inputPlaceholder, errorVar }) {
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
   const actualInputType = inputType === "password" ? isPasswordVisible ? "text" : "password" : inputType
@@ -14,6 +14,7 @@ export function InputField({ label, inputId, inputType, inputValue, inputOnChang
       </label>
       <div className='w-full flex items-center'>
         <input
+          onBlur={onBlur}
           id={inputId}
           type={actualInputType}
           value={inputValue}

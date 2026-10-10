@@ -7,6 +7,8 @@ const router = express.Router();
 
 router.post('/cadastrar', authController.cadastrar)
 
+router.post('/verificar-nome-usuario', authController.verificarNomeUsuario)
+
 router.get('/ativar-conta', authController.ativarConta)
 
 router.post('/login', authController.login)

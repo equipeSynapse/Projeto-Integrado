@@ -35,13 +35,7 @@ export const cadastrar = async (req, res) => {
             tokenAtivacao
         );
 
-        try {
-            await enviarEmailConfirmacao(email.trim(), tokenAtivacao)
-            console.log("Iniciando envio de e-mail para:", email)
-        } catch (error) {
-            console.error("Erro no envio:", error)
-        }
-        
+        await enviarEmailConfirmacao(email.trim(), tokenAtivacao)
 
         return res.status(201).json({
             mensagem: 'Usuário criado com sucesso.',
@@ -61,6 +55,23 @@ export const cadastrar = async (req, res) => {
         return res.status(500).json({
             mensagem: 'Erro interno no servidor. Tente novamente mais tarde.'
         });
+    }
+}
+
+export const verificarNomeUsuario = async (req, res) => {
+    try {
+        const { nome_usuario } = req.body;
+
+        const buscaNome = await pool.query('SELECT EXISTS (SELECT 1 FROM usuarios WHERE nome_usuario = $1)', [nome_usuario.toLowerCase()]);
+
+        const usuarioExiste = buscaNome.rows[0].exists;
+
+        return res.status(200).json({usuarioExiste});
+    } catch (error) {
+        console.log("Erro ao verificar se nome de usuário existe:", error);
+        return res.status(500).json({
+            mensagem: "Erro ao verificar se nome de usuário existe."
+        })
     }
 }
 
@@ -84,7 +95,7 @@ export const ativarConta = async (req, res) => {
     } catch (error) {
         console.log("Erro ao ativar conta:", error);
         return res.status(500).json({
-            error: "Erro ao ativar conta do usuário."
+            mensagem: "Erro ao ativar conta do usuário."
         })
     }
 }
@@ -118,7 +129,7 @@ export const login = async (req, res) => {
     } catch (error) {
         console.log("Erro ao efetuar login:", error);
         return res.status(500).json({
-            "mensagem": "Erro interno no servidor. Tente efetuar o login novamente mais tarde."
+            mensagem: "Erro interno no servidor. Tente efetuar o login novamente mais tarde."
         })
     }
 }

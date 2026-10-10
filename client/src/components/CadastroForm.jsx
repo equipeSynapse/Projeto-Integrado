@@ -4,6 +4,7 @@ import backArrowIcon from "../assets/icons/back-arrow.svg";
 import checkMetIcon from "../assets/icons/check-met.svg";
 import checkUnmetIcon from "../assets/icons/check-unmet.svg";
 import { cadastrarUsuario } from "../services/cadastro";
+import { verificarNomeUsuario } from "../services/verificarNomeUsuario";
 import { InputField } from "./InputField";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9.-]+\.)?ufc\.br$/i;
@@ -11,7 +12,8 @@ const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9.-]+\.)?ufc\.br$/i;
 function getPasswordRequirements(senha) {
   return [
     { label: "Mínimo de 08 caracteres", met: senha.length >= 8 },
-    { label: "Letras maiúsculas e minúsculas (A-Z) e (a-z)", met: /[A-Z]/.test(senha) && /[a-z]/.test(senha) },
+    { label: "Letras maiúsculas (A-Z)", met: /[A-Z]/.test(senha) },
+    { label: "Letras minúsculas (a-z)", met: /[a-z]/.test(senha) },
     { label: "Caracteres especiais (#, @, $, %, *)", met: /[#@$%*]/.test(senha) },
     { label: "Números (0-9)", met: /[0-9]/.test(senha) },
   ];
@@ -33,6 +35,7 @@ export default function CriarConta() {
   const passwordsMismatch =
     formData.confirmarSenha.length > 0 && formData.confirmarSenha !== formData.senha;
   const canSubmit = isPasswordValid && formData.confirmarSenha.length > 0 && !passwordsMismatch;
+  const [isUserTaken, setIsUserTaken] = useState(false);
   const isStep1Valid =
     formData.nome_completo.trim() !== "" &&
     formData.nome_usuario.trim() !== "" &&
@@ -51,6 +54,7 @@ export default function CriarConta() {
     const nextErrors = {};
     if (!formData.nome_completo.trim()) nextErrors.nome_completo = "Campo obrigatório.";
     if (!formData.nome_usuario.trim()) nextErrors.nome_usuario = "Campo obrigatório.";
+    else if (isUserTaken) nextErrors.nome_usuario = "Esse nome de usuário já está em uso. Escolha outro para continuar."
     if (!formData.email.trim()) {
       nextErrors.email = "Campo obrigatório.";
     } else if (!EMAIL_REGEX.test(formData.email.trim())) {
@@ -159,7 +163,7 @@ export default function CriarConta() {
                   errorVar={passwordsMismatch}
                 />
                 {passwordsMismatch && (
-                  <span className="text-[12px] text-[#d93025]">As senhas não coincidem. </span>
+                  <span className="text-[12px] font-poppins text-[#d93025]">As senhas não coincidem. </span>
                 )}
               </div>
             </div>
@@ -201,7 +205,20 @@ export default function CriarConta() {
               errorVar={errors.nome_completo}
             />
 
+
             <InputField
+              onBlur={async (e) => {
+                if (!e.target.value.trim()) return;
+                try {
+                  const usuarioExiste = await verificarNomeUsuario({ "nome_usuario": e.target.value });
+                  setIsUserTaken(usuarioExiste);
+
+                  setErrors((prev) => ({ ...prev, nome_usuario: (usuarioExiste? "Esse nome de usuário já está em uso. Escolha outro para continuar.": undefined)}))
+                } catch (error) {
+                  console.error("Erro ao verificar se nome de usuário já existe:", error);
+                }
+              }
+              }
               label="Usuário *"
               inputId="nomeUsuario"
               inputType="text"
@@ -210,6 +227,8 @@ export default function CriarConta() {
               inputPlaceholder="Usuário"
               errorVar={errors.nome_usuario}
             />
+
+
 
             <InputField
               label="E-mail institucional *"

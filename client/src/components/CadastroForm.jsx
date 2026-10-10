@@ -1,8 +1,8 @@
 import { useState } from "react";
 import closeIcon from "../assets/icons/close.svg";
-import backArrowIcon from "../assets/icons/back-arrow.svg";
 import checkMetIcon from "../assets/icons/check-met.svg";
 import checkUnmetIcon from "../assets/icons/check-unmet.svg";
+import circleCheckIcon from "../assets/icons/circle-check.svg";
 import { cadastrarUsuario } from "../services/cadastro";
 import { verificarNomeUsuario } from "../services/verificarNomeUsuario";
 import { InputField } from "./InputField";
@@ -35,7 +35,7 @@ export default function CriarConta() {
   const passwordsMismatch =
     formData.confirmarSenha.length > 0 && formData.confirmarSenha !== formData.senha;
   const canSubmit = isPasswordValid && formData.confirmarSenha.length > 0 && !passwordsMismatch;
-  const [isUserTaken, setIsUserTaken] = useState(false);
+  const [isUserTaken, setIsUserTaken] = useState();
   const isStep1Valid =
     formData.nome_completo.trim() !== "" &&
     formData.nome_usuario.trim() !== "" &&
@@ -183,7 +183,7 @@ export default function CriarConta() {
                 </p>
               </button>
 
-              
+
             </div>
           </div>
         </form>
@@ -202,27 +202,36 @@ export default function CriarConta() {
             />
 
 
-            <InputField
-              onBlur={async (e) => {
-                if (!e.target.value.trim()) return;
-                try {
-                  const usuarioExiste = await verificarNomeUsuario({ "nome_usuario": e.target.value });
-                  setIsUserTaken(usuarioExiste);
+            <div className="w-full flex flex-row relative">
+              <InputField
+                onBlur={async (e) => {
+                  if (!e.target.value.trim()) {
+                    setIsUserTaken()
+                    return;
+                  }
 
-                  setErrors((prev) => ({ ...prev, nome_usuario: (usuarioExiste? "Esse nome de usuário já está em uso. Escolha outro para continuar.": undefined)}))
-                } catch (error) {
-                  console.error("Erro ao verificar se nome de usuário já existe:", error);
+                  try {
+                    const usuarioExiste = await verificarNomeUsuario({ "nome_usuario": e.target.value });
+                    setIsUserTaken(usuarioExiste);
+
+                    setErrors((prev) => ({ ...prev, nome_usuario: (usuarioExiste ? "Esse nome de usuário já está em uso. Escolha outro para continuar." : undefined) }))
+                  } catch (error) {
+                    console.error("Erro ao verificar se nome de usuário já existe:", error);
+                  }
                 }
-              }
-              }
-              label="Usuário *"
-              inputId="nomeUsuario"
-              inputType="text"
-              inputValue={formData.nome_usuario}
-              inputOnChange={handleChange("nome_usuario")}
-              inputPlaceholder="Usuário"
-              errorVar={errors.nome_usuario}
-            />
+                }
+                label="Usuário *"
+                inputId="nomeUsuario"
+                inputType="text"
+                inputValue={formData.nome_usuario}
+                inputOnChange={handleChange("nome_usuario")}
+                inputPlaceholder="Usuário"
+                errorVar={errors.nome_usuario}
+              >
+                {isUserTaken == false && (<img src={circleCheckIcon} className="size-[16px] absolute right-[16px]"/>)}
+              </InputField>
+              
+            </div>
 
             <InputField
               label="E-mail institucional *"

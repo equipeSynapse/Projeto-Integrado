@@ -18,7 +18,7 @@ export const cadastrar = async (req, res) => {
             });
         }
 
-        const emailRegexUFC = /^[a-zA-Z0-9._%+-]+@(alu\.)?ufc\.br$/i;
+        const emailRegexUFC = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9.-]+\.)?ufc\.br$/i;
         if (!emailRegexUFC.test(email.trim())) {
             return res.status(400).json({
                 mensagem: 'O e-mail informado não é do domínio da UFC. Por favor, informe seu e-mail institucional.'

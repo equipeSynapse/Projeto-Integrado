@@ -3,7 +3,7 @@ import eyeClosedIcon from '../assets/icons/eye-closed.svg'
 import eyeIcon from '../assets/icons/eye.svg'
 import infoIcon from '../assets/icons/info.svg'
 
-export function InputField({ onBlur, label, inputId, inputType, inputValue, inputOnChange, inputPlaceholder, errorVar }) {
+export function InputField({ onBlur, label, inputId, inputType, inputValue, inputOnChange, inputPlaceholder, errorVar, children }) {
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
   const actualInputType = inputType === "password" ? isPasswordVisible ? "text" : "password" : inputType
@@ -21,8 +21,9 @@ export function InputField({ onBlur, label, inputId, inputType, inputValue, inpu
           value={inputValue}
           onChange={inputOnChange}
           placeholder={inputPlaceholder}
-          className={`bg-white border ${errorVar ? 'border-[#d93025]' : 'border-[#e5e5e5]'} border-solid font-poppins font-normal h-[48px] leading-none outline-none px-[16px] py-[10px] relative rounded-[8px] shrink-0 text-[#1f1f1f] text-[14px] w-full placeholder:text-[#909090]`}
+          className={`bg-white border ${errorVar ? 'border-[#d93025]' : 'border-[#e5e5e5] focus:border-[#8d8d8d]'} border-solid font-poppins font-normal h-[48px] leading-none outline-none px-[16px] py-[10px] relative rounded-[8px] shrink-0 text-[#1f1f1f] text-[14px] w-full placeholder:text-[#909090]`}
         />
+        {children}
         {inputType === "password" ? <button type="button" onClick={() => setIsPasswordVisible(!isPasswordVisible)} className='absolute right-[28px] size-[16px] md:size-[20px] cursor-pointer'> <img alt="Botão de visibilidade de senha" src={isPasswordVisible ? eyeIcon : eyeClosedIcon} /> </button> : ""}
       </div>
       {errorVar && (

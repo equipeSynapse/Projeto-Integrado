@@ -160,19 +160,22 @@ export default function CriarConta() {
                   inputValue={formData.confirmarSenha}
                   inputOnChange={handleChange("confirmarSenha")}
                   inputPlaceholder="Confirme sua senha"
-                  errorVar={passwordsMismatch}
+                  errorVar={passwordsMismatch ? "As senhas não coincidem." : ""}
                 />
-                {passwordsMismatch && (
-                  <span className="text-[12px] font-poppins text-[#d93025]">As senhas não coincidem. </span>
-                )}
               </div>
             </div>
 
-            <div className="content-stretch flex flex-col gap-[14px] items-center relative shrink-0 w-full">
+            <div className="content-stretch flex flex-row justify-between items-center relative shrink-0 w-full">
+              <button type="button" onClick={handleBack} className="content-stretch cursor-pointer flex gap-[8px] px-[24px] py-[12px] items-center relative shrink-0">
+                <p className="font-poppins font-normal leading-[1.5] relative shrink-0 text-[14px] text-black text-center whitespace-nowrap">
+                  Voltar
+                </p>
+              </button>
+
               <button
                 type="submit"
                 disabled={!canSubmit}
-                className={`rounded-[50px] content-stretch flex flex-col h-[48px] items-center justify-center overflow-clip px-[40px] py-[16px] relative rounded-[8px] shrink-0 w-full ${canSubmit ? "bg-[#3c4043] cursor-pointer" : "bg-[#9d9fa1] cursor-not-allowed"
+                className={`rounded-[50px] content-stretch flex flex-col w-[128px] h-[48px] items-center justify-center overflow-clip px-[24px] py-[12px] relative rounded-[8px] shrink-0 ${canSubmit ? "bg-[#3c4043] cursor-pointer" : "bg-[#9d9fa1] cursor-not-allowed"
                   }`}
               >
                 <p className="font-poppins font-medium leading-none relative shrink-0 text-[14px] text-center text-white whitespace-nowrap">
@@ -180,14 +183,7 @@ export default function CriarConta() {
                 </p>
               </button>
 
-              <button type="button" onClick={handleBack} className="content-stretch cursor-pointer flex gap-[8px] items-center relative shrink-0">
-                <div className="relative shrink-0 size-[14px]">
-                  <img alt="" src={backArrowIcon} className="absolute block inset-0 max-w-none size-full" />
-                </div>
-                <p className="font-poppins font-normal leading-[1.5] relative shrink-0 text-[14px] text-black text-center whitespace-nowrap">
-                  Voltar
-                </p>
-              </button>
+              
             </div>
           </div>
         </form>
@@ -227,8 +223,6 @@ export default function CriarConta() {
               inputPlaceholder="Usuário"
               errorVar={errors.nome_usuario}
             />
-
-
 
             <InputField
               label="E-mail institucional *"

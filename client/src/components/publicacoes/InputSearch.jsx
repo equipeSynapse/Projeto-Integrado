@@ -1,4 +1,4 @@
-export function InputSearch({ value, onChange, placeholder = "Pesquisar publicações" }) {
+export function InputSearch({ value, onChange, placeholder = "Pesquisar por título ou autor" }) {
   return (
     <div className="relative flex items-center w-full max-w-[640px]">
       <input

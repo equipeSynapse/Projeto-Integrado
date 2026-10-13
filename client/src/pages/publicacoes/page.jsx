@@ -20,8 +20,11 @@ export function PublicacoesPage() {
         fetchPublicacoes();
     }, []);
 
-  const filtradas = publicacoes.filter((p) =>
-    p.titulo.toLowerCase().includes(busca.toLowerCase())
+  const termo = busca.toLowerCase().replace(/^@/, "");
+  const filtradas = publicacoes.filter(
+    (p) =>
+      p.titulo.toLowerCase().includes(busca.toLowerCase()) ||
+      (p.nome_usuario ?? "").toLowerCase().includes(termo)
   );
 
   return (
@@ -32,7 +35,7 @@ export function PublicacoesPage() {
 
       <main className="flex flex-col gap-[24px] px-[31px] py-[32px] max-w-[960px] mx-auto">
         {filtradas.map((p) => (
-          <PubliCard key={p.id} imagem={p.imagem ?? null} titulo={p.titulo ?? "Sem Título"} descricao={p.descricao ?? "Sem descrição"} />
+          <PubliCard key={p.id} imagem={p.imagem ?? null} titulo={p.titulo ?? "Sem Título"} descricao={p.descricao ?? "Sem descrição"} autor={p.nome_usuario} />
         ))}
       </main>
     </div>

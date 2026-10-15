@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
 });
 
 app.use("/api/auth", authRoutes)
-app.use(postsRoutes)
+app.use("/api/posts", postsRoutes)
 
 app.listen(port, () => {
     console.log(`Servidor Rodando na porta ${port}`);

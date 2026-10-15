@@ -111,7 +111,7 @@ projeto-mural-colaborativo/
 |    |     ├── components/
 |    |     ├── pages/
 |    |     ├── services/
-|    |     ├── App.jsx
+|    |     ├── utils/
 |    |     ├── index.css
 |    |     └── main.jsx
 |    ├── eslint.config.js
@@ -150,9 +150,9 @@ projeto-mural-colaborativo/
 | RF04   | O sistema deve permitir que o usuário realize login através do e-mail institucional e senha. | `FEITO ✅` |
 | RF05   | O sistema deve permitir que usuários logados criem novas publicações. | `A FAZER 📄` |
 | RF06   | O sistema deve permitir o preenchimento de título, descrição, categoria, imagem, informação de contato, link para mais informações e prazo de validade no cadastro de uma publicação. | `A FAZER 📄` |
-| RF07   | O sistema deve mostrar o título, a descrição, a categoria, a imagem, as informações de contato, o nome de usuário e a data de publicação respectiva à postagem. | `EM ANDAMENTO ⌛` |
+| RF07   | O sistema deve mostrar o título, a descrição, a categoria, a imagem, as informações de contato, o nome de usuário e a data de publicação respectiva à postagem. | `FEITO ✅` |
 | RF08   | O sistema deve permitir a classificação das publicações por categorias. | `A FAZER 📄` |
-| RF09   | O sistema deve permitir que os usuários filtrem as publicações por título, por categoria, por período de publicação e por usuário. | `A FAZER 📄` |
+| RF09   | O sistema deve permitir que os usuários filtrem as publicações por título, por categoria, por período de publicação e por usuário. | `EM ANDAMENTO 📄` |
 | RF10   | O sistema deve permitir que o usuário acesse o link para mais informações das publicações. | `A FAZER 📄` |
 | RF11   | O sistema deve mostrar as publicações de acordo com os filtros aplicados. | `A FAZER 📄` |
 | RF12   | O sistema deve permitir que o usuário visualize as suas publicações. | `A FAZER 📄` |

@@ -152,12 +152,12 @@ projeto-mural-colaborativo/
 | RF06   | O sistema deve permitir o preenchimento de título, descrição, categoria, imagem, informação de contato, link para mais informações e prazo de validade no cadastro de uma publicação. | `A FAZER 📄` |
 | RF07   | O sistema deve mostrar o título, a descrição, a categoria, a imagem, as informações de contato, o nome de usuário e a data de publicação respectiva à postagem. | `FEITO ✅` |
 | RF08   | O sistema deve permitir a classificação das publicações por categorias. | `A FAZER 📄` |
-| RF09   | O sistema deve permitir que os usuários filtrem as publicações por título, por categoria, por período de publicação e por usuário. | `EM ANDAMENTO 📄` |
+| RF09   | O sistema deve permitir que os usuários filtrem as publicações por título, por categoria, por período de publicação e por usuário. | `EM ANDAMENTO ⌛` |
 | RF10   | O sistema deve permitir que o usuário acesse o link para mais informações das publicações. | `A FAZER 📄` |
 | RF11   | O sistema deve mostrar as publicações de acordo com os filtros aplicados. | `A FAZER 📄` |
 | RF12   | O sistema deve permitir que o usuário visualize as suas publicações. | `A FAZER 📄` |
 | RF13   | O sistema deve permitir a exclusão e a edição das publicações criadas. | `A FAZER 📄` |
-| RF14   | O sistema deve permitir mostrar o número de visualizações das publicações. | `A FAZER 📄` |
+| RF14   | O sistema deve permitir mostrar o número de visualizações das publicações. | `FEITO ✅` |
 | RF15   | O sistema deve permitir que o usuário siga uma categoria para receber atualizações. | `A FAZER 📄` |
 | RF16   | O sistema deve permitir notificações de categorias seguidas pelo usuário. | `A FAZER 📄` |
 | RF17   | O sistema deve bloquear/censurar palavras indesejadas nos campos de título, descrição e informações de contato no formulário de cadastro de publicação. | `A FAZER 📄` |

@@ -5,6 +5,7 @@ import Button from "../Button";
 import copiarLink from "../../utils/copiarLink";
 import timestampMsg from "../../utils/timestampMsg";
 import viewObserver from "../../utils/viewObserver";
+import isUserLoggedIn from "../../utils/auth";
 
 export function PubliCard({ id, autor, criadoEm, imagem, categoria, titulo, descricao, link, email, telefone, qtdVisualizacoes, expiracao }) {
   const cardRef = viewObserver(id)
@@ -69,10 +70,10 @@ export function PubliCard({ id, autor, criadoEm, imagem, categoria, titulo, desc
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3C4043" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
             <span> Copiar Link </span>  
           </Button>
-          {localStorage.getItem('token')? <Button variant="text" className="text-[#ea4335]"> 
+          { isUserLoggedIn() && (<Button variant="text" className="text-[#ea4335]"> 
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EA4335" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10a1 1 0 0 1-.4.8A6 6 0 0 1 16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528"/></svg>
             <span>  Denunciar  </span> 
-          </Button> : ""}
+          </Button>)}
         </div>
         
       </div>

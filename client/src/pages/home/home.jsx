@@ -75,6 +75,7 @@ export default function HomePage() {
                         imagem={p.imagem ?? null}
                         titulo={p.titulo ?? "Sem Título"}
                         descricao={p.descricao ?? "Sem descrição"}
+                        link={p.link}
                         autor={p.nome_usuario}
                         email={p.email}
                         qtdVisualizacoes={p.qtd_visualizacoes}

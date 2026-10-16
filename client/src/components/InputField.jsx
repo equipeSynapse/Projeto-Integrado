@@ -21,7 +21,7 @@ export function InputField({ label, inputId, inputType, inputValue, inputOnChang
           placeholder={inputPlaceholder}
           className={`bg-white border ${errorVar ? 'border-[#d93025]' : 'border-[#e5e5e5]'} border-solid font-poppins font-normal h-[48px] leading-none outline-none px-[16px] py-[10px] relative rounded-[8px] shrink-0 text-[#1f1f1f] text-[14px] w-full placeholder:text-[#909090]`}
         />
-        {inputType === "password" ? <button type="button" onClick={() => setIsPasswordVisible(!isPasswordVisible)} className='absolute right-[28px] size-[16px] md:size-[20px]'> <img src={isPasswordVisible ? eyeIcon : eyeClosedIcon} /> </button> : ""}
+        {inputType === "password" ? <button type="button" onClick={() => setIsPasswordVisible(!isPasswordVisible)} className='absolute right-[28px] size-[16px] md:size-[20px] cursor-pointer'> <img src={isPasswordVisible ? eyeIcon : eyeClosedIcon} /> </button> : ""}
       </div>
       {errorVar && (
         <p className="font-poppins font-normal text-[12px] text-[#d93025]">{errorVar}</p>

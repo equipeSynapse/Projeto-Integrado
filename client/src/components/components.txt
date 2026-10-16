@@ -1,0 +1,25 @@
+/** 
+ * Pasta Components: 
+ * Armazena os componentes (blocos de código) visuais 
+ * que podem ser reutilizados em diferentes páginas na aplicação  
+ * para evitar repetição
+ * O objetivo é manter a interface padronizada e facilitar a manutenção do Mural Colaborativo.
+
+ * Componente CadastroForm:
+ * Implementa o formulário de criação de conta dividido em duas etapas.
+ * Responsável por gerenciar os dados digitados, validar o e-mail institucional da UFC, 
+ * checar os requisitos de segurança da senha em tempo real e enviar os dados para a API.
+ 
+ * Componente InputField:
+ * Um campo de entrada de dados genérico e reutilizável.
+ * Padroniza a estrutura visual e os estilos de inputs (texto e senha), 
+ * gerencia o botão de mostrar/ocultar senha e exibe mensagens de erro de validação.
+ 
+ * Componente LoginForm:
+ * Interface de autenticação do usuário.
+ * Valida o preenchimento do e-mail da UFC e da senha, faz a requisição de login para o servidor,
+ * trata possíveis erros (como credenciais inválidas) e salva o token de acesso no navegador.
+ 
+ */
+
+ 

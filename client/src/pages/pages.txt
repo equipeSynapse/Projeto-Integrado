@@ -1,0 +1,24 @@
+/** 
+ * Pasta pages: 
+ * Contém as visões principais (páginas) da aplicação. 
+ * Cada arquivo ou subpasta aqui geralmente representa uma rota na navegação (ex: /login, /cadastro) 
+ * e atua como um contêiner para estruturar e centralizar os componentes na tela.
+ 
+
+ * Arquivo page.jsx:
+ * Página principal de registro de novos usuários.
+ * Atua como um contêiner de layout (ocupando a tela inteira) para renderizar e 
+ * centralizar o componente CadastroForm.
+ 
+
+ * Arquivo login.jsx:
+ * Página principal de autenticação do usuário.
+ * Atua como um contêiner de layout para renderizar e centralizar o componente LoginForm 
+ * no meio da tela, garantindo a responsividade e o alinhamento visual da rota de entrada.
+ 
+ */
+ 
+ 
+ 
+ 
+ */

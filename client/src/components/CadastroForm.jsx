@@ -6,7 +6,7 @@ import checkUnmetIcon from "../assets/icons/check-unmet.svg";
 import { cadastrarUsuario } from "../services/cadastro";
 import { InputField } from "./InputField";
 
-const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9.-]+\.)?ufc\.br$/i;
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@(alu\.)?ufc\.br$/i;
 
 function getPasswordRequirements(senha) {
   return [
@@ -70,10 +70,8 @@ export default function CriarConta() {
     try {
       await cadastrarUsuario({ ...formData })
       console.log("Usuário cadastrado com sucesso")
-      alert("Usuário cadastrado com sucesso! Um e-mail de ativação foi enviado.")
     } catch (error) {
       console.error("Erro ao criar usuário:", error)
-      alert("Erro ao criar usuário: " + error.response.data.mensagem);
     }
   }
 
@@ -121,15 +119,15 @@ export default function CriarConta() {
         <form onSubmit={handleSubmit}>
           <div className="absolute bottom-[33px] flex flex-col justify-between left-[31px] right-[31px] top-[235px]">
             <div className="content-stretch flex flex-col gap-[24px] items-start relative shrink-0 w-full">
-              <InputField
-                label="Senha *"
-                inputId="senha"
-                inputType="password"
-                inputValue={formData.senha}
-                inputOnChange={handleChange("senha")}
-                inputPlaceholder="Digite sua senha"
-                errorVar={errors.senha}
-              />
+               <InputField
+                  label="Senha *"
+                  inputId="senha"
+                  inputType="password"
+                  inputValue={formData.senha}
+                  inputOnChange={handleChange("senha")}
+                  inputPlaceholder="Digite sua senha"
+                  errorVar={errors.senha}
+                />
 
               <div className="content-stretch flex flex-col gap-[12px] items-start justify-center relative shrink-0 w-[364px]">
                 {passwordRequirements.map(({ label, met }) => (
@@ -158,9 +156,7 @@ export default function CriarConta() {
                   inputPlaceholder="Confirme sua senha"
                   errorVar={passwordsMismatch}
                 />
-                {passwordsMismatch && (
-                  <span className="text-[12px] text-[#d93025]">As senhas não coincidem. </span>
-                )}
+                
               </div>
             </div>
 
@@ -168,7 +164,7 @@ export default function CriarConta() {
               <button
                 type="submit"
                 disabled={!canSubmit}
-                className={`rounded-[50px] content-stretch flex flex-col h-[48px] items-center justify-center overflow-clip px-[40px] py-[16px] relative rounded-[8px] shrink-0 w-full ${canSubmit ? "bg-[#3c4043] cursor-pointer" : "bg-[#9d9fa1] cursor-not-allowed"
+                className={`content-stretch flex flex-col h-[48px] items-center justify-center overflow-clip px-[40px] py-[16px] relative rounded-[8px] shrink-0 w-full ${canSubmit ? "bg-[#3c4043] cursor-pointer" : "bg-[#9d9fa1] cursor-not-allowed"
                   }`}
               >
                 <p className="font-poppins font-medium leading-none relative shrink-0 text-[14px] text-center text-white whitespace-nowrap">
@@ -227,11 +223,10 @@ export default function CriarConta() {
             className="absolute content-stretch cursor-pointer flex flex-col h-[48px] items-center justify-center left-[31px] right-[31px] rounded-[8px] top-[594px]"
             style={
               isStep1Valid
-                ? { backgroundColor: "#3c4043", borderRadius: "50px" }
+                ? { backgroundColor: "#3c4043" }
                 : {
                   backgroundImage:
                     "linear-gradient(90deg, rgba(60, 64, 67, 0.5) 0%, rgba(60, 64, 67, 0.5) 100%), linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 100%)",
-                  borderRadius: "50px"
                 }
             }
           >

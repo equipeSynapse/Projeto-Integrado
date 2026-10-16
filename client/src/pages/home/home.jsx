@@ -5,6 +5,7 @@ import Header from "../../components/Header";
 import { InputSearch } from "../../components/publicacoes/InputSearch";
 import Button from "../../components/Button";
 import calendarIcon from "../../assets/icons/calendar.png";
+import DateRangePicker from "../../components/DateRangePicker";
 
 export default function HomePage() {
     const [busca, setBusca] = useState("");
@@ -57,6 +58,7 @@ export default function HomePage() {
         </Header>
 
         <main className="flex flex-col gap-[24px] px-[31px] py-[32px] max-w-[960px] mx-auto">
+            <DateRangePicker/>
             {filtradas.map((p) => (
                 <PubliCard 
                     key={p.id} 

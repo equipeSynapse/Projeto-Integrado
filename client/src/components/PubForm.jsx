@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import closeIcon from "../assets/icons/close.svg";
 import { InputField } from "./InputField";
 import { createPub } from "../services/createpub";
-
 export default function PubForm() {
   const navigate = useNavigate(); // Redirecionar página
   //Criando Form com id, criado_em,autor_email, titulo, descricao, categoria, imagem, contato, link, validade, qtd_visualizacoes
@@ -27,7 +26,9 @@ export default function PubForm() {
     // Limita a 11 números (DDD + 9 dígitos)
     numero = numero.substring(0, 11);
 
-    // Aplica a máscara (XX) XXXXX-XXXX
+
+
+    // Aplica (XX) XXXXX-XXXX
     if (numero.length > 2) {
       numero = `(${numero.substring(0, 2)}) ${numero.substring(2)}`;
     }
@@ -83,7 +84,6 @@ setErrors(nextErrors);
         
         // Redireciona de volta para o mural após a criação
         navigate("/"); 
-
       } catch (error) {
         setServerError("Erro ao criar publicação. Tente novamente mais tarde.");
       }

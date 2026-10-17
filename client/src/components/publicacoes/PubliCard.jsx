@@ -32,11 +32,11 @@ export function PubliCard({ id, autor, criadoEm, imagem, categoria, titulo, desc
       <div className="flex flex-col gap-[24px]">
         <h2 className="font-semibold leading-tight text-[16px] text-black">{titulo}</h2>
         <p className="className={`font-medium leading-stitch text-[14px] text-[#3c4043] whitespace-pre-line">
-          {expandido || descricao.length < 80? descricao : `${descricao.slice(0, descricao.lastIndexOf(' ', 80))}... `} 
-          {(descricao.length > 80 && !expandido) ? <button className="text-[#8d8d8d] font-medium hover:cursor-pointer" onClick={() => setExpandido(true)}> mostrar mais </button>:''}
+          {expandido || descricao.length < 60? descricao : `${descricao.slice(0, descricao.lastIndexOf(' ', 60))}... `} 
+          {(!expandido) ? <button className="text-[#8d8d8d] font-medium hover:cursor-pointer" onClick={() => setExpandido(true)}> mostrar mais </button>:''}
         </p>
         
-        {(link || email || telefone) ?
+        {expandido && (link || email || telefone) ?
           <div className="flex flex-col gap-[24px]">
             <h2 className="font-semibold leading-none text-[14px] text-black"> Informações adicionais </h2>
             <div className="flex flex-col gap-[16px]">

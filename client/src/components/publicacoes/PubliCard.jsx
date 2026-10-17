@@ -20,7 +20,7 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
           <div className="bg-gray-200 size-[40px] rounded-[50px] flex items-center justify-center"> {autor[0].toUpperCase()} </div>
           <div className="flex flex-col justify-between">
             <span className="font-medium"> {autor} </span>
-            <span> {categoria} · Publicado {timestampMsg(new Date(), new Date(criadoEm))} </span>
+            <span> {categoria} · Publicado há {timestampMsg(new Date(), new Date(criadoEm))} </span>
           </div>
         </div>
 

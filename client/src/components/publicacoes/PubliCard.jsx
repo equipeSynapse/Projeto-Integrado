@@ -9,7 +9,7 @@ import isUserLoggedIn from "../../utils/auth";
 import { useState } from "react";
 import CopiarLinkBtn from "./CopiarLinkBtn";
 
-export function PubliCard({ id, autor, criadoEm, imagem, categoria, titulo, descricao, link, email, telefone, qtdVisualizacoes, expiracao }) {
+export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, titulo, descricao, link, email, telefone, qtdVisualizacoes, expiracao }) {
   const cardRef = viewObserver(id)
   const [expandido, setExpandido] = useState(false)
 
@@ -20,7 +20,7 @@ export function PubliCard({ id, autor, criadoEm, imagem, categoria, titulo, desc
           <div className="bg-gray-200 size-[40px] rounded-[50px] flex items-center justify-center"> {autor[0].toUpperCase()} </div>
           <div className="flex flex-col justify-between">
             <span className="font-medium"> {autor} </span>
-            <span> {categoria} · Publicado há {timestampMsg(new Date() - new Date(criadoEm))} </span>
+            <span> {categoria} · Publicado {timestampMsg(new Date(), new Date(criadoEm))} </span>
           </div>
         </div>
 
@@ -33,11 +33,11 @@ export function PubliCard({ id, autor, criadoEm, imagem, categoria, titulo, desc
       <div className="flex flex-col gap-[24px]">
         <h2 className="font-semibold leading-tight text-[16px] text-black">{titulo}</h2>
         <p className="className={`font-medium leading-stitch text-[14px] text-[#3c4043] whitespace-pre-line">
-          {expandido || descricao.length < 60? descricao : `${descricao.slice(0, descricao.lastIndexOf(' ', 60))}... `} 
-          {(!expandido) ? <button className="text-[#8d8d8d] font-medium hover:cursor-pointer" onClick={() => setExpandido(true)}> mostrar mais </button>:''}
+          {((expandido || descricao.length < 60) || variant === "completo")? descricao : `${descricao.slice(0, descricao.lastIndexOf(' ', 60))}... `} 
+          {(!expandido && variant !== "completo") ? <button className="text-[#8d8d8d] font-medium hover:cursor-pointer" onClick={() => setExpandido(true)}> mostrar mais </button>:''}
         </p>
         
-        {expandido && (link || email || telefone) ?
+        {(expandido || variant === "completo") && (link || email || telefone) ?
           <div className="flex flex-col gap-[24px]">
             <h2 className="font-semibold leading-none text-[14px] text-black"> Informações adicionais </h2>
             <div className="flex flex-col gap-[16px]">

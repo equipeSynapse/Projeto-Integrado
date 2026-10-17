@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { PubliCard } from "../../components/publicacoes/PubliCard";
 import { getPublicacoes } from "../../services/publicacoes";
 import Header from "../../components/Header";
@@ -14,6 +14,13 @@ export default function HomePage() {
     const [publicacoes, setPublicacoes] = useState([]);
 
     const [isLoginOpen, setIsLoginOpen] = useState(false);
+    const loginModalRef = useRef(null)
+
+    useEffect(() => {
+        if (isLoginOpen && loginModalRef.current) {
+            loginModalRef.current.focus();
+        }
+    }, [isLoginOpen]);
 
     useEffect(() => {
         const fetchPublicacoes = async () => {
@@ -86,7 +93,7 @@ export default function HomePage() {
 
             {isLoginOpen && (
                 <div className="fixed inset-0 flex justify-center items-center bg-black/50">
-                    <LoginForm onClickX={() => setIsLoginOpen(false)} onSucess={() => setTimeout(() => setIsLoginOpen(false), 3000)} />
+                    <LoginForm ref={loginModalRef} onClickX={() => setIsLoginOpen(false)} onSucess={() => setTimeout(() => setIsLoginOpen(false), 3000)} />
                 </div>
             )}
         </div>

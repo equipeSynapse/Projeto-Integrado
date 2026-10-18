@@ -15,4 +15,6 @@ router.post('/login', authController.login)
 
 router.post('/esqueci-senha', authController.esqueciSenha)
 
+router.post('/redefinir-senha', authController.redefinirSenha)
+
 export default router;

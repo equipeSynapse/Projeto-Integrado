@@ -15,9 +15,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/publicacao/:id" element={<PublicacaoPage />} />
             <Route path="/cadastro" element={<CadastroPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/publicacoes" element={<PublicacoesPage />} />
-          
+            <Route path="/login" element={<LoginPage />} />          
         </Routes>
     </BrowserRouter>
 

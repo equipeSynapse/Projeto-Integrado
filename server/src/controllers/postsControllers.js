@@ -2,7 +2,7 @@ import { pool } from "../database/db.js";
 
 export const buscarPublicacoes = async (req, res) => {
     try {
-        const resultado = await pool.query('SELECT p.*, u.nome_usuario FROM publicacoes p INNER JOIN usuarios u ON p.autor_email = u.email')
+        const resultado = await pool.query('SELECT p.*, u.nome_usuario FROM publicacoes p INNER JOIN usuarios u ON p.autor_email = u.email ORDER BY criado_em DESC')
         
         const publicacoes = resultado.rows
 

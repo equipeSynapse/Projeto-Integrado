@@ -7,8 +7,7 @@ import { loginUsuario } from "../services/login";
 // Garantir que o usuário insira um e-mail válido antes de tentar logar
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@(alu\.)?ufc\.br$/i;
 
-export default function LoginConta({onClickX, onSucess, ref}) {
-  const navigate = useNavigate(); // Redirecionar página
+export default function LoginConta({onClickX, onClickRegister, onSucess, ref}) {
 
   //Criando Fom com email e senha
   const [formData, setFormData] = useState({
@@ -129,9 +128,6 @@ export default function LoginConta({onClickX, onSucess, ref}) {
             type="submit"
             className={`flex flex-col h-[48px] items-center justify-center w-full rounded-[8px] bg-[#3c4043] hover:bg-black cursor-pointer
             }`}
-            /* OU disabled={!isFormValid}
-            className={`flex flex-col h-[48px] items-center justify-center w-full rounded-[8px] transition-colors ${
-              isFormValid ? "bg-[#3c4043] hover:bg-black cursor-pointer" : "bg-[#9d9fa1] cursor-not-allowed"  || Os 2 juntos nn fzm sentido*/
           >
             <p className="font-poppins font-medium text-[14px] text-center text-white">
               Entrar
@@ -141,9 +137,9 @@ export default function LoginConta({onClickX, onSucess, ref}) {
            {/*Botão: Mudar para Cadastro*/}
           <p className="font-poppins font-normal text-[14px] text-black text-center">
             <span className="leading-[1.5]">Ainda não tem uma conta? </span>
-            <Link to="/cadastro" className="font-poppins font-medium leading-[1.5] cursor-pointer underline">
+            <span onClick={onClickRegister} className="font-poppins font-medium leading-[1.5] cursor-pointer underline">
               Registre-se
-            </Link>
+            </span>
           </p>
         </div>
 

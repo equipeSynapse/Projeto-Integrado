@@ -97,7 +97,11 @@ export default function HomePage() {
 
             {isLoginOpen && (
                 <div className="fixed inset-0 flex justify-center items-center bg-black/50">
-                    <LoginForm ref={loginModalRef} onClickX={() => setIsLoginOpen(false)} onSucess={() => setTimeout(() => setIsLoginOpen(false), 3000)} />
+                    <LoginForm 
+                        ref={loginModalRef} 
+                        onClickX={() => setIsLoginOpen(false)} onSucess={() => setTimeout(() => setIsLoginOpen(false), 3000)} 
+                        onClickRegister={() => {setIsLoginOpen(false); setIsCadastroOpen(true)}}
+                    />
                 </div>
             )}
 

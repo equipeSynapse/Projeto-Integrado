@@ -16,3 +16,18 @@ export const buscarPublicacoes = async (req, res) => {
     }
 }
 
+export const incrementarVisualizacao = async (req, res) => {
+    try {
+        const { id } = req.body;
+
+        pool.query('UPDATE publicacoes SET qtd_visualizacoes = qtd_visualizacoes + 1 WHERE id = $1', [id])
+
+        return res.status(200).json({mensagem: "Quantidade de visualizações de publicação Atualizada."});
+    } catch (error) {
+        console.log("Erro ao atualizar número de visualizações de postagem", error);
+        return res.status(500).json({
+            error: "Erro ao atualizar número de visualizações de postagem."
+        })
+    }
+}
+

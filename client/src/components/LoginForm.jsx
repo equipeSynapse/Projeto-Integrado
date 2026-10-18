@@ -7,7 +7,7 @@ import { loginUsuario } from "../services/login";
 // Garantir que o usuário insira um e-mail válido antes de tentar logar
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@(alu\.)?ufc\.br$/i;
 
-export default function LoginConta() {
+export default function LoginConta({onClickX, onSucess, ref}) {
   const navigate = useNavigate(); // Redirecionar página
 
   //Criando Fom com email e senha
@@ -56,7 +56,7 @@ export default function LoginConta() {
         const response = await loginUsuario({ email: formData.email, senha: formData.senha });
         console.log("Login realizado com sucesso", response);
         localStorage.setItem("token", response.token);
-        navigate("/");
+        onSucess()
       } catch (error) {
         // 2. Erro de credenciais incorretas 
         if (error.response && error.response.status === 401) {
@@ -75,10 +75,9 @@ export default function LoginConta() {
 
   return (
     
-    <div className="bg-white border border-[#e5e5e5] border-solid min-h-[550px] relative rounded-[16px] w-141 p-[31px] flex flex-col">
+    <div ref={ref} role="dialog" tabIndex={-1} aria-modal="true" className="bg-white border border-[#e5e5e5] border-solid min-h-[550px] relative rounded-[16px] w-141 p-[31px] flex flex-col">
       
-       {/*Botão X ------ Vai pra onde?*/}
-      <button type="button" className="absolute cursor-pointer right-[31px] top-[31px] size-[24px]" aria-label="Fechar">
+      <button type="button" onClick={onClickX} className="absolute cursor-pointer right-[31px] top-[31px] size-[24px]" aria-label="Fechar">
         <img alt="Fechar" src={closeIcon} className="block inset-0 max-w-none size-full" />
       </button>
 

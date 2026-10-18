@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { CadastroSucessoModal } from "./CadastroSucessoModal";
 import closeIcon from "../assets/icons/close.svg";
 import checkMetIcon from "../assets/icons/check-met.svg";
 import checkUnmetIcon from "../assets/icons/check-unmet.svg";
@@ -19,7 +20,9 @@ function getPasswordRequirements(senha) {
   ];
 }
 
-export default function CriarConta() {
+export default function CriarConta({onClickX, onClickLoginBtn}) {
+  const [sucessoEmail, setSucessoEmail] = useState(null);
+
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     nome_completo: "",
@@ -74,7 +77,7 @@ export default function CriarConta() {
     try {
       await cadastrarUsuario({ ...formData })
       console.log("Usuário cadastrado com sucesso")
-      alert("Usuário cadastrado com sucesso! Um e-mail de ativação foi enviado.")
+      setSucessoEmail(formData.email.trim())
     } catch (error) {
       console.error("Erro ao criar usuário:", error)
       alert("Erro ao criar usuário: " + error.response.data.mensagem);
@@ -83,7 +86,7 @@ export default function CriarConta() {
 
   return (
     <div className="bg-white border border-[#e5e5e5] border-solid h-177.5 relative rounded-[16px] w-141">
-      <button type="button" className="absolute cursor-pointer left-[509px] size-[24px] top-[31px]" aria-label="Fechar">
+      <button onClick={onClickX} type="button" className="absolute cursor-pointer left-[509px] size-[24px] top-[31px]" aria-label="Fechar">
         <img alt="" src={closeIcon} className="absolute block inset-0 max-w-none size-full" />
       </button>
 
@@ -269,6 +272,10 @@ export default function CriarConta() {
             </button>
           </p>
         </form>
+      )}
+
+      {sucessoEmail && (
+        <CadastroSucessoModal email={sucessoEmail} onClose={() => {setSucessoEmail(null); onClickX()}} onClickLoginBtn={onClickLoginBtn} />
       )}
     </div>
   );

@@ -4,10 +4,12 @@ import { getPublicacoes } from "../../services/publicacoes";
 import Header from "../../components/Header";
 import { InputSearch } from "../../components/publicacoes/InputSearch";
 import Button from "../../components/Button";
+import CadastroForm from '../../components/CadastroForm';
 import LoginForm from "../../components/LoginForm";
 import calendarIcon from "../../assets/icons/calendar.png";
 import DateRangePicker from "../../components/DateRangePicker";
 import isUserLoggedIn from "../../utils/auth";
+import { CadastroSucessoModal } from "../../components/CadastroSucessoModal";
 
 export default function HomePage() {
     const [busca, setBusca] = useState("");
@@ -16,11 +18,15 @@ export default function HomePage() {
     const [isLoginOpen, setIsLoginOpen] = useState(false);
     const loginModalRef = useRef(null)
 
+    const [isCadastroOpen, setIsCadastroOpen] = useState(false);
+    const cadastroModalRef = useRef(null)
+
     useEffect(() => {
         if (isLoginOpen && loginModalRef.current) {
             loginModalRef.current.focus();
         }
     }, [isLoginOpen]);
+    
 
     useEffect(() => {
         const fetchPublicacoes = async () => {
@@ -65,9 +71,7 @@ export default function HomePage() {
                     : 
                     <div className="flex justify-between gap-[24px] items-center h-[10px] text-nowrap">
                         <Button variant="text" onClick={() => setIsLoginOpen(true)}> Entre </Button>
-                        <Button variant="cta">
-                            <span> Cadastre-se </span>
-                        </Button>
+                        <Button variant="cta" onClick={() => setIsCadastroOpen(true)}> Cadastre-se </Button>
                     </div>}
 
             </Header>
@@ -94,6 +98,16 @@ export default function HomePage() {
             {isLoginOpen && (
                 <div className="fixed inset-0 flex justify-center items-center bg-black/50">
                     <LoginForm ref={loginModalRef} onClickX={() => setIsLoginOpen(false)} onSucess={() => setTimeout(() => setIsLoginOpen(false), 3000)} />
+                </div>
+            )}
+
+            {isCadastroOpen && (
+                <div className="fixed inset-0 flex justify-center items-center bg-black/50">
+                    <CadastroForm 
+                        ref={cadastroModalRef} 
+                        onClickX={() => setIsCadastroOpen(false)} onSucess={() => setTimeout(() => setIsCadastroOpen(false), 3000)} 
+                        onClickLoginBtn={() => {setIsCadastroOpen(false); setIsLoginOpen(true)}}
+                    />
                 </div>
             )}
         </div>

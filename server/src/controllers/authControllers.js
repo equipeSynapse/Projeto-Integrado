@@ -4,6 +4,7 @@ import {v4 as uuidv4} from "uuid";
 import { enviarEmailConfirmacao } from "../services/enviarEmailConfirmacao.js";
 import { compararHash } from "../utils/hashConfig.js";
 import { pool } from "../database/db.js";
+import { enviarEmailRedefinirSenha } from "../services/enviarEmailRedefinirSenha.js";
 
 export const cadastrar = async (req, res) => {
     try {
@@ -137,9 +138,19 @@ export const esqueciSenha = async (req, res) => {
     try {
         const { email } = req.body;
 
+        if (!email || !email.trim()) {
+            return res.status(400).json({mensagem: 'O email deve ser informado para a redefinição de senha.'})
+        }
+
         const tokenRedefinicao = uuidv4();
 
-        pool.query('UPDATE usuarios SET token_ativacao = $1 WHERE email = $2', [tokenRedefinicao, email])
+        await pool.query('UPDATE usuarios SET token_ativacao = $1 WHERE email = $2', [tokenRedefinicao, email])
+
+        await enviarEmailRedefinirSenha(email, tokenRedefinicao);
+
+        return res.status(200).json({
+            mensagem: 'E-mail para redefinição de senha enviado com sucesso!'
+        });
 
     } catch (error) {
         console.log(error);

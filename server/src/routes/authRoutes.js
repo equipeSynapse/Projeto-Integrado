@@ -13,4 +13,6 @@ router.get('/ativar-conta', authController.ativarConta)
 
 router.post('/login', authController.login)
 
+router.post('/esqueci-senha', authController.esqueciSenha)
+
 export default router;

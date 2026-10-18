@@ -1,4 +1,4 @@
-export const emailConfirmacaoTemplate = (link) => `
+export const emailRedefinicaoSenhaTemplate = (link) => `
    <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -21,8 +21,8 @@ export const emailConfirmacaoTemplate = (link) => `
         </tr>
         <tr>
             <td style="width: 20%; background-color: #F1F3F4;"> </td>
-            <td align="center">
-                <table>
+            <td align="center" style="border: 2px solid #e5e5e5;">
+                <table width="100%">
                     <tr>
                         <td align="center" style="padding: 24px 24px;">
                             <table style="background-color: #e0e0e0; width: 148px; height: 48px; margin: 24px;">

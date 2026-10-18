@@ -1,7 +1,7 @@
 import UserService from "../services/userServices.js";
 import jwt from "jsonwebtoken";
 import {v4 as uuidv4} from "uuid";
-import { enviarEmailConfirmacao } from "../services/enviarEmail.js";
+import { enviarEmailConfirmacao } from "../services/enviarEmailConfirmacao.js";
 import { compararHash } from "../utils/hashConfig.js";
 import { pool } from "../database/db.js";
 
@@ -100,7 +100,6 @@ export const ativarConta = async (req, res) => {
     }
 }
 
-
 export const login = async (req, res) => {
     try {
         const { email, senha } = req.body;
@@ -131,5 +130,21 @@ export const login = async (req, res) => {
         return res.status(500).json({
             mensagem: "Erro interno no servidor. Tente efetuar o login novamente mais tarde."
         })
+    }
+}
+
+export const esqueciSenha = async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        const tokenRedefinicao = uuidv4();
+
+        pool.query('UPDATE usuarios SET token_ativacao = $1 WHERE email = $2', [tokenRedefinicao, email])
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            mensagem: 'Erro interno no servidor. Tente novamente mais tarde.'
+        });
     }
 }

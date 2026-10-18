@@ -1,0 +1,95 @@
+export const emailConfirmacaoTemplate = (link) => `
+   <!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Mural SMD - Redefinição de Senha </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Sekuya&display=swap"
+        rel="stylesheet">
+</head>
+
+<body
+    style="margin: 0; font-family: 'Poppins', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">
+    <table width="100%" style="border-collapse: collapse;">
+        <tr style="background-color: #F1F3F4; height: 48px;">
+            <td colspan="3"> </td>
+        </tr>
+        <tr>
+            <td style="width: 20%; background-color: #F1F3F4;"> </td>
+            <td align="center">
+                <table>
+                    <tr>
+                        <td align="center" style="padding: 24px 24px;">
+                            <table style="background-color: #e0e0e0; width: 148px; height: 48px; margin: 24px;">
+                                <tr align="center">
+                                    <td> Logo </td>
+                                </tr>
+                            </table>
+
+                            <h1 style="margin: 24px 0; max-width: 70%;"> Esqueceu sua senha? Isso acontece! </h1>
+                            <p style="margin: 10px;"> Recebemos uma solicitação para redefinir a senha da sua conta. </p>
+                            <p style="margin: 10px 0 20px; max-width: 80%"> Para redefinir sua senha, clique no botão abaixo. 
+                            O link ficará inválido após 20 minutos. </p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td align="center" cellpadding="0" style="background-color: #e0e0e0; height: 260px;">
+                            Grafismos
+                        </td>
+                    </tr>
+
+                    <tr align="center">
+                        <td>
+                            <table style="padding: 24px 48px 48px;" width="100%">
+                                <tr>
+                                    <td align="center" height="36px" style="background-color: #3C4043; padding: 12px; border-radius: 50px;">
+                                        <a style="color: #e5e5e5; text-decoration: none;" target="_blank" rel="noopener noreferrer" href=${link}> Redefinir sua senha </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p style="margin: 34px 0;"> Se o botão não funcionar, você pode copiar e colar a seguinte URL no seu navegador: ${link}
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Se você não quiser mudar sua senha ou não solicitou uma redefinição,
+                                        pode ignorar e deletar esse e-mail.
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0 48px;">
+                            <table width="100%" style="border-top: 1px solid #3C4043; padding: 24px 0;">
+                                <tr align="right">
+                                    <td style="font-size: 10px; color: #707070">
+                                        Esta é uma mensagem automática. Favor não responder.
+                                    </td>
+                                </tr>
+                            </table>
+                        </td> 
+                    </tr>
+                </table>
+            </td>
+
+             <td style="width: 20%; background-color: #F1F3F4;"> </td>
+        </tr>
+
+        <tr style="background-color: #F1F3F4; height: 48px;">
+            <td colspan="3"> </td>
+        </tr>
+
+    </table>
+</body>
+
+</html>
+`

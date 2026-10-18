@@ -1,9 +1,10 @@
 import UserService from "../services/userServices.js";
 import jwt from "jsonwebtoken";
 import {v4 as uuidv4} from "uuid";
-import { enviarEmailConfirmacao } from "../services/enviarEmail.js";
-import { compararHash } from "../utils/hashConfig.js";
+import { enviarEmailConfirmacao } from "../services/enviarEmailConfirmacao.js";
+import { compararHash, gerarHash } from "../utils/hashConfig.js";
 import { pool } from "../database/db.js";
+import { enviarEmailRedefinirSenha } from "../services/enviarEmailRedefinirSenha.js";
 
 export const cadastrar = async (req, res) => {
     try {
@@ -100,7 +101,6 @@ export const ativarConta = async (req, res) => {
     }
 }
 
-
 export const login = async (req, res) => {
     try {
         const { email, senha } = req.body;
@@ -130,6 +130,56 @@ export const login = async (req, res) => {
         console.log("Erro ao efetuar login:", error);
         return res.status(500).json({
             mensagem: "Erro interno no servidor. Tente efetuar o login novamente mais tarde."
+        })
+    }
+}
+
+export const esqueciSenha = async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        if (!email || !email.trim()) {
+            return res.status(400).json({mensagem: 'O email deve ser informado para a redefinição de senha.'})
+        }
+
+        const tokenRedefinicao = uuidv4();
+
+        await pool.query('UPDATE usuarios SET token_ativacao = $1 WHERE email = $2', [tokenRedefinicao, email])
+
+        await enviarEmailRedefinirSenha(email, tokenRedefinicao);
+
+        return res.status(200).json({
+            mensagem: 'E-mail para redefinição de senha enviado com sucesso!'
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            mensagem: 'Erro interno no servidor. Tente novamente mais tarde.'
+        });
+    }
+}
+
+export const redefinirSenha = async (req, res) => {
+    try {
+        const { token } = req.query;
+        const { senha } = req.body;
+
+        if (!token || !token.trim()) return res.status(400).json({mensagem: "Token de Redefinição Ausente!"})
+        if (!senha || !senha.trim()) return res.status(400).json({mensagem: "É necessário informar uma nova senha."})
+
+        const resultado = await pool.query('SELECT * FROM usuarios WHERE token_ativacao = $1', [token])
+
+        if (resultado.rows.length === 0) return res.status(400).json({mensagem: "Token de Redefinição Inválido!"})
+
+        await pool.query('UPDATE usuarios SET token_ativacao = NULL, senha = $1 WHERE token_ativacao = $2', [await gerarHash(senha), resultado.rows[0].token_ativacao])
+
+        return res.status(200).json({mensagem: `Senha Alterada!`})
+
+    } catch (error) {
+        console.log("Erro ao redefinir senha:", error);
+        return res.status(500).json({
+            mensagem: "Erro interno no servidor. Tente redefinir a senha novamente mais tarde."
         })
     }
 }

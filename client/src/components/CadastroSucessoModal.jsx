@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
 import { Check } from "lucide-react";
 import closeIcon from "../assets/icons/close.svg";
 import Button from "./Button";
@@ -68,7 +67,5 @@ export function CadastroSucessoModal({ email, onClose, onClickLoginBtn }) {
           Ir para o login
         </Button>
       </div>
-
-      
   );
 }

@@ -7,9 +7,11 @@ import timestampMsg from "../../utils/timestampMsg";
 import viewObserver from "../../utils/viewObserver";
 import isUserLoggedIn from "../../utils/auth";
 import { useState } from "react";
+import { BiSolidFilePdf } from "react-icons/bi";
+import { ArrowUpRight } from "lucide-react";
 import CopiarLinkBtn from "./CopiarLinkBtn";
 
-export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, titulo, descricao, link, email, telefone, qtdVisualizacoes, expiracao }) {
+export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, titulo, descricao, link, email, telefone, anexos, qtdVisualizacoes, expiracao }) {
   const cardRef = viewObserver(id)
   const [expandido, setExpandido] = useState(false)
 
@@ -33,10 +35,10 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
       <div className="flex flex-col gap-[24px]">
         <h2 className="font-semibold leading-tight text-[16px] text-black">{titulo}</h2>
         <p className="className={`font-medium leading-stitch text-[14px] text-[#3c4043] whitespace-pre-line">
-          {((expandido || descricao.length < 60) || variant === "completo")? descricao : `${descricao.slice(0, descricao.lastIndexOf(' ', 60))}... `} 
-          {(!expandido && variant !== "completo") ? <button className="text-[#8d8d8d] font-medium hover:cursor-pointer" onClick={() => setExpandido(true)}> mostrar mais </button>:''}
+          {((expandido || descricao.length < 60) || variant === "completo") ? descricao : `${descricao.slice(0, descricao.lastIndexOf(' ', 60))}... `}
+          {(!expandido && variant !== "completo") ? <button className="text-[#8d8d8d] font-medium hover:cursor-pointer" onClick={() => setExpandido(true)}> mostrar mais </button> : ''}
         </p>
-        
+
         {(expandido || variant === "completo") && (link || email || telefone) ?
           <div className="flex flex-col gap-[24px]">
             <h2 className="font-semibold leading-none text-[14px] text-black"> Informações adicionais </h2>
@@ -58,10 +60,33 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
             </div>
           </div>
           : ''}
+
+        {((expandido || variant === "completo") && (anexos)) &&
+          <div className="flex flex-col gap-[24px]">
+            <h2 className="font-semibold leading-none text-[14px] text-black"> Material anexado </h2>
+            <div className="flex flex-col gap-[16px]">
+              {anexos.map((anexo) =>
+                <div
+                  className="flex justify-between items-center h-[66px] px-[24px] py-[16px] border border-[#e5e5e5] rounded-[8px]"
+                >
+                  <div className="flex items-center gap-[10px]">
+                    <BiSolidFilePdf size="24px" color="#EA4345" />
+                    <div className="flex flex-col gap-[4px]">
+                      <span> {anexo.nome} </span>
+                      <span className="text-[12px] text-[#909090]"> {anexo.tipo} · {anexo.tamanho}kb </span>
+                    </div>
+                  </div>
+                  <a href={anexo.url} target="_blank" rel="noopener noreferrer" alt={`Acessar Documento ${anexo.nome}`}> <ArrowUpRight size="18px" /> </a>
+                </div>
+
+              )}
+            </div>
+          </div>
+        }
       </div>
 
       {imagem && <div className="bg-[#e5e5e5] rounded-[16px] w-full min-h-[310px] shrink-0 overflow-hidden">
-         <img src={imagem} alt={titulo} className="size-full object-cover" />
+        <img src={`${imagem}#toolbar=0`} alt={titulo} className="size-full object-cover" />
       </div>}
 
       <hr className="w-full border-[#e5e5e5]" />

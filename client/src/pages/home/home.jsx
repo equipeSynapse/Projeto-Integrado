@@ -10,6 +10,7 @@ import calendarIcon from "../../assets/icons/calendar.png";
 import DateRangePicker from "../../components/DateRangePicker";
 import isUserLoggedIn from "../../utils/auth";
 import CategoriaCard from "../../components/CategoriaCard";
+import Toast from "../../components/toasts/Toast";
 
 export default function HomePage() {
     const [busca, setBusca] = useState("");
@@ -20,6 +21,8 @@ export default function HomePage() {
 
     const [isCadastroOpen, setIsCadastroOpen] = useState(false);
     const cadastroModalRef = useRef(null)
+
+    const [toastMessage, setToastMessage] = useState(null);
 
     const categorias = ['Avisos Administrativos', 'Bolsas', 'Estágios', 'Eventos', 'Comunidade', 'Divulgação']
     const [categoriasSelecionadas, setCategoriasSelecionadas] = useState([])
@@ -130,7 +133,11 @@ export default function HomePage() {
                 <div className="fixed inset-0 flex justify-center items-center bg-black/50">
                     <LoginForm
                         ref={loginModalRef}
-                        onClickX={() => setIsLoginOpen(false)} onSucess={() => setTimeout(() => setIsLoginOpen(false), 3000)}
+                        onClickX={() => setIsLoginOpen(false)} 
+                        onSucess={() => {
+                            setTimeout(() => setIsLoginOpen(false), 3000);
+                            setToastMessage("Conta criada com sucesso! Bem-vindo ao Mural.");
+                        }}
                         onClickRegister={() => { setIsLoginOpen(false); setIsCadastroOpen(true) }}
                     />
                 </div>
@@ -146,6 +153,10 @@ export default function HomePage() {
                     />
                 </div>
             )}
+
+            {toastMessage && 
+                <Toast titulo="Boas-vindas ao Mural SMD!" mensagem="Seu login foi realizado com sucesso." onClose={() => setToastMessage(false)}/>
+            }
         </div>
     );
 }

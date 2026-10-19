@@ -16,7 +16,7 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
   const [expandido, setExpandido] = useState(false)
 
   return (
-    <article ref={cardRef} tabIndex="0" aria-label={`Publicação ${titulo}`} className="bg-white border border-[#e5e5e5] border-solid rounded-[16px] p-[20px] flex flex-col gap-[24px] items-start w-full max-w-[777px] text-[14px] font-poppins">
+    <article ref={cardRef} tabIndex="0" aria-label={`Publicação ${titulo}`} className="bg-white border border-[#e5e5e5] border-solid rounded-[16px] p-[20px] flex flex-col gap-[24px] items-start w-full max-w-[778px] text-[14px] font-poppins">
       <div className="w-full flex justify-between items-start">
         <div className="flex gap-[12px]">
           <div className="bg-gray-200 size-[40px] rounded-[50px] flex items-center justify-center"> {autor[0].toUpperCase()} </div>
@@ -41,7 +41,7 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
 
         {(expandido || variant === "completo") && (link || email || telefone) ?
           <div className="flex flex-col gap-[24px]">
-            <h2 className="font-semibold leading-none text-[14px] text-black"> Informações adicionais </h2>
+            <h3 className="font-semibold leading-none text-[14px] text-black"> Informações adicionais </h3>
             <div className="flex flex-col gap-[16px]">
               {link ? <div className="flex items-center gap-[10px]">
                 <img src={link2Icon} className="size-[18px] rotate-135" />
@@ -61,12 +61,13 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
           </div>
           : ''}
 
-        {((expandido || variant === "completo") && (anexos)) &&
+        {(expandido || variant === "completo") && (anexos?.length > 0) ?
           <div className="flex flex-col gap-[24px]">
-            <h2 className="font-semibold leading-none text-[14px] text-black"> Material anexado </h2>
+            <h3 className="font-semibold leading-none text-[14px] text-black"> Material anexado </h3>
             <div className="flex flex-col gap-[16px]">
-              {anexos.map((anexo) =>
+              {anexos.map((anexo, index) =>
                 <div
+                  key={index}
                   className="flex justify-between items-center h-[66px] px-[24px] py-[16px] border border-[#e5e5e5] rounded-[8px]"
                 >
                   <div className="flex items-center gap-[10px]">
@@ -82,7 +83,7 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
               )}
             </div>
           </div>
-        }
+        : ""}
       </div>
 
       {imagem && <div className="bg-[#e5e5e5] rounded-[16px] w-full min-h-[310px] shrink-0 overflow-hidden">

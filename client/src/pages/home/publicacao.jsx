@@ -87,6 +87,7 @@ export default function PublicacaoPage() {
                         link={p.link}
                         autor={p.nome_usuario}
                         email={p.email}
+                        anexos={p.anexos}
                         qtdVisualizacoes={p.qtd_visualizacoes}
                         expiracao={p.expiracao}
                     />

@@ -66,8 +66,12 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
             <h3 className="font-semibold leading-none text-[14px] text-black"> Material anexado </h3>
             <div className="flex flex-col gap-[16px]">
               {anexos.map((anexo, index) =>
-                <div
+                <a
                   key={index}
+                  href={anexo.url} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  alt={`Acessar Documento ${anexo.nome}`}
                   className="flex justify-between items-center h-[66px] px-[24px] py-[16px] border border-[#e5e5e5] rounded-[8px]"
                 >
                   <div className="flex items-center gap-[10px]">
@@ -77,9 +81,8 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
                       <span className="text-[12px] text-[#909090]"> {anexo.tipo} · {anexo.tamanho}kb </span>
                     </div>
                   </div>
-                  <a href={anexo.url} target="_blank" rel="noopener noreferrer" alt={`Acessar Documento ${anexo.nome}`}> <ArrowUpRight size="18px" /> </a>
-                </div>
-
+                  <div> <ArrowUpRight size="18px" /> </div>
+                </a>
               )}
             </div>
           </div>

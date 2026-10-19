@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import closeIcon from "../assets/icons/close.svg";
 import { InputField } from "./InputField";
 import { loginUsuario } from "../services/login";
+import Button from "../components/Button";
 
 // Garantir que o usuário insira um e-mail válido antes de tentar logar
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@(alu\.)?ufc\.br$/i;
@@ -124,15 +125,16 @@ export default function LoginConta({onClickX, onClickRegister, onSucess, ref}) {
 
         {/*Botão: Enviar*/}
         <div className="mt-auto pt-[80px] flex flex-col gap-[16px] items-center w-full">
-          <button
+          <Button
             type="submit"
+            variant="cta"
             className={`flex flex-col h-[48px] items-center justify-center w-full rounded-[8px] bg-[#3c4043] hover:bg-black cursor-pointer
             }`}
           >
             <p className="font-poppins font-medium text-[14px] text-center text-white">
               Entrar
             </p>
-          </button>
+          </Button>
 
            {/*Botão: Mudar para Cadastro*/}
           <p className="font-poppins font-normal text-[14px] text-black text-center">

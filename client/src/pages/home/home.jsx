@@ -46,10 +46,6 @@ export default function HomePage() {
         fetchPublicacoes();
     }, []);
 
-    useEffect(() => {
-        console.log(categoriasSelecionadas)
-    }, [categoriasSelecionadas]);
-
     const termo = busca.toLowerCase().replace(/^@/, "");
 
     const filtradas = publicacoes.filter(
@@ -135,7 +131,7 @@ export default function HomePage() {
                         ref={loginModalRef}
                         onClickX={() => setIsLoginOpen(false)} 
                         onSucess={() => {
-                            setTimeout(() => setIsLoginOpen(false), 3000);
+                            setIsLoginOpen(false);
                             setToastMessage("Conta criada com sucesso! Bem-vindo ao Mural.");
                         }}
                         onClickRegister={() => { setIsLoginOpen(false); setIsCadastroOpen(true) }}

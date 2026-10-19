@@ -111,6 +111,7 @@ export default function HomePage() {
                     <CadastroForm 
                         ref={cadastroModalRef} 
                         onClickX={() => setIsCadastroOpen(false)} onSucess={() => setTimeout(() => setIsCadastroOpen(false), 3000)} 
+                        onClickEntrar={() => {setIsCadastroOpen(false); setIsLoginOpen(true)}}
                         onClickLoginBtn={() => {setIsCadastroOpen(false); setIsLoginOpen(true)}}
                     />
                 </div>

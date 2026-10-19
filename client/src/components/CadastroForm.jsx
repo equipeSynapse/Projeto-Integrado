@@ -20,7 +20,7 @@ function getPasswordRequirements(senha) {
   ];
 }
 
-export default function CriarConta({onClickX, onClickLoginBtn}) {
+export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn}) {
   const [sucessoEmail, setSucessoEmail] = useState(null);
 
   const [step, setStep] = useState(1);
@@ -267,7 +267,7 @@ export default function CriarConta({onClickX, onClickLoginBtn}) {
 
           <p className="absolute font-poppins font-normal leading-[0] left-[54px] right-[54px] text-[14px] text-black text-center top-[656px]">
             <span className="leading-[1.5]">Já tem uma conta? </span>
-            <button type="button" className="font-poppins font-medium leading-[1.5] cursor-pointer">
+            <button onClick={onClickEntrar} className="font-poppins font-medium leading-[1.5] cursor-pointer">
               Entrar
             </button>
           </p>

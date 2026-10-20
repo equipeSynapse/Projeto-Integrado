@@ -1,6 +1,6 @@
 export function InputSearch({ value, onChange, onKeyDown, placeholder = "Pesquisar por título ou usuário" }) {
     return (
-        <div className="relative flex items-center w-full max-w-[400px]">
+        <div className="relative flex items-center w-[400px]">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"

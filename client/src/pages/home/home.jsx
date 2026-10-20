@@ -22,6 +22,9 @@ export default function HomePage() {
     const [isCadastroOpen, setIsCadastroOpen] = useState(false);
     const cadastroModalRef = useRef(null)
 
+    const { dataInicio, dataFim, ComponenteDate } = DateRangePicker({onClickX: () => {setIsCalendarOpen(false)}});
+    const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+
     const [toastMessage, setToastMessage] = useState(null);
 
     const categorias = ['Avisos Administrativos', 'Bolsas', 'Estágios', 'Eventos', 'Comunidade', 'Divulgação']
@@ -52,20 +55,29 @@ export default function HomePage() {
         (p) =>
             (p.titulo.toLowerCase().includes(busca.toLowerCase()) ||
             (p.nome_usuario ?? "").toLowerCase().includes(termo)) &&
-            (categoriasSelecionadas.length == 0 || categoriasSelecionadas.includes(p.categoria))
+            (categoriasSelecionadas.length == 0 || categoriasSelecionadas.includes(p.categoria)) &&
+            (!dataInicio || new Date(dataInicio) <= new Date(p.criado_em)) &&
+            (!dataFim || new Date(dataFim) >= new Date(p.criado_em))
     );
 
     return (
         <div className="min-h-screen bg-white">
             <Header>
-                <div className="flex items-center gap-6 w-full">
+                <div className="relative flex items-center gap-6 w-full">
                     <div> Logo </div>
                     <InputSearch onKeyDown={(e) => { if (e.key === 'Enter') setBusca(e.target.value) }} />
-
-                    <Button variant="second">
+            
+                    <Button variant="second" onClick={() => { setIsCalendarOpen(!isCalendarOpen) }}>
                         <img src={calendarIcon} className="size-[18px]" />
-                        <span> Período </span>
+                        <span className="whitespace-nowrap">
+                            {(dataInicio && dataFim) ?
+                                `${new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(dataInicio)} - 
+                             ${new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(dataFim)}`
+                                : "Período"}
+                        </span>
                     </Button>
+
+                    {isCalendarOpen && <div className="absolute z-2 left-[480px] top-[90px]"> {ComponenteDate} </div>}
                 </div>
 
 
@@ -85,15 +97,16 @@ export default function HomePage() {
             </Header>
 
             <main className="flex flex-col gap-[24px] px-[31px] py-[32px] max-w-[960px] mx-auto">
+
                 <section className="max-w-[778px] flex flex-col gap-[24px]">
                     <h2 className="text-[20px] font-semibold font-poppins"> Explorar categorias de publicações </h2>
                     <div className="grid grid-cols-3 grid-rows-2 gap-[12px]">
-                        {categorias.map((c) => 
-                            <CategoriaCard 
-                                key={c} 
+                        {categorias.map((c) =>
+                            <CategoriaCard
+                                key={c}
                                 texto={c}
                                 onClick={() => {
-                                    if(categoriasSelecionadas.includes(c)) setCategoriasSelecionadas((prev) => prev.filter((item) => item != c))
+                                    if (categoriasSelecionadas.includes(c)) setCategoriasSelecionadas((prev) => prev.filter((item) => item != c))
                                     else setCategoriasSelecionadas((prev) => [...prev, c])
                                 }}
                             />
@@ -104,23 +117,23 @@ export default function HomePage() {
                 <section className="max-w-[778px] flex flex-col gap-[24px]">
                     <h2 className="text-[20px] font-semibold font-poppins"> Novidades para você </h2>
                     <section className="flex flex-col gap-[24px]">
-                    {filtradas.map((p) => (
-                        <PubliCard
-                            key={p.id}
-                            id={p.id}
-                            criadoEm={p.criado_em}
-                            categoria={p.categoria}
-                            imagem={p.imagem ?? null}
-                            titulo={p.titulo ?? "Sem Título"}
-                            descricao={p.descricao ?? "Sem descrição"}
-                            link={p.link}
-                            autor={p.nome_usuario}
-                            email={p.email}
-                            anexos={p.anexos}
-                            qtdVisualizacoes={p.qtd_visualizacoes}
-                            expiracao={p.expiracao}
-                        />
-                    ))}
+                        {filtradas.map((p) => (
+                            <PubliCard
+                                key={p.id}
+                                id={p.id}
+                                criadoEm={p.criado_em}
+                                categoria={p.categoria}
+                                imagem={p.imagem ?? null}
+                                titulo={p.titulo ?? "Sem Título"}
+                                descricao={p.descricao ?? "Sem descrição"}
+                                link={p.link}
+                                autor={p.nome_usuario}
+                                email={p.email}
+                                anexos={p.anexos}
+                                qtdVisualizacoes={p.qtd_visualizacoes}
+                                expiracao={p.expiracao}
+                            />
+                        ))}
                     </section>
                 </section>
             </main>
@@ -129,7 +142,7 @@ export default function HomePage() {
                 <div className="fixed inset-0 flex justify-center items-center bg-black/50">
                     <LoginForm
                         ref={loginModalRef}
-                        onClickX={() => setIsLoginOpen(false)} 
+                        onClickX={() => setIsLoginOpen(false)}
                         onSucess={() => {
                             setIsLoginOpen(false);
                             setToastMessage("Conta criada com sucesso! Bem-vindo ao Mural.");
@@ -150,8 +163,8 @@ export default function HomePage() {
                 </div>
             )}
 
-            {toastMessage && 
-                <Toast titulo="Boas-vindas ao Mural SMD!" mensagem="Seu login foi realizado com sucesso." onClose={() => setToastMessage(false)}/>
+            {toastMessage &&
+                <Toast titulo="Boas-vindas ao Mural SMD!" mensagem="Seu login foi realizado com sucesso." onClose={() => setToastMessage(false)} />
             }
         </div>
     );

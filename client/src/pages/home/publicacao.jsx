@@ -42,12 +42,6 @@ export default function PublicacaoPage() {
             <Header>
                 <div className="flex items-center gap-6 w-full">
                     <div> Logo </div>
-                    <InputSearch />
-
-                    <Button variant="second">
-                        <img src={calendarIcon} className="size-[18px]" />
-                        <span> Período </span>
-                    </Button>
                 </div>
 
 

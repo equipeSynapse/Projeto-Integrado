@@ -6,7 +6,7 @@ import { InputSearch } from "../../components/publicacoes/InputSearch";
 import Button from "../../components/Button";
 import CadastroForm from '../../components/CadastroForm';
 import LoginForm from "../../components/LoginForm";
-import calendarIcon from "../../assets/icons/calendar.png";
+import { Calendar } from "lucide-react";
 import DateRangePicker from "../../components/DateRangePicker";
 import isUserLoggedIn from "../../utils/auth";
 import CategoriaCard from "../../components/CategoriaCard";
@@ -68,7 +68,7 @@ export default function HomePage() {
                     <InputSearch onKeyDown={(e) => { if (e.key === 'Enter') setBusca(e.target.value) }} />
             
                     <Button variant="second" onClick={() => { setIsCalendarOpen(!isCalendarOpen) }}>
-                        <img src={calendarIcon} className="size-[18px]" />
+                        <Calendar className="size-[18px]" />
                         <span className="whitespace-nowrap">
                             {(dataInicio && dataFim) ?
                                 `${new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(dataInicio)} - 

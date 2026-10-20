@@ -1,20 +1,22 @@
+import { jwtDecode } from "jwt-decode";
+
 export default function isUserLoggedIn() {
     const token = localStorage.getItem('token');
     if (!token) return false;
 
     try {
-        const payload = JSON.parse(atob(token.split('.')[1]))
+        const payload = jwtDecode(token)
 
         const expToken = payload.exp * 1000;
 
         if (Date.now() > expToken) {
             localStorage.removeItem('token');
-            return false;
+            return null;
         }
 
-        return true;
+        return payload;
     } catch (error) {
         localStorage.removeItem('token');
-        return false;
+        return null;
     }
 }

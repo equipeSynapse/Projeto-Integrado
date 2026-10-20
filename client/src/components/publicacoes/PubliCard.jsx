@@ -15,6 +15,8 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
   const cardRef = viewObserver(id)
   const [expandido, setExpandido] = useState(false)
 
+  const usuario = isUserLoggedIn();
+
   return (
     <article ref={cardRef} tabIndex="0" aria-label={`Publicação ${titulo}`} className="bg-white border border-[#e5e5e5] border-solid rounded-[16px] p-[20px] flex flex-col gap-[24px] items-start w-full max-w-[778px] text-[14px] font-poppins">
       <div className="w-full flex justify-between items-start">
@@ -28,7 +30,7 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
 
         <div className="flex gap-[24px] items-center">
           <div className="px-[12px] py-[6px] bg-[#e5e5e5] text-[12px] rounded-[50px]"> Expira em {new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(expiracao))} </div>
-          <button> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3C4043" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /><circle cx="5" cy="12" r="1" /></svg> </button>
+          {usuario.usuario === autor && <button> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3C4043" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /><circle cx="5" cy="12" r="1" /></svg> </button>}
         </div>
       </div>
 

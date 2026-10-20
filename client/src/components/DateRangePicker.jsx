@@ -28,7 +28,7 @@ export default function DateRangePicker({onClickX}) {
                 setDataInicio(dataFim)
             } else if (isSameDay(date, dataFim) && !isSameDay(dataFim, dataInicio)) {
                 setDataFim(dataInicio)
-            } else if (isSameDay(dataInicio, dataFim)) {
+            } else if (isSameDay(dataInicio, dataFim) && isSameDay(date, dataInicio)) {
                 setDataInicio(null)
                 setDataFim(null)
             } else {

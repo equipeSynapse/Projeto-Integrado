@@ -142,11 +142,19 @@ export const esqueciSenha = async (req, res) => {
             return res.status(400).json({mensagem: 'O email deve ser informado para a redefinição de senha.'})
         }
 
+        const buscaEmail = await pool.query('SELECT EXISTS (SELECT 1 FROM usuarios WHERE email = $1)', [email]);
+
+        if (!buscaEmail.rows[0].exists) return res.status(400).json({mensagem: "O email informado não consta no banco de dados. Realize um cadastro."}) 
+
         const tokenRedefinicao = uuidv4();
 
         await pool.query('UPDATE usuarios SET token_ativacao = $1 WHERE email = $2', [tokenRedefinicao, email])
 
-        await enviarEmailRedefinirSenha(email, tokenRedefinicao);
+        try {
+            await enviarEmailRedefinirSenha(email, tokenRedefinicao);
+        } catch (error) {
+            return res.status(500).json({mensagem: 'Erro ao enviar e-mail!'})
+        }
 
         return res.status(200).json({
             mensagem: 'E-mail para redefinição de senha enviado com sucesso!'

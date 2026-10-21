@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { PubliCard } from "../../components/publicacoes/PubliCard";
 import { getPublicacoes } from "../../services/publicacoes";
 import Header from "../../components/Header";
@@ -6,6 +7,7 @@ import { InputSearch } from "../../components/publicacoes/InputSearch";
 import Button from "../../components/Button";
 import CadastroForm from '../../components/CadastroForm';
 import LoginForm from "../../components/LoginForm";
+import EsqueciSenhaForm from "../../components/EsqueciSenhaForm";
 import { Calendar } from "lucide-react";
 import DateRangePicker from "../../components/DateRangePicker";
 import isUserLoggedIn from "../../utils/auth";
@@ -16,8 +18,11 @@ export default function HomePage() {
     const [busca, setBusca] = useState("");
     const [publicacoes, setPublicacoes] = useState([]);
 
-    const [isLoginOpen, setIsLoginOpen] = useState(false);
+    const location = useLocation();
+    const [isLoginOpen, setIsLoginOpen] = useState(location.state?.abrirLogin ?? false);
     const loginModalRef = useRef(null)
+
+    const [isEsqueciSenhaOpen, setIsEsqueciSenhaOpen] = useState(false);
 
     const [isCadastroOpen, setIsCadastroOpen] = useState(false);
     const cadastroModalRef = useRef(null)
@@ -148,6 +153,16 @@ export default function HomePage() {
                             setToastMessage("Conta criada com sucesso! Bem-vindo ao Mural.");
                         }}
                         onClickRegister={() => { setIsLoginOpen(false); setIsCadastroOpen(true) }}
+                        onClickEsqueciSenha={() => { setIsLoginOpen(false); setIsEsqueciSenhaOpen(true) }}
+                    />
+                </div>
+            )}
+
+            {isEsqueciSenhaOpen && (
+                <div className="fixed inset-0 flex justify-center items-center bg-black/50">
+                    <EsqueciSenhaForm
+                        onClickX={() => setIsEsqueciSenhaOpen(false)}
+                        onClickVoltar={() => { setIsEsqueciSenhaOpen(false); setIsLoginOpen(true) }}
                     />
                 </div>
             )}

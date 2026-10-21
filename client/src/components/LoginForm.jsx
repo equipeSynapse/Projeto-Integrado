@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import closeIcon from "../assets/icons/close.svg";
 import { InputField } from "./InputField";
 import { loginUsuario } from "../services/login";
@@ -8,7 +7,7 @@ import Button from "../components/Button";
 // Garantir que o usuário insira um e-mail válido antes de tentar logar
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@(alu\.)?ufc\.br$/i;
 
-export default function LoginConta({onClickX, onClickRegister, onSucess, ref}) {
+export default function LoginConta({onClickX, onClickRegister, onClickEsqueciSenha, onSucess, ref}) {
 
   //Criando Fom com email e senha
   const [formData, setFormData] = useState({
@@ -117,9 +116,9 @@ export default function LoginConta({onClickX, onClickRegister, onSucess, ref}) {
           
           {/*Botão: Esqueceu a senha*/}
           <div className="w-full flex justify-end mt-[-10px]">
-            <Link /*to="/esqueceuSenha"*/ className="font-poppins font-medium text-[14px] text-black cursor-pointer hover:underline">
+            <span onClick={onClickEsqueciSenha} className="font-poppins font-medium text-[14px] text-black cursor-pointer hover:underline">
               Esqueceu sua senha?
-            </Link>
+            </span>
           </div>  
         </div>
 

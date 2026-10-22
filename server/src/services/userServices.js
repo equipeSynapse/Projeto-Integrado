@@ -11,7 +11,7 @@ class UserServices {
                 nome_completo,
                 nome_usuario,
                 senha,
-                token_ativacao
+                token
             )
             VALUES ($1, $2, $3, $4, $5)
             RETURNING *;

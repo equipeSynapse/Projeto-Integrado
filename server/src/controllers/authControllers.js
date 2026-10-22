@@ -26,7 +26,7 @@ export const cadastrar = async (req, res) => {
             });
         }
 
-        const tokenAtivacao = uuidv4();
+        const tokenAtivacao = { "token": uuidv4(), "timestamp": Date.now() };
 
         const user = await UserService.createUser(
             email.trim(),
@@ -36,7 +36,7 @@ export const cadastrar = async (req, res) => {
             tokenAtivacao
         );
 
-        await enviarEmailConfirmacao(email.trim(), tokenAtivacao)
+        await enviarEmailConfirmacao(email.trim(), tokenAtivacao["token"])
 
         return res.status(201).json({
             mensagem: 'Usuário criado com sucesso.',
@@ -84,13 +84,17 @@ export const ativarConta = async (req, res) => {
             return res.status(400).json({ mensagem: "Token de Ativação Ausente!" })
         }
 
-        const resultado = await pool.query('SELECT email FROM usuarios WHERE token_ativacao = $1', [token]);
+        const resultado = await pool.query('SELECT email, token FROM usuarios WHERE token->>\'token\' = $1', [token]);
 
         if (resultado.rows.length === 0) {
             return res.status(400).json({ mensagem: "Token de Ativação Inválido ou Conta já Ativada!" })
         }
 
-        await pool.query('UPDATE usuarios SET ativo = true, token_ativacao = NULL WHERE email = $1', [resultado.rows[0].email]);
+        if ((Date.now() - resultado.rows[0].token["timestamp"])/(1000 * 60) > 10 ) {
+            return res.status(401).json( {mensagem: "Token de Ativação Expirado!"})
+        }
+
+        await pool.query('UPDATE usuarios SET ativo = true, token = NULL WHERE email = $1', [resultado.rows[0].email]);
 
         return res.status(200).json({ mensagem: "Conta Ativada com Sucesso! Seu login já está autorizado!" })
     } catch (error) {
@@ -122,7 +126,7 @@ export const login = async (req, res) => {
         //Verifica se o usuário selecionado tem conta ativa
         if (resultado.rows[0].ativo !== true) return res.status(409).json({"mensagem": "Essa conta ainda não foi ativada. Verifique seu e-mail."})
 
-        const token = jwt.sign({"email":resultado.rows[0].email, "usuario":resultado.rows[0].nome_usuario}, process.env.JWT_SECRET, {expiresIn: "5m"})
+        const token = jwt.sign({"email":resultado.rows[0].email, "usuario":resultado.rows[0].nome_usuario}, process.env.JWT_SECRET, {expiresIn: "30m"})
 
         return res.status(200).json({ "mensagem": "Login efetuado com sucesso!", "token": token, "usuario": {"email":email, "nome completo": resultado.rows[0].nome_completo}})
         
@@ -146,12 +150,12 @@ export const esqueciSenha = async (req, res) => {
 
         if (!buscaEmail.rows[0].exists) return res.status(400).json({mensagem: "O email informado não consta no banco de dados. Realize um cadastro."}) 
 
-        const tokenRedefinicao = uuidv4();
+        const tokenRedefinicao = { "token": uuidv4(), "timestamp": Date.now() };
 
-        await pool.query('UPDATE usuarios SET token_ativacao = $1 WHERE email = $2', [tokenRedefinicao, email])
+        await pool.query('UPDATE usuarios SET token = $1 WHERE email = $2', [tokenRedefinicao, email])
 
         try {
-            await enviarEmailRedefinirSenha(email, tokenRedefinicao);
+            await enviarEmailRedefinirSenha(email, tokenRedefinicao["token"]);
         } catch (error) {
             return res.status(500).json({mensagem: 'Erro ao enviar e-mail!'})
         }
@@ -174,13 +178,18 @@ export const redefinirSenha = async (req, res) => {
         const { senha } = req.body;
 
         if (!token || !token.trim()) return res.status(400).json({mensagem: "Token de Redefinição Ausente!"})
+
         if (!senha || !senha.trim()) return res.status(400).json({mensagem: "É necessário informar uma nova senha."})
 
-        const resultado = await pool.query('SELECT * FROM usuarios WHERE token_ativacao = $1', [token])
+        const resultado = await pool.query('SELECT token FROM usuarios WHERE token->>\'token\' = $1', [token])
 
         if (resultado.rows.length === 0) return res.status(400).json({mensagem: "Token de Redefinição Inválido!"})
 
-        await pool.query('UPDATE usuarios SET token_ativacao = NULL, senha = $1 WHERE token_ativacao = $2', [await gerarHash(senha), resultado.rows[0].token_ativacao])
+        if ((Date.now() - resultado.rows[0].token["timestamp"])/(1000 * 60) > 10 ) {
+            return res.status(401).json( {mensagem: "Token de Ativação Expirado!"})
+        }
+
+        await pool.query('UPDATE usuarios SET token = NULL, senha = $1 WHERE token->>\'token\' = $2', [await gerarHash(senha), resultado.rows[0].token["token"]])
 
         return res.status(200).json({mensagem: `Senha Alterada!`})
 

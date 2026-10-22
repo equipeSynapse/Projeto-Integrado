@@ -7,6 +7,7 @@ import Button from "../../components/Button";
 import CadastroForm from '../../components/CadastroForm';
 import LoginForm from "../../components/LoginForm";
 import { Calendar } from "lucide-react";
+import { Plus } from "lucide-react";
 import DateRangePicker from "../../components/DateRangePicker";
 import isUserLoggedIn from "../../utils/auth";
 import CategoriaCard from "../../components/CategoriaCard";
@@ -22,7 +23,7 @@ export default function HomePage() {
     const [isCadastroOpen, setIsCadastroOpen] = useState(false);
     const cadastroModalRef = useRef(null)
 
-    const { dataInicio, dataFim, ComponenteDate } = DateRangePicker({onClickX: () => {setIsCalendarOpen(false)}});
+    const { dataInicio, dataFim, ComponenteDate } = DateRangePicker({ onClickX: () => { setIsCalendarOpen(false) } });
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
     const [toastMessage, setToastMessage] = useState(null);
@@ -54,7 +55,7 @@ export default function HomePage() {
     const filtradas = publicacoes.filter(
         (p) =>
             (p.titulo.toLowerCase().includes(busca.toLowerCase()) ||
-            (p.nome_usuario ?? "").toLowerCase().includes(termo)) &&
+                (p.nome_usuario ?? "").toLowerCase().includes(termo)) &&
             (categoriasSelecionadas.length == 0 || categoriasSelecionadas.includes(p.categoria)) &&
             (!dataInicio || new Date(dataInicio) <= new Date(p.criado_em)) &&
             (!dataFim || new Date(dataFim) >= new Date(p.criado_em))
@@ -66,7 +67,7 @@ export default function HomePage() {
                 <div className="relative flex items-center gap-6 w-full">
                     <div> Logo </div>
                     <InputSearch onKeyDown={(e) => { if (e.key === 'Enter') setBusca(e.target.value) }} />
-            
+
                     <Button variant="second" onClick={() => { setIsCalendarOpen(!isCalendarOpen) }}>
                         <Calendar className="size-[18px]" />
                         <span className="whitespace-nowrap">
@@ -87,6 +88,9 @@ export default function HomePage() {
                             <div> Início </div>
                             <div> Notificações </div>
                         </div>
+                        <div className="flex justify-center items-center bg-[#e5e5e5] size-[50px] rounded-[50px]">
+                            {isUserLoggedIn().usuario[0].toUpperCase()}
+                        </div>
                     </div>
                     :
                     <div className="flex justify-between gap-[24px] items-center h-[10px] text-nowrap">
@@ -96,46 +100,64 @@ export default function HomePage() {
 
             </Header>
 
-            <main className="flex flex-col gap-[24px] px-[31px] py-[32px] max-w-[960px] mx-auto">
-
-                <section className="max-w-[778px] flex flex-col gap-[24px]">
-                    <h2 className="text-[20px] font-semibold font-poppins"> Explorar categorias de publicações </h2>
-                    <div className="grid grid-cols-3 grid-rows-2 gap-[12px]">
-                        {categorias.map((c) =>
-                            <CategoriaCard
-                                key={c}
-                                texto={c}
-                                onClick={() => {
-                                    if (categoriasSelecionadas.includes(c)) setCategoriasSelecionadas((prev) => prev.filter((item) => item != c))
-                                    else setCategoriasSelecionadas((prev) => [...prev, c])
-                                }}
-                            />
-                        )}
+            <main className="flex justify-center gap-[48px] px-[60px] py-[48px] mx-auto">
+                <aside>
+                    <div className="bg-white border w-[290px] h-[270px]">
+                       
                     </div>
-                </section>
+                </aside>
 
-                <section className="max-w-[778px] flex flex-col gap-[24px]">
-                    <h2 className="text-[20px] font-semibold font-poppins"> Novidades para você </h2>
-                    <section className="flex flex-col gap-[24px]">
-                        {filtradas.map((p) => (
-                            <PubliCard
-                                key={p.id}
-                                id={p.id}
-                                criadoEm={p.criado_em}
-                                categoria={p.categoria}
-                                imagem={p.imagem ?? null}
-                                titulo={p.titulo ?? "Sem Título"}
-                                descricao={p.descricao ?? "Sem descrição"}
-                                link={p.link}
-                                autor={p.nome_usuario}
-                                email={p.email}
-                                anexos={p.anexos}
-                                qtdVisualizacoes={p.qtd_visualizacoes}
-                                expiracao={p.expiracao}
-                            />
-                        ))}
+                <section className="flex flex-col gap-[24px] max-w-[960px]">
+                    <section className="w-[778px] max-w-[778px] flex flex-col gap-[24px]">
+                        <h2 className="text-[20px] font-semibold font-poppins"> Explorar categorias de publicações </h2>
+                        <div className="grid grid-cols-3 grid-rows-2 gap-[12px]">
+                            {categorias.map((c) =>
+                                <CategoriaCard
+                                    key={c}
+                                    texto={c}
+                                    onClick={() => {
+                                        if (categoriasSelecionadas.includes(c)) setCategoriasSelecionadas((prev) => prev.filter((item) => item != c))
+                                        else setCategoriasSelecionadas((prev) => [...prev, c])
+                                    }}
+                                />
+                            )}
+                        </div>
+                    </section>
+
+                    <section className="max-w-[778px] flex flex-col gap-[24px]">
+                        <h2 className="text-[20px] font-semibold font-poppins"> Novidades para você </h2>
+                        <section className="flex flex-col gap-[24px]">
+                            {filtradas.map((p) => (
+                                <PubliCard
+                                    key={p.id}
+                                    id={p.id}
+                                    criadoEm={p.criado_em}
+                                    categoria={p.categoria}
+                                    imagem={p.imagem ?? null}
+                                    titulo={p.titulo ?? "Sem Título"}
+                                    descricao={p.descricao ?? "Sem descrição"}
+                                    link={p.link}
+                                    autor={p.nome_usuario}
+                                    email={p.email}
+                                    anexos={p.anexos}
+                                    qtdVisualizacoes={p.qtd_visualizacoes}
+                                    expiracao={p.expiracao}
+                                />
+                            ))}
+                        </section>
                     </section>
                 </section>
+
+                <aside>
+                    <div className="bg-white font-poppins flex flex-col gap-[24px] border w-[290px] h-[270px] p-[36px] rounded-[12px] border-[#e5e5e5]">
+                        <span className="font-semibold"> O mural também é seu </span>
+                        <p> Compartilhe avisos, eventos, oportunidades ou conteúdos que podem interessar à comunidade. </p>
+                        <Button variant="cta" className="w-full" onClick={() => {isUserLoggedIn() ? null : setIsLoginOpen(true)}}> 
+                            <Plus className="size-[20px]"/> 
+                            <span> Criar Publicação </span> 
+                        </Button>
+                    </div>
+                </aside>
             </main>
 
             {isLoginOpen && (

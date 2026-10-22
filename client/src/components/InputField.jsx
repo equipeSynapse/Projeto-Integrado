@@ -41,7 +41,6 @@ export function InputField({
           } py-[10px] rounded-[8px] text-[#1f1f1f] text-[14px] w-full placeholder:text-[#909090]`}
         />
 
-        {/* Renderiza o botão interno apenas se for password e NÃO houver children customizado */}
         {isPassword && !children && (
           <button
             type="button"
@@ -57,7 +56,6 @@ export function InputField({
           </button>
         )}
 
-        {/* Permite elementos filhos extras apenas quando necessário */}
         {children}
       </div>
 

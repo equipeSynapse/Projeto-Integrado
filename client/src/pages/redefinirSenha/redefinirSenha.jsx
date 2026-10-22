@@ -14,14 +14,16 @@ export default function RedefinirSenhaPage() {
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({ senha: "", confirmarSenha: "" });
+    const [touched, setTouched] = useState({ senha: false, confirmarSenha: false });
     const [serverError, setServerError] = useState("");
     const [sucesso, setSucesso] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const passwordRequirements = getPasswordRequirements(formData.senha);
     const isPasswordValid = passwordRequirements.every((requirement) => requirement.met);
     const passwordsMismatch =
         formData.confirmarSenha.length > 0 && formData.confirmarSenha !== formData.senha;
-    const canSubmit = isPasswordValid && formData.confirmarSenha.length > 0 && !passwordsMismatch;
+    const canSubmit = isPasswordValid && formData.confirmarSenha.length > 0 && !passwordsMismatch && !loading;
 
     function handleChange(field) {
         return (event) => {
@@ -30,9 +32,40 @@ export default function RedefinirSenhaPage() {
         };
     }
 
+    function handleBlur(field) {
+        return () => {
+            setTouched((prev) => ({ ...prev, [field]: true }));
+        };
+    }
+
+    const getSenhaError = () => {
+        if (touched.senha && !formData.senha) {
+            return "Preencha este campo";
+        }
+        if (passwordsMismatch) {
+            return "As senhas não coincidem.";
+        }
+        return "";
+    };
+
+    const getConfirmarSenhaError = () => {
+        if (touched.confirmarSenha && !formData.confirmarSenha) {
+            return "Preencha este campo";
+        }
+        if (passwordsMismatch) {
+            return "As senhas não coincidem.";
+        }
+        return serverError;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!canSubmit) return;
+        
+        setTouched({ senha: true, confirmarSenha: true });
+
+        if (!canSubmit || loading) return;
+
+        setLoading(true);
 
         try {
             await redefinirSenha(token, formData.senha);
@@ -43,6 +76,8 @@ export default function RedefinirSenhaPage() {
             } else {
                 setServerError("Erro de conexão. Tente novamente.");
             }
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -84,7 +119,7 @@ export default function RedefinirSenhaPage() {
                                 Crie uma nova senha
                             </p>
                             <p className="font-poppins font-normal leading-[1.5] text-[#3c4043] text-[16px] max-w-[462px]">
-                                Digite uma nova senha para acessar sua conta novamente.
+                                Digite uma nova senha para acessar sua conta novamente. 
                             </p>
                         </div>
 
@@ -96,7 +131,9 @@ export default function RedefinirSenhaPage() {
                                     inputType="password"
                                     inputValue={formData.senha}
                                     inputOnChange={handleChange("senha")}
+                                    onBlur={handleBlur("senha")}
                                     inputPlaceholder="Digite sua nova senha"
+                                    errorVar={getSenhaError()}
                                 />
 
                                 <div className="flex flex-col gap-[12px] items-start justify-center w-full">
@@ -120,8 +157,9 @@ export default function RedefinirSenhaPage() {
                                     inputType="password"
                                     inputValue={formData.confirmarSenha}
                                     inputOnChange={handleChange("confirmarSenha")}
+                                    onBlur={handleBlur("confirmarSenha")}
                                     inputPlaceholder="Confirme sua nova senha"
-                                    errorVar={passwordsMismatch ? "As senhas não coincidem." : serverError}
+                                    errorVar={getConfirmarSenhaError()}
                                 />
                             </div>
 
@@ -132,7 +170,7 @@ export default function RedefinirSenhaPage() {
                                     className={`flex flex-col h-[48px] items-center justify-center w-full rounded-[8px] ${canSubmit ? "bg-[#3c4043] hover:bg-black cursor-pointer" : "bg-[#9d9fa1] cursor-not-allowed"}`}
                                 >
                                     <p className="font-poppins font-medium text-[14px] text-center text-white">
-                                        Redefinir senha
+                                        {loading ? "Redefinindo..." : "Redefinir senha"}
                                     </p>
                                 </button>
                             </div>

@@ -58,8 +58,8 @@ export default function EsqueciSenha({ onClickX, onClickVoltar, ref }) {
             <p className="font-poppins font-semibold leading-none text-[28px] text-black">
               E-mail enviado!
             </p>
-            <p className="font-poppins font-normal leading-[1.5] text-[#3c4043] text-[16px] w-[462px] max-w-full">
-              Enviamos um e-mail para redefinir sua senha para{" "}
+            <p className="font-poppins font-normal leading-[1.5] text-[#3c4043] text-[16px] w-[462px] max-w-full flex flex-col items-center">
+              <span>Enviamos um e-mail para redefinir sua senha para</span>
               <span className="font-medium break-all">{email.trim()}</span>
             </p>
           </div>

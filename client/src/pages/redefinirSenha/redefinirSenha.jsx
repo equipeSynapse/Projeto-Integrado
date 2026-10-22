@@ -81,10 +81,10 @@ export default function RedefinirSenhaPage() {
                     <>
                         <div className="flex flex-col gap-[14px] items-center text-center mt-[36px] mb-[40px]">
                             <p className="font-poppins font-semibold leading-none text-[28px] text-black">
-                                Redefinir senha
+                                Crie uma nova senha
                             </p>
                             <p className="font-poppins font-normal leading-[1.5] text-[#3c4043] text-[16px] max-w-[462px]">
-                                Crie uma nova senha para acessar o Mural Colaborativo SMD.
+                                Digite uma nova senha para acessar sua conta novamente.
                             </p>
                         </div>
 

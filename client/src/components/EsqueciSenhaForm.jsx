@@ -12,7 +12,7 @@ export default function EsqueciSenha({ onClickX, onClickVoltar, ref }) {
   const [error, setError] = useState("");
   const [enviado, setEnviado] = useState(false);
 
-  // O botão só é habilitado com um e-mail institucional válido
+  // Valida o e-mail institucional ao enviar, exibindo o erro no campo
   const isEmailValid = EMAIL_REGEX.test(email.trim());
 
   function handleChange(event) {
@@ -102,8 +102,7 @@ export default function EsqueciSenha({ onClickX, onClickVoltar, ref }) {
               <Button
                 type="submit"
                 variant="cta"
-                disabled={!isEmailValid}
-                className={`h-[45px] ${isEmailValid ? "" : "bg-[#9d9fa1] hover:bg-[#9d9fa1] hover:cursor-not-allowed"}`}
+                className="h-[45px]"
               >
                 Enviar
               </Button>

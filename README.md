@@ -51,7 +51,7 @@ A partir de dados coletados com a secretaria, professores, alunos e Centro Acad�
   <tr>
     <td align="center"> Desenvolvimento Visual </td>
     <td align="center"> Desenvolvimento Full Stack e Liderança Técnica </td>
-    <td align="center"> Desenvolvimento Front-End </td>
+    <td align="center"> Desenvolvimento Full Stack </td>
     <td align="center"> Desenvolvimento Visual </td>
     <td align="center"> Desenvolvimento Full Stack </td>
     <td align="center"> Gestão do Projeto e Design Lead </td>
@@ -152,9 +152,9 @@ projeto-mural-colaborativo/
 | RF06   | O sistema deve permitir o preenchimento de título, descrição, categoria, imagem, informação de contato, link para mais informações e prazo de validade no cadastro de uma publicação. | `EM ANDAMENTO ⌛` |
 | RF07   | O sistema deve mostrar o título, a descrição, a categoria, a imagem, as informações de contato, o nome de usuário e a data de publicação respectiva à postagem. | `FEITO ✅` |
 | RF08   | O sistema deve permitir a classificação das publicações por categorias. | `EM ANDAMENTO ⌛` |
-| RF09   | O sistema deve permitir que os usuários filtrem as publicações por título, por categoria, por período de publicação e por usuário. | `EM ANDAMENTO ⌛` |
+| RF09   | O sistema deve permitir que os usuários filtrem as publicações por título, por categoria, por período de publicação e por usuário. | `FEITO ✅` |
 | RF10   | O sistema deve permitir que o usuário acesse o link para mais informações das publicações. | `FEITO ✅` |
-| RF11   | O sistema deve mostrar as publicações de acordo com os filtros aplicados. | `EM ANDAMENTO ⌛` |
+| RF11   | O sistema deve mostrar as publicações de acordo com os filtros aplicados. | `FEITO ✅` |
 | RF12   | O sistema deve permitir que o usuário visualize as suas publicações. | `A FAZER 📄` |
 | RF13   | O sistema deve permitir a exclusão e a edição das publicações criadas. | `A FAZER 📄` |
 | RF14   | O sistema deve permitir mostrar o número de visualizações das publicações. | `FEITO ✅` |

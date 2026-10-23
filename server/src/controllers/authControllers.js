@@ -126,7 +126,7 @@ export const login = async (req, res) => {
         //Verifica se o usuário selecionado tem conta ativa
         if (resultado.rows[0].ativo !== true) return res.status(409).json({"mensagem": "Essa conta ainda não foi ativada. Verifique seu e-mail."})
 
-        const token = jwt.sign({"email":resultado.rows[0].email, "usuario":resultado.rows[0].nome_usuario}, process.env.JWT_SECRET, {expiresIn: "30m"})
+        const token = jwt.sign({"email":resultado.rows[0].email, "usuario":resultado.rows[0].nome_usuario, "nome": resultado.rows[0].nome_completo}, process.env.JWT_SECRET, {expiresIn: "30m"})
 
         return res.status(200).json({ "mensagem": "Login efetuado com sucesso!", "token": token, "usuario": {"email":email, "nome completo": resultado.rows[0].nome_completo}})
         

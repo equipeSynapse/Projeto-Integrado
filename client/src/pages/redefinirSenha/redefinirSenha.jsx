@@ -83,7 +83,7 @@ export default function RedefinirSenhaPage() {
 
     return (
         <div className="min-h-screen bg-black/50 flex justify-center items-center p-[16px]">
-            <div role="main" className="bg-white border border-[#e5e5e5] border-solid min-h-[550px] relative rounded-[16px] w-141 max-w-full p-[31px] flex flex-col">
+            <div role="main" className={`bg-white border border-[#e5e5e5] border-solid relative rounded-[16px] w-141 max-w-full p-[31px] flex flex-col ${sucesso ? "min-h-177.5" : "min-h-[550px]"}`}>
 
                 {!token ? (
                     <div className="flex flex-col flex-1 items-center text-center mt-[36px]">
@@ -100,14 +100,20 @@ export default function RedefinirSenhaPage() {
                 ) : sucesso ? (
                     <div className="flex flex-col flex-1 items-center text-center mt-[36px]">
                         <div className="bg-[#D9D9D9] rounded-full size-[80px] flex items-center justify-center shrink-0">
-                            <Check className="size-[48px] text-[#3c4043]" strokeWidth={2} aria-hidden="true" />
+                            <Check className="size-[48px] text-[#3c4043]" strokeWidth={1.5} aria-hidden="true" />
                         </div>
-                        <p className="font-poppins font-semibold leading-none text-[28px] text-black mt-[32px]">
+                        <p className="font-poppins font-semibold leading-none text-[28px] text-[#3c4043] mt-[32px]">
                             Senha redefinida!
                         </p>
                         <p className="font-poppins font-normal leading-[1.5] text-[#3c4043] text-[16px] mt-[14px] max-w-[462px]">
-                            Sua senha foi alterada com sucesso. Agora você já pode entrar com a nova senha.
+                            Sua senha foi alterada com sucesso.
                         </p>
+                        <div className="bg-[#f9f9f9] rounded-[8px] w-full mt-[32px] p-[24px] flex flex-col gap-[14px] text-left text-[#3c4043] text-[16px]">
+                            <p className="font-poppins font-medium leading-none">Próximo passo</p>
+                            <p className="font-poppins font-normal leading-[1.5]">
+                                Agora você já pode acessar o Mural Colaborativo utilizando sua nova senha.
+                            </p>
+                        </div>
                         <Button onClick={() => navigate("/", { state: { abrirLogin: true } })} variant="cta" className="mt-auto w-full">
                             Ir para o login
                         </Button>

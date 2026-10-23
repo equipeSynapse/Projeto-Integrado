@@ -1,101 +1,110 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import closeIcon from "../assets/icons/close.svg";
 import { InputField } from "./InputField";
 import { createPub } from "../services/createpub";
+
 export default function PubForm() {
-  const navigate = useNavigate(); // Redirecionar página
-  //Criando Form com id, criado_em,autor_email, titulo, descricao, categoria, imagem, contato, link, validade, qtd_visualizacoes
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     titulo: "",
     descricao: "",
     categoria: "",
     imagem: "",
-    contato: "",
+    telefone: "",
     link: "",
-    validade: "",
+    expiracao: "",
   });
-  const [errors, setErrors] = useState({});
-  const [serverError, setServerError] = useState(""); 
 
+  const [errors, setErrors] = useState({});
+  const [serverError, setServerError] = useState("");
+  const [successToast, setSuccessToast] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const formatarTelefone = (valor) => {
-    // Remove tudo que não for número
     let numero = valor.replace(/\D/g, "");
-    
-    // Limita a 11 números (DDD + 9 dígitos)
     numero = numero.substring(0, 11);
 
-
-
-    // Aplica (XX) XXXXX-XXXX
     if (numero.length > 2) {
       numero = `(${numero.substring(0, 2)}) ${numero.substring(2)}`;
     }
-    if (numero.length > 10) {
+    if (numero.length > 7) {
       numero = `${numero.substring(0, 10)}-${numero.substring(10)}`;
     }
-    
     return numero;
   };
-  
- function handleChange(field) {
+
+  function handleChange(field) {
     return (event) => {
       let valorInput = event.target.value;
 
-     
-      if (field === "contato") {
+      if (field === "telefone") {
         valorInput = formatarTelefone(valorInput);
       }
 
       setFormData((prev) => ({ ...prev, [field]: valorInput }));
       setErrors((prev) => ({ ...prev, [field]: undefined }));
-      setServerError(""); 
+      setServerError("");
     };
   }
 
-  // Função de submissão do form
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const nextErrors = {};
-    
-    // Validações de campos obrigatórios
+
     if (!formData.titulo.trim()) nextErrors.titulo = "O título é obrigatório";
     if (!formData.descricao.trim()) nextErrors.descricao = "Insira uma descrição";
     if (!formData.categoria) nextErrors.categoria = "Selecione uma categoria";
-    if (!formData.validade) nextErrors.validade = "Defina uma data de validade";
+    if (!formData.expiracao) nextErrors.expiracao = "Defina uma data de validade";
 
-    // Validação do campo contato (se o usuário tiver digitado algo)
-    if (formData.contato) {
-      // Pega apenas os números para verificar a quantidade
-      const apenasNumeros = formData.contato.replace(/\D/g, "");
-      if (apenasNumeros.length < 11) {
-        nextErrors.contato = "Insira o número completo com DDD";
+    if (formData.telefone) {
+      const apenasNumeros = formData.telefone.replace(/\D/g, "");
+      if (apenasNumeros.length < 10) {
+        nextErrors.telefone = "Insira o número completo com DDD";
       }
     }
 
-setErrors(nextErrors);
+    setErrors(nextErrors);
 
     if (Object.keys(nextErrors).length === 0) {
+      setIsSubmitting(true);
       try {
-        const response = await createPub(formData);
-        console.log("Publicação criada com sucesso", formData);
-        
-        // Redireciona de volta para o mural após a criação
-        navigate("/"); 
+        await createPub({
+          ...formData,
+          qtd_visualizacoes: 0,
+        });
+
+        // Dispara o toast de sucesso
+        setSuccessToast(true);
+
+        // Aguarda 1.8 segundos para o usuário ver o aviso antes de redirecionar
+        setTimeout(() => {
+          navigate("/");
+        }, 1800);
       } catch (error) {
         setServerError("Erro ao criar publicação. Tente novamente mais tarde.");
+        setIsSubmitting(false);
       }
     }
-  }
+  };
 
-  return ( //Front End Provisório (gerado por IA), aguardando o protótipo.
+  return (
     <div className="bg-white border border-[#e5e5e5] border-solid min-h-[550px] relative rounded-[16px] w-full max-w-[600px] p-[31px] flex flex-col mx-auto my-8">
-      
+      {/* Toast de Sucesso fixado no topo da tela */}
+      {successToast && (
+        <div className="fixed top-6 right-6 z-50 flex items-center gap-3 bg-emerald-600 text-white px-5 py-3 rounded-lg shadow-xl font-poppins text-sm transition-all animate-bounce">
+          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+          <span>Publicação criada com sucesso! Redirecionando...</span>
+        </div>
+      )}
+
       <button 
         type="button" 
-        onClick={() => navigate(-1)} // Volta para a página anterior
+        onClick={() => navigate(-1)} 
         className="absolute cursor-pointer right-[31px] top-[31px] size-[24px]" 
         aria-label="Fechar"
       >
@@ -110,9 +119,8 @@ setErrors(nextErrors);
           Preencha os dados abaixo para adicionar um novo item ao Mural Colaborativo SMD.
         </p>
       </div>
-     
+
       <form onSubmit={handleSubmit} className="flex flex-col flex-1 gap-[24px]">
-        
         {serverError && (
           <p className="text-red-500 font-poppins text-sm text-center">{serverError}</p>
         )}
@@ -127,7 +135,6 @@ setErrors(nextErrors);
           errorVar={errors.titulo}
         />
 
-        {/* Para a descrição, o ideal é um Textarea. Se o seu InputField não suportar multiline, você pode usar uma tag nativa estilizada com suas classes */}
         <div className="flex flex-col gap-[8px] w-full">
           <label htmlFor="descricao" className="font-poppins font-medium text-[14px] text-black">
             Descrição *
@@ -145,7 +152,6 @@ setErrors(nextErrors);
           {errors.descricao && <span className="text-red-500 text-xs font-poppins">{errors.descricao}</span>}
         </div>
 
-        {/* Categoria usando um Select nativo */}
         <div className="flex flex-col gap-[8px] w-full">
           <label htmlFor="categoria" className="font-poppins font-medium text-[14px] text-black">
             Categoria *
@@ -159,10 +165,12 @@ setErrors(nextErrors);
             }`}
           >
             <option value="">Selecione uma categoria</option>
-            <option value="estagio">Estágio / Emprego</option>
-            <option value="evento">Evento Acadêmico</option>
-            <option value="projeto">Projeto de Extensão</option>
-            <option value="vendas">Vendas / Serviços</option>
+            <option value="Avisos Administrativos">Avisos Administrativos</option>
+            <option value="Bolsas">Bolsas</option>
+            <option value="Comunidade">Comunidade</option>
+            <option value="Divulgação">Vendas / Serviços</option>
+            <option value="Estágios">Estágio / Emprego</option>
+            <option value="Eventos">Evento Acadêmico</option>
           </select>
           {errors.categoria && <span className="text-red-500 text-xs font-poppins">{errors.categoria}</span>}
         </div>
@@ -170,20 +178,21 @@ setErrors(nextErrors);
         <div className="grid grid-cols-2 gap-[16px]">
           <InputField
             label="Validade da publicação *"
-            inputId="validade"
+            inputId="expiracao"
             inputType="date" 
-            inputValue={formData.validade}
-            inputOnChange={handleChange("validade")}
-            errorVar={errors.validade}
+            inputValue={formData.expiracao}
+            inputOnChange={handleChange("expiracao")}
+            errorVar={errors.expiracao}
           />
 
           <InputField
             label="Contato (Opcional)"
-            inputId="contato"
+            inputId="telefone"
             inputType="text" 
-            inputValue={formData.contato}
-            inputOnChange={handleChange("contato")}
+            inputValue={formData.telefone}
+            inputOnChange={handleChange("telefone")}
             inputPlaceholder="(85) 90000-0000"
+            errorVar={errors.telefone}
           />
         </div>
 
@@ -208,10 +217,13 @@ setErrors(nextErrors);
         <div className="mt-auto pt-[40px] flex flex-col items-center w-full">
           <button
             type="submit"
-            className="flex h-[48px] items-center justify-center w-full rounded-[8px] bg-[#3c4043] hover:bg-black transition-colors cursor-pointer"
+            disabled={isSubmitting}
+            className={`flex h-[48px] items-center justify-center w-full rounded-[8px] transition-colors cursor-pointer ${
+              isSubmitting ? "bg-gray-400 cursor-not-allowed" : "bg-[#3c4043] hover:bg-black"
+            }`}
           >
             <p className="font-poppins font-medium text-[14px] text-white">
-              Publicar no Mural
+              {isSubmitting ? "Publicando..." : "Publicar no Mural"}
             </p>
           </button>
         </div>

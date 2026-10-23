@@ -9,6 +9,7 @@ const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@(alu\.)?ufc\.br$/i;
 
 export default function LoginConta() {
   const navigate = useNavigate(); // Redirecionar página
+
   //Criando Fom com email e senha
   const [formData, setFormData] = useState({
     email: "",
@@ -81,7 +82,6 @@ export default function LoginConta() {
         <img alt="Fechar" src={closeIcon} className="block inset-0 max-w-none size-full" />
       </button>
 
-      {}
       <div className="flex flex-col gap-[14px] items-center text-center mt-[36px] mb-[40px]">
         <p className="font-poppins font-semibold leading-none text-[28px] text-black">
           Boas-vindas
@@ -118,7 +118,7 @@ export default function LoginConta() {
           
           {/*Botão: Esqueceu a senha*/}
           <div className="w-full flex justify-end mt-[-10px]">
-            <Link to="/esqueceuSenha" className="font-poppins font-medium text-[14px] text-black cursor-pointer hover:underline">
+            <Link /*to="/esqueceuSenha"*/ className="font-poppins font-medium text-[14px] text-black cursor-pointer hover:underline">
               Esqueceu sua senha?
             </Link>
           </div>  
@@ -132,8 +132,7 @@ export default function LoginConta() {
             }`}
             /* OU disabled={!isFormValid}
             className={`flex flex-col h-[48px] items-center justify-center w-full rounded-[8px] transition-colors ${
-              isFormValid ? "bg-[#3c4043] hover:bg-black cursor-pointer" : "bg-[#9d9fa1] cursor-not-allowed"  || Os 2 juntos nn fzm sentidoi
-              */
+              isFormValid ? "bg-[#3c4043] hover:bg-black cursor-pointer" : "bg-[#9d9fa1] cursor-not-allowed"  || Os 2 juntos nn fzm sentido*/
           >
             <p className="font-poppins font-medium text-[14px] text-center text-white">
               Entrar

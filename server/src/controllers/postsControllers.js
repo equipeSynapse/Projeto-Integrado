@@ -22,21 +22,22 @@ export const buscarPublicacoes = async (req, res) => { //Pega os posts para most
 
 export const criarPublicacao = async (req, res) => { //Criar um post novo no banco
     try {
-        const { titulo, descricao, categoria, imagem, contato, link, validade } = req.body;
+        const { titulo, descricao, categoria, imagem, telefone, link, expiracao } = req.body;
         
         // O middleware lê o token do login, descobre quem está executando essa ação e salva em req.usuario
         const autor_email = req.usuario.email;
 
         /* Validação dos campos obrigatórios -> Se faltar o título, OU a descrição, OU a categoria, 
         OU a validade, o servidor barra e devolve o ERRO 400 */
-        if (!titulo?.trim() || !descricao?.trim() || !categoria?.trim() || !validade) {
+        if (!titulo?.trim() || !descricao?.trim() || !categoria?.trim() || !expiracao) {
             return res.status(400).json({
+                dados: {titulo, descricao, categoria, expiracao},
                 mensagem: "Os campos obrigatórios (título, descrição, categoria e validade) devem ser preenchidos."
             });
         }
 
         const query = `
-            INSERT INTO publicacoes (autor_email, titulo, descricao, categoria, imagem, contato, link, validade)
+            INSERT INTO publicacoes (autor_email, titulo, descricao, categoria, imagem, telefone, link, expiracao)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8) 
             RETURNING *;
         `; // O uso de values $1, $2... é para previnir ataques, como o SQL Injection.
@@ -47,9 +48,9 @@ export const criarPublicacao = async (req, res) => { //Criar um post novo no ban
             descricao.trim(),
             categoria,
             imagem?.trim() || null, //Precisa mudar caso tenha uma imagem padrão para quando o user nn adicionar nada
-            contato?.trim() || null,
+            telefone?.trim() || null,
             link?.trim() || null,
-            validade
+            expiracao
         ];
 
         const resultado = await pool.query(query, values);

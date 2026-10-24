@@ -166,7 +166,7 @@ export default function HomePage() {
             </main>
 
             {isLoginOpen && (
-                <div className="fixed inset-0 flex justify-center items-center bg-black/50">
+                <div className="fixed inset-0 z-3 flex justify-center items-center bg-black/50">
                     <LoginForm
                         ref={loginModalRef}
                         onClickX={() => setIsLoginOpen(false)}
@@ -180,7 +180,7 @@ export default function HomePage() {
             )}
 
             {isCadastroOpen && (
-                <div className="fixed inset-0 flex justify-center items-center bg-black/50">
+                <div className="fixed inset-0 z-3 flex justify-center items-center bg-black/50">
                     <CadastroForm
                         ref={cadastroModalRef}
                         onClickX={() => setIsCadastroOpen(false)} onSucess={() => setTimeout(() => setIsCadastroOpen(false), 3000)}

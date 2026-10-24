@@ -6,13 +6,14 @@ import { InputSearch } from "../../components/publicacoes/InputSearch";
 import Button from "../../components/Button";
 import CadastroForm from '../../components/CadastroForm';
 import LoginForm from "../../components/LoginForm";
-import { Calendar } from "lucide-react";
+import { Calendar, ChevronRight } from "lucide-react";
 import { Plus } from "lucide-react";
 import DateRangePicker from "../../components/DateRangePicker";
 import isUserLoggedIn from "../../utils/auth";
 import CategoriaCard from "../../components/CategoriaCard";
 import Toast from "../../components/toasts/Toast";
 import { useNavigate } from "react-router-dom";
+import timestampMsg from "../../utils/timestampMsg";
 
 export default function HomePage() {
     const navigate = useNavigate();
@@ -64,6 +65,10 @@ export default function HomePage() {
             (!dataFim || new Date(dataFim) >= new Date(p.criado_em))
     );
 
+    const destaques = publicacoes.filter(
+        (p) => (p.autor_email === "smd@virtual.ufc.br")
+    )
+
     return (
         <div className="min-h-screen bg-white">
             <Header className="fixed z-2">
@@ -91,8 +96,8 @@ export default function HomePage() {
                             <div> Início </div>
                             <div> Notificações </div>
                         </div>
-                        <button onClick={() => navigate("/perfil")} className="flex justify-center items-center bg-[#e5e5e5] size-[50px] rounded-[50px]">
-                            {isUserLoggedIn().usuario[0].toUpperCase()}
+                        <button onClick={() => navigate("/perfil")} className="flex justify-center items-center bg-[#22D3EE] size-[50px] rounded-[50px]">
+                           <span className="text-[20px] font-medium text-[#073061]"> {isUserLoggedIn().usuario[0].toUpperCase()} </span>
                         </button>
                     </div>
                     :
@@ -153,14 +158,35 @@ export default function HomePage() {
                     </section>
                 </section>
 
-                <aside className="sticky top-[130px]">
-                    <div className="bg-white font-poppins flex flex-col gap-[24px] border w-[290px] h-[270px] p-[36px] rounded-[12px] border-[#e5e5e5]">
+                <aside className="sticky top-[130px] font-poppins flex flex-col gap-[24px] text-[#3c4043]">
+                    <div className="bg-white flex flex-col gap-[12px] border w-[290px] h-[270px] p-[36px] rounded-[12px] border-[#e5e5e5]">
                         <span className="font-semibold"> O mural também é seu </span>
                         <p> Compartilhe avisos, eventos, oportunidades ou conteúdos que podem interessar à comunidade. </p>
-                        <Button variant="cta" className="w-full" onClick={() => {isUserLoggedIn() ? null : setIsLoginOpen(true)}}> 
+                        <Button variant="cta" className="w-full mt-[8px]" onClick={() => {isUserLoggedIn() ? null : setIsLoginOpen(true)}}> 
                             <Plus className="size-[20px]"/> 
                             <span> Criar Publicação </span> 
                         </Button>
+                    </div>
+
+                    <div className="bg-white flex flex-col gap-[12px] border w-[290px] p-[36px] rounded-[12px] border-[#e5e5e5]">
+                        <span className="font-semibold"> Últimos destaques </span>
+                        <span> Avisos Administrativos da Secretaria SMD. </span>
+                        {destaques.slice(0, 3).map((d) => (
+                            <div key={d.id} className="border border-x-0 border-b-0 border-t-[#e5e5e5] py-[16px]">
+                                <div className="flex gap-[14px] text-[14px]"> 
+                                    <div className="bg-[#e5e5e5] aspect-square flex items-center justify-center size-[40px] rounded-[50%]"> SS </div>
+                                    <div className="flex flex-col w-[150px]">
+                                        <span className="font-medium"> Secretaria SMD </span>
+                                        <span className="text-[#909090] text-[12px]"> Publicado {timestampMsg(new Date(), new Date(d.criado_em), true)}</span>
+                                    </div>
+                                    <button onClick={() => navigate(`/publicacao/${d.id}`)}> 
+                                        <ChevronRight className="stroke-[#909090] size-[20px]"/> 
+                                    </button>
+                                </div>
+                                <span className="text-[14px] line-clamp-2 mt-[16px]"> {d.descricao} </span>
+                            </div>    
+                        ))}
+                        
                     </div>
                 </aside>
             </main>

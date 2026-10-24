@@ -23,9 +23,9 @@ export default function PerfilPage() {
                         <div> Início </div>
                         <div> Notificações </div>
                     </div>
-                    <div className="flex justify-center items-center bg-[#e5e5e5] size-[50px] rounded-[50px]">
-                        {isUserLoggedIn().usuario[0].toUpperCase()}
-                    </div>
+                    <button className="flex justify-center items-center bg-[#22D3EE] size-[50px] rounded-[50px]">
+                        <span className="text-[20px] font-medium text-[#073061]"> {isUserLoggedIn().usuario[0].toUpperCase()} </span>
+                    </button>
                 </div>
 
 
@@ -36,7 +36,9 @@ export default function PerfilPage() {
                     <div className="bg-[#bababa] h-[300px] w-[80dvw]" />
                     <div className="pl-[100px]">
                         <div className="flex w-full justify-between">
-                            <div className="relative top-[-100px] bg-[#d9d9d9] size-[280px] rounded-[50%]" />
+                            <div className="relative flex justify-center items-center top-[-100px] bg-[#22D3EE] size-[280px] rounded-[50%]">
+                                <span className="text-[130px] font-medium text-[#073061]"> {isUserLoggedIn().usuario[0].toUpperCase()}</span>
+                            </div>
                             <button onClick={() => setIsEditProfileOpen(true)} className="relative top-[-50px]"> 
                                 <Pencil className="size-[24px] stroke-[#3c4043]" /> 
                             </button>

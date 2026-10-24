@@ -55,7 +55,7 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
 
       <div className="flex flex-col gap-[24px]">
         <h2 className="font-semibold leading-tight text-[16px] text-black">{titulo}</h2>
-        <p className="className={`font-medium leading-stitch text-[14px] text-[#3c4043] whitespace-pre-line">
+        <p className="className={`font-medium leading-stitch text-[14px] text-[#3c4043] whitespace-pre-wrap">
           {((expandido || descricao.length < 60) || variant === "completo") ? descricao : `${descricao.slice(0, descricao.lastIndexOf(' ', 60))}... `}
           {(!expandido && variant !== "completo") ? <button className="text-[#8d8d8d] font-medium hover:cursor-pointer" onClick={() => setExpandido(true)}> mostrar mais </button> : ''}
         </p>
@@ -132,7 +132,7 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
       </div>
 
       {excluirClicked && 
-      <div className="bg-black/50 fixed h-full inset-0 flex items-center justify-center">
+      <div className="bg-black/50 fixed z-2 h-full inset-0 flex items-center justify-center">
         <ExcluirPubModal onClickX={() => setExcluirClicked(false)}/>
       </div>}
 

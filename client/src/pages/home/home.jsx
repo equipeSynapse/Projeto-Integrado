@@ -142,6 +142,8 @@ export default function HomePage() {
                                     anexos={p.anexos}
                                     qtdVisualizacoes={p.qtd_visualizacoes}
                                     expiracao={p.expiracao}
+
+                                    onClickExcluir={() => console.log()}
                                 />
                             ))}
                         </section>

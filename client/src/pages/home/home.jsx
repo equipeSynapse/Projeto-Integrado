@@ -12,8 +12,11 @@ import DateRangePicker from "../../components/DateRangePicker";
 import isUserLoggedIn from "../../utils/auth";
 import CategoriaCard from "../../components/CategoriaCard";
 import Toast from "../../components/toasts/Toast";
+import { useNavigate } from "react-router-dom";
 
 export default function HomePage() {
+    const navigate = useNavigate();
+
     const [busca, setBusca] = useState("");
     const [publicacoes, setPublicacoes] = useState([]);
 
@@ -63,7 +66,7 @@ export default function HomePage() {
 
     return (
         <div className="min-h-screen bg-white">
-            <Header>
+            <Header className="fixed z-2">
                 <div className="relative flex items-center gap-6 w-full">
                     <div> Logo </div>
                     <InputSearch onKeyDown={(e) => { if (e.key === 'Enter') setBusca(e.target.value) }} />
@@ -88,9 +91,9 @@ export default function HomePage() {
                             <div> Início </div>
                             <div> Notificações </div>
                         </div>
-                        <div className="flex justify-center items-center bg-[#e5e5e5] size-[50px] rounded-[50px]">
+                        <button onClick={() => navigate("/perfil")} className="flex justify-center items-center bg-[#e5e5e5] size-[50px] rounded-[50px]">
                             {isUserLoggedIn().usuario[0].toUpperCase()}
-                        </div>
+                        </button>
                     </div>
                     :
                     <div className="flex justify-between gap-[24px] items-center h-[10px] text-nowrap">
@@ -100,8 +103,8 @@ export default function HomePage() {
 
             </Header>
 
-            <main className="flex justify-center gap-[48px] px-[60px] py-[48px] mx-auto">
-                <aside>
+            <main className="flex justify-center gap-[48px] px-[60px] pt-[130px] pb-[48px] mx-auto items-start">
+                <aside className="sticky top-[130px]">
                     <div className="bg-white border w-[290px] h-[270px]">
                        
                     </div>
@@ -150,7 +153,7 @@ export default function HomePage() {
                     </section>
                 </section>
 
-                <aside>
+                <aside className="sticky top-[130px]">
                     <div className="bg-white font-poppins flex flex-col gap-[24px] border w-[290px] h-[270px] p-[36px] rounded-[12px] border-[#e5e5e5]">
                         <span className="font-semibold"> O mural também é seu </span>
                         <p> Compartilhe avisos, eventos, oportunidades ou conteúdos que podem interessar à comunidade. </p>

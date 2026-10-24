@@ -8,7 +8,7 @@ import viewObserver from "../../utils/viewObserver";
 import isUserLoggedIn from "../../utils/auth";
 import { useEffect, useState } from "react";
 import { BiSolidFilePdf } from "react-icons/bi";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Pencil, Trash } from "lucide-react";
 import CopiarLinkBtn from "./CopiarLinkBtn";
 import ExcluirPubModal from "./ExcluirPubModal";
 
@@ -19,6 +19,7 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
   const [expandido, setExpandido] = useState(false)
               
   const usuario = isUserLoggedIn();
+  const [threeDotsClicked, setThreeDotsClicked] = useState(false)
   const [excluirClicked, setExcluirClicked] = useState(false)
 
   return (
@@ -32,9 +33,23 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
           </div>
         </div>
 
-        <div className="flex gap-[24px] items-center">
+        <div className="relative flex gap-[24px] items-center">
           <div className="px-[12px] py-[6px] bg-[#e5e5e5] text-[12px] rounded-[50px]"> Expira em {new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(expiracao))} </div>
-          {usuario.usuario === autor && <button onClick={() => setExcluirClicked(true)}> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3C4043" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /><circle cx="5" cy="12" r="1" /></svg> </button>}
+          {usuario.usuario === autor && 
+            <button onClick={() => setThreeDotsClicked(!threeDotsClicked)}> 
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3C4043" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /><circle cx="5" cy="12" r="1" /></svg> 
+            </button>}
+          {threeDotsClicked && 
+            <div className="absolute flex flex-col items-start right-0 top-[36px] w-[250px] bg-white rounded-[8px] shadow-lg shadow-black/20 overflow-hidden"> 
+                <button className="w-full flex items-center gap-[8px] text-left px-[16px] py-[12px] hover:bg-[rgba(60,64,67,0.06)]"> 
+                  <Pencil className="size-[14px]"/>
+                  <span className="text-[14px] relative top-[1px]"> Editar </span>
+                </button>
+                <button onClick={() => setExcluirClicked(true)} className="w-full flex items-center gap-[8px] text-left px-[16px] py-[12px] hover:bg-[rgba(60,64,67,0.06)] text-red-500"> 
+                  <Trash className="size-[14px] stroke-red-500"/> 
+                  <span className="text-[14px] relative top-[1px]"> Excluir </span> 
+                </button>
+            </div>}
         </div>
       </div>
 

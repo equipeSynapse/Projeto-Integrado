@@ -26,7 +26,7 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
     <article ref={cardRef} tabIndex="0" aria-label={`Publicação ${titulo}`} className="bg-white border border-[#e5e5e5] border-solid rounded-[16px] p-[20px] flex flex-col gap-[24px] items-start w-full max-w-[778px] text-[14px] font-poppins">
       <div className="w-full flex justify-between items-start">
         <div className="flex gap-[12px]">
-          <div className="bg-gray-200 size-[40px] rounded-[50px] flex items-center justify-center"> {autor[0].toUpperCase()} </div>
+          <div className={`${autor[0] < "l"? "bg-[#F072C5]":"bg-[#22D3EE]"} size-[40px] rounded-[50px] flex items-center justify-center`}> {autor[0].toUpperCase()} </div>
           <div className="flex flex-col justify-between">
             <span className="font-medium"> {autor} </span>
             <span> {categoria} · Publicado {timestampMsg(new Date(), new Date(criadoEm))} </span>

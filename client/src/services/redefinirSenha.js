@@ -9,3 +9,13 @@ export async function redefinirSenha(token, senha) {
         throw error;
     }
 }
+
+export async function validarToken(token) {
+    try {
+        const response = await api.get(`/api/auth/validar-token?token=${encodeURIComponent(token)}`);
+        return response.data;
+    } catch (error) {
+        console.error("Erro ao validar token:", error.response?.data);
+        throw error;
+    }
+}

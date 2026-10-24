@@ -339,7 +339,7 @@ export default function RedefinirSenhaPage() {
                         />
                     </div>
 
-                    <div className="flex flex-col items-center w-full">
+                    <div className="flex flex-col items-center w-full mt-[24px]">
                         <button
                             type="submit"
                             disabled={!canSubmit}
@@ -357,7 +357,7 @@ export default function RedefinirSenhaPage() {
 
     return (
         <div className="min-h-screen bg-black/50 flex justify-center items-center p-[16px]">
-            <div role="main" className="bg-white border border-[#e5e5e5] border-solid relative rounded-[16px] w-[564px] h-[520px] max-w-full p-[40px] flex flex-col">
+            <div role="main" className="bg-white border border-[#e5e5e5] border-solid relative rounded-[16px] w-[564px] min-h-[520px] max-w-full p-[40px] flex flex-col">
                 {renderContent()}
             </div>
         </div>

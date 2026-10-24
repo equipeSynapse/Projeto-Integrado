@@ -4,9 +4,11 @@ import { Pencil } from "lucide-react";
 import Header from "../../../components/Header";
 import isUserLoggedIn from "../../../utils/auth";
 import { EditProfileForm } from "../../../components/EditProfileForm";
+import ApagarContaForm from "../../../components/ApagarContaForm";
 
 export default function PerfilPage() {
     const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
+    const [isApagarContaOpen, setIsApagarContaOpen] = useState(false);
 
     return (
         <div className="min-h-screen bg-white">
@@ -48,7 +50,14 @@ export default function PerfilPage() {
             </main>
 
             {isEditProfileOpen && <div className="fixed inset-0 bg-black/50 flex justify-center items-center">
-                <EditProfileForm/>
+                <EditProfileForm 
+                    onClickX={() => setIsEditProfileOpen(false)} 
+                    onClickApagarConta={() => {setIsEditProfileOpen(false), setIsApagarContaOpen(true)}}
+                />
+            </div>}
+
+            {isApagarContaOpen && <div className="fixed inset-0 bg-black/50 flex justify-center items-center">
+                <ApagarContaForm onClickX={() => {setIsApagarContaOpen(false), setIsEditProfileOpen(true)}}/>
             </div>}
         </div>
     );

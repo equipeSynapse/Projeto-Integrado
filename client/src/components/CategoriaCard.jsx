@@ -49,9 +49,9 @@ export default function CategoriaCard({ texto, onClick }) {
                         e.stopPropagation();
                         setIsCategoriaSeguida(!isCategoriaSeguida);
                         isCategoriaSeguida ?
-                            await desseguirCategoria(usuario, texto.replace(/["']/g, ""))
+                            await desseguirCategoria(texto.replace(/["']/g, ""))
                             :
-                            await seguirCategoria(usuario, texto.replace(/["']/g, ""))
+                            await seguirCategoria(texto.replace(/["']/g, ""))
                     }}
                     className=" size-[20px] flex items-center justify-center rounded-[50%] hover:bg-gray-200"
                 >

@@ -130,7 +130,6 @@ export const login = async (req, res) => {
             {"email":resultado.rows[0].email, 
              "usuario":resultado.rows[0].nome_usuario,
              "nome": resultado.rows[0].nome_completo, 
-             "categorias_seguidas": resultado.rows[0].categorias_seguidas
             }, process.env.JWT_SECRET, {expiresIn: "30m"})
 
         return res.status(200).json({ "mensagem": "Login efetuado com sucesso!", "token": token, "usuario": {"email":email, "nome completo": resultado.rows[0].nome_completo}})

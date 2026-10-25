@@ -1,10 +1,10 @@
 import api from "../api";
 
-export async function seguirCategoria(usuario, categoria) {
+export async function seguirCategoria(categoria) {
     try {
         const token = localStorage.getItem("token")
 
-        await api.patch("/api/categorias/seguir-categoria", {usuario, categoria}, {
+        await api.post("/api/categorias/seguir-categoria", {categoria}, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

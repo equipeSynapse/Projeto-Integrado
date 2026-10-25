@@ -20,7 +20,10 @@ export default function CategoriaCard({ texto, onClick }) {
                 if (isUserLoggedIn()) {
                     const categoriasObtidas = await obterCategoriasSeguidas(isUserLoggedIn().usuario)
 
-                    setIsCategoriaSeguida(categoriasObtidas.categorias.includes(texto))
+                    categoriasObtidas.categorias? 
+                        setIsCategoriaSeguida(categoriasObtidas.categorias.includes(texto))
+                        :
+                        setIsCategoriaSeguida(false)
                 }
             } catch (error) {
                 console.log(error)

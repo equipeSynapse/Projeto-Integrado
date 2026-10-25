@@ -158,7 +158,7 @@ projeto-mural-colaborativo/
 | RF12   | O sistema deve permitir que o usuário visualize as suas publicações. | `A FAZER 📄` |
 | RF13   | O sistema deve permitir a exclusão e a edição das publicações criadas. | `A FAZER 📄` |
 | RF14   | O sistema deve permitir mostrar o número de visualizações das publicações. | `FEITO ✅` |
-| RF15   | O sistema deve permitir que o usuário siga uma categoria para receber atualizações. | `A FAZER 📄` |
+| RF15   | O sistema deve permitir que o usuário siga uma categoria para receber atualizações. | `FEITO ✅` |
 | RF16   | O sistema deve permitir notificações de categorias seguidas pelo usuário. | `A FAZER 📄` |
 | RF17   | O sistema deve bloquear/censurar palavras indesejadas nos campos de título, descrição e informações de contato no formulário de cadastro de publicação. | `A FAZER 📄` |
 | RF18   | O sistema deve permitir que os usuários denunciem publicações através de uma justificativa. | `A FAZER 📄` |
@@ -166,7 +166,7 @@ projeto-mural-colaborativo/
 | RF20   | O sistema deve permitir que o CA visualize as denúncias criadas das publicações. | `A FAZER 📄` |
 | RF21   | O sistema deve permitir que o moderador aprove ou rejeite uma denúncia. | `A FAZER 📄` |
 | RF22   | O sistema deve excluir uma publicação quando o moderador aprovar uma denúncia. | `A FAZER 📄` |
-| RF23   | O sistema deve permitir que o usuário exclua sua conta. | `A FAZER 📄` |
+| RF23   | O sistema deve permitir que o usuário exclua sua conta. | `EM ANDAMENTO ⌛` |
 | RF24   | O sistema deve permitir que o usuário edite suas informações da conta. | `EM ANDAMENTO ⌛` |
 
 ---

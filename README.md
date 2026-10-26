@@ -148,10 +148,10 @@ projeto-mural-colaborativo/
 | RF02   | O sistema deve permitir o registro de contas de usuários, guardando informações como nome completo, nome de usuário, e-mail institucional e senha. | `FEITO ✅` |
 | RF03   | O sistema deve permitir o envio de um e-mail para que o usuário possa ativar sua conta. | `FEITO ✅` |
 | RF04   | O sistema deve permitir que o usuário realize login através do e-mail institucional e senha. | `FEITO ✅` |
-| RF05   | O sistema deve permitir que usuários logados criem novas publicações. | `EM ANDAMENTO ⌛` |
+| RF05   | O sistema deve permitir que usuários logados criem novas publicações. | `FEITO ✅` |
 | RF06   | O sistema deve permitir o preenchimento de título, descrição, categoria, imagem, informação de contato, link para mais informações e prazo de validade no cadastro de uma publicação. | `EM ANDAMENTO ⌛` |
 | RF07   | O sistema deve mostrar o título, a descrição, a categoria, a imagem, as informações de contato, o nome de usuário e a data de publicação respectiva à postagem. | `FEITO ✅` |
-| RF08   | O sistema deve permitir a classificação das publicações por categorias. | `EM ANDAMENTO ⌛` |
+| RF08   | O sistema deve permitir a classificação das publicações por categorias. | `FEITO ✅` |
 | RF09   | O sistema deve permitir que os usuários filtrem as publicações por título, por categoria, por período de publicação e por usuário. | `FEITO ✅` |
 | RF10   | O sistema deve permitir que o usuário acesse o link para mais informações das publicações. | `FEITO ✅` |
 | RF11   | O sistema deve mostrar as publicações de acordo com os filtros aplicados. | `FEITO ✅` |

@@ -54,7 +54,7 @@ A partir de dados coletados com a secretaria, professores, alunos e Centro Acad�
     <td align="center"> Desenvolvimento Full Stack </td>
     <td align="center"> Desenvolvimento Visual </td>
     <td align="center"> Desenvolvimento Full Stack </td>
-    <td align="center"> Gestão do Projeto e Desenvolvimento visual </td>
+    <td align="center"> Gestão do Projeto e Liderança de Design </td>
   </tr>
 </table>
 

@@ -88,9 +88,8 @@ export default function PublicacaoPage() {
                             imagem={p.imagem ?? null}
                             titulo={p.titulo ?? "Sem Título"}
                             descricao={p.descricao ?? "Sem descrição"}
-                            link={p.link}
                             autor={p.nome_usuario}
-                            email={p.email}
+                            contato={p.contato}
                             anexos={p.anexos}
                             qtdVisualizacoes={p.qtd_visualizacoes}
                             expiracao={p.expiracao}

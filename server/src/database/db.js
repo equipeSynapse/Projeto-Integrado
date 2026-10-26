@@ -2,5 +2,6 @@ import 'dotenv/config'
 import { Pool } from 'pg';
 
 export const pool = new Pool({
-    connectionString: process.env.DATABASE_URI
+    connectionString: process.env.DATABASE_URI,
+    connectionTimeoutMillis: 10000
 });

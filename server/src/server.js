@@ -3,6 +3,7 @@ import express from "express";
 import authRoutes from "./routes/authRoutes.js";
 import postsRoutes from "./routes/postsRoutes.js";
 import cors from "cors";
+import { pool } from "./database/db.js";
 
 const app = express();
 export const port = 3000;

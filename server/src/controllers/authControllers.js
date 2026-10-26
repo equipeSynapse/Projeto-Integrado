@@ -1,9 +1,10 @@
 import UserService from "../services/userServices.js";
 import jwt from "jsonwebtoken";
 import {v4 as uuidv4} from "uuid";
-import { enviarEmailConfirmacao } from "../services/enviarEmail.js";
-import { compararHash } from "../utils/hashConfig.js";
+import { enviarEmailConfirmacao } from "../services/enviarEmailConfirmacao.js";
+import { compararHash, gerarHash } from "../utils/hashConfig.js";
 import { pool } from "../database/db.js";
+import { enviarEmailRedefinirSenha } from "../services/enviarEmailRedefinirSenha.js";
 
 export const cadastrar = async (req, res) => {
     try {
@@ -18,14 +19,14 @@ export const cadastrar = async (req, res) => {
             });
         }
 
-        const emailRegexUFC = /^[a-zA-Z0-9._%+-]+@(alu\.)?ufc\.br$/i;
+        const emailRegexUFC = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9.-]+\.)?ufc\.br$/i;
         if (!emailRegexUFC.test(email.trim())) {
             return res.status(400).json({
                 mensagem: 'O e-mail informado não é do domínio da UFC. Por favor, informe seu e-mail institucional.'
             });
         }
 
-        const tokenAtivacao = uuidv4();
+        const tokenAtivacao = { "token": uuidv4(), "timestamp": Date.now() };
 
         const user = await UserService.createUser(
             email.trim(),
@@ -35,7 +36,7 @@ export const cadastrar = async (req, res) => {
             tokenAtivacao
         );
 
-        await enviarEmailConfirmacao(email.trim(), tokenAtivacao)
+        await enviarEmailConfirmacao(email.trim(), tokenAtivacao["token"])
 
         return res.status(201).json({
             mensagem: 'Usuário criado com sucesso.',
@@ -58,6 +59,23 @@ export const cadastrar = async (req, res) => {
     }
 }
 
+export const verificarNomeUsuario = async (req, res) => {
+    try {
+        const { nome_usuario } = req.body;
+
+        const buscaNome = await pool.query('SELECT EXISTS (SELECT 1 FROM usuarios WHERE nome_usuario = $1)', [nome_usuario.toLowerCase()]);
+
+        const usuarioExiste = buscaNome.rows[0].exists;
+
+        return res.status(200).json({usuarioExiste});
+    } catch (error) {
+        console.log("Erro ao verificar se nome de usuário existe:", error);
+        return res.status(500).json({
+            mensagem: "Erro ao verificar se nome de usuário existe."
+        })
+    }
+}
+
 export const ativarConta = async (req, res) => {
     try {
         const { token } = req.query;
@@ -66,23 +84,26 @@ export const ativarConta = async (req, res) => {
             return res.status(400).json({ mensagem: "Token de Ativação Ausente!" })
         }
 
-        const resultado = await pool.query('SELECT email FROM usuarios WHERE token_ativacao = $1', [token]);
+        const resultado = await pool.query('SELECT email, token FROM usuarios WHERE token->>\'token\' = $1', [token]);
 
         if (resultado.rows.length === 0) {
             return res.status(400).json({ mensagem: "Token de Ativação Inválido ou Conta já Ativada!" })
         }
 
-        await pool.query('UPDATE usuarios SET ativo = true, token_ativacao = NULL WHERE email = $1', [resultado.rows[0].email]);
+        if ((Date.now() - resultado.rows[0].token["timestamp"])/(1000 * 60) > 10 ) {
+            return res.status(401).json( {mensagem: "Token de Ativação Expirado!"})
+        }
+
+        await pool.query('UPDATE usuarios SET ativo = true, token = NULL WHERE email = $1', [resultado.rows[0].email]);
 
         return res.status(200).json({ mensagem: "Conta Ativada com Sucesso! Seu login já está autorizado!" })
     } catch (error) {
         console.log("Erro ao ativar conta:", error);
         return res.status(500).json({
-            error: "Erro ao ativar conta do usuário."
+            mensagem: "Erro ao ativar conta do usuário."
         })
     }
 }
-
 
 export const login = async (req, res) => {
     try {
@@ -106,13 +127,77 @@ export const login = async (req, res) => {
         if (resultado.rows[0].ativo !== true) return res.status(409).json({"mensagem": "Essa conta ainda não foi ativada. Verifique seu e-mail."})
 
         const token = jwt.sign({"email":resultado.rows[0].email}, process.env.JWT_SECRET, {expiresIn: "50m"})
+        const token = jwt.sign({"email":resultado.rows[0].email, "usuario":resultado.rows[0].nome_usuario}, process.env.JWT_SECRET, {expiresIn: "30m"})
 
         return res.status(200).json({ "mensagem": "Login efetuado com sucesso!", "token": token, "usuario": {"email":email, "nome completo": resultado.rows[0].nome_completo}})
         
     } catch (error) {
         console.log("Erro ao efetuar login:", error);
         return res.status(500).json({
-            "mensagem": "Erro interno no servidor. Tente efetuar o login novamente mais tarde."
+            mensagem: "Erro interno no servidor. Tente efetuar o login novamente mais tarde."
+        })
+    }
+}
+
+export const esqueciSenha = async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        if (!email || !email.trim()) {
+            return res.status(400).json({mensagem: 'O email deve ser informado para a redefinição de senha.'})
+        }
+
+        const buscaEmail = await pool.query('SELECT EXISTS (SELECT 1 FROM usuarios WHERE email = $1)', [email]);
+
+        if (!buscaEmail.rows[0].exists) return res.status(400).json({mensagem: "O email informado não consta no banco de dados. Realize um cadastro."}) 
+
+        const tokenRedefinicao = { "token": uuidv4(), "timestamp": Date.now() };
+
+        await pool.query('UPDATE usuarios SET token = $1 WHERE email = $2', [tokenRedefinicao, email])
+
+        try {
+            await enviarEmailRedefinirSenha(email, tokenRedefinicao["token"]);
+        } catch (error) {
+            return res.status(500).json({mensagem: 'Erro ao enviar e-mail!'})
+        }
+
+        return res.status(200).json({
+            mensagem: 'E-mail para redefinição de senha enviado com sucesso!'
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            mensagem: 'Erro interno no servidor. Tente novamente mais tarde.'
+        });
+    }
+}
+
+export const redefinirSenha = async (req, res) => {
+    try {
+        const { token } = req.query;
+        const { senha } = req.body;
+
+        if (!token || !token.trim()) return res.status(400).json({mensagem: "Token de Redefinição Ausente!"})
+
+        if (!senha || !senha.trim()) return res.status(400).json({mensagem: "É necessário informar uma nova senha."})
+
+        const resultado = await pool.query('SELECT token FROM usuarios WHERE token->>\'token\' = $1', [token])
+
+        if (resultado.rows.length === 0) return res.status(400).json({mensagem: "Token de Redefinição Inválido!"})
+
+        if ((Date.now() - resultado.rows[0].token["timestamp"])/(1000 * 60) > 10 ) {
+            return res.status(401).json( {mensagem: "Token de Ativação Expirado!"})
+        }
+
+        await pool.query('UPDATE usuarios SET token = NULL, senha = $1 WHERE token->>\'token\' = $2', [await gerarHash(senha), resultado.rows[0].token["token"]])
+
+        return res.status(200).json({mensagem: `Senha Alterada!`})
+
+    } catch (error) {
+        console.log("Erro ao redefinir senha:", error);
+        return res.status(500).json({
+            mensagem: "Erro interno no servidor. Tente redefinir a senha novamente mais tarde."
         })
     }
 }

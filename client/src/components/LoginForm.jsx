@@ -3,12 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import closeIcon from "../assets/icons/close.svg";
 import { InputField } from "./InputField";
 import { loginUsuario } from "../services/login";
+import Button from "../components/Button";
 
 // Garantir que o usuário insira um e-mail válido antes de tentar logar
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@(alu\.)?ufc\.br$/i;
 
-export default function LoginConta() {
-  const navigate = useNavigate(); // Redirecionar página
+export default function LoginConta({onClickX, onClickRegister, onSucess, ref}) {
 
   //Criando Fom com email e senha
   const [formData, setFormData] = useState({
@@ -56,7 +56,7 @@ export default function LoginConta() {
         const response = await loginUsuario({ email: formData.email, senha: formData.senha });
         console.log("Login realizado com sucesso", response);
         localStorage.setItem("token", response.token);
-        navigate("/");
+        onSucess()
       } catch (error) {
         // 2. Erro de credenciais incorretas 
         if (error.response && error.response.status === 401) {
@@ -75,10 +75,9 @@ export default function LoginConta() {
 
   return (
     
-    <div className="bg-white border border-[#e5e5e5] border-solid min-h-[550px] relative rounded-[16px] w-141 p-[31px] flex flex-col">
+    <div ref={ref} role="dialog" tabIndex={-1} aria-modal="true" className="bg-white border border-[#e5e5e5] border-solid min-h-[550px] relative rounded-[16px] w-141 p-[31px] flex flex-col">
       
-       {/*Botão X ------ Vai pra onde?*/}
-      <button type="button" className="absolute cursor-pointer right-[31px] top-[31px] size-[24px]" aria-label="Fechar">
+      <button type="button" onClick={onClickX} className="absolute cursor-pointer right-[31px] top-[31px] size-[24px]" aria-label="Fechar">
         <img alt="Fechar" src={closeIcon} className="block inset-0 max-w-none size-full" />
       </button>
 
@@ -126,25 +125,23 @@ export default function LoginConta() {
 
         {/*Botão: Enviar*/}
         <div className="mt-auto pt-[80px] flex flex-col gap-[16px] items-center w-full">
-          <button
+          <Button
             type="submit"
+            variant="cta"
             className={`flex flex-col h-[48px] items-center justify-center w-full rounded-[8px] bg-[#3c4043] hover:bg-black cursor-pointer
             }`}
-            /* OU disabled={!isFormValid}
-            className={`flex flex-col h-[48px] items-center justify-center w-full rounded-[8px] transition-colors ${
-              isFormValid ? "bg-[#3c4043] hover:bg-black cursor-pointer" : "bg-[#9d9fa1] cursor-not-allowed"  || Os 2 juntos nn fzm sentido*/
           >
             <p className="font-poppins font-medium text-[14px] text-center text-white">
               Entrar
             </p>
-          </button>
+          </Button>
 
            {/*Botão: Mudar para Cadastro*/}
           <p className="font-poppins font-normal text-[14px] text-black text-center">
             <span className="leading-[1.5]">Ainda não tem uma conta? </span>
-            <Link to="/cadastro" className="font-poppins font-medium leading-[1.5] cursor-pointer underline">
+            <span onClick={onClickRegister} className="font-poppins font-medium leading-[1.5] cursor-pointer underline">
               Registre-se
-            </Link>
+            </span>
           </p>
         </div>
 

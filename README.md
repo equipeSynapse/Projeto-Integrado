@@ -51,10 +51,10 @@ A partir de dados coletados com a secretaria, professores, alunos e Centro Acad�
   <tr>
     <td align="center"> Desenvolvimento Visual </td>
     <td align="center"> Desenvolvimento Full Stack e Liderança Técnica </td>
-    <td align="center"> Desenvolvimento Front-End </td>
+    <td align="center"> Desenvolvimento Full Stack </td>
     <td align="center"> Desenvolvimento Visual </td>
     <td align="center"> Desenvolvimento Full Stack </td>
-    <td align="center"> Gestão do Projeto e Desenvolvimento Visual </td>
+    <td align="center"> Gestão do Projeto e Design Lead </td>
   </tr>
 </table>
 
@@ -144,21 +144,21 @@ projeto-mural-colaborativo/
 
 | Código | Descrição | Estado |
 | ---    | ---       | ---    |
-| RF01   | O sistema deve permitir que usuários logados ou não logados visualizem as publicações disponíveis no mural. | `EM ANDAMENTO ⌛` |
+| RF01   | O sistema deve permitir que usuários logados ou não logados visualizem as publicações disponíveis no mural. | `FEITO ✅` |
 | RF02   | O sistema deve permitir o registro de contas de usuários, guardando informações como nome completo, nome de usuário, e-mail institucional e senha. | `FEITO ✅` |
 | RF03   | O sistema deve permitir o envio de um e-mail para que o usuário possa ativar sua conta. | `FEITO ✅` |
 | RF04   | O sistema deve permitir que o usuário realize login através do e-mail institucional e senha. | `FEITO ✅` |
-| RF05   | O sistema deve permitir que usuários logados criem novas publicações. | `A FAZER 📄` |
-| RF06   | O sistema deve permitir o preenchimento de título, descrição, categoria, imagem, informação de contato, link para mais informações e prazo de validade no cadastro de uma publicação. | `A FAZER 📄` |
+| RF05   | O sistema deve permitir que usuários logados criem novas publicações. | `EM ANDAMENTO ⌛` |
+| RF06   | O sistema deve permitir o preenchimento de título, descrição, categoria, imagem, informação de contato, link para mais informações e prazo de validade no cadastro de uma publicação. | `EM ANDAMENTO ⌛` |
 | RF07   | O sistema deve mostrar o título, a descrição, a categoria, a imagem, as informações de contato, o nome de usuário e a data de publicação respectiva à postagem. | `FEITO ✅` |
-| RF08   | O sistema deve permitir a classificação das publicações por categorias. | `A FAZER 📄` |
-| RF09   | O sistema deve permitir que os usuários filtrem as publicações por título, por categoria, por período de publicação e por usuário. | `EM ANDAMENTO ⌛` |
-| RF10   | O sistema deve permitir que o usuário acesse o link para mais informações das publicações. | `A FAZER 📄` |
-| RF11   | O sistema deve mostrar as publicações de acordo com os filtros aplicados. | `A FAZER 📄` |
+| RF08   | O sistema deve permitir a classificação das publicações por categorias. | `EM ANDAMENTO ⌛` |
+| RF09   | O sistema deve permitir que os usuários filtrem as publicações por título, por categoria, por período de publicação e por usuário. | `FEITO ✅` |
+| RF10   | O sistema deve permitir que o usuário acesse o link para mais informações das publicações. | `FEITO ✅` |
+| RF11   | O sistema deve mostrar as publicações de acordo com os filtros aplicados. | `FEITO ✅` |
 | RF12   | O sistema deve permitir que o usuário visualize as suas publicações. | `A FAZER 📄` |
 | RF13   | O sistema deve permitir a exclusão e a edição das publicações criadas. | `A FAZER 📄` |
 | RF14   | O sistema deve permitir mostrar o número de visualizações das publicações. | `FEITO ✅` |
-| RF15   | O sistema deve permitir que o usuário siga uma categoria para receber atualizações. | `A FAZER 📄` |
+| RF15   | O sistema deve permitir que o usuário siga uma categoria para receber atualizações. | `FEITO ✅` |
 | RF16   | O sistema deve permitir notificações de categorias seguidas pelo usuário. | `A FAZER 📄` |
 | RF17   | O sistema deve bloquear/censurar palavras indesejadas nos campos de título, descrição e informações de contato no formulário de cadastro de publicação. | `A FAZER 📄` |
 | RF18   | O sistema deve permitir que os usuários denunciem publicações através de uma justificativa. | `A FAZER 📄` |
@@ -166,7 +166,7 @@ projeto-mural-colaborativo/
 | RF20   | O sistema deve permitir que o CA visualize as denúncias criadas das publicações. | `A FAZER 📄` |
 | RF21   | O sistema deve permitir que o moderador aprove ou rejeite uma denúncia. | `A FAZER 📄` |
 | RF22   | O sistema deve excluir uma publicação quando o moderador aprovar uma denúncia. | `A FAZER 📄` |
-| RF23   | O sistema deve permitir que o usuário exclua sua conta. | `A FAZER 📄` |
+| RF23   | O sistema deve permitir que o usuário exclua sua conta. | `EM ANDAMENTO ⌛` |
 | RF24   | O sistema deve permitir que o usuário edite suas informações da conta. | `EM ANDAMENTO ⌛` |
 
 ---

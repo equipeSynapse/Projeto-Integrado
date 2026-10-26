@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { CadastroSucessoModal } from "./CadastroSucessoModal";
 import closeIcon from "../assets/icons/close.svg";
-import backArrowIcon from "../assets/icons/back-arrow.svg";
 import checkMetIcon from "../assets/icons/check-met.svg";
 import checkUnmetIcon from "../assets/icons/check-unmet.svg";
+import circleCheckIcon from "../assets/icons/circle-check.svg";
 import { cadastrarUsuario } from "../services/cadastro";
+import { verificarNomeUsuario } from "../services/verificarNomeUsuario";
 import { InputField } from "./InputField";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9.-]+\.)?ufc\.br$/i;
@@ -11,13 +13,16 @@ const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9.-]+\.)?ufc\.br$/i;
 function getPasswordRequirements(senha) {
   return [
     { label: "Mínimo de 08 caracteres", met: senha.length >= 8 },
-    { label: "Letras maiúsculas e minúsculas (A-Z) e (a-z)", met: /[A-Z]/.test(senha) && /[a-z]/.test(senha) },
+    { label: "Letras maiúsculas (A-Z)", met: /[A-Z]/.test(senha) },
+    { label: "Letras minúsculas (a-z)", met: /[a-z]/.test(senha) },
     { label: "Caracteres especiais (#, @, $, %, *)", met: /[#@$%*]/.test(senha) },
     { label: "Números (0-9)", met: /[0-9]/.test(senha) },
   ];
 }
 
-export default function CriarConta() {
+export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn}) {
+  const [sucessoEmail, setSucessoEmail] = useState(null);
+
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     nome_completo: "",
@@ -33,6 +38,7 @@ export default function CriarConta() {
   const passwordsMismatch =
     formData.confirmarSenha.length > 0 && formData.confirmarSenha !== formData.senha;
   const canSubmit = isPasswordValid && formData.confirmarSenha.length > 0 && !passwordsMismatch;
+  const [isUserTaken, setIsUserTaken] = useState();
   const isStep1Valid =
     formData.nome_completo.trim() !== "" &&
     formData.nome_usuario.trim() !== "" &&
@@ -51,6 +57,7 @@ export default function CriarConta() {
     const nextErrors = {};
     if (!formData.nome_completo.trim()) nextErrors.nome_completo = "Campo obrigatório.";
     if (!formData.nome_usuario.trim()) nextErrors.nome_usuario = "Campo obrigatório.";
+    else if (isUserTaken) nextErrors.nome_usuario = "Esse nome de usuário já está em uso. Escolha outro para continuar."
     if (!formData.email.trim()) {
       nextErrors.email = "Campo obrigatório.";
     } else if (!EMAIL_REGEX.test(formData.email.trim())) {
@@ -70,7 +77,7 @@ export default function CriarConta() {
     try {
       await cadastrarUsuario({ ...formData })
       console.log("Usuário cadastrado com sucesso")
-      alert("Usuário cadastrado com sucesso! Um e-mail de ativação foi enviado.")
+      setSucessoEmail(formData.email.trim())
     } catch (error) {
       console.error("Erro ao criar usuário:", error)
       alert("Erro ao criar usuário: " + error.response.data.mensagem);
@@ -79,7 +86,7 @@ export default function CriarConta() {
 
   return (
     <div className="bg-white border border-[#e5e5e5] border-solid h-177.5 relative rounded-[16px] w-141">
-      <button type="button" className="absolute cursor-pointer left-[509px] size-[24px] top-[31px]" aria-label="Fechar">
+      <button onClick={onClickX} type="button" className="absolute cursor-pointer left-[509px] size-[24px] top-[31px]" aria-label="Fechar">
         <img alt="" src={closeIcon} className="absolute block inset-0 max-w-none size-full" />
       </button>
 
@@ -156,19 +163,22 @@ export default function CriarConta() {
                   inputValue={formData.confirmarSenha}
                   inputOnChange={handleChange("confirmarSenha")}
                   inputPlaceholder="Confirme sua senha"
-                  errorVar={passwordsMismatch}
+                  errorVar={passwordsMismatch ? "As senhas não coincidem." : ""}
                 />
-                {passwordsMismatch && (
-                  <span className="text-[12px] text-[#d93025]">As senhas não coincidem. </span>
-                )}
               </div>
             </div>
 
-            <div className="content-stretch flex flex-col gap-[14px] items-center relative shrink-0 w-full">
+            <div className="content-stretch flex flex-row justify-between items-center relative shrink-0 w-full">
+              <button type="button" onClick={handleBack} className="content-stretch cursor-pointer flex gap-[8px] px-[24px] py-[12px] items-center relative shrink-0">
+                <p className="font-poppins font-normal leading-[1.5] relative shrink-0 text-[14px] text-black text-center whitespace-nowrap">
+                  Voltar
+                </p>
+              </button>
+
               <button
                 type="submit"
                 disabled={!canSubmit}
-                className={`rounded-[50px] content-stretch flex flex-col h-[48px] items-center justify-center overflow-clip px-[40px] py-[16px] relative rounded-[8px] shrink-0 w-full ${canSubmit ? "bg-[#3c4043] cursor-pointer" : "bg-[#9d9fa1] cursor-not-allowed"
+                className={`rounded-[50px] content-stretch flex flex-col w-[128px] h-[48px] items-center justify-center overflow-clip px-[24px] py-[12px] relative rounded-[8px] shrink-0 ${canSubmit ? "bg-[#3c4043] cursor-pointer" : "bg-[#9d9fa1] cursor-not-allowed"
                   }`}
               >
                 <p className="font-poppins font-medium leading-none relative shrink-0 text-[14px] text-center text-white whitespace-nowrap">
@@ -176,14 +186,7 @@ export default function CriarConta() {
                 </p>
               </button>
 
-              <button type="button" onClick={handleBack} className="content-stretch cursor-pointer flex gap-[8px] items-center relative shrink-0">
-                <div className="relative shrink-0 size-[14px]">
-                  <img alt="" src={backArrowIcon} className="absolute block inset-0 max-w-none size-full" />
-                </div>
-                <p className="font-poppins font-normal leading-[1.5] relative shrink-0 text-[14px] text-black text-center whitespace-nowrap">
-                  Voltar
-                </p>
-              </button>
+
             </div>
           </div>
         </form>
@@ -201,15 +204,37 @@ export default function CriarConta() {
               errorVar={errors.nome_completo}
             />
 
-            <InputField
-              label="Usuário *"
-              inputId="nomeUsuario"
-              inputType="text"
-              inputValue={formData.nome_usuario}
-              inputOnChange={handleChange("nome_usuario")}
-              inputPlaceholder="Usuário"
-              errorVar={errors.nome_usuario}
-            />
+
+            <div className="w-full flex flex-row relative">
+              <InputField
+                onBlur={async (e) => {
+                  if (!e.target.value.trim()) {
+                    setIsUserTaken()
+                    return;
+                  }
+
+                  try {
+                    const usuarioExiste = await verificarNomeUsuario({ "nome_usuario": e.target.value });
+                    setIsUserTaken(usuarioExiste);
+
+                    setErrors((prev) => ({ ...prev, nome_usuario: (usuarioExiste ? "Esse nome de usuário já está em uso. Escolha outro para continuar." : undefined) }))
+                  } catch (error) {
+                    console.error("Erro ao verificar se nome de usuário já existe:", error);
+                  }
+                }
+                }
+                label="Usuário *"
+                inputId="nomeUsuario"
+                inputType="text"
+                inputValue={formData.nome_usuario}
+                inputOnChange={handleChange("nome_usuario")}
+                inputPlaceholder="Usuário"
+                errorVar={errors.nome_usuario}
+              >
+                {isUserTaken == false && (<img src={circleCheckIcon} className="size-[16px] absolute right-[16px]"/>)}
+              </InputField>
+              
+            </div>
 
             <InputField
               label="E-mail institucional *"
@@ -242,11 +267,15 @@ export default function CriarConta() {
 
           <p className="absolute font-poppins font-normal leading-[0] left-[54px] right-[54px] text-[14px] text-black text-center top-[656px]">
             <span className="leading-[1.5]">Já tem uma conta? </span>
-            <button type="button" className="font-poppins font-medium leading-[1.5] cursor-pointer">
+            <button onClick={onClickEntrar} className="font-poppins font-medium leading-[1.5] cursor-pointer">
               Entrar
             </button>
           </p>
         </form>
+      )}
+
+      {sucessoEmail && (
+        <CadastroSucessoModal email={sucessoEmail} onClose={() => {setSucessoEmail(null); onClickX()}} onClickLoginBtn={onClickLoginBtn} />
       )}
     </div>
   );

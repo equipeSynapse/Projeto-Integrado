@@ -18,7 +18,7 @@ export default function CategoriaCard({ texto, onClick }) {
         async function carregarCategorias() {
             try {
                 if (isUserLoggedIn()) {
-                    const categoriasObtidas = await obterCategoriasSeguidas(isUserLoggedIn().usuario)
+                    const categoriasObtidas = await obterCategoriasSeguidas(usuario)
 
                     categoriasObtidas.categorias? 
                         setIsCategoriaSeguida(categoriasObtidas.categorias.includes(texto))

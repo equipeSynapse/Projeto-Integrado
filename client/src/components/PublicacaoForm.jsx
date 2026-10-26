@@ -91,11 +91,20 @@ function SeletorData({ valor, onSelecionar }) {
     const [mes, setMes] = useState(valor || new Date())
     const dias = gerarMatrizDias(mes)
     const hoje = startOfDay(new Date())
+    const mesAtual = startOfDay(new Date(hoje.getFullYear(), hoje.getMonth(), 1))
+    const podeVoltar = !isBefore(addMonths(mes, -1), mesAtual)
 
     return (
         <div className="absolute z-10 top-[calc(100%+8px)] left-0 bg-white border border-[#e5e5e5] rounded-[8px] shadow-lg shadow-black/10 p-[16px] font-poppins text-[14px] text-[#3c4043]">
             <div className="flex items-center justify-between mb-[12px]">
-                <button type="button" onClick={() => setMes((m) => addMonths(m, -1))}><ChevronLeft size="18px" /></button>
+                <button
+                    type="button"
+                    disabled={!podeVoltar}
+                    onClick={() => setMes((m) => addMonths(m, -1))}
+                    className={podeVoltar ? '' : 'opacity-30 cursor-not-allowed'}
+                >
+                    <ChevronLeft size="18px" />
+                </button>
                 <span className="font-semibold capitalize">{format(mes, 'MMMM yyyy', { locale: ptBR })}</span>
                 <button type="button" onClick={() => setMes((m) => addMonths(m, 1))}><ChevronRight size="18px" /></button>
             </div>
@@ -131,6 +140,15 @@ function mascaraData(texto) {
     return n
 }
 
+function mascaraTelefone(texto) {
+    const n = texto.replace(/\D/g, '').slice(0, 11)
+    if (n.length > 10) return `(${n.slice(0, 2)}) ${n.slice(2, 7)}-${n.slice(7)}`
+    if (n.length > 6) return `(${n.slice(0, 2)}) ${n.slice(2, 6)}-${n.slice(6)}`
+    if (n.length > 2) return `(${n.slice(0, 2)}) ${n.slice(2)}`
+    if (n.length > 0) return `(${n}`
+    return ''
+}
+
 function parseData(texto) {
     if (texto.length !== 10) return null
     const d = parse(texto, 'dd/MM/yyyy', new Date())
@@ -148,12 +166,20 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
     const [anexo, setAnexo] = useState(null)
     const [enviando, setEnviando] = useState(false)
 
-    const dataExpiracao = parseData(dados.expiracao)
+    const hoje = startOfDay(new Date())
+    const dataDigitada = parseData(dados.expiracao)
+    const dataExpiracao = dataDigitada && !isBefore(dataDigitada, hoje) ? dataDigitada : null
+
+    let erroExpiracao = false
+    if (!dados.expiracao.trim()) erroExpiracao = MSG_OBRIGATORIO
+    else if (!dataDigitada) erroExpiracao = 'Data inválida'
+    else if (!dataExpiracao) erroExpiracao = 'A data não pode ser anterior a hoje'
+
     const erros = {
         titulo: !dados.titulo.trim() && MSG_OBRIGATORIO,
         descricao: !dados.descricao.trim() && MSG_OBRIGATORIO,
         categorias: dados.categorias.length === 0 && MSG_OBRIGATORIO,
-        expiracao: !dataExpiracao && MSG_OBRIGATORIO,
+        expiracao: erroExpiracao,
     }
     const formValido = !Object.values(erros).some(Boolean)
     const erroVisivel = (campo) => tocados[campo] && erros[campo]
@@ -260,6 +286,8 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
                             onChange={(e) => setDados((prev) => ({ ...prev, expiracao: mascaraData(e.target.value) }))}
                             onBlur={tocar('expiracao')}
                             placeholder="dd/mm/aaaa"
+                            inputMode="numeric"
+                            maxLength={10}
                             className={`${inputBase} ${borda(erroVisivel('expiracao'))} h-[48px] pl-[16px] pr-[48px] py-[10px]`}
                         />
                         <button type="button" onClick={() => setCalendarioAberto((a) => !a)} className="absolute right-[16px] top-1/2 -translate-y-1/2 cursor-pointer">
@@ -314,9 +342,15 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
                 </Campo>
 
                 <Campo label="Telefone/Celular">
-                    <input value={dados.telefone} onChange={alterar('telefone')} placeholder="(00) 00000-0000" className={`${inputBase} ${borda(false)} h-[48px] px-[16px] py-[10px]`} />
+                    <input
+                        value={dados.telefone}
+                        onChange={(e) => setDados((prev) => ({ ...prev, telefone: mascaraTelefone(e.target.value) }))}
+                        placeholder="(00) 00000-0000"
+                        inputMode="tel"
+                        maxLength={15}
+                        className={`${inputBase} ${borda(false)} h-[48px] px-[16px] py-[10px]`}
+                    />
                 </Campo>
-
 
                 <Campo label="Link externo">
                     <input value={dados.link} onChange={alterar('link')} placeholder="https://exemplo.com" className={`${inputBase} ${borda(false)} h-[48px] px-[16px] py-[10px]`} />

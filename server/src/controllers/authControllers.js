@@ -182,7 +182,7 @@ export const validarToken = async (req, res) => {
 
         if (!token || !token.trim()) return res.status(400).json({mensagem: "Token de Redefinição Ausente!"})
 
-        const resultado = await pool.query('SELECT email FROM usuarios WHERE token = $1', [token])
+        const resultado = await pool.query('SELECT email FROM usuarios WHERE token->>\'token\' = $1', [token])
 
         if (resultado.rows.length === 0) return res.status(400).json({mensagem: "Token de Redefinição Inválido ou Expirado!"})
 

@@ -176,6 +176,25 @@ export const esqueciSenha = async (req, res) => {
     }
 }
 
+export const validarToken = async (req, res) => {
+    try {
+        const { token } = req.query;
+
+        if (!token || !token.trim()) return res.status(400).json({mensagem: "Token de Redefinição Ausente!"})
+
+        const resultado = await pool.query('SELECT email FROM usuarios WHERE token = $1', [token])
+
+        if (resultado.rows.length === 0) return res.status(400).json({mensagem: "Token de Redefinição Inválido ou Expirado!"})
+
+        return res.status(200).json({email: resultado.rows[0].email})
+    } catch (error) {
+        console.log("Erro ao validar token:", error);
+        return res.status(500).json({
+            mensagem: "Erro interno no servidor. Tente novamente mais tarde."
+        })
+    }
+}
+
 export const redefinirSenha = async (req, res) => {
     try {
         const { token } = req.query;

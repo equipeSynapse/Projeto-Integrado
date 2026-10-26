@@ -18,7 +18,7 @@ export const buscarPublicacoes = async (req, res) => {
 
 export const criarPublicacao = async (req, res) => { 
     try {
-        const { titulo, descricao, categoria, imagem, contato, anexos, expiracao } = req.body;
+        const { titulo, descricao, categoria, imagem, email, telefone, link, anexos, expiracao } = req.body;
         
         // O middleware lê o token do login, descobre quem está executando essa ação e salva em req.usuario
         const autor_email = req.usuario.email;
@@ -33,8 +33,8 @@ export const criarPublicacao = async (req, res) => {
         }
 
         const query = `
-            INSERT INTO publicacoes (criado_em, autor_email, titulo, descricao, categoria, imagem, contato, anexos, expiracao, qtd_visualizacoes)
-            VALUES (CURRENT_DATE, $1, $2, $3, $4, $5, $6, $7, $8, 0) 
+            INSERT INTO publicacoes (autor_email, titulo, descricao, categoria, imagem, email, telefone, link, anexos, expiracao)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) 
             RETURNING *;
         `; 
 
@@ -44,8 +44,10 @@ export const criarPublicacao = async (req, res) => {
             descricao.trim(),
             categoria,
             imagem?.trim() || null, 
-            contato?.trim() || null,
-            // A coluna anexos é text[]
+            email?.trim() || null,
+            telefone?.trim() || null,
+            link?.trim() || null,
+            // A coluna anexos é json[]
             Array.isArray(anexos) && anexos.length > 0 ? anexos : null,
             expiracao
         ];

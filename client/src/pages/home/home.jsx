@@ -179,7 +179,9 @@ export default function HomePage() {
                                     titulo={p.titulo ?? "Sem Título"}
                                     descricao={p.descricao ?? "Sem descrição"}
                                     autor={p.nome_usuario}
-                                    contato={p.contato}
+                                    link={p.link}
+                                    email={p.email}
+                                    telefone={p.telefone}
                                     anexos={p.anexos}
                                     qtdVisualizacoes={p.qtd_visualizacoes}
                                     expiracao={p.expiracao}

@@ -1,3 +1,4 @@
+import link2Icon from "../../assets/icons/link-2.svg"
 import mailIcon from "../../assets/icons/mail.svg"
 import phoneIcon from "../../assets/icons/phone.svg"
 import Button from "../Button";
@@ -11,8 +12,8 @@ import { ArrowUpRight, Pencil, Trash } from "lucide-react";
 import CopiarLinkBtn from "./CopiarLinkBtn";
 import ExcluirPubModal from "./ExcluirPubModal";
 
-export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, titulo, descricao,
-                            contato, anexos, qtdVisualizacoes, expiracao }) {
+export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, titulo, descricao, link,
+                            email, telefone, anexos, qtdVisualizacoes, expiracao }) {
 
   const cardRef = viewObserver(id)
   const [expandido, setExpandido] = useState(false)
@@ -20,9 +21,6 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
   const usuario = isUserLoggedIn();
   const [threeDotsClicked, setThreeDotsClicked] = useState(false)
   const [excluirClicked, setExcluirClicked] = useState(false)
-
-  // O contato guarda e-mail e/ou telefone separados por " / "
-  const contatos = contato ? contato.split(' / ').filter(Boolean) : []
 
   return (
     <article ref={cardRef} tabIndex="0" aria-label={`Publicação ${titulo}`} className="bg-white border border-[#e5e5e5] border-solid rounded-[16px] p-[20px] flex flex-col gap-[24px] items-start w-full max-w-[778px] text-[14px] font-poppins">
@@ -62,16 +60,24 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
           {(!expandido && variant !== "completo") ? <button className="text-[#8d8d8d] font-medium hover:cursor-pointer" onClick={() => setExpandido(true)}> mostrar mais </button> : ''}
         </p>
 
-        {(expandido || variant === "completo") && contatos.length > 0 ?
+        {(expandido || variant === "completo") && (link || email || telefone) ?
           <div className="flex flex-col gap-[24px]">
             <h3 className="font-semibold leading-none text-[14px] text-black"> Informações adicionais </h3>
             <div className="flex flex-col gap-[16px]">
-              {contatos.map((c, index) =>
-                <div key={index} className="flex items-center gap-[10px]">
-                  <img src={c.includes('@') ? mailIcon : phoneIcon} className="size-[18px]" />
-                  <span> {c} </span>
-                </div>
-              )}
+              {link ? <div className="flex items-center gap-[10px]">
+                <img src={link2Icon} className="size-[18px] rotate-135" />
+                <a href={link} className="underline" target="_blank" rel="noopener noreferrer"> {link} </a>
+              </div> : ''}
+
+              {email ? <div className="flex items-center gap-[10px]">
+                <img src={mailIcon} className="size-[18px]" />
+                <span> {email} </span>
+              </div> : ''}
+
+              {telefone ? <div className="flex items-center gap-[10px]">
+                <img src={phoneIcon} className="size-[18px]" />
+                <span> {telefone} </span>
+              </div> : ''}
             </div>
           </div>
           : ''}

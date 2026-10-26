@@ -10,7 +10,7 @@ import { createPub } from '../services/criarPublicacao'
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024
 // Valores do enum public.categoria no banco
-const CATEGORIAS = ['Oficina', 'Evento', 'Bolsa', 'Estágio', 'Processo Seletivo']
+const CATEGORIAS = ['Avisos Administrativos', 'Bolsas', 'Comunidade', 'Divulgação', 'Estágios', 'Eventos']
 const MSG_OBRIGATORIO = 'Preencha este campo'
 
 const inputBase = 'bg-white border border-solid font-poppins font-normal leading-none outline-none rounded-[8px] text-[14px] text-[#3c4043] w-full placeholder:text-[#909090]'
@@ -138,7 +138,7 @@ function parseData(texto) {
 }
 
 export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
-    const [dados, setDados] = useState({ titulo: '', descricao: '', categorias: [], expiracao: '', email: '', telefone: '' })
+    const [dados, setDados] = useState({ titulo: '', descricao: '', categorias: [], expiracao: '', email: '', telefone: '', link: '' })
     const [tocados, setTocados] = useState({})
     const [categoriasAbertas, setCategoriasAbertas] = useState(false)
     const [calendarioAberto, setCalendarioAberto] = useState(false)
@@ -179,8 +179,9 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
                 descricao: dados.descricao,
                 categoria: dados.categorias[0],
                 expiracao: format(dataExpiracao, 'yyyy-MM-dd'),
-                // O backend guarda e-mail e telefone juntos na coluna "contato"
-                contato: [dados.email.trim(), dados.telefone.trim()].filter(Boolean).join(' / '),
+                email: dados.email,
+                telefone: dados.telefone,
+                link: dados.link,
             })
             onSucess?.()
         } catch (error) {
@@ -316,6 +317,10 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
                     <input value={dados.telefone} onChange={alterar('telefone')} placeholder="(00) 00000-0000" className={`${inputBase} ${borda(false)} h-[48px] px-[16px] py-[10px]`} />
                 </Campo>
 
+
+                <Campo label="Link externo">
+                    <input value={dados.link} onChange={alterar('link')} placeholder="https://exemplo.com" className={`${inputBase} ${borda(false)} h-[48px] px-[16px] py-[10px]`} />
+                </Campo>
 
                 <div className="flex flex-col gap-[12px]">
                     <span className="text-[14px] font-medium">Anexar arquivo</span>

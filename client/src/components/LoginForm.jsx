@@ -8,7 +8,7 @@ import Button from "../components/Button";
 // Garantir que o usuário insira um e-mail válido antes de tentar logar
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@(alu\.)?ufc\.br$/i;
 
-export default function LoginConta({onClickX, onClickRegister, onSucess, ref}) {
+export default function LoginConta({onClickX, onClickRegister, onClickEsqueciSenha, onSucess, ref}) {
 
   //Criando Fom com email e senha
   const [formData, setFormData] = useState({
@@ -75,7 +75,7 @@ export default function LoginConta({onClickX, onClickRegister, onSucess, ref}) {
 
   return (
     
-    <div ref={ref} role="dialog" tabIndex={-1} aria-modal="true" className="bg-white border border-[#e5e5e5] border-solid min-h-[550px] relative rounded-[16px] w-141 p-[31px] flex flex-col">
+    <div ref={ref} role="dialog" tabIndex={-1} aria-modal="true" className="bg-white border border-[#e5e5e5] border-solid min-h-[550px] relative rounded-[16px] w-141 p-[31px]">
       
       <button type="button" onClick={onClickX} className="absolute cursor-pointer right-[31px] top-[31px] size-[24px]" aria-label="Fechar">
         <img alt="Fechar" src={closeIcon} className="block inset-0 max-w-none size-full" />
@@ -117,9 +117,9 @@ export default function LoginConta({onClickX, onClickRegister, onSucess, ref}) {
           
           {/*Botão: Esqueceu a senha*/}
           <div className="w-full flex justify-end mt-[-10px]">
-            <Link /*to="/esqueceuSenha"*/ className="font-poppins font-medium text-[14px] text-black cursor-pointer hover:underline">
+            <button type="button" onClick={onClickEsqueciSenha} className="font-poppins font-medium text-[14px] text-black cursor-pointer hover:underline">
               Esqueceu sua senha?
-            </Link>
+            </button>
           </div>  
         </div>
 

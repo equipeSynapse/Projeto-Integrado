@@ -9,8 +9,8 @@ export default function timestampMsg(newestTime, oldestTime, short=false){
 
     const hours = Math.floor(minutes / 60)
     if (hours < 24) {
-      if (short) return `$há ${hours}h`
-      return `$há ${hours} horas`
+      if (short) return `há ${hours}h`
+      return `há ${hours} horas`
     }
 
     const days = Math.floor(hours / 24)

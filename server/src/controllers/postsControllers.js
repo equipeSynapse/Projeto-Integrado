@@ -47,7 +47,8 @@ export const criarPublicacao = async (req, res) => {
             email?.trim() || null,
             telefone?.trim() || null,
             link?.trim() || null,
-            anexos?.trim() || null,
+            // A coluna anexos é json[]
+            Array.isArray(anexos) && anexos.length > 0 ? anexos : null,
             expiracao
         ];
 

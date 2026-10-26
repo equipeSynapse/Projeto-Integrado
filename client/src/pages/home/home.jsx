@@ -15,6 +15,7 @@ import CategoriaCard from "../../components/CategoriaCard";
 import Toast from "../../components/toasts/Toast";
 import { useNavigate } from "react-router-dom";
 import Destaques from "../../components/publicacoes/Destaques";
+import PublicacaoForm from "../../components/publicacoes/PublicacaoForm";
 
 export default function HomePage() {
     const navigate = useNavigate();
@@ -27,6 +28,9 @@ export default function HomePage() {
 
     const [isCadastroOpen, setIsCadastroOpen] = useState(false);
     const cadastroModalRef = useRef(null)
+
+    const [isPublicacaoOpen, setIsPublicacaoOpen] = useState(false);
+    const [pubErro, setPubErro] = useState(null);
 
     const [isEsqueciSenhaOpen, setIsEsqueciSenhaOpen] = useState(false)
 
@@ -185,7 +189,7 @@ export default function HomePage() {
                     <div className="bg-white flex flex-col gap-[12px] border w-[290px] h-[270px] p-[36px] rounded-[12px] border-[#e5e5e5]">
                         <span className="font-semibold"> O mural também é seu </span>
                         <p> Compartilhe avisos, eventos, oportunidades ou conteúdos que podem interessar à comunidade. </p>
-                        <Button variant="cta" className="w-full mt-[8px]" onClick={() => {isUserLoggedIn() ? null : setIsLoginOpen(true)}}> 
+                        <Button variant="cta" className="w-full mt-[8px]" onClick={() => {isUserLoggedIn() ? setIsPublicacaoOpen(true) : setIsLoginOpen(true)}}> 
                             <Plus className="size-[20px]"/> 
                             <span> Criar Publicação </span> 
                         </Button>
@@ -229,6 +233,20 @@ export default function HomePage() {
                     />
                 </div>
             )}
+
+            {isPublicacaoOpen && (
+                <div className="fixed inset-0 z-3 flex justify-center items-center bg-black/50 p-[16px]">
+                    <PublicacaoForm
+                        onClickX={() => setIsPublicacaoOpen(false)}
+                        onSucess={() => { setIsPublicacaoOpen(false); window.location.reload() }}
+                        onErro={(mensagem) => setPubErro(mensagem)}
+                    />
+                </div>
+            )}
+
+            {pubErro &&
+                <Toast titulo="Erro ao criar publicação" mensagem={pubErro} onClose={() => setPubErro(null)} />
+            }
 
             {toastMessage &&
                 <Toast titulo="Boas-vindas ao Mural SMD!" mensagem="Seu login foi realizado com sucesso." onClose={() => setToastMessage(false)} />

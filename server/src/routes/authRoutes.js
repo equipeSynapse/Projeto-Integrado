@@ -7,8 +7,16 @@ const router = express.Router();
 
 router.post('/cadastrar', authController.cadastrar)
 
+router.post('/verificar-nome-usuario', authController.verificarNomeUsuario)
+
 router.get('/ativar-conta', authController.ativarConta)
 
 router.post('/login', authController.login)
+
+router.post('/esqueci-senha', authController.esqueciSenha)
+
+router.get('/validar-token', authController.validarToken)
+
+router.patch('/redefinir-senha', authController.redefinirSenha)
 
 export default router;

@@ -182,9 +182,13 @@ export const validarToken = async (req, res) => {
 
         if (!token || !token.trim()) return res.status(400).json({mensagem: "Token de Redefinição Ausente!"})
 
-        const resultado = await pool.query('SELECT email FROM usuarios WHERE token->>\'token\' = $1', [token])
+        const resultado = await pool.query('SELECT * FROM usuarios WHERE token->>\'token\' = $1', [token])
 
-        if (resultado.rows.length === 0) return res.status(400).json({mensagem: "Token de Redefinição Inválido ou Expirado!"})
+        if (resultado.rows.length === 0) return res.status(400).json({mensagem: "Token de Redefinição Inválido!"})
+
+        if ((Date.now() - resultado.rows[0].token["timestamp"])/(1000 * 60) > 10 ) {
+            return res.status(401).json( {mensagem: "Token de Redefinição Expirado!", email: resultado.rows[0].email})
+        }
 
         return res.status(200).json({email: resultado.rows[0].email})
     } catch (error) {
@@ -204,12 +208,12 @@ export const redefinirSenha = async (req, res) => {
 
         if (!senha || !senha.trim()) return res.status(400).json({mensagem: "É necessário informar uma nova senha."})
 
-        const resultado = await pool.query('SELECT token FROM usuarios WHERE token->>\'token\' = $1', [token])
+        const resultado = await pool.query('SELECT token, email FROM usuarios WHERE token->>\'token\' = $1', [token])
 
         if (resultado.rows.length === 0) return res.status(400).json({mensagem: "Token de Redefinição Inválido!"})
 
         if ((Date.now() - resultado.rows[0].token["timestamp"])/(1000 * 60) > 10 ) {
-            return res.status(401).json( {mensagem: "Token de Ativação Expirado!"})
+            return res.status(401).json( {mensagem: "Token de Redefinição Expirado!", email: resultado.rows[0].email})
         }
 
         await pool.query('UPDATE usuarios SET token = NULL, senha = $1 WHERE token->>\'token\' = $2', [await gerarHash(senha), resultado.rows[0].token["token"]])

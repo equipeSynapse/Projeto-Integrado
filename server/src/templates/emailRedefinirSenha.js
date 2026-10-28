@@ -34,7 +34,7 @@ export const emailRedefinicaoSenhaTemplate = (link) => `
                             <h1 style="margin: 24px 0; max-width: 70%;"> Esqueceu sua senha? Isso acontece! </h1>
                             <p style="margin: 10px;"> Recebemos uma solicitação para redefinir a senha da sua conta. </p>
                             <p style="margin: 10px 0 20px; max-width: 80%"> Para redefinir sua senha, clique no botão abaixo. 
-                            O link ficará inválido após 20 minutos. </p>
+                            O link ficará inválido após 10 minutos. </p>
                         </td>
                     </tr>
 

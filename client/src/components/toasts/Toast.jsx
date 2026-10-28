@@ -12,7 +12,7 @@ export default function Toast({titulo, mensagem, onClose}){
                 <span className=""> {mensagem} </span>
             </div>
 
-            <div className="bg-black h-[6px] animate-[toastTimeOut_4.2s]"/>
+            <div className="bg-black h-[6px] animate-[toastTimeOut_5.2s]"/>
 
             <style>{`
                 @keyframes slideIn {

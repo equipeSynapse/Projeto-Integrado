@@ -6,35 +6,13 @@ import checkUnmetIcon from "../../assets/icons/check-unmet.svg";
 import { InputField } from "../../components/InputField";
 import { getPasswordRequirements } from "../../components/CadastroForm";
 import { redefinirSenha, validarToken } from "../../services/redefinirSenha";
+import mascararEmail from "../../utils/mascararEmail";
 import { esqueciSenha } from "../../services/esqueciSenha";
 import Button from "../../components/Button";
-
-function mascararEmail(email) {
-    if (!email || !email.includes("@")) return email || "seu e-mail";
-    const [usuario, dominio] = email.split("@");
-    if (usuario.length <= 3) {
-        return `${usuario}****@${dominio}`;
-    }
-    return `${usuario.slice(0, 3)}****@${dominio}`;
-}
-
-function extrairEmailDoToken(token) {
-    if (!token) return "";
-    try {
-        const payloadBase64 = token.split(".")[1];
-        if (!payloadBase64) return "";
-        const decodedJson = atob(payloadBase64.replace(/-/g, "+").replace(/_/g, "/"));
-        const parsed = JSON.parse(decodedJson);
-        return parsed.email || parsed.sub || "";
-    } catch {
-        return "";
-    }
-}
 
 export default function RedefinirSenhaPage() {
     const [searchParams] = useSearchParams();
     const token = searchParams.get("token");
-    const emailParam = searchParams.get("email");
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({ senha: "", confirmarSenha: "" });
@@ -45,6 +23,7 @@ export default function RedefinirSenhaPage() {
 
     const [validandoToken, setValidandoToken] = useState(true);
     const [linkExpirado, setLinkExpirado] = useState(false);
+    const [linkInvalido, setLinkInvalido] = useState(false);
     const [emailEnviado, setEmailEnviado] = useState(false);
     const [enviandoEmail, setEnviandoEmail] = useState(false);
     const [userEmail, setUserEmail] = useState("");
@@ -56,26 +35,17 @@ export default function RedefinirSenhaPage() {
         }
 
         async function checarToken() {
-            const emailBackup = emailParam || extrairEmailDoToken(token);
-            if (emailBackup) {
-                setUserEmail(emailBackup);
-            }
-
             try {
                 const data = await validarToken(token);
                 if (data?.email) {
                     setUserEmail(data.email);
                 }
             } catch (error) {
-                if (error?.response?.status === 400 || error?.response?.status === 404) {
-                    const emailCapturado =
-                        error.response?.data?.email ||
-                        error.response?.data?.user?.email ||
-                        emailBackup;
-                    if (emailCapturado) {
-                        setUserEmail(emailCapturado);
-                    }
+                if (error?.response?.status === 401) {
+                    setUserEmail(error.response?.data?.email || "");
                     setLinkExpirado(true);
+                } else if (error?.response?.status === 400) {
+                    setLinkInvalido(true);
                 }
             } finally {
                 setValidandoToken(false);
@@ -83,7 +53,7 @@ export default function RedefinirSenhaPage() {
         }
 
         checarToken();
-    }, [token, emailParam]);
+    }, [token]);
 
     const passwordRequirements = getPasswordRequirements(formData.senha || "");
     const isPasswordValid = passwordRequirements.every((requirement) => requirement.met);
@@ -136,15 +106,10 @@ export default function RedefinirSenhaPage() {
             await redefinirSenha(token, formData.senha);
             setSucesso(true);
         } catch (error) {
-            if (error?.response?.status === 400) {
-                const emailCapturado =
-                    error.response?.data?.email ||
-                    error.response?.data?.user?.email ||
-                    userEmail;
-                if (emailCapturado) {
-                    setUserEmail(emailCapturado);
-                }
+            if (error?.response?.status === 401) {
                 setLinkExpirado(true);
+            } else if (error?.response?.status === 400) {
+                setLinkInvalido(true);
             } else {
                 setServerError("Erro de conexão. Tente novamente.");
             }
@@ -154,23 +119,17 @@ export default function RedefinirSenhaPage() {
     };
 
     const handleSolicitarNovoLink = async () => {
-        if (enviandoEmail) return;
+        console.log(userEmail)
+        if (enviandoEmail || !userEmail) return;
         setServerError("");
-
-        const emailParaEnvio = userEmail || emailParam || extrairEmailDoToken(token);
-
-        if (!emailParaEnvio) {
-            setServerError("Não foi possível identificar o seu e-mail. Volte para a tela de login para solicitar.");
-            return;
-        }
 
         setEnviandoEmail(true);
 
         try {
-            await esqueciSenha(emailParaEnvio);
+            await esqueciSenha(userEmail);
             setEmailEnviado(true);
         } catch (error) {
-            const mensagem = error?.response?.data?.message || error?.message || "Erro ao solicitar novo link. Tente novamente.";
+            const mensagem = error?.response?.data?.mensagem || "Erro ao solicitar novo link. Tente novamente.";
             setServerError(mensagem);
         } finally {
             setEnviandoEmail(false);
@@ -188,17 +147,21 @@ export default function RedefinirSenhaPage() {
             );
         }
 
-        if (!token) {
+        if (!token || linkInvalido) {
             return (
-                <div className="flex flex-col flex-1 items-center text-center justify-between">
-                    <div className="flex flex-col items-center mt-[20px]">
-                        <p className="font-poppins font-semibold leading-none text-[28px] text-black">
+                <div className="flex flex-col flex-1 justify-between h-full text-center">
+                    <div className="flex flex-col items-center">
+                        <div className="bg-[#EBEBEB] rounded-full size-[80px] mt-[36px] flex items-center justify-center shrink-0">
+                            <MailWarning className="size-[48px] text-[#3c4043]" strokeWidth={1.5} aria-hidden="true" />
+                        </div>
+                        <p className="font-poppins font-semibold leading-none text-[28px] mt-[48px] text-black">
                             Link inválido
                         </p>
-                        <p className="font-poppins font-normal leading-[1.5] text-[#3c4043] text-[16px] mt-[14px] max-w-[462px]">
-                            O link de redefinição está incompleto. Solicite um novo link na tela de login.
+                        <p className="font-poppins font-normal leading-[1.5] text-[#3c4043] text-[16px] mt-[24px] max-w-[462px]">
+                            Este link está incompleto, inválido ou já foi utilizado. Solicite um novo link na tela de login.
                         </p>
                     </div>
+
                     <Button onClick={() => navigate("/")} variant="cta" className="w-full rounded-full">
                         Ir para o início
                     </Button>
@@ -209,21 +172,23 @@ export default function RedefinirSenhaPage() {
         if (linkExpirado) {
             if (emailEnviado) {
                 return (
-                    <div className="flex flex-col items-center text-center">
-                        <div className="bg-[#EBEBEB] rounded-full size-[80px] flex items-center justify-center shrink-0">
-                            <Check className="size-[40px] text-[#3c4043]" strokeWidth={1.5} aria-hidden="true" />
+                    <div className="flex flex-col flex-1 items-center justify-between text-center">
+                        <div className="flex flex-col items-center mt-[48px]">
+                            <div className="bg-[#EBEBEB] rounded-full size-[80px] flex items-center justify-center shrink-0">
+                                <Check className="size-[40px] text-[#3c4043]" strokeWidth={1.5} aria-hidden="true" />
+                            </div>
+                            <p className="font-poppins font-semibold leading-none text-[28px] text-[#3C4043] mt-[48px]">
+                                E-mail enviado!
+                            </p>
+                            <p className="font-poppins font-normal leading-[1.5] text-[#3c4043] text-[16px] mt-[24px] max-w-[440px]">
+                                Enviamos um novo link de redefinição de senha para{" "}
+                                <span className="font-semibold text-[#3C4043]">{mascararEmail(userEmail)}</span>. Verifique sua caixa de entrada e siga as instruções para redefinir sua senha.
+                            </p>
                         </div>
-                        <p className="font-poppins font-semibold leading-none text-[28px] text-[#3C4043] mt-[48px]">
-                            E-mail enviado!
-                        </p>
-                        <p className="font-poppins font-normal leading-[1.5] text-[#3c4043] text-[16px] mt-[24px] max-w-[440px]">
-                            Enviamos um novo link de redefinição de senha para{" "}
-                            <span className="font-semibold text-[#3C4043]">{mascararEmail(userEmail)}</span>. Verifique sua caixa de entrada e siga as instruções para ativar sua conta.
-                        </p>
                         <Button
                             onClick={() => navigate("/", { state: { abrirLogin: true } })}
                             variant="cta"
-                            className="w-full rounded-full mt-[118px]"
+                            className="w-full rounded-full"
                         >
                             Voltar para login
                         </Button>
@@ -232,17 +197,20 @@ export default function RedefinirSenhaPage() {
             }
 
             return (
-                <div className="flex flex-col items-center text-center">
-                    <div className="bg-[#EBEBEB] rounded-full size-[80px] flex items-center justify-center shrink-0">
-                        <MailWarning className="size-[40px] text-[#3c4043]" strokeWidth={1.5} aria-hidden="true" />
+                <div className="flex flex-col flex-1 justify-between h-[100%] text-center">
+                    <div className="flex flex-col items-center">
+                        <div className="bg-[#EBEBEB] rounded-full size-[80px] mt-[36px] flex items-center justify-center shrink-0">
+                            <MailWarning className="size-[48px] text-[#3c4043]" strokeWidth={1.5} aria-hidden="true" />
+                        </div>
+                        <p className="font-poppins font-semibold leading-none text-[28px] text-[#3C4043] mt-[48px]">
+                            Este link expirou
+                        </p>
+                        <p className="font-poppins font-normal leading-[1.5] text-[#3c4043] text-[16px] mt-[24px] max-w-[440px]">
+                            O link de <span className="font-semibold">redefinição de senha</span> expirou. Solicite<br />um novo link para redefinir sua senha.
+                        </p>
                     </div>
-                    <p className="font-poppins font-semibold leading-none text-[28px] text-[#3C4043] mt-[48px]">
-                        Este link expirou
-                    </p>
-                    <p className="font-poppins font-normal leading-[1.5] text-[#3c4043] text-[16px] mt-[24px] max-w-[440px]">
-                        O link de <span className="font-semibold">redefinição de senha</span> expirou. Solicite<br />um novo link para redefinir sua senha.
-                    </p>
-                    <div className="w-full mt-[118px] flex flex-col items-center">
+
+                    <div className="w-full flex flex-col items-center">
                         <button
                             type="button"
                             onClick={handleSolicitarNovoLink}
@@ -290,7 +258,7 @@ export default function RedefinirSenhaPage() {
 
         return (
             <>
-                <div className="flex flex-col gap-[14px] items-center text-center mb-[24px]">
+                <div className="flex flex-col gap-[14px] items-center text-center mt-[36px] mb-[24px]">
                     <p className="font-poppins font-semibold leading-none text-[28px] text-black">
                         Crie uma nova senha
                     </p>
@@ -299,7 +267,7 @@ export default function RedefinirSenhaPage() {
                     </p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="flex flex-col flex-1 justify-between">
+                <form onSubmit={handleSubmit} className="flex flex-col flex-1 mt-[24px] justify-between">
                     <div className="flex flex-col gap-[20px] w-full">
                         <InputField
                             label="Nova senha *"
@@ -339,7 +307,7 @@ export default function RedefinirSenhaPage() {
                         />
                     </div>
 
-                    <div className="flex flex-col items-center w-full mt-[24px]">
+                    <div className="flex flex-col items-center w-full mt-[72px]">
                         <button
                             type="submit"
                             disabled={!canSubmit}
@@ -357,7 +325,7 @@ export default function RedefinirSenhaPage() {
 
     return (
         <div className="min-h-screen bg-black/50 flex justify-center items-center p-[16px]">
-            <div role="main" className="bg-white border border-[#e5e5e5] border-solid relative rounded-[16px] w-[564px] min-h-[520px] max-w-full p-[40px] flex flex-col">
+            <div role="main" className="bg-white border border-[#e5e5e5] border-solid relative rounded-[16px] w-[564px] min-h-[520px] max-w-full p-[36px] flex flex-col">
                 {renderContent()}
             </div>
         </div>

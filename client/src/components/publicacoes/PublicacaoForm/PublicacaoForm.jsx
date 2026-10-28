@@ -1,14 +1,17 @@
-import { useState, useRef } from 'react'
-import { format, addMonths, isSameDay, isBefore, startOfDay, parse, isValid } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
-import { Calendar, ChevronDown, ChevronLeft, ChevronRight, CircleHelp, CloudUpload, Image, X } from 'lucide-react'
-import closeIcon from '../../assets/icons/close.svg'
-import infoIcon from '../../assets/icons/info.svg'
-import Button from '../Button'
-import gerarMatrizDias from '../../utils/gerarMatrizDias'
-import { createPub } from '../../services/criarPublicacao'
+import { useState } from 'react'
+import { format, isBefore, startOfDay } from 'date-fns'
+import { Calendar, ChevronDown, CircleHelp, Image, X } from 'lucide-react'
+import closeIcon from '../../../assets/icons/close.svg'
+import Button from '../../Button'
+import Campo from './Campo'
+import Dropzone from './Dropzone'
+import SeletorData from './SeletorData'
+import Radio from './Radio'
+import { createPub } from '../../../services/criarPublicacao'
+import mascararData from '../../../utils/mascararData'
+import mascararTelefone from '../../../utils/mascararTelefone'
+import parseData from '../../../utils/parseData'
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024
 // Valores do enum public.categoria no banco
 const CATEGORIAS = ['Avisos Administrativos', 'Bolsas', 'Comunidade', 'Divulgação', 'Estágios', 'Eventos']
 const MSG_OBRIGATORIO = 'Preencha este campo'
@@ -17,142 +20,6 @@ const inputBase = 'bg-white border border-solid font-poppins font-normal leading
 
 function borda(erro) {
     return erro ? 'border-[#ea4335]' : 'border-[#e5e5e5] focus:border-[#8d8d8d]'
-}
-
-function Campo({ label, erro, children, className = '' }) {
-    return (
-        <div className={`flex flex-col gap-[12px] items-start w-full ${className}`}>
-            {label && <span className="font-poppins font-medium leading-none text-[14px] text-[#3c4043] w-full">{label}</span>}
-            {children}
-            {erro && (
-                <div className="flex gap-[8px] items-center">
-                    <img src={infoIcon} className="size-[14px]" />
-                    <p className="font-poppins text-[12px] leading-none text-[#ea4335]">{erro}</p>
-                </div>
-            )}
-        </div>
-    )
-}
-
-function Dropzone({ formatos, aceitos, arquivo, onArquivo }) {
-    const inputRef = useRef(null)
-    const [erro, setErro] = useState('')
-
-    function receber(file) {
-        if (!file) return
-        if (!aceitos.includes(file.type)) return setErro(`Formato inválido. Aceitos: ${formatos}`)
-        if (file.size > MAX_FILE_SIZE) return setErro('O arquivo deve ter até 5mb')
-        setErro('')
-        onArquivo(file)
-    }
-
-    return (
-        <Campo erro={erro}>
-            <div
-                onClick={() => inputRef.current.click()}
-                onDragOver={(e) => e.preventDefault()}
-                onDrop={(e) => { e.preventDefault(); receber(e.dataTransfer.files[0]) }}
-                className="bg-white border border-dashed border-[#e5e5e5] flex flex-col gap-[20px] h-[192px] items-center justify-center p-[24px] rounded-[8px] w-full cursor-pointer"
-            >
-                <input ref={inputRef} type="file" accept={aceitos.join(',')} className="hidden" onChange={(e) => { receber(e.target.files[0]); e.target.value = '' }} />
-                <div className="size-[48px] rounded-full bg-[#f2f2f2] flex items-center justify-center">
-                    <CloudUpload className="size-[20px] text-[#3c4043]" />
-                </div>
-                {arquivo ? (
-                    <div className="flex items-center gap-[8px] font-poppins text-[14px] text-[#3c4043]">
-                        <span className="truncate max-w-[400px]">{arquivo.name}</span>
-                        <button type="button" onClick={(e) => { e.stopPropagation(); onArquivo(null) }}>
-                            <X className="size-[16px]" />
-                        </button>
-                    </div>
-                ) : (
-                    <p className="font-poppins text-[14px] text-center text-[#3c4043] w-[208px] leading-[1.5]">
-                        <span className="font-medium">Arraste e solte</span> ou <span className="font-medium">clique</span> para escolher o arquivo
-                    </p>
-                )}
-                <p className="font-poppins text-[12px] leading-none text-[#909090]">Formatos aceitos: {formatos} até 5mb</p>
-            </div>
-        </Campo>
-    )
-}
-
-function Radio({ label, checked, onClick }) {
-    return (
-        <button type="button" onClick={onClick} className="flex items-center gap-[8px] font-poppins text-[14px] text-[#3c4043] cursor-pointer">
-            <span className={`size-[22px] rounded-full border flex items-center justify-center ${checked ? 'border-[#3c4043]' : 'border-[#c4c4c4]'}`}>
-                {checked && <span className="size-[12px] rounded-full bg-[#3c4043]" />}
-            </span>
-            {label}
-        </button>
-    )
-}
-
-function SeletorData({ valor, onSelecionar }) {
-    const [mes, setMes] = useState(valor || new Date())
-    const dias = gerarMatrizDias(mes)
-    const hoje = startOfDay(new Date())
-    const mesAtual = startOfDay(new Date(hoje.getFullYear(), hoje.getMonth(), 1))
-    const podeVoltar = !isBefore(addMonths(mes, -1), mesAtual)
-
-    return (
-        <div className="absolute z-10 top-[calc(100%+8px)] left-0 bg-white border border-[#e5e5e5] rounded-[8px] shadow-lg shadow-black/10 p-[16px] font-poppins text-[14px] text-[#3c4043]">
-            <div className="flex items-center justify-between mb-[12px]">
-                <button
-                    type="button"
-                    disabled={!podeVoltar}
-                    onClick={() => setMes((m) => addMonths(m, -1))}
-                    className={podeVoltar ? '' : 'opacity-30 cursor-not-allowed'}
-                >
-                    <ChevronLeft size="18px" />
-                </button>
-                <span className="font-semibold capitalize">{format(mes, 'MMMM yyyy', { locale: ptBR })}</span>
-                <button type="button" onClick={() => setMes((m) => addMonths(m, 1))}><ChevronRight size="18px" /></button>
-            </div>
-            <div className="grid grid-cols-7">
-                {['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB'].map((d) => (
-                    <span key={d} className="flex justify-center items-center w-10 h-10 text-[12px] text-[#909090]">{d}</span>
-                ))}
-                {dias.map((data, i) => {
-                    if (!data) return <div key={i} />
-                    const passado = isBefore(data, hoje)
-                    const selecionado = valor && isSameDay(data, valor)
-                    return (
-                        <button
-                            key={i}
-                            type="button"
-                            disabled={passado}
-                            onClick={() => onSelecionar(data)}
-                            className={`flex justify-center items-center w-10 h-10 rounded-[10px] ${selecionado ? 'bg-[#3c4043] text-white' : passado ? 'text-[#c4c4c4] cursor-not-allowed' : 'hover:bg-[#e5e5e5] cursor-pointer'}`}
-                        >
-                            {data.getDate()}
-                        </button>
-                    )
-                })}
-            </div>
-        </div>
-    )
-}
-
-function mascaraData(texto) {
-    const n = texto.replace(/\D/g, '').slice(0, 8)
-    if (n.length > 4) return `${n.slice(0, 2)}/${n.slice(2, 4)}/${n.slice(4)}`
-    if (n.length > 2) return `${n.slice(0, 2)}/${n.slice(2)}`
-    return n
-}
-
-function mascaraTelefone(texto) {
-    const n = texto.replace(/\D/g, '').slice(0, 11)
-    if (n.length > 10) return `(${n.slice(0, 2)}) ${n.slice(2, 7)}-${n.slice(7)}`
-    if (n.length > 6) return `(${n.slice(0, 2)}) ${n.slice(2, 6)}-${n.slice(6)}`
-    if (n.length > 2) return `(${n.slice(0, 2)}) ${n.slice(2)}`
-    if (n.length > 0) return `(${n}`
-    return ''
-}
-
-function parseData(texto) {
-    if (texto.length !== 10) return null
-    const d = parse(texto, 'dd/MM/yyyy', new Date())
-    return isValid(d) ? d : null
 }
 
 export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
@@ -200,10 +67,11 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
         setEnviando(true)
         try {
             // O backend aceita uma única categoria por enquanto
+
             await createPub({
                 titulo: dados.titulo,
                 descricao: dados.descricao,
-                categoria: dados.categorias[0],
+                categoria: dados.categorias,
                 expiracao: format(dataExpiracao, 'yyyy-MM-dd'),
                 email: dados.email,
                 telefone: dados.telefone,
@@ -212,6 +80,7 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
             onSucess?.()
         } catch (error) {
             onErro?.(error.response?.data?.mensagem || error.response?.data?.error || 'Não foi possível criar a publicação.')
+            console.log(error)
         } finally {
             setEnviando(false)
         }
@@ -264,12 +133,12 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
                         </div>
                         {categoriasAbertas && (
                             <div className="absolute z-10 top-[calc(100%+4px)] left-0 w-full bg-white border border-[#e5e5e5] rounded-[8px] shadow-lg shadow-black/10 py-[8px]">
-                                {CATEGORIAS.map((c) => (
+                                {CATEGORIAS.filter((c) => !dados.categorias.includes(c)).map((c) => (
                                     <button
                                         key={c}
                                         type="button"
                                         onClick={() => alternarCategoria(c)}
-                                        className={`w-full text-left px-[16px] py-[10px] text-[14px] hover:bg-[rgba(60,64,67,0.06)] ${dados.categorias.includes(c) ? 'font-medium' : ''}`}
+                                        className="w-full text-left px-[16px] py-[10px] text-[14px] hover:bg-[rgba(60,64,67,0.06)]"
                                     >
                                         {c}
                                     </button>
@@ -283,7 +152,7 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
                     <div className="relative w-full">
                         <input
                             value={dados.expiracao}
-                            onChange={(e) => setDados((prev) => ({ ...prev, expiracao: mascaraData(e.target.value) }))}
+                            onChange={(e) => setDados((prev) => ({ ...prev, expiracao: mascararData(e.target.value) }))}
                             onBlur={tocar('expiracao')}
                             placeholder="dd/mm/aaaa"
                             inputMode="numeric"
@@ -344,7 +213,7 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
                 <Campo label="Telefone/Celular">
                     <input
                         value={dados.telefone}
-                        onChange={(e) => setDados((prev) => ({ ...prev, telefone: mascaraTelefone(e.target.value) }))}
+                        onChange={(e) => setDados((prev) => ({ ...prev, telefone: mascararTelefone(e.target.value) }))}
                         placeholder="(00) 00000-0000"
                         inputMode="tel"
                         maxLength={15}
@@ -369,40 +238,3 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
         </div>
     )
 }
-
-// Em revisão
-//
-// import closeIcon from '../../assets/icons/close.svg'
-// import infoIcon from '../../assets/icons/info.svg'
-
-// export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
-//     return (
-//         <div ref={ref} className="bg-[#fcfcfc] border border-[#e5e5e5] rounded-[16px] w-full max-w-[726px] max-h-[90vh] flex flex-col overflow-hidden font-poppins text-[#3c4043]">
-//             <header className="bg-white border-b border-[#e5e5e5] p-[32px] flex items-center justify-between shrink-0">
-//                 <h2 className="text-[20px] font-semibold">Criar publicação</h2>
-//                 <button type="button" onClick={onClickX} className="size-[24px] cursor-pointer"><img src={closeIcon} /></button>
-//             </header>
-
-//             <div className="flex flex-col gap-[24px] p-[32px] overflow-y-auto">
-                 
-
-//             </div>
-//         </div>
-//     )
-// }
-
-// function Campo({ label, erro, children, className = '' }) {
-//     return (
-//         <div className={`flex flex-col gap-[12px] items-start w-full ${className}`}>
-//             {label && <span className="font-poppins font-medium leading-none text-[14px] text-[#3c4043] w-full">{label}</span>}
-//             {children}
-//             {erro && (
-//                 <div className="flex gap-[8px] items-center">
-//                     <img src={infoIcon} className="size-[14px]" />
-//                     <p className="font-poppins text-[12px] leading-none text-[#ea4335]">{erro}</p>
-//                 </div>
-//             )}
-//         </div>
-//     )
-// }
-

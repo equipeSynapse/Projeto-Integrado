@@ -15,7 +15,7 @@ import CategoriaCard from "../../components/CategoriaCard";
 import Toast from "../../components/toasts/Toast";
 import { useNavigate } from "react-router-dom";
 import Destaques from "../../components/publicacoes/Destaques";
-import PublicacaoForm from "../../components/publicacoes/PublicacaoForm";
+import PublicacaoForm from "../../components/publicacoes/PublicacaoForm/PublicacaoForm";
 
 export default function HomePage() {
     const navigate = useNavigate();
@@ -69,7 +69,7 @@ export default function HomePage() {
         (p) =>
             (p.titulo.toLowerCase().includes(busca.toLowerCase()) ||
                 (p.nome_usuario ?? "").toLowerCase().includes(termo)) &&
-            (categoriasSelecionadas.length == 0 || categoriasSelecionadas.includes(p.categoria)) &&
+            (categoriasSelecionadas.length == 0 || p.categoria?.some((c) => categoriasSelecionadas.includes(c))) &&
             (!dataInicio || new Date(dataInicio) <= new Date(p.criado_em)) &&
             (!dataFim || new Date(dataFim) >= new Date(p.criado_em))
     );

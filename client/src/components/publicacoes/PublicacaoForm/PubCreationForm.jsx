@@ -137,7 +137,7 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
                                     <button
                                         key={c}
                                         type="button"
-                                        onClick={() => alternarCategoria(c)}
+                                        onClick={() => (dados.categorias.length <= 2) && alternarCategoria(c)}
                                         className="w-full text-left px-[16px] py-[10px] text-[14px] hover:bg-[rgba(60,64,67,0.06)]"
                                     >
                                         {c}

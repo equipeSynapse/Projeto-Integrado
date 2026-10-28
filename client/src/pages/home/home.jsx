@@ -15,7 +15,7 @@ import CategoriaCard from "../../components/CategoriaCard";
 import Toast from "../../components/toasts/Toast";
 import { useNavigate } from "react-router-dom";
 import Destaques from "../../components/publicacoes/Destaques";
-import PublicacaoForm from "../../components/publicacoes/PublicacaoForm/PublicacaoForm";
+import PublicacaoForm from "../../components/publicacoes/PublicacaoForm/PubCreationForm";
 
 export default function HomePage() {
     const navigate = useNavigate();
@@ -161,7 +161,7 @@ export default function HomePage() {
 
                     <section className="max-w-[778px] flex flex-col gap-[24px]">
                         <h2 className="text-[20px] font-semibold font-poppins"> Novidades para você </h2>
-                        <section className="flex flex-col gap-[24px]">
+                        <section className="flex flex-col">
                             {filtradas.map((p) => (
                                 <PubliCard
                                     key={p.id}

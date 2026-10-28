@@ -102,7 +102,7 @@ export default function EsqueciSenha({ onClickX, onClickVoltar, ref }) {
               <Button
                 type="submit"
                 variant="cta"
-                className="h-[45px]"
+                className={`h-[45px] ${isEmailValid? "":"!bg-[#9D9FA1] !hover:bg-[#9D9FA1]"}`}
               >
                 Enviar
               </Button>

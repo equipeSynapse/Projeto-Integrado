@@ -128,7 +128,7 @@ export default function LoginConta({onClickX, onClickRegister, onClickEsqueciSen
           <Button
             type="submit"
             variant="cta"
-            className={`flex flex-col h-[48px] items-center justify-center w-full rounded-[8px] bg-[#3c4043] hover:bg-black cursor-pointer
+            className={`flex flex-col h-[48px] items-center justify-center w-full rounded-[8px] bg-[#3c4043] hover:bg-black cursor-pointer ${isFormValid? "":"!bg-[#9D9FA1] !hover:bg-[#9D9FA1]"}
             }`}
           >
             <p className="font-poppins font-medium text-[14px] text-center text-white">

@@ -11,6 +11,7 @@ import { BiSolidFilePdf } from "react-icons/bi";
 import { ArrowUpRight, Pencil, Trash } from "lucide-react";
 import CopiarLinkBtn from "./CopiarLinkBtn";
 import ExcluirPubModal from "./ExcluirPubModal";
+import Toast from "../toasts/Toast"; 
 
 export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, titulo, descricao, link, 
                             email, telefone, anexos, qtdVisualizacoes, expiracao }) {
@@ -21,6 +22,8 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
   const usuario = isUserLoggedIn();
   const [threeDotsClicked, setThreeDotsClicked] = useState(false)
   const [excluirClicked, setExcluirClicked] = useState(false)
+  
+  const [toastSucesso, setToastSucesso] = useState(false); 
 
   return (
     <article ref={cardRef} tabIndex="0" aria-label={`Publicação ${titulo}`} className="bg-white border border-[#e5e5e5] border-solid rounded-[16px] p-[20px] flex flex-col gap-[24px] items-start w-full max-w-[778px] text-[14px] font-poppins">
@@ -35,12 +38,12 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
 
         <div className="relative flex gap-[24px] items-center">
           <div className="px-[12px] py-[6px] bg-[#e5e5e5] text-[12px] rounded-[50px]"> Expira em {new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(expiracao))} </div>
-          {usuario.usuario === autor && 
+          {usuario?.usuario === autor && 
             <button onClick={() => setThreeDotsClicked(!threeDotsClicked)}> 
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3C4043" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /><circle cx="5" cy="12" r="1" /></svg> 
             </button>}
           {threeDotsClicked && 
-            <div className="absolute flex flex-col items-start right-0 top-[36px] w-[250px] bg-white rounded-[8px] shadow-lg shadow-black/20 overflow-hidden"> 
+            <div className="absolute flex flex-col items-start right-0 top-[36px] w-[250px] bg-white rounded-[8px] shadow-lg shadow-black/20 overflow-hidden z-10"> 
                 <button className="w-full flex items-center gap-[8px] text-left px-[16px] py-[12px] hover:bg-[rgba(60,64,67,0.06)]"> 
                   <Pencil className="size-[14px]"/>
                   <span className="text-[14px] relative top-[1px]"> Editar </span>
@@ -55,7 +58,7 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
 
       <div className="flex flex-col gap-[24px]">
         <h2 className="font-semibold leading-tight text-[16px] text-black">{titulo}</h2>
-        <p className="className={`font-medium leading-stitch text-[14px] text-[#3c4043] whitespace-pre-wrap">
+        <p className={`font-medium leading-stitch text-[14px] text-[#3c4043] whitespace-pre-wrap`}>
           {((expandido || descricao.length < 60) || variant === "completo") ? descricao : `${descricao.slice(0, descricao.lastIndexOf(' ', 60))}... `}
           {(!expandido && variant !== "completo") ? <button className="text-[#8d8d8d] font-medium hover:cursor-pointer" onClick={() => setExpandido(true)}> mostrar mais </button> : ''}
         </p>
@@ -133,8 +136,27 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
 
       {excluirClicked && 
       <div className="bg-black/50 fixed z-2 h-full inset-0 flex items-center justify-center">
-        <ExcluirPubModal onClickX={() => setExcluirClicked(false)}/>
+        <ExcluirPubModal 
+          pubId={id} 
+          onClickX={() => setExcluirClicked(false)} 
+          onSucesso={() => {
+            setExcluirClicked(false);
+            setToastSucesso(true); 
+            setTimeout(() => {
+              window.location.reload(); 
+            }, 1500);
+          }}
+        />
       </div>}
+
+      {/*  Renderiza o Toast*/}
+      {toastSucesso && (
+        <Toast 
+          titulo="Publicação excluída!" 
+          mensagem="A sua publicação foi removida com sucesso." 
+          onClose={() => setToastSucesso(false)} 
+        />
+      )}
 
     </article>
   );

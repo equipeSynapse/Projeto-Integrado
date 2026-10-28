@@ -11,6 +11,7 @@ router.post("/publicacoes", authMiddleware, postsController.criarPublicacao);
 router.patch("/incrementar-visualizacao", postsController.incrementarVisualizacao);
 
 router.post("/criar-publicacao", authMiddleware, postsController.criarPublicacao);
+router.delete("/publicacoes/:id", authMiddleware, postsController.deletarPublicacao);
 
 
 export default router;

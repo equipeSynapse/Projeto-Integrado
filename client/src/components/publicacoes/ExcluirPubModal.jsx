@@ -1,9 +1,20 @@
 import closeIcon from "../../assets/icons/close.svg";
 import { Trash } from "lucide-react";
 import Button from "../Button";
+import { excluirPublicacao } from "../../services/excluirPublicacao"; 
 
+// Adicionei pubId e uma função para rodar após o sucesso (ex: recarregar a página)
+export default function ExcluirPubModal( {onClickX, pubId, onSucesso} ) {
+    
+    async function handleExcluir() {
+        try {
+            await excluirPublicacao(pubId); // Chama a API com o ID
+            if (onSucesso) onSucesso(); // Fecha o modal e atualiza a tela
+        } catch (error) {
+            alert("Erro ao excluir a publicação.");
+        }
+    }
 
-export default function ExcluirPubModal( {onClickX} ) {
     return (
         <div className="w-[564px] bg-white rounded-[16px] p-[32px]">
             <div className="flex justify-end"> <button onClick={onClickX}> <img src={closeIcon} /> </button> </div>
@@ -22,7 +33,8 @@ export default function ExcluirPubModal( {onClickX} ) {
 
             <div className="flex justify-between">
                 <Button onClick={onClickX}> Cancelar </Button>
-                <Button variant="cta"> Excluir </Button>
+                {/* Adicionado o evento onClick aqui */}
+                <Button variant="cta" onClick={handleExcluir}> Excluir </Button>
             </div>
         </div>
     )

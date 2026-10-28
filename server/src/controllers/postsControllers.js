@@ -84,3 +84,26 @@ export const incrementarVisualizacao = async (req, res) => {
     }
 }
 
+
+export const deletarPublicacao = async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        // Pega o req.usuario.email para garantir que o usuário só apague o próprio post
+        const autor_email = req.usuario.email;
+
+        // Deleta do Supabase (PostgreSQL)
+        const resultado = await pool.query('DELETE FROM publicacoes WHERE id = $1 RETURNING *', [id]);
+
+        if (resultado.rowCount === 0) {
+            return res.status(404).json({ mensagem: "Publicação não encontrada." });
+        }
+
+        return res.status(200).json({ mensagem: "Publicação excluída com sucesso!" });
+
+    } catch (error) {
+        console.log("Erro ao excluir publicação:", error);
+        return res.status(500).json({ error: "Erro interno ao excluir a publicação no servidor." });
+    }
+}
+

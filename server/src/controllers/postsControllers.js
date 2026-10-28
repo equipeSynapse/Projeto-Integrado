@@ -2,7 +2,7 @@ import { pool } from "../database/db.js";
 
 export const buscarPublicacoes = async (req, res) => {
     try {
-        const resultado = await pool.query('SELECT p.*, u.nome_usuario FROM publicacoes p INNER JOIN usuarios u ON p.autor_email = u.email ORDER BY criado_em DESC')
+        const resultado = await pool.query('SELECT p.*, p.categoria::text[] AS categoria, u.nome_usuario FROM publicacoes p INNER JOIN usuarios u ON p.autor_email = u.email ORDER BY criado_em DESC')
         
         const publicacoes = resultado.rows
 
@@ -25,7 +25,7 @@ export const criarPublicacao = async (req, res) => {
 
         /* Validação dos campos obrigatórios -> Se faltar o título, OU a descrição, OU a categoria, 
         OU a validade, o servidor barra e devolve o ERRO 400 */
-        if (!titulo?.trim() || !descricao?.trim() || !categoria?.trim() || !expiracao) {
+        if (!titulo?.trim() || !descricao?.trim() || categoria?.length === 0 || !expiracao) {
             return res.status(400).json({
                 dados: {titulo, descricao, categoria, expiracao},
                 mensagem: "Os campos obrigatórios (título, descrição, categoria e expiração) devem ser preenchidos."
@@ -34,7 +34,7 @@ export const criarPublicacao = async (req, res) => {
 
         const query = `
             INSERT INTO publicacoes (autor_email, titulo, descricao, categoria, imagem, email, telefone, link, anexos, expiracao)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) 
+            VALUES ($1, $2, $3, $4::public.categoria[], $5, $6, $7, $8, $9, $10) 
             RETURNING *;
         `; 
 

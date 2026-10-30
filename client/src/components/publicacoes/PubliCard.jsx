@@ -111,7 +111,7 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
         </div>
 
         {imagem && <div className="bg-[#e5e5e5] rounded-[16px] w-full min-h-[310px] shrink-0 overflow-hidden">
-          <img src={imagem} alt={titulo} className="size-full object-cover" />
+          <img src={imagem.url} alt={titulo} className="size-full object-cover" />
         </div>}
 
         <hr className="w-full border-[#e5e5e5]" />

@@ -23,11 +23,11 @@ export const buscarPublicacoes = async (req, res) => {
 }
 
 export const criarPublicacao = async (req, res) => {
-    let imagemPath = null
+    let imagemData = null
     let anexoData = null
 
     try {
-        const { titulo, descricao, email, telefone, link, anexo, expiracao } = req.body;
+        const { titulo, descricao, email, telefone, link, expiracao } = req.body;
 
         const arquivoImagem = req.files?.imagem?.[0]
         const arquivoAnexo = req.files?.anexo?.[0]
@@ -46,12 +46,12 @@ export const criarPublicacao = async (req, res) => {
             });
         }
 
-        if (arquivoImagem) imagemPath = await enviarImagem(arquivoImagem)
+        if (arquivoImagem) imagemData = await enviarImagem(arquivoImagem)
         if (arquivoAnexo) anexoData = await enviarAnexo(arquivoAnexo)
 
         const query = `
             INSERT INTO publicacoes (autor_email, titulo, descricao, categoria, imagem, email, telefone, link, anexo, expiracao)
-            VALUES ($1, $2, $3, $4::public.categoria[], $5, $6, $7, $8, $9::json, $10) 
+            VALUES ($1, $2, $3, $4::public.categoria[], $5::json, $6, $7, $8, $9::json, $10) 
             RETURNING *;
         `;
 
@@ -60,7 +60,7 @@ export const criarPublicacao = async (req, res) => {
             titulo.trim(),
             descricao.trim(),
             categoria,
-            imagemPath?.trim() || null,
+            imagemData? JSON.stringify(imagemData) : null,
             email?.trim() || null,
             telefone?.trim() || null,
             link?.trim() || null,
@@ -76,7 +76,7 @@ export const criarPublicacao = async (req, res) => {
         });
 
     } catch (error) {
-        await removerImagem(imagemPath)
+        await removerImagem(imagemData?.path)
         await removerAnexo(anexoData?.path)
         console.log("Erro ao criar publicação:", error);
         return res.status(500).json({

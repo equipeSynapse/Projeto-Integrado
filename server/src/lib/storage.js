@@ -20,7 +20,12 @@ export async function enviarImagem(file) {
     .upload(path, file.buffer, { contentType: file.mimetype })
 
   if (error) throw error
-  return path
+  return {
+    path,
+    titulo: Buffer.from(file.originalname, 'latin1').toString('utf8'),
+    tipo: ext,
+    tamanho: Math.round(file.size/1024),
+  }
 }
 
 export async function enviarAnexo(file) {
@@ -40,14 +45,14 @@ export async function enviarAnexo(file) {
     path,
     titulo: Buffer.from(file.originalname, 'latin1').toString('utf8'),
     tipo: 'pdf',
-    tamanho: Math.round(file.size/1024),
+    tamanho: Math.round(file.size/1024)
   }
 }
 
-export function urlImagem(path) {
-  if (!path) return null
-  const { data } = supabase.storage.from(BUCKET_IMAGENS).getPublicUrl(path)
-  return data.publicUrl
+export function urlImagem(imagem) {
+  if (!imagem?.path) return null
+  const { data } = supabase.storage.from(BUCKET_IMAGENS).getPublicUrl(imagem.path)
+  return { ...imagem, url: data.publicUrl }
 }
 
 export function urlAnexo(anexo) {

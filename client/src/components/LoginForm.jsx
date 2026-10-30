@@ -6,7 +6,7 @@ import { loginUsuario } from "../services/login";
 import Button from "../components/Button";
 
 // Garantir que o usuário insira um e-mail válido antes de tentar logar
-const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@(alu\.)?ufc\.br$/i;
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9.-]+\.)?ufc\.br$/i;
 
 export default function LoginConta({onClickX, onClickRegister, onClickEsqueciSenha, onSucess, ref}) {
 

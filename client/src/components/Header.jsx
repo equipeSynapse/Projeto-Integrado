@@ -2,9 +2,9 @@ import { InputSearch } from "./publicacoes/InputSearch";
 import Button from "./Button";
 import calendarIcon from "../assets/icons/calendar.png";
 
-export default function Header({ inputSearchValue, inputOnChange, inputOnKeyDown, children }) {
+export default function Header({ inputSearchValue, inputOnChange, inputOnKeyDown, className, children }) {
     return (
-        <header className="w-full bg-white h-[82px] border-b-1 border-[#e5e5e5] flex items-center px-30 justify-between font-poppins text-[14px]">
+        <header className={`w-full bg-white h-[82px] border-b-1 border-[#e5e5e5] flex items-center px-30 justify-between font-poppins text-[14px] ${className}`}>
             {children}
             {/* <div className="flex items-center gap-6 w-full">
                 <div> Logo </div>

@@ -10,7 +10,7 @@ import { InputField } from "./InputField";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9.-]+\.)?ufc\.br$/i;
 
-function getPasswordRequirements(senha) {
+export function getPasswordRequirements(senha) {
   return [
     { label: "Mínimo de 08 caracteres", met: senha.length >= 8 },
     { label: "Letras maiúsculas (A-Z)", met: /[A-Z]/.test(senha) },

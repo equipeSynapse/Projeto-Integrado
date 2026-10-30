@@ -149,14 +149,14 @@ projeto-mural-colaborativo/
 | RF03   | O sistema deve permitir o envio de um e-mail para que o usuário possa ativar sua conta. | `FEITO ✅` |
 | RF04   | O sistema deve permitir que o usuário realize login através do e-mail institucional e senha. | `FEITO ✅` |
 | RF05   | O sistema deve permitir que usuários logados criem novas publicações. | `FEITO ✅` |
-| RF06   | O sistema deve permitir o preenchimento de título, descrição, categoria, imagem, informação de contato, link para mais informações e prazo de validade no cadastro de uma publicação. | `EM ANDAMENTO ⌛` |
+| RF06   | O sistema deve permitir o preenchimento de título, descrição, categoria, imagem, informação de contato, link para mais informações e prazo de validade no cadastro de uma publicação. | `FEITO ✅` |
 | RF07   | O sistema deve mostrar o título, a descrição, a categoria, a imagem, as informações de contato, o nome de usuário e a data de publicação respectiva à postagem. | `FEITO ✅` |
 | RF08   | O sistema deve permitir a classificação das publicações por categorias. | `FEITO ✅` |
 | RF09   | O sistema deve permitir que os usuários filtrem as publicações por título, por categoria, por período de publicação e por usuário. | `FEITO ✅` |
 | RF10   | O sistema deve permitir que o usuário acesse o link para mais informações das publicações. | `FEITO ✅` |
 | RF11   | O sistema deve mostrar as publicações de acordo com os filtros aplicados. | `FEITO ✅` |
 | RF12   | O sistema deve permitir que o usuário visualize as suas publicações. | `A FAZER 📄` |
-| RF13   | O sistema deve permitir a exclusão e a edição das publicações criadas. | `A FAZER 📄` |
+| RF13   | O sistema deve permitir a exclusão e a edição das publicações criadas. | `EM ANDAMENTO ⌛` |
 | RF14   | O sistema deve permitir mostrar o número de visualizações das publicações. | `FEITO ✅` |
 | RF15   | O sistema deve permitir que o usuário siga uma categoria para receber atualizações. | `FEITO ✅` |
 | RF16   | O sistema deve permitir notificações de categorias seguidas pelo usuário. | `A FAZER 📄` |
@@ -197,6 +197,8 @@ MAILTRAP_USER=Credencial de usuário no Mailtrap para teste de envio de email
 MAILTRAP_PASSWORD=Credencial de senha no Mailtrap para teste de envio de email
 DATABASE_URI=URI do Banco de Dados Supabase
 JWT_SECRET=Chave para assinatura e verificação dos tokens
+SUPABASE_URL=URL do endpoint da API do projeto supabase
+SUPABASE_SERVICE_ROLE_KEY=Chave de API do supabase com permissões administrativas
 ```
 
 3. Execução do servidor

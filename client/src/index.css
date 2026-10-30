@@ -8,3 +8,11 @@ body {
   margin: 0;
 }
 
+button:hover {
+  cursor: pointer;
+}
+
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}

@@ -15,6 +15,8 @@ router.post('/login', authController.login)
 
 router.post('/esqueci-senha', authController.esqueciSenha)
 
+router.get('/validar-token', authController.validarToken)
+
 router.patch('/redefinir-senha', authController.redefinirSenha)
 
 export default router;

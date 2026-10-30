@@ -87,7 +87,7 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
             </div>
             : ''}
 
-          {(expandido || variant === "completo") && (anexos) ?
+          {(expandido || variant === "completo") && (anexo) ?
             <div className="flex flex-col gap-[24px]">
               <h3 className="font-semibold leading-none text-[14px] text-black"> Material anexado </h3>
               <div className="flex flex-col gap-[16px]">

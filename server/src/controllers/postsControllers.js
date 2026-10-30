@@ -49,10 +49,6 @@ export const criarPublicacao = async (req, res) => {
         if (arquivoImagem) imagemPath = await enviarImagem(arquivoImagem)
         if (arquivoAnexo) anexoData = await enviarAnexo(arquivoAnexo)
 
-        console.log('anexoData:', anexoData)
-        console.log('imagem:', arquivoImagem && { nome: arquivoImagem.originalname, tipo: arquivoImagem.mimetype, bytes: arquivoImagem.size })
-        console.log('anexo:', arquivoAnexo && { nome: arquivoAnexo.originalname, tipo: arquivoAnexo.mimetype, bytes: arquivoAnexo.size })
- 
         const query = `
             INSERT INTO publicacoes (autor_email, titulo, descricao, categoria, imagem, email, telefone, link, anexo, expiracao)
             VALUES ($1, $2, $3, $4::public.categoria[], $5, $6, $7, $8, $9::json, $10) 

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { format, isBefore, startOfDay } from 'date-fns'
-import { Calendar, ChevronDown, CircleHelp, Image, X } from 'lucide-react'
+import { Calendar, ChevronDown, CircleHelp, Image, Trash, X } from 'lucide-react'
 import closeIcon from '../../../assets/icons/close.svg'
 import Button from '../../Button'
 import Campo from './Campo'
@@ -11,6 +11,7 @@ import { createPub } from '../../../services/criarPublicacao'
 import mascararData from '../../../utils/mascararData'
 import mascararTelefone from '../../../utils/mascararTelefone'
 import parseData from '../../../utils/parseData'
+import UploadedFile from './UploadedFile'
 
 // Valores do enum public.categoria no banco
 const CATEGORIAS = ['Avisos Administrativos', 'Bolsas', 'Comunidade', 'Divulgação', 'Estágios', 'Eventos']
@@ -192,9 +193,11 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
                         <Radio label="Anexar imagem" checked={tipoImagem === 'anexar'} onClick={() => setTipoImagem('anexar')} />
                         <Radio label="Modelos do mural" checked={tipoImagem === 'modelos'} onClick={() => setTipoImagem('modelos')} />
                     </div>
-                    {tipoImagem === 'anexar' ? (
+                    {tipoImagem === 'anexar' ? 
+                        imagem? 
+                        <UploadedFile file={imagem} onClickTrash={() => setImagem(null)}/> :
                         <Dropzone formatos="JPG, JPEG ou PNG" aceitos={['image/jpeg', 'image/png']} arquivo={imagem} onArquivo={setImagem} />
-                    ) : (
+                     : (
                         <div className="grid grid-cols-2 gap-[12px]">
                             {[0, 1, 2, 3].map((i) => (
                                 <button
@@ -234,7 +237,11 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
 
                 <div className="flex flex-col gap-[12px]">
                     <span className="text-[14px] font-medium">Anexar arquivo</span>
-                    <Dropzone formatos="PDF" aceitos={['application/pdf']} arquivo={anexo} onArquivo={setAnexo} />
+                    
+                    {anexo?
+                      <UploadedFile file={anexo} onClickTrash={() => setAnexo(null)}/>
+                    : <Dropzone formatos="PDF" aceitos={['application/pdf']} arquivo={anexo} onArquivo={setAnexo} />
+                    }   
                 </div>
             </div>
 

@@ -6,7 +6,8 @@ export async function createPub(dadosPublicacao) {
 
         const response = await api.post("/api/posts/criar-publicacao", dadosPublicacao, {
             headers: {
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`,
+                "Content-Type": undefined
             }
         });
         return response.data;

@@ -23,7 +23,7 @@ function borda(erro) {
 }
 
 export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
-    const [dados, setDados] = useState({ titulo: '', descricao: '', categorias: [], expiracao: '', email: '', telefone: '', link: '' })
+    const [dados, setDados] = useState({ titulo: '', descricao: '', categorias: [], expiracao: '', email: '', telefone: '', link: '', imagem: '' })
     const [tocados, setTocados] = useState({})
     const [categoriasAbertas, setCategoriasAbertas] = useState(false)
     const [calendarioAberto, setCalendarioAberto] = useState(false)
@@ -67,16 +67,21 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
         setEnviando(true)
         try {
             // O backend aceita uma única categoria por enquanto
+            const formPub = new FormData()
 
-            await createPub({
-                titulo: dados.titulo,
-                descricao: dados.descricao,
-                categoria: dados.categorias,
-                expiracao: format(dataExpiracao, 'yyyy-MM-dd'),
-                email: dados.email,
-                telefone: dados.telefone,
-                link: dados.link,
-            })
+            formPub.append('titulo', dados.titulo)
+            formPub.append('descricao', dados.descricao)
+            formPub.append('expiracao', format(dataExpiracao, 'yyyy-MM-dd'))
+            dados.categorias.forEach((c) => formPub.append('categoria', c))
+
+            if (dados.email) formPub.append('email', dados.email)
+            if (dados.telefone) formPub.append('telefone', dados.telefone)
+            if (dados.link) formPub.append('link', dados.link)
+
+            if (tipoImagem === 'anexar' && imagem) formPub.append('imagem', imagem)
+            console.log(imagem, tipoImagem)
+
+            await createPub(formPub)
             onSucess?.()
         } catch (error) {
             onErro?.(error.response?.data?.mensagem || error.response?.data?.error || 'Não foi possível criar a publicação.')

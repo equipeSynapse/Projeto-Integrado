@@ -1,10 +1,15 @@
 import { pool } from "../database/db.js";
+import { enviarImagem } from "../lib/storage.js";
+import { urlImagem } from "../lib/storage.js";
 
 export const buscarPublicacoes = async (req, res) => {
     try {
         const resultado = await pool.query('SELECT p.*, p.categoria::text[] AS categoria, u.nome_usuario FROM publicacoes p INNER JOIN usuarios u ON p.autor_email = u.email ORDER BY criado_em DESC')
-        
-        const publicacoes = resultado.rows
+
+        const publicacoes = resultado.rows.map((p) => ({
+            ...p,
+            imagem: urlImagem(p.imagem),
+        }))
 
         return res.status(200).json(publicacoes)
 
@@ -16,39 +21,44 @@ export const buscarPublicacoes = async (req, res) => {
     }
 }
 
-export const criarPublicacao = async (req, res) => { 
+export const criarPublicacao = async (req, res) => {
+    let imagemPath = null
+
     try {
-        const { titulo, descricao, categoria, imagem, email, telefone, link, anexos, expiracao } = req.body;
-        
+        const { titulo, descricao, email, telefone, link, anexo, expiracao } = req.body;
+
+        if (req.file) imagemPath = await enviarImagem(req.file)
         // O middleware lê o token do login, descobre quem está executando essa ação e salva em req.usuario
         const autor_email = req.usuario.email;
+
+        const categoria = [].concat(req.body.categoria ?? [])
 
         /* Validação dos campos obrigatórios -> Se faltar o título, OU a descrição, OU a categoria, 
         OU a validade, o servidor barra e devolve o ERRO 400 */
         if (!titulo?.trim() || !descricao?.trim() || categoria?.length === 0 || !expiracao) {
             return res.status(400).json({
-                dados: {titulo, descricao, categoria, expiracao},
+                dados: { titulo, descricao, categoria, expiracao },
                 mensagem: "Os campos obrigatórios (título, descrição, categoria e expiração) devem ser preenchidos."
             });
         }
 
         const query = `
-            INSERT INTO publicacoes (autor_email, titulo, descricao, categoria, imagem, email, telefone, link, anexos, expiracao)
+            INSERT INTO publicacoes (autor_email, titulo, descricao, categoria, imagem, email, telefone, link, anexo, expiracao)
             VALUES ($1, $2, $3, $4::public.categoria[], $5, $6, $7, $8, $9, $10) 
             RETURNING *;
-        `; 
+        `;
 
-        const values = [ 
+        const values = [
             autor_email,
             titulo.trim(),
             descricao.trim(),
             categoria,
-            imagem?.trim() || null, 
+            imagemPath?.trim() || null,
             email?.trim() || null,
             telefone?.trim() || null,
             link?.trim() || null,
             // A coluna anexos é json[]
-            Array.isArray(anexos) && anexos.length > 0 ? anexos : null,
+            anexo?.trim() ? anexo : null,
             expiracao
         ];
 
@@ -73,7 +83,7 @@ export const incrementarVisualizacao = async (req, res) => {
 
         pool.query('UPDATE publicacoes SET qtd_visualizacoes = qtd_visualizacoes + 1 WHERE id = $1', [id])
 
-        return res.status(200).json({mensagem: "Quantidade de visualizações de publicação Atualizada."});
+        return res.status(200).json({ mensagem: "Quantidade de visualizações de publicação Atualizada." });
     } catch (error) {
         console.log("Erro ao atualizar número de visualizações de postagem", error);
         return res.status(500).json({
@@ -85,7 +95,7 @@ export const incrementarVisualizacao = async (req, res) => {
 export const deletarPublicacao = async (req, res) => {
     try {
         const { id } = req.params;
-        
+
         // Pega o req.usuario.email para garantir que o usuário só apague o próprio post
         const autor_email = req.usuario.email;
 

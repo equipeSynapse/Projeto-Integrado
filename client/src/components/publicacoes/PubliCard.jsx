@@ -14,7 +14,7 @@ import ExcluirPubModal from "./ExcluirPubModal";
 import Toast from "../toasts/Toast";
 
 export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, titulo, descricao, link,
-  email, telefone, anexos, qtdVisualizacoes, expiracao }) {
+  email, telefone, anexo, qtdVisualizacoes, expiracao }) {
 
   const cardRef = viewObserver(id)
   const [expandido, setExpandido] = useState(false)
@@ -87,13 +87,11 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
             </div>
             : ''}
 
-          {(expandido || variant === "completo") && (anexos?.length > 0) ?
+          {(expandido || variant === "completo") && (anexos) ?
             <div className="flex flex-col gap-[24px]">
               <h3 className="font-semibold leading-none text-[14px] text-black"> Material anexado </h3>
               <div className="flex flex-col gap-[16px]">
-                {anexos.map((anexo, index) =>
                   <a
-                    key={index}
                     href={anexo.url}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -109,7 +107,7 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
                     </div>
                     <div> <ArrowUpRight size="18px" /> </div>
                   </a>
-                )}
+               
               </div>
             </div>
             : ""}

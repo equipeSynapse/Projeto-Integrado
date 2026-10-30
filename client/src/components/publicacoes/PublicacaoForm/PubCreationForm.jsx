@@ -55,6 +55,7 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
     const tocar = (campo) => () => setTocados((prev) => ({ ...prev, [campo]: true }))
 
     function alternarCategoria(c) {
+        console.log(anexo)
         setDados((prev) => ({
             ...prev,
             categorias: prev.categorias.includes(c) ? prev.categorias.filter((x) => x !== c) : [...prev.categorias, c],
@@ -79,6 +80,7 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
             if (dados.link) formPub.append('link', dados.link)
 
             if (tipoImagem === 'anexar' && imagem) formPub.append('imagem', imagem)
+            if (anexo) formPub.append('anexo', anexo)
             console.log(imagem, tipoImagem)
 
             await createPub(formPub)

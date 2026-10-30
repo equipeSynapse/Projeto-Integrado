@@ -58,14 +58,14 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
           </div>
         </div>
 
-        <div className="flex flex-col gap-[24px]">
+        <div className="flex flex-col gap-[24px] w-full">
           <h2 className="font-semibold leading-tight text-[16px] text-black">{titulo}</h2>
-          <p className="className={`font-medium leading-stitch text-[14px] text-[#3c4043] whitespace-pre-wrap">
+          <p className="font-medium leading-stitch text-[14px] text-[#3c4043] whitespace-pre-wrap">
             {((expandido || descricao.length < 60) || variant === "completo") ? descricao : `${descricao.slice(0, descricao.lastIndexOf(' ', 60))}... `}
-            {(!expandido && variant !== "completo" && (descricao.length > 60 || link || email || telefone)) ? <button className="text-[#8d8d8d] font-medium hover:cursor-pointer" onClick={() => setExpandido(true)}> mostrar mais </button> : ''}
+            {(!expandido && variant !== "completo" && (descricao.length > 60 || link || email || telefone || anexo)) ? <button className="text-[#8d8d8d] font-medium hover:cursor-pointer" onClick={() => setExpandido(true)}> mostrar mais </button> : ''}
           </p>
 
-          {(expandido || variant === "completo") && (link || email || telefone) ?
+          {(expandido || variant === "completo" || descricao.length < 60) && (link || email || telefone) ?
             <div className="flex flex-col gap-[24px]">
               <h3 className="font-semibold leading-none text-[14px] text-black"> Informações adicionais </h3>
               <div className="flex flex-col gap-[16px]">
@@ -87,34 +87,31 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
             </div>
             : ''}
 
-          {(expandido || variant === "completo") && (anexo) ?
-            <div className="flex flex-col gap-[24px]">
+          {(expandido || variant === "completo" || descricao.length < 60) && (anexo) ?
+            <div className="flex flex-col gap-[24px] w-full">
               <h3 className="font-semibold leading-none text-[14px] text-black"> Material anexado </h3>
-              <div className="flex flex-col gap-[16px]">
                   <a
                     href={anexo.url}
-                    target="_blank"
+                    target="_blank" 
                     rel="noopener noreferrer"
-                    alt={`Acessar Documento ${anexo.nome}`}
-                    className="flex justify-between items-center h-[66px] px-[24px] py-[16px] border border-[#e5e5e5] rounded-[8px]"
+                    alt={`Acessar Documento ${anexo.titulo}`}
+                    className="flex justify-between items-center w-full h-[66px] px-[24px] py-[16px] border border-[#e5e5e5] rounded-[8px]"
                   >
                     <div className="flex items-center gap-[10px]">
                       <BiSolidFilePdf size="24px" color="#EA4345" />
                       <div className="flex flex-col gap-[4px]">
-                        <span> {anexo.nome} </span>
+                        <span> {anexo.titulo} </span>
                         <span className="text-[12px] text-[#909090]"> {anexo.tipo} · {anexo.tamanho}kb </span>
                       </div>
                     </div>
                     <div> <ArrowUpRight size="18px" /> </div>
                   </a>
-               
-              </div>
             </div>
             : ""}
         </div>
 
         {imagem && <div className="bg-[#e5e5e5] rounded-[16px] w-full min-h-[310px] shrink-0 overflow-hidden">
-          <img src={`${imagem}#toolbar=0`} alt={titulo} className="size-full object-cover" />
+          <img src={imagem} alt={titulo} className="size-full object-cover" />
         </div>}
 
         <hr className="w-full border-[#e5e5e5]" />

@@ -1,5 +1,5 @@
 import { pool } from "../database/db.js";
-import { enviarImagem } from "../lib/storage.js";
+import { enviarAnexo, enviarImagem, removerAnexo, removerImagem, urlAnexo } from "../lib/storage.js";
 import { urlImagem } from "../lib/storage.js";
 
 export const buscarPublicacoes = async (req, res) => {
@@ -9,6 +9,7 @@ export const buscarPublicacoes = async (req, res) => {
         const publicacoes = resultado.rows.map((p) => ({
             ...p,
             imagem: urlImagem(p.imagem),
+            anexo: urlAnexo(p.anexo)
         }))
 
         return res.status(200).json(publicacoes)
@@ -23,11 +24,14 @@ export const buscarPublicacoes = async (req, res) => {
 
 export const criarPublicacao = async (req, res) => {
     let imagemPath = null
+    let anexoData = null
 
     try {
         const { titulo, descricao, email, telefone, link, anexo, expiracao } = req.body;
 
-        if (req.file) imagemPath = await enviarImagem(req.file)
+        const arquivoImagem = req.files?.imagem?.[0]
+        const arquivoAnexo = req.files?.anexo?.[0]
+
         // O middleware lê o token do login, descobre quem está executando essa ação e salva em req.usuario
         const autor_email = req.usuario.email;
 
@@ -42,9 +46,16 @@ export const criarPublicacao = async (req, res) => {
             });
         }
 
+        if (arquivoImagem) imagemPath = await enviarImagem(arquivoImagem)
+        if (arquivoAnexo) anexoData = await enviarAnexo(arquivoAnexo)
+
+        console.log('anexoData:', anexoData)
+        console.log('imagem:', arquivoImagem && { nome: arquivoImagem.originalname, tipo: arquivoImagem.mimetype, bytes: arquivoImagem.size })
+        console.log('anexo:', arquivoAnexo && { nome: arquivoAnexo.originalname, tipo: arquivoAnexo.mimetype, bytes: arquivoAnexo.size })
+ 
         const query = `
             INSERT INTO publicacoes (autor_email, titulo, descricao, categoria, imagem, email, telefone, link, anexo, expiracao)
-            VALUES ($1, $2, $3, $4::public.categoria[], $5, $6, $7, $8, $9, $10) 
+            VALUES ($1, $2, $3, $4::public.categoria[], $5, $6, $7, $8, $9::json, $10) 
             RETURNING *;
         `;
 
@@ -57,8 +68,7 @@ export const criarPublicacao = async (req, res) => {
             email?.trim() || null,
             telefone?.trim() || null,
             link?.trim() || null,
-            // A coluna anexos é json[]
-            anexo?.trim() ? anexo : null,
+            anexoData ? JSON.stringify(anexoData) : null,
             expiracao
         ];
 
@@ -70,6 +80,8 @@ export const criarPublicacao = async (req, res) => {
         });
 
     } catch (error) {
+        await removerImagem(imagemPath)
+        await removerAnexo(anexoData?.path)
         console.log("Erro ao criar publicação:", error);
         return res.status(500).json({
             error: "Erro interno ao criar a publicação no servidor."

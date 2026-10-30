@@ -13,7 +13,7 @@ const router = express.Router();
 router.get("/publicacoes", postsController.buscarPublicacoes);
 router.patch("/incrementar-visualizacao", postsController.incrementarVisualizacao);
 
-router.post("/criar-publicacao", authMiddleware, upload.single('imagem'), postsController.criarPublicacao);
+router.post("/criar-publicacao", authMiddleware, upload.fields([{name: 'imagem', maxCount: 1}, {name: 'anexo', maxCount: 1}]), postsController.criarPublicacao);
 router.delete("/publicacoes/:id", authMiddleware, postsController.deletarPublicacao);
 
 export default router;

@@ -11,10 +11,10 @@ import Toast from "../../components/toasts/Toast";
 import Destaques from "../../components/publicacoes/Destaques";
 import PublicacaoForm from "../../components/publicacoes/PublicacaoForm/PubCreationForm";
 import Feed from "../../components/publicacoes/Feed";
-import Header from "../../components/Header";
+import useHeader from "../../components/Header";
 
 export default function HomePage() {
-    const { busca, dataInicio, dataFim, ComponenteHeader} = Header({showSearch: true, 
+    const { busca, dataInicio, dataFim, Header} = useHeader({showSearch: true, 
                                                                     onClickEntre: () => setIsLoginOpen(true), 
                                                                     onClickCadastro: () => setIsCadastroOpen(true)
                                                             })
@@ -69,7 +69,7 @@ export default function HomePage() {
 
     return (
         <div className="min-h-screen bg-white">
-            {ComponenteHeader} 
+            {Header} 
 
             <main className="flex justify-center gap-[48px] px-[60px] pt-[130px] pb-[48px] mx-auto items-start">
                 <aside className="sticky top-[130px]">

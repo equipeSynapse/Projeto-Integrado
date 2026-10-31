@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { PubliCard } from "../../components/publicacoes/PubliCard";
 import { getPublicacoes } from "../../services/publicacoes";
-import Header from "../../components/Header";
 import { InputSearch } from "../../components/publicacoes/InputSearch";
 import Button from "../../components/Button";
 import LoginForm from "../../components/LoginForm";
@@ -11,6 +10,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ChevronRight, Plus } from "lucide-react";
 import timestampMsg from "../../utils/timestampMsg";
 import Destaques from "../../components/publicacoes/Destaques";
+import useHeader from "../../components/Header";
 
 export default function PublicacaoPage() {
     const { id } = useParams();
@@ -19,6 +19,8 @@ export default function PublicacaoPage() {
 
     const [isLoginOpen, setIsLoginOpen] = useState(false);
     const loginModalRef = useRef(null)
+
+    const {Header} = useHeader({ onClickEntre: () => setIsLoginOpen(true), onClickCadastro: () => setIsCadastroOpen(true)})
 
     useEffect(() => {
         if (isLoginOpen && loginModalRef.current) {
@@ -42,28 +44,7 @@ export default function PublicacaoPage() {
 
     return (
         <div className="min-h-screen bg-white">
-            <Header className="fixed z-2">
-                <div className="flex items-center gap-6 w-full">
-                    <div> Logo </div>
-                </div>
-
-
-                {isUserLoggedIn() ?
-                    <div className="flex justify-between gap-12">
-                        <div className="flex gap-6">
-                            <div> Início </div>
-                            <div> Notificações </div>
-                        </div>
-                    </div>
-                    :
-                    <div className="flex justify-between gap-[24px] items-center h-[10px] text-nowrap">
-                        <Button variant="text" onClick={() => setIsLoginOpen(true)}> Entre </Button>
-                        <Button variant="cta">
-                            <span> Cadastre-se </span>
-                        </Button>
-                    </div>}
-
-            </Header>
+            {Header}
 
             <main className="flex justify-center gap-[48px] px-[60px] pt-[130px] pb-[48px] mx-auto items-start">
                 <aside className="sticky top-[130px]">

@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 import { LogOut, Pencil, Settings, TableConfig, User } from "lucide-react";
-import Header from "../../components/Header";
+import useHeader from "../../components/Header";
 import isUserLoggedIn from "../../utils/auth";
 import { EditProfileForm } from "../../components/EditProfileForm";
 import ApagarContaForm from "../../components/ApagarContaForm";
 import { getPublicacoes } from "../../services/publicacoes";
-import { PubliCard } from "../../components/publicacoes/PubliCard";
-import { useNavigate } from "react-router-dom";
 import Feed from "../../components/publicacoes/Feed";
 
 export default function PerfilPage() {
-    const { busca, dataInicio, dataFim, ComponenteHeader} = Header({showSearch: true, 
+    const { busca, dataInicio, dataFim, Header} = useHeader({showSearch: true, 
                                                                         onClickEntre: () => setIsLoginOpen(true), 
                                                                         onClickCadastro: () => setIsCadastroOpen(true)
                                                                 })
@@ -44,7 +42,7 @@ export default function PerfilPage() {
 
     return (
         <div className="min-h-screen bg-white">
-            {ComponenteHeader}
+            {Header}
 
             <main className="relative flex justify-center gap-[48px] px-[60px] py-[130px] mx-auto font-poppins">
                 <section className="w-[778px] flex flex-col gap-[32px]">

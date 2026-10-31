@@ -1,13 +1,14 @@
 import Button from "./Button";
-import { Calendar, LogOut, User } from "lucide-react";
+import { Bell, Calendar, Home, LogOut, User } from "lucide-react";
 import { useState } from "react";
 import isUserLoggedIn from "../utils/auth";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { InputSearch } from "./publicacoes/InputSearch";
 import DateRangePicker from "./DateRangePicker";
 
-export default function Header({ className, showSearch, children, onClickEntre, onClickCadastro }) {
+export default function useHeader({ className, showSearch, children, onClickEntre, onClickCadastro }) {
     const navigate = useNavigate();
+    const location = useLocation();
 
     const [busca, setBusca] = useState("");
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
@@ -19,7 +20,7 @@ export default function Header({ className, showSearch, children, onClickEntre, 
         busca,
         dataInicio, 
         dataFim,
-        ComponenteHeader: (
+        Header: (
         <header className={`w-full bg-white fixed z-2 h-[82px] border-b-1 border-[#e5e5e5] flex items-center px-30 justify-between font-poppins text-[14px] ${className}`}>
             <div className="relative flex items-center gap-6 w-full">
                 <div> Logo </div>
@@ -46,9 +47,14 @@ export default function Header({ className, showSearch, children, onClickEntre, 
             {isUserLoggedIn() ?
 
                 <div className="flex items-center gap-[48px]">
-                    <div className="flex gap-6">
-                        <div> Início </div>
-                        <div> Notificações </div>
+                    <div className="flex gap-12">
+                        <button className="flex items-center gap-[12px]" onClick={() => navigate("/")}> 
+                            <Home className={`size=[20px] ${location.pathname === '/' ? 'stroke-black':'stroke-[#909090]'}`}/> 
+                            <span className={`${location.pathname === '/' ? 'font-semibold':'font-medium text-[#909090]'}`}> Início </span> 
+                        </button>
+                        <button className="flex items-center gap-[12px]"> 
+                            <Bell className="size=[20px] stroke-[#909090]"/> <span className="font-medium text-[#909090]"> Notificações </span> 
+                        </button>
                     </div>
                     <div className="relative">
                         <button onClick={() => setIsUserMenuOpen(!isUserMenuOpen)} className="flex justify-center items-center bg-[#22D3EE] size-[50px] rounded-[50px]">

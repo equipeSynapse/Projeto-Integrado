@@ -1,6 +1,7 @@
 import { pool } from "../database/db.js";
 import { enviarAnexo, enviarImagem, removerAnexo, removerImagem, urlAnexo } from "../lib/storage.js";
 import { urlImagem } from "../lib/storage.js";
+import {v4 as uuidv4} from "uuid";
 
 export const buscarPublicacoes = async (req, res) => {
     try {
@@ -65,10 +66,18 @@ export const criarPublicacao = async (req, res) => {
             telefone?.trim() || null,
             link?.trim() || null,
             anexoData ? JSON.stringify(anexoData) : null,
-            expiracao
+            expiracao,
         ];
 
+        //Criação na tabela publicacoes
         const resultado = await pool.query(query, values);
+
+        //Criação da notificação
+        const notificacao = await pool.query("INSERT INTO notificacoes (tipo, publicacao_id) VALUES ('PUBLICACAO_NOVA', $1) RETURNING id", [resultado.rows[0].id]);
+
+        const notificacaoId = notificacao.rows[0].id;
+
+        await pool.query("INSERT INTO notificacoes_usuarios (notificacao_id, usuario_email) SELECT DISTINCT $1::uuid, uc.email_usuario FROM usuarios_categorias uc WHERE uc.categoria = ANY($2::categoria[])", [notificacaoId, categoria])
 
         return res.status(201).json({
             mensagem: "Publicação criada com sucesso!",

@@ -12,6 +12,7 @@ import { ArrowUpRight, Pencil, Trash } from "lucide-react";
 import CopiarLinkBtn from "./CopiarLinkBtn";
 import ExcluirPubModal from "./ExcluirPubModal";
 import Toast from "../toasts/Toast";
+import PublicacaoEditForm from "./PublicacaoForm/PubEditForm";
 
 export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, titulo, descricao, link,
   email, telefone, anexo, qtdVisualizacoes, expiracao }) {
@@ -20,7 +21,10 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
   const [expandido, setExpandido] = useState(false)
 
   const usuario = isUserLoggedIn();
+
   const [threeDotsClicked, setThreeDotsClicked] = useState(false)
+
+  const [editarClicked, setEditarClicked] = useState(false)
   const [excluirClicked, setExcluirClicked] = useState(false)
   const [excluida, setExcluida] = useState(false)
 
@@ -46,7 +50,7 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
               </button>}
             {threeDotsClicked &&
               <div className="absolute flex flex-col items-start right-0 top-[36px] w-[250px] bg-white rounded-[8px] shadow-lg shadow-black/20 overflow-hidden">
-                <button className="w-full flex items-center gap-[8px] text-left px-[16px] py-[12px] hover:bg-[rgba(60,64,67,0.06)]">
+                <button onClick={() => setEditarClicked(true)} className="w-full flex items-center gap-[8px] text-left px-[16px] py-[12px] hover:bg-[rgba(60,64,67,0.06)]">
                   <Pencil className="size-[14px]" />
                   <span className="text-[14px] relative top-[1px]"> Editar </span>
                 </button>
@@ -132,6 +136,13 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
         </div>
 
       </article>}
+      
+       {editarClicked &&
+        <div className="bg-black/50 fixed z-2 h-full inset-0 flex items-center justify-center">
+          <PublicacaoEditForm dadosPub={{titulo, descricao, categoria, expiracao, email, telefone, link, imagem, anexo}}
+            onClickX={() => setEditarClicked(false)}
+          />
+        </div>}
 
       {excluirClicked &&
         <div className="bg-black/50 fixed z-2 h-full inset-0 flex items-center justify-center">

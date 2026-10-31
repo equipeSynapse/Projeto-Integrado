@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { format, isBefore, parseISO, startOfDay } from 'date-fns'
 import { Calendar, CircleHelp, Image } from 'lucide-react'
 import closeIcon from '../../../assets/icons/close.svg'
@@ -24,7 +24,7 @@ function borda(erro) {
 }
 
 export default function PublicacaoEditForm({ onClickX, onSucess, onErro, ref, dadosPub }) {
-    const inicial = useMemo(() => ({
+    const inicial = {
         titulo: dadosPub.titulo,
         descricao: dadosPub.descricao,
         categorias: dadosPub.categoria,
@@ -32,7 +32,7 @@ export default function PublicacaoEditForm({ onClickX, onSucess, onErro, ref, da
         email: dadosPub.email ?? '',
         telefone: dadosPub.telefone ?? '',
         link: dadosPub.link ?? '',
-    }), [dadosPub])
+    }
 
     const [dados, setDados] = useState(inicial)
 

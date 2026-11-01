@@ -6,8 +6,7 @@ export async function marcarComoLida(id) {
 
         await api.patch("/api/notificacoes/marcar-como-lida", {"notificacao_id": id}, {
             headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": undefined
+                Authorization: `Bearer ${token}`
             }} );
         return;
     } catch (error) {

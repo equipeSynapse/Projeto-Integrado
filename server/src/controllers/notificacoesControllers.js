@@ -43,3 +43,39 @@ export const marcarComoLida = async (req, res) => {
         })
     }
 }
+
+export const marcarTodasComoLidas = async (req, res) => {
+    try {
+        const email_usuario = req.usuario.email;
+
+        const { rows } = await pool.query('UPDATE notificacoes_usuarios SET lida = TRUE WHERE usuario_email = $1', [email_usuario])
+
+        return res.status(200).json({mensagem: "Os status de leitura de todas as notificações foram marcados como lido!"})
+    } catch (error) {
+        console.log("Erro ao atualizar status de leitura das notificações", error);
+        return res.status(500).json({
+            error: "Erro ao atualizar status de leitura das notificações."
+        })
+    }
+}
+
+export const excluirNotificacao = async(req, res) => {
+    try {
+        const { notificacao_id } = req.body;
+
+        if (!notificacao_id || !notificacao_id.trim()) {
+            return res.status(400).json({mensagem: "É necessário informar o ID da notificação."})
+        }
+
+        const email = req.usuario.email;
+
+        await pool.query('DELETE FROM notificacoes_usuarios WHERE usuario_email = $1 AND notificacao_id = $2', [email, notificacao_id])
+
+        return res.status(200).json({mensagem: "Notificação excluída com sucesso!"})
+    } catch (error) {
+        console.log("Erro ao excluir notificação:", error)
+        return res.status(500).json({
+            error: "Erro ao excluir notificação."
+        })
+    }
+}

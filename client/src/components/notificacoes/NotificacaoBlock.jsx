@@ -3,9 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { marcarComoLida } from "../../services/notificacoes/marcarComoLida";
 import { useState } from "react";
 
-export default function NotificacaoBlock({ data }) {
+export default function NotificacaoBlock({ data, excluida, onAlternar }) {
     const navigate = useNavigate();
-    const [excluida, setExcluida] = useState(false);
 
     const timestampDiff = Math.round((new Date() - new Date(data.gerada_em)) / (1000 * 60))
 
@@ -16,7 +15,7 @@ export default function NotificacaoBlock({ data }) {
             <span className="text-[16px] text-[#3C4043] font-semibold"> Notificação excluída </span>
 
             <div className="h-full flex items-end">
-                <button className="group flex items-center gap-[12px]" onClick={() => setExcluida(false)}>
+                <button className="group flex items-center gap-[12px]" onClick={() => onAlternar(data.id)}>
                     <Undo2 className="size-[20px] stroke-[#8D8D8D] group-hover:stroke-black" />
                     <span className="text-[#8D8D8D] group-hover:text-black"> Desfazer </span>
                 </button>
@@ -47,7 +46,7 @@ export default function NotificacaoBlock({ data }) {
                 }
                 <div className="flex flex-col flex-1 justify-between items-end h-[50px]">
                     <button onClick={(e) => { e.stopPropagation() }}>
-                        <Trash className="size-[16px] stroke-[#8D8D8D]" onClick={() => setExcluida(true)} />
+                        <Trash className="size-[16px] stroke-[#8D8D8D]" onClick={() => onAlternar(data.id)} />
                     </button>
                     <span className="text-[14px] text-[#8D8D8D] font-semibold inline-block">
                         {(timestampDiff < 60) ? `${timestampDiff} min` :

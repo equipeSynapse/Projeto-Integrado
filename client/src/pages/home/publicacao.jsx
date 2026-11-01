@@ -53,7 +53,8 @@ export default function PublicacaoPage() {
                     </div>
                 </aside>
 
-                <section className="flex flex-col gap-[24px] max-w-[960px]">
+                <section className="flex flex-col gap-[24px] w-[778px] max-w-[960px]">
+                    
                     <Button onClick={() => navigate('/')}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
                         <span> Voltar à página inicial </span>
@@ -77,6 +78,7 @@ export default function PublicacaoPage() {
                             expiracao={p.expiracao}
                         />
                     ))}
+                    
                 </section>
 
                 <aside className="sticky top-[130px] font-poppins flex flex-col gap-[24px] text-[#3c4043]">

@@ -5,10 +5,13 @@ import isUserLoggedIn from "../utils/auth";
 import { useLocation, useNavigate } from "react-router-dom";
 import { InputSearch } from "./publicacoes/InputSearch";
 import DateRangePicker from "./DateRangePicker";
+import NotificacoesModal from "./notificacoes/NotificacoesModal";
 
 export default function useHeader({ className, showSearch, children, onClickEntre, onClickCadastro }) {
     const navigate = useNavigate();
     const location = useLocation();
+
+    const [isNotificacoesOpen, setIsNotificacoesOpen] = useState(false)
 
     const [busca, setBusca] = useState("");
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
@@ -48,12 +51,12 @@ export default function useHeader({ className, showSearch, children, onClickEntr
 
                 <div className="flex items-center gap-[48px]">
                     <div className="flex gap-12">
-                        <button className="flex items-center gap-[12px]" onClick={() => navigate("/")}> 
-                            <Home className={`size=[20px] ${location.pathname === '/' ? 'stroke-black':'stroke-[#909090]'}`}/> 
-                            <span className={`${location.pathname === '/' ? 'font-semibold':'font-medium text-[#909090]'}`}> Início </span> 
+                        <button className="group flex items-center gap-[12px]" onClick={() => navigate("/")}> 
+                            <Home className={`size=[20px] ${location.pathname === '/' ? 'stroke-black':'stroke-[#909090] group-hover:stroke-black'}`}/> 
+                            <span className={`${location.pathname === '/' ? 'font-semibold':'font-medium text-[#909090] group-hover:text-black'}`}> Início </span> 
                         </button>
-                        <button className="flex items-center gap-[12px]"> 
-                            <Bell className="size=[20px] stroke-[#909090]"/> <span className="font-medium text-[#909090]"> Notificações </span> 
+                        <button className="group flex items-center gap-[12px]" onClick={() => setIsNotificacoesOpen(true)}> 
+                            <Bell className="size=[20px] stroke-[#909090] group-hover:stroke-black"/> <span className="font-medium text-[#909090] group-hover:text-black"> Notificações </span> 
                         </button>
                     </div>
                     <div className="relative">
@@ -86,6 +89,12 @@ export default function useHeader({ className, showSearch, children, onClickEntr
                     <Button variant="text" onClick={onClickEntre}> Entre </Button>
                     <Button variant="cta" onClick={onClickCadastro}> Cadastre-se </Button>
                 </div>}
+
+                {isNotificacoesOpen &&
+                    <div className="fixed inset-0 z-3 flex justify-end items-center bg-black/50">
+                        <NotificacoesModal onClose={() => setIsNotificacoesOpen(false)} />
+                    </div>
+                }
         </header>
     )}
 }

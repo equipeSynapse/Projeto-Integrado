@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
 app.use("/api/auth", authRoutes)
 app.use("/api/posts", postsRoutes)
 app.use("/api/categorias", categoriasRoutes)
-app.use("/api", notificacoesRoutes)
+app.use("/api/notificacoes", notificacoesRoutes)
 
 app.listen(port, () => {
     console.log(`Servidor Rodando na porta ${port}`);

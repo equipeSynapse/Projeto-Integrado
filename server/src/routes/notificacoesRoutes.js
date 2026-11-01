@@ -4,6 +4,7 @@ import { authMiddleware } from "../middlewares/authMiddleware.js"
 
 const router = express.Router();
 
-router.get("/notificacoes", authMiddleware, notificController.obterNotificacoes);
+router.get("/", authMiddleware, notificController.obterNotificacoes);
+router.patch("/marcar-como-lida", authMiddleware, notificController.marcarComoLida);
 
 export default router;

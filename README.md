@@ -124,11 +124,17 @@ projeto-mural-colaborativo/
 |    └── src/
 |    |     ├── controllers/
 |    |     ├── database/
+|    |     ├── lib/
+|    |     ├── middlewares/
 |    |     ├── routes/
 |    |     ├── services/
 |    |     ├── templates/
 |    |     ├── utils/
 |    |     └── server.js
+|    └── supabase/
+|    |     ├── migrations/
+|    |     └── config.toml
+|    └── .env
 |    ├── package-lock.json
 |    └── package.json
 |
@@ -155,11 +161,11 @@ projeto-mural-colaborativo/
 | RF09   | O sistema deve permitir que os usuários filtrem as publicações por título, por categoria, por período de publicação e por usuário. | `FEITO ✅` |
 | RF10   | O sistema deve permitir que o usuário acesse o link para mais informações das publicações. | `FEITO ✅` |
 | RF11   | O sistema deve mostrar as publicações de acordo com os filtros aplicados. | `FEITO ✅` |
-| RF12   | O sistema deve permitir que o usuário visualize as suas publicações. | `A FAZER 📄` |
+| RF12   | O sistema deve permitir que o usuário visualize as suas publicações. | `FEITO ✅` |
 | RF13   | O sistema deve permitir a exclusão e a edição das publicações criadas. | `EM ANDAMENTO ⌛` |
 | RF14   | O sistema deve permitir mostrar o número de visualizações das publicações. | `FEITO ✅` |
 | RF15   | O sistema deve permitir que o usuário siga uma categoria para receber atualizações. | `FEITO ✅` |
-| RF16   | O sistema deve permitir notificações de categorias seguidas pelo usuário. | `A FAZER 📄` |
+| RF16   | O sistema deve permitir notificações de categorias seguidas pelo usuário. | `FEITO ✅` |
 | RF17   | O sistema deve bloquear/censurar palavras indesejadas nos campos de título, descrição e informações de contato no formulário de cadastro de publicação. | `A FAZER 📄` |
 | RF18   | O sistema deve permitir que os usuários denunciem publicações através de uma justificativa. | `A FAZER 📄` |
 | RF19   | O sistema deve permitir que o usuário com o e-mail institucional casmd@virtual.ufc.br (CA) possua permissões de moderadores. | `A FAZER 📄` |
@@ -168,6 +174,8 @@ projeto-mural-colaborativo/
 | RF22   | O sistema deve excluir uma publicação quando o moderador aprovar uma denúncia. | `A FAZER 📄` |
 | RF23   | O sistema deve permitir que o usuário exclua sua conta. | `EM ANDAMENTO ⌛` |
 | RF24   | O sistema deve permitir que o usuário edite suas informações da conta. | `EM ANDAMENTO ⌛` |
+| RF25   | O sistema deve permitir que o usuário redefina sua senha em caso de esquecimento. | `FEITO ✅` |
+| RF26   | O sistema deve fornecer a opção de copiar link (URL única) de uma publicação. | `FEITO ✅` |
 
 ---
 

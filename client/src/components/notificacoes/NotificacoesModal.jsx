@@ -6,7 +6,7 @@ import { isSameDay, isSameMonth, isSameWeek } from "date-fns";
 import NotificacaoBlock from "./NotificacaoBlock";
 import Button from "../Button";
 
-export default function NotificacoesModal({ onClickX, onClickNotification }) {
+export default function NotificacoesModal({ onClickX }) {
     const [notificacoes, setNotificacoes] = useState([])
 
     useEffect(() => {
@@ -20,6 +20,19 @@ export default function NotificacoesModal({ onClickX, onClickNotification }) {
         };
         fetchNotificacoes();
     }, []);
+
+    const [pendentes, setPendentes] = useState([]);
+
+    async function closeModal() {
+        if (pendentes.length > 0) {
+            try {
+
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }
+
 
 
     const notificacoesHoje = notificacoes.filter((n) => isSameDay(n.gerada_em, new Date()))
@@ -40,7 +53,7 @@ export default function NotificacoesModal({ onClickX, onClickNotification }) {
                     <span className="ml-[28px] text-[20px] text-[#3C4043] font-semibold"> Hoje </span>
                     <div className="flex flex-col gap-[4px]">
                         {notificacoesHoje.map((n) =>
-                        <NotificacaoBlock key={n.id} data={n} onClick={onClickNotification}/>
+                        <NotificacaoBlock key={n.id} data={n} />
                         )}
                     </div>
                 </div>
@@ -49,7 +62,7 @@ export default function NotificacoesModal({ onClickX, onClickNotification }) {
                     <span className="ml-[28px] text-[20px] text-[#3C4043] font-semibold"> Última semana </span>
                     <div className="flex flex-col gap-[4px]">
                         {notificacoesSemana.map((n) =>
-                            <NotificacaoBlock key={n.id} data={n} onClick={onClickNotification}/>
+                            <NotificacaoBlock key={n.id} data={n} />
                         )}
                     </div>
                 </div>
@@ -58,7 +71,7 @@ export default function NotificacoesModal({ onClickX, onClickNotification }) {
                     <span className="ml-[28px] text-[20px] text-[#3C4043] font-semibold"> Este mês </span>
                     <div className="flex flex-col gap-[4px]">
                         {notificacoesMes.map((n) =>
-                            <NotificacaoBlock key={n.id} data={n} onClick={onClickNotification}/>
+                            <NotificacaoBlock key={n.id} data={n} />
                         )}
                     </div>
                 </div>

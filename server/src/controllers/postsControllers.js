@@ -2,6 +2,7 @@ import { pool } from "../database/db.js";
 import { enviarAnexo, enviarImagem, removerAnexo, removerImagem, urlAnexo } from "../lib/storage.js";
 import { urlImagem } from "../lib/storage.js";
 import {v4 as uuidv4} from "uuid";
+import { checarProfanidade } from "../utils/checkProfanity.js";
 
 export const buscarPublicacoes = async (req, res) => {
     try {
@@ -45,6 +46,12 @@ export const criarPublicacao = async (req, res) => {
                 dados: { titulo, descricao, categoria, expiracao },
                 mensagem: "Os campos obrigatórios (título, descrição, categoria e expiração) devem ser preenchidos."
             });
+        }
+
+        if (checarProfanidade(titulo) || checarProfanidade(descricao) || checarProfanidade(email) || checarProfanidade(telefone) || checarProfanidade(link)) {
+            return res.status(400).json({
+                mensagem: "O texto enviado possui termos impróprios. Por favor, revise."
+            })
         }
 
         if (arquivoImagem) imagemData = await enviarImagem(arquivoImagem)

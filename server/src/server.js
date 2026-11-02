@@ -3,7 +3,8 @@ import express from "express";
 import authRoutes from "./routes/authRoutes.js";
 import postsRoutes from "./routes/postsRoutes.js";
 import categoriasRoutes from "./routes/categoriasRoutes.js";
-import notificacoesRoutes from "./routes/notificacoesRoutes.js"
+import notificacoesRoutes from "./routes/notificacoesRoutes.js";
+import denunciasRoutes from "./routes/denunciasRoutes.js";
 import cors from "cors";
 
 const app = express();
@@ -22,6 +23,7 @@ app.use("/api/auth", authRoutes)
 app.use("/api/posts", postsRoutes)
 app.use("/api/categorias", categoriasRoutes)
 app.use("/api/notificacoes", notificacoesRoutes)
+app.use("/api/denuncias", denunciasRoutes)
 
 app.listen(port, () => {
     console.log(`Servidor Rodando na porta ${port}`);

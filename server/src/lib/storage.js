@@ -9,6 +9,18 @@ const EXTENSOES = {
   'image/png': 'png',
 }
 
+export async function criarBuckets() {
+  const buckets = ['publicacoes_imgs', 'publicacoes_anexos']
+
+  for (const bucket of buckets) {
+    const { error } = await supabase.storage.createBucket(bucket, { public: true });
+
+    if (error && !error.message.toLowerCase().includes('already exists')) {
+      throw error;
+    }
+  }
+}
+
 export async function enviarImagem(file) {
   const ext = EXTENSOES[file.mimetype]
   if (!ext) throw new Error('Tipo de arquivo não permitido')
@@ -24,7 +36,7 @@ export async function enviarImagem(file) {
     path,
     titulo: Buffer.from(file.originalname, 'latin1').toString('utf8'),
     tipo: ext,
-    tamanho: Math.round(file.size/1024),
+    tamanho: Math.round(file.size / 1024),
   }
 }
 
@@ -45,7 +57,7 @@ export async function enviarAnexo(file) {
     path,
     titulo: Buffer.from(file.originalname, 'latin1').toString('utf8'),
     tipo: 'pdf',
-    tamanho: Math.round(file.size/1024)
+    tamanho: Math.round(file.size / 1024)
   }
 }
 

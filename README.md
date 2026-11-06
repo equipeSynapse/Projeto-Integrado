@@ -30,12 +30,9 @@ A partir de dados coletados com a secretaria, professores, alunos e Centro Acad�
 
 <table>
   <tr>
-    <td width="16%"> <img height="320" alt="Foto de Alisson Lucas" src="https://github.com/user-attachments/assets/335035b8-072d-4f52-815f-3947e60a954b" /> </td>
-    <td width="16%"> <img height="320" alt="Foto de Anderson Maia" src="https://github.com/user-attachments/assets/a3341e75-7362-45d8-9697-f74d2631b342" /> </td>
-    <td width="16%"> <img height="320" alt="Foto de Naamã Alecsander" src="https://github.com/user-attachments/assets/e23d5a86-d277-4238-9f3c-ee9ca7184629" /> </td>
-    <td width="16%"> <img height="320" alt="Foto de Pedro Bruno" src="https://github.com/user-attachments/assets/7e8a7da8-6eb7-4b56-80f9-fdff70ca930d" /> </td>
-    <td width="16%"> <img height="320" alt="Foto de Thalita Suzy" src="https://github.com/user-attachments/assets/56dfdfef-75ae-4b57-84ae-b96f38b0b557" /> </td>
-    <td width="16%"> <img height="320" alt="Foto de Yan Lucas" src="https://github.com/user-attachments/assets/0af30c50-b714-4fb5-b9ec-1fc6ebea1816" /> </td>
+    <td width="340" align="center"> <img height="320" alt="Foto de Alisson Lucas" src="https://github.com/user-attachments/assets/335035b8-072d-4f52-815f-3947e60a954b" /> </td>
+    <td width="340" align="center"> <img height="320" alt="Foto de Anderson Maia" src="https://github.com/user-attachments/assets/a3341e75-7362-45d8-9697-f74d2631b342" /> </td>
+    <td width="340" align="center"> <img height="320" alt="Foto de Naamã Alecsander" src="https://github.com/user-attachments/assets/e23d5a86-d277-4238-9f3c-ee9ca7184629" /> </td>
   </tr>
 
 
@@ -43,15 +40,30 @@ A partir de dados coletados com a secretaria, professores, alunos e Centro Acad�
     <td align="center"> <a href="https://github.com/AlissonLucas01"> <b> Alisson da Silva Lucas </b> </a> </td>
     <td align="center"> <a href="https://github.com/TheAnders007"> <b> Anderson Maia Santos </b> </a> </td>
     <td align="center"> <a href="https://github.com/alecsandernst"> <b> Naamã Alecsander de Sousa Tavares </b> </a> </td>
-    <td align="center"> <a href="https://github.com/Pedro-Bruno41">  <b> Pedro Bruno Rodrigues de Almeida </b> </a> </td>
-    <td align="center"> <a href="https://github.com/thalitaasuzy"> <b> Thalita Suzy Rodrigues Sampaio </b> </a> </td>
-    <td align="center"> <a href="https://github.com/YanRabelo">  <b> Yan Lucas Gondim Rabelo </b> </a> </td>
   </tr>
 
   <tr>
     <td align="center"> Desenvolvimento Visual </td>
     <td align="center"> Desenvolvimento Full Stack e Liderança Técnica </td>
     <td align="center"> Desenvolvimento Full Stack </td>
+  </tr>
+
+  <tr> <td colspan=3> </td></tr>
+
+  <tr>
+    <td width="340" align="center"> <img height="320" alt="Foto de Pedro Bruno" src="https://github.com/user-attachments/assets/7e8a7da8-6eb7-4b56-80f9-fdff70ca930d" /> </td>
+    <td width="340" align="center"> <img height="320" alt="Foto de Thalita Suzy" src="https://github.com/user-attachments/assets/56dfdfef-75ae-4b57-84ae-b96f38b0b557" /> </td>
+    <td width="340" align="center"> <img height="320" alt="Foto de Yan Lucas" src="https://github.com/user-attachments/assets/0af30c50-b714-4fb5-b9ec-1fc6ebea1816" /> </td>
+  </tr>
+
+
+  <tr>
+    <td align="center"> <a href="https://github.com/Pedro-Bruno41">  <b> Pedro Bruno Rodrigues de Almeida </b> </a> </td>
+    <td align="center"> <a href="https://github.com/thalitaasuzy"> <b> Thalita Suzy Rodrigues Sampaio </b> </a> </td>
+    <td align="center"> <a href="https://github.com/YanRabelo">  <b> Yan Lucas Gondim Rabelo </b> </a> </td>
+  </tr>
+
+  <tr>
     <td align="center"> Desenvolvimento Visual </td>
     <td align="center"> Desenvolvimento Full Stack </td>
     <td align="center"> Gestão do Projeto e Design Lead </td>

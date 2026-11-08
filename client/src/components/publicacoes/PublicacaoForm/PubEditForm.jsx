@@ -112,7 +112,6 @@ export default function PublicacaoEditForm({ onClickX, onSucess, onErro, ref, da
             else if (!anexo && inicial.anexo) formPub.append('remover_anexo', 'true')
 
             await editarPublicacao(dadosPub.id, formPub)
-            console.log([...formPub], !imagem && inicial.imagem)
             onSucess?.()
         } catch (error) {
             onErro?.(error.response?.data?.mensagem || error.response?.data?.error || 'Não foi possível criar a publicação.')

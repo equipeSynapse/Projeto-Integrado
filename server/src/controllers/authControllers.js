@@ -227,3 +227,32 @@ export const redefinirSenha = async (req, res) => {
         })
     }
 }
+
+export const excluirConta = async (req, res) => {
+    try {
+        const email = req.usuario.email;
+        const {usuario, senha} = req.body;
+
+        if (!usuario || !usuario.trim() || !senha || !senha.trim()) {
+            return res.status(400).json({mensagem: "É necessário informar nome de usuário e senha!"});
+        }
+
+        const {rows} = await pool.query('SELECT * FROM usuarios WHERE email = $1', [email]);
+
+        if (rows[0].nome_usuario != usuario || !await compararHash(senha, rows[0].senha)) {
+            return res.status(401).json({mensagem: `Dados inválidos para realizar a exclusão!`})
+        }
+
+        const resultado = await pool.query('DELETE FROM usuarios WHERE email = $1 RETURNING *', [email]);
+
+        if (resultado.rowCount === 0) {
+            return res.status(404).json({ mensagem: "Conta não encontrada." });
+        }
+
+        return res.status(200).json({ mensagem: "Conta excluída com sucesso!" });
+
+    } catch (error) {
+        console.log("Erro ao excluir conta:", error);
+        return res.status(500).json({ mensagem: "Erro interno ao excluir a conta." });
+    }
+}

@@ -20,6 +20,8 @@ router.get('/validar-token', authController.validarToken)
 
 router.patch('/redefinir-senha', authController.redefinirSenha)
 
+router.put('/perfil', authMiddleware, authController.atualizarPerfil)
+
 router.delete('/conta', authMiddleware, authController.excluirConta)
 
 export default router;

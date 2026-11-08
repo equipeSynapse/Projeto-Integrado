@@ -5,21 +5,24 @@ import { ChevronLeft } from 'lucide-react';
 import { useState } from 'react'
 import { InputField } from './InputField'
 import isUserLoggedIn from '../utils/auth';
+import { atualizarPerfil } from '../services/atualizarPerfil';
 
 export function EditProfileForm({ onClickX, onClickApagarConta }) {
     const [labelTab, setLabelTab] = useState("Conta")
     const [errors, setErrors] = useState({});
+    const [enviando, setEnviando] = useState(false);
     const [formData, setFormData] = useState({
         nomeCompleto: isUserLoggedIn().nome,
         nomeUsuario: isUserLoggedIn().usuario,
-        email: "",
+        bio: isUserLoggedIn().bio || '',
         senhaAtual: "",
         senhaNova: "",
         confirmarSenhaNova: ""
     });
+    const [erroServidor, setErroServidor] = useState("");
 
     const passwordsMismatch = formData.confirmarSenhaNova.length > 0 && formData.confirmarSenhaNova !== formData.senhaNova;
-    const isInputsEmpty = labelTab === "Conta" ? (!formData.nomeCompleto || !formData.nomeUsuario || !formData.email) :
+    const isInputsEmpty = labelTab === "Conta" ? !(formData.nomeCompleto && formData.nomeUsuario && formData.bio) :
         (!formData.senhaAtual || !formData.senhaNova || !formData.confirmarSenhaNova)
 
     function handleChange(field) {
@@ -27,6 +30,42 @@ export function EditProfileForm({ onClickX, onClickApagarConta }) {
             setFormData((prev) => ({ ...prev, [field]: event.target.value }));
             setErrors((prev) => ({ ...prev, [field]: undefined }));
         };
+    }
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+        console.log(1)
+        if (isInputsEmpty || enviando) return;
+
+        setEnviando(true);
+        setErroServidor("");
+
+        try {
+            const payload = {
+                nome_completo: isUserLoggedIn().nome,
+                nome_usuario: isUserLoggedIn().usuario,
+                bio: isUserLoggedIn().bio
+            }
+
+            if (labelTab === "Conta") {
+                payload.nome_completo = formData.nomeCompleto,
+                payload.nome_usuario = formData.nomeUsuario,
+                payload.bio = formData.bio
+            };
+
+            if (labelTab === "Segurança") {
+                payload.senhaAtual = formData.senhaAtual;
+                payload.senhaNova = formData.senhaNova;
+            }
+
+            await atualizarPerfil(payload);
+            onClickX?.();
+            window.location.reload();
+        } catch (error) {
+            setErroServidor(error.response?.data?.mensagem || "Não foi possível atualizar o perfil.");
+        } finally {
+            setEnviando(false);
+        }
     }
 
     function getPasswordRequirements(senha) {
@@ -62,7 +101,7 @@ export function EditProfileForm({ onClickX, onClickApagarConta }) {
                         <div className="bg-gray-200 aspect-square h-[110px] md:h-[160px] rounded-full absolute left-6 md:left-8 bottom-[-48px] md:bottom-[-72px]">  </div>
                     </div>
 
-                    <form className="flex flex-col gap-8 px-[30px] pt-[24px]">
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-8 px-[30px] pt-[24px]">
                         <InputField 
                             label="Nome completo" 
                             inputValue={formData.nomeCompleto}
@@ -74,11 +113,17 @@ export function EditProfileForm({ onClickX, onClickApagarConta }) {
                             inputValue={formData.nomeUsuario}
                             inputOnChange={handleChange("nomeUsuario")}
                             inputPlaceholder="Exemplo de nome de usuário"
+                            errorVar={erroServidor === "Este nome de usuário já está em uso."? "Este nome de usuário já está em uso." : ""}
                         />
 
                         <div className="flex flex-col gap-1 mb-[36px]">
                             <label className="text-[12px] md:text-[14px] font-medium"> Bio </label>
-                            <textarea className="text-[12px] md:text-[14px] h-[80px] md:h-[130px] px-[8px] md:px-[16px] py-[10px] md:py-[16px] border border-[#e5e5e5] bg-white rounded-[8px] resize-none" placeholder="Bio" />
+                            <textarea 
+                                value={formData.bio}
+                                onChange={handleChange("bio")}
+                                className="text-[12px] md:text-[14px] h-[80px] md:h-[130px] px-[8px] md:px-[16px] py-[10px] md:py-[16px] border border-[#e5e5e5] bg-white rounded-[8px] resize-none" 
+                                placeholder="Bio" 
+                            />
                         </div>
 
                     </form>
@@ -97,8 +142,17 @@ export function EditProfileForm({ onClickX, onClickApagarConta }) {
                 </div>}
 
             {labelTab === "Segurança" && <div>
-                <form className="flex flex-col gap-[32px] px-[30px] py-[24px]">
-                    <InputField inputId="senhaAtual" inputType="password" label="Senha atual" inputOnChange={handleChange("senhaAtual")} inputPlaceholder="Exemplo de senha atual" />
+                <form onSubmit={handleSubmit} className="flex flex-col gap-[32px] px-[30px] py-[24px]">
+        
+                        <InputField 
+                            inputId="senhaAtual" 
+                            inputType="password" 
+                            label="Senha atual" 
+                            inputOnChange={handleChange("senhaAtual")} 
+                            inputPlaceholder="Exemplo de senha atual" 
+                            errorVar={erroServidor === "A senha atual informada está incorreta."? "A senha atual informada está incorreta." : ""}
+                        />
+                
 
                     <div className='flex flex-col gap-4'>
                         <InputField inputId="senhaNova" inputType="password" label="Nova senha" inputOnChange={handleChange("senhaNova")} inputPlaceholder="Exemplo de nova senha" />
@@ -123,7 +177,7 @@ export function EditProfileForm({ onClickX, onClickApagarConta }) {
             <div className="absolute bottom-0 px-[16px] md:px-[30px] py-[16px] w-full bg-white border-t-2 border-[#e5e5e5]">
                  <div className='flex justify-between items-center text-[12px] md:text-[14px] font-medium'>
                    <button type="button" className="h-[42px] md:h-[48px] px-[18px] md:px-[20px] py-[4px] md:py-[8px] hover:bg-gray-100 rounded-full"> Cancelar </button>
-                   <button type="submit" className={`${isInputsEmpty ? 'bg-gray-100':'bg-[#3c4043]'} transition duration-500 text-white h-[42px] md:h-[48px] px-[18px] md:px-[20px] py-[2px] md:py-[8px] rounded-full`}> Salvar </button>
+                   <button onClick={handleSubmit} className={`${isInputsEmpty ? 'bg-gray-100':'bg-[#3c4043]'} transition duration-500 text-white h-[42px] md:h-[48px] px-[18px] md:px-[20px] py-[2px] md:py-[8px] rounded-full`}> Salvar </button>
                  </div>
            </div>
         </div>)

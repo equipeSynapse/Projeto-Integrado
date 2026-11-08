@@ -1,11 +1,12 @@
 import Button from "./Button";
-import { Bell, Calendar, Home, LogOut, User } from "lucide-react";
+import { Bell, Calendar, Home, LogOut, Megaphone, User } from "lucide-react";
 import { useState } from "react";
 import isUserLoggedIn from "../utils/auth";
 import { useLocation, useNavigate } from "react-router-dom";
 import { InputSearch } from "./publicacoes/InputSearch";
 import DateRangePicker from "./DateRangePicker";
 import NotificacoesModal from "./notificacoes/NotificacoesModal";
+import MinhasDenuncias from "./denuncias/MinhasDenuncias";
 
 export default function useHeader({ className, showSearch, children, onClickEntre, onClickCadastro }) {
     const navigate = useNavigate();
@@ -18,6 +19,7 @@ export default function useHeader({ className, showSearch, children, onClickEntr
     const { dataInicio, dataFim, ComponenteDate } = DateRangePicker({ onClickX: () => { setIsCalendarOpen(false) } });
     
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+    const [isMinhasDenunciasOpen, setIsMinhasDenunciasOpen] = useState(false);
 
     return {
         busca,
@@ -75,6 +77,15 @@ export default function useHeader({ className, showSearch, children, onClickEntr
                                 <div className="w-full flex justify-center"> <hr className="border border-[#e5e5e5] w-[84%]" /> </div>
 
                                 <button
+                                    onClick={() => setIsMinhasDenunciasOpen(true)}
+                                    className="p-[16px] w-full text-left flex items-center gap-[12px] hover:bg-[rgba(60,64,67,0.06)]"
+                                >
+                                    <Megaphone className="stroke-[#909090] size-[16px]" />
+                                    <span className="text-[#909090]"> Minhas Denúncias </span> </button>
+
+                                <div className="w-full flex justify-center"> <hr className="border border-[#e5e5e5] w-[84%]" /> </div>
+
+                                <button
                                     onClick={() => { localStorage.removeItem("token"), window.location.reload() }}
                                     className="p-[16px] w-full text-left flex items-center gap-[12px] hover:bg-[rgba(60,64,67,0.06)]"
                                 >
@@ -93,6 +104,12 @@ export default function useHeader({ className, showSearch, children, onClickEntr
                 {isNotificacoesOpen &&
                     <div className="fixed inset-0 z-3 flex justify-end items-center bg-black/50">
                         <NotificacoesModal onClose={() => setIsNotificacoesOpen(false)} />
+                    </div>
+                }
+
+                {isMinhasDenunciasOpen &&
+                    <div className="fixed inset-0 z-3 flex justify-end items-center bg-black/50">
+                        <MinhasDenuncias onClose={() => setIsMinhasDenunciasOpen(false)} />
                     </div>
                 }
         </header>

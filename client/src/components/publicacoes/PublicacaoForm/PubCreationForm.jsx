@@ -17,6 +17,7 @@ import SeletorCategoria from './SeletorCategoria'
 // Valores do enum public.categoria no banco
 const CATEGORIAS = ['Avisos Administrativos', 'Bolsas', 'Comunidade', 'Divulgação', 'Estágios', 'Eventos']
 const MSG_OBRIGATORIO = 'Preencha este campo'
+const MSG_PROFANIDADE = 'O conteúdo possui termos inadequados'
 
 const inputBase = 'bg-white border border-solid font-poppins font-normal leading-none outline-none rounded-[8px] text-[14px] text-[#3c4043] w-full placeholder:text-[#909090]'
 
@@ -44,11 +45,12 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
     else if (!dataExpiracao) erroExpiracao = 'A data não pode ser anterior a hoje'
 
     const erros = {
-        titulo: !dados.titulo.trim() && MSG_OBRIGATORIO,
+        titulo: (!dados.titulo.trim() && MSG_OBRIGATORIO),
         descricao: !dados.descricao.trim() && MSG_OBRIGATORIO,
         categorias: dados.categorias.length === 0 && MSG_OBRIGATORIO,
         expiracao: erroExpiracao,
     }
+
     const formValido = !Object.values(erros).some(Boolean)
     const erroVisivel = (campo) => tocados[campo] && erros[campo]
 

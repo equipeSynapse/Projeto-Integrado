@@ -138,7 +138,7 @@ export const deletarPublicacao = async (req, res) => {
 }
 
 export const editarPublicacao = async (req, res) => {
-    let novaImagemPath = null;
+    let novaImagemData = null;
     let novoAnexoData = null;
 
     try {
@@ -174,11 +174,11 @@ export const editarPublicacao = async (req, res) => {
         let anexoFinal = publicacaoAtual.anexo;
 
         if (arquivoImagem) {
-            novaImagemPath = await enviarImagem(arquivoImagem);
+            novaImagemData = await enviarImagem(arquivoImagem);
             if (publicacaoAtual.imagem) {
                 await removerImagem(publicacaoAtual.imagem);
             }
-            imagemFinal = novaImagemPath?.trim() || null;
+            imagemFinal = novaImagemData || null;
         } else if (remover_imagem === "true") {
             if (publicacaoAtual.imagem) {
                 await removerImagem(publicacaoAtual.imagem);
@@ -241,7 +241,7 @@ export const editarPublicacao = async (req, res) => {
         });
 
     } catch (error) {
-        if (novaImagemPath) await removerImagem(novaImagemPath);
+        if (novaImagemData?.path) await removerImagem(novaImagemData.path);
         if (novoAnexoData?.path) await removerAnexo(novoAnexoData.path);
         console.log("Erro ao editar publicação:", error);
         return res.status(500).json({

@@ -12,6 +12,7 @@ import mascararTelefone from '../../../utils/mascararTelefone'
 import parseData from '../../../utils/parseData'
 import UploadedFile from './UploadedFile'
 import SeletorCategoria from './SeletorCategoria'
+import { editarPublicacao } from '../../../services/editarPublicacao'
 
 // Valores do enum public.categoria no banco
 const CATEGORIAS = ['Avisos Administrativos', 'Bolsas', 'Comunidade', 'Divulgação', 'Estágios', 'Eventos']
@@ -32,6 +33,8 @@ export default function PublicacaoEditForm({ onClickX, onSucess, onErro, ref, da
         email: dadosPub.email ?? '',
         telefone: dadosPub.telefone ?? '',
         link: dadosPub.link ?? '',
+        imagem: dadosPub.imagem ?? '',
+        anexo: dadosPub.anexo ?? ''
     }
 
     const [dados, setDados] = useState(inicial)
@@ -103,15 +106,19 @@ export default function PublicacaoEditForm({ onClickX, onSucess, onErro, ref, da
             if (dados.link) formPub.append('link', dados.link)
 
             if (imagem instanceof File) formPub.append('imagem', imagem)
-            if (anexo instanceof File) formPub.append('anexo', anexo)
+            else if (!imagem && inicial.imagem) formPub.append('remover_imagem', 'true')
 
-            //await createPub(formPub)
-            //onSucess?.()
+            if (anexo instanceof File) formPub.append('anexo', anexo)
+            else if (!anexo && inicial.anexo) formPub.append('remover_anexo', 'true')
+
+            await editarPublicacao(dadosPub.id, formPub)
+            console.log([...formPub], !imagem && inicial.imagem)
+            onSucess?.()
         } catch (error) {
-            //onErro?.(error.response?.data?.mensagem || error.response?.data?.error || 'Não foi possível criar a publicação.')
-            // console.log(error)
+            onErro?.(error.response?.data?.mensagem || error.response?.data?.error || 'Não foi possível criar a publicação.')
+            console.log(error)
         } finally {
-            // setEnviando(false)
+            setEnviando(false)
         }
     }
 

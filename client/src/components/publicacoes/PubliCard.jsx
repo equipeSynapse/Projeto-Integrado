@@ -91,7 +91,7 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
             </div>
             : ''}
 
-          {(expandido || variant === "completo" || descricao.length < 60) && (anexo) ?
+          {(expandido || variant === "completo") && (anexo) ?
             <div className="flex flex-col gap-[24px] w-full">
               <h3 className="font-semibold leading-none text-[14px] text-black"> Material anexado </h3>
                   <a
@@ -139,8 +139,9 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
       
        {editarClicked &&
         <div className="bg-black/50 fixed z-2 h-full inset-0 flex items-center justify-center">
-          <PublicacaoEditForm dadosPub={{titulo, descricao, categoria, expiracao, email, telefone, link, imagem, anexo}}
+          <PublicacaoEditForm dadosPub={{id, titulo, descricao, categoria, expiracao, email, telefone, link, imagem, anexo}}
             onClickX={() => setEditarClicked(false)}
+            onSucess={() => { setEditarClicked(false); window.location.reload() }}
           />
         </div>}
 

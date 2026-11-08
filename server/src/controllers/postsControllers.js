@@ -136,3 +136,116 @@ export const deletarPublicacao = async (req, res) => {
         return res.status(500).json({ error: "Erro interno ao excluir a publicação no servidor." });
     }
 }
+
+export const editarPublicacao = async (req, res) => {
+    let novaImagemPath = null;
+    let novoAnexoData = null;
+
+    try {
+        const { id } = req.params;
+        const { titulo, descricao, email, telefone, link, expiracao, remover_imagem, remover_anexo } = req.body;
+
+        const arquivoImagem = req.files?.imagem?.[0];
+        const arquivoAnexo = req.files?.anexo?.[0];
+
+        const autor_email = req.usuario.email;
+        const categoria = [].concat(req.body.categoria ?? []);
+
+        if (!titulo?.trim() || !descricao?.trim() || categoria?.length === 0 || !expiracao) {
+            return res.status(400).json({
+                dados: { titulo, descricao, categoria, expiracao },
+                mensagem: "Os campos obrigatórios (título, descrição, categoria e expiração) devem ser preenchidos."
+            });
+        }
+
+        const buscaAtual = await pool.query('SELECT * FROM publicacoes WHERE id = $1', [id]);
+
+        if (buscaAtual.rowCount === 0) {
+            return res.status(404).json({ mensagem: "Publicação não encontrada." });
+        }
+
+        const publicacaoAtual = buscaAtual.rows[0];
+
+        if (publicacaoAtual.autor_email !== autor_email) {
+            return res.status(403).json({ mensagem: "Não tem permissão para editar esta publicação." });
+        }
+
+        let imagemFinal = publicacaoAtual.imagem;
+        let anexoFinal = publicacaoAtual.anexo;
+
+        if (arquivoImagem) {
+            novaImagemPath = await enviarImagem(arquivoImagem);
+            if (publicacaoAtual.imagem) {
+                await removerImagem(publicacaoAtual.imagem);
+            }
+            imagemFinal = novaImagemPath?.trim() || null;
+        } else if (remover_imagem === "true") {
+            if (publicacaoAtual.imagem) {
+                await removerImagem(publicacaoAtual.imagem);
+            }
+            imagemFinal = null;
+        }
+
+        if (arquivoAnexo) {
+            novoAnexoData = await enviarAnexo(arquivoAnexo);
+            if (publicacaoAtual.anexo?.path) {
+                await removerAnexo(publicacaoAtual.anexo.path);
+            }
+            anexoFinal = novoAnexoData;
+        } else if (remover_anexo === "true") {
+            if (publicacaoAtual.anexo?.path) {
+                await removerAnexo(publicacaoAtual.anexo.path);
+            }
+            anexoFinal = null;
+        }
+
+        const query = `
+            UPDATE publicacoes
+            SET titulo = $1,
+                descricao = $2,
+                categoria = $3::public.categoria[],
+                imagem = $4,
+                email = $5,
+                telefone = $6,
+                link = $7,
+                anexo = $8::json,
+                expiracao = $9
+            WHERE id = $10 AND autor_email = $11
+            RETURNING *, categoria::text[] AS categoria;
+        `;
+
+        const values = [
+            titulo.trim(),
+            descricao.trim(),
+            categoria,
+            imagemFinal,
+            email?.trim() || null,
+            telefone?.trim() || null,
+            link?.trim() || null,
+            anexoFinal ? JSON.stringify(anexoFinal) : null,
+            expiracao,
+            id,
+            autor_email
+        ];
+
+        const resultado = await pool.query(query, values);
+        const publicacaoAtualizada = resultado.rows[0];
+
+        return res.status(200).json({
+            mensagem: "Publicação atualizada com sucesso!",
+            publicacao: {
+                ...publicacaoAtualizada,
+                imagem: urlImagem(publicacaoAtualizada.imagem),
+                anexo: urlAnexo(publicacaoAtualizada.anexo)
+            }
+        });
+
+    } catch (error) {
+        if (novaImagemPath) await removerImagem(novaImagemPath);
+        if (novoAnexoData?.path) await removerAnexo(novoAnexoData.path);
+        console.log("Erro ao editar publicação:", error);
+        return res.status(500).json({
+            error: "Erro interno ao editar a publicação no servidor."
+        });
+    }
+}

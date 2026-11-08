@@ -227,3 +227,89 @@ export const redefinirSenha = async (req, res) => {
         })
     }
 }
+
+export const atualizarPerfil = async (req, res) => {
+    try {
+        const email = req.usuario.email;
+        const { nome_completo, nome_usuario, bio, senhaAtual, senhaNova } = req.body;
+
+        if (!nome_completo?.trim() || !nome_usuario?.trim()) {
+            return res.status(400).json({ mensagem: 'Nome completo e nome de usuário são obrigatórios.' });
+        }
+
+        const buscaUsuario = await pool.query('SELECT * FROM usuarios WHERE email = $1', [email]);
+        if (buscaUsuario.rowCount === 0) {
+            return res.status(404).json({ mensagem: 'Usuário não encontrado.' });
+        }
+        const usuarioAtual = buscaUsuario.rows[0];
+
+        if (nome_usuario.trim().toLowerCase() !== usuarioAtual.nome_usuario) {
+            const buscaNome = await pool.query(
+                'SELECT EXISTS (SELECT 1 FROM usuarios WHERE nome_usuario = $1 AND email != $2)',
+                [nome_usuario.trim().toLowerCase(), email]
+            );
+            if (buscaNome.rows[0].exists) {
+                return res.status(409).json({ mensagem: 'Este nome de usuário já está em uso.' });
+            }
+        }
+
+        let query = 'UPDATE usuarios SET nome_completo = $1, nome_usuario = $2, bio = $3';
+        let values = [nome_completo.trim(), nome_usuario.trim().toLowerCase(), bio?.trim() || null];
+
+        if (senhaNova?.trim()) {
+            if (!senhaAtual?.trim() || !(await compararHash(senhaAtual, usuarioAtual.senha))) {
+                return res.status(401).json({ mensagem: 'A senha atual informada está incorreta.' });
+            }
+            const senhaHash = await gerarHash(senhaNova);
+            query += ', senha = $4 WHERE email = $5 RETURNING *';
+            values.push(senhaHash, email);
+        } else {
+            query += ' WHERE email = $4 RETURNING *';
+            values.push(email);
+        }
+
+        const resultado = await pool.query(query, values);
+        const userAtualizado = resultado.rows[0];
+
+        const token = jwt.sign(
+            {
+                "email": userAtualizado.email,
+                "usuario": userAtualizado.nome_usuario,
+                "nome": userAtualizado.nome_completo,
+                "bio": userAtualizado.bio
+            },
+            process.env.JWT_SECRET,
+            { expiresIn: "30m" }
+        );
+
+        return res.status(200).json({
+            mensagem: "Perfil atualizado com sucesso!",
+            token: token
+        });
+
+    } catch (error) {
+        console.log("Erro ao atualizar perfil:", error);
+        return res.status(500).json({ mensagem: "Erro ao atualizar o perfil." });
+    }
+}
+
+export const excluirConta = async (req, res) => {
+    try {
+        const email = req.usuario.email;
+
+        // Remove as publicações do autor antes para não esbarrar na constraint publicacoes_autor_email_fkey
+        await pool.query('DELETE FROM publicacoes WHERE autor_email = $1', [email]);
+
+        const resultado = await pool.query('DELETE FROM usuarios WHERE email = $1 RETURNING *', [email]);
+
+        if (resultado.rowCount === 0) {
+            return res.status(404).json({ mensagem: "Conta não encontrada." });
+        }
+
+        return res.status(200).json({ mensagem: "Conta excluída com sucesso!" });
+
+    } catch (error) {
+        console.log("Erro ao excluir conta:", error);
+        return res.status(500).json({ mensagem: "Erro interno ao excluir a conta." });
+    }
+}

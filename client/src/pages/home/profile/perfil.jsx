@@ -45,7 +45,7 @@ export default function PerfilPage() {
                         </div>
                         <div className="relative top-[-30px] flex flex-col gap-[12px]">
                             <span className="text-[40px] font-bold"> {isUserLoggedIn().usuario} </span>
-                            <p className="text-[20px] text-[#434343]"> Exemplo de Bio </p>
+                            <p className="text-[20px] text-[#434343]"> {isUserLoggedIn().bio || "Sem bio"} </p>
                         </div>
                     </div>
                 </section>

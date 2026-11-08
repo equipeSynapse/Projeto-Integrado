@@ -1,5 +1,7 @@
 import express from "express";
 import * as authController from "../controllers/authControllers.js";
+import { authMiddleware } from "../middlewares/authMiddleware.js"
+
 
 const router = express.Router();
 
@@ -18,5 +20,9 @@ router.post('/esqueci-senha', authController.esqueciSenha)
 router.get('/validar-token', authController.validarToken)
 
 router.patch('/redefinir-senha', authController.redefinirSenha)
+
+router.put('/perfil', authMiddleware, authController.atualizarPerfil)
+
+router.delete('/conta', authMiddleware, authController.excluirConta)
 
 export default router;

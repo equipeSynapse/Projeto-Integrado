@@ -8,6 +8,7 @@ import Dropzone from './Dropzone'
 import SeletorData from './SeletorData'
 import Radio from './Radio'
 import { createPub } from '../../../services/criarPublicacao'
+import { editarPublicacao } from '../../../services/editarPublicacao'
 import mascararData from '../../../utils/mascararData'
 import mascararTelefone from '../../../utils/mascararTelefone'
 import parseData from '../../../utils/parseData'
@@ -23,8 +24,24 @@ function borda(erro) {
     return erro ? 'border-[#ea4335]' : 'border-[#e5e5e5] focus:border-[#8d8d8d]'
 }
 
-export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
-    const [dados, setDados] = useState({ titulo: '', descricao: '', categorias: [], expiracao: '', email: '', telefone: '', link: '', imagem: '' })
+function formatarDataInicial(dataIso) {
+    if (!dataIso) return ''
+    const [ano, mes, dia] = String(dataIso).split('T')[0].split('-')
+    if (!ano || !mes || !dia) return ''
+    return `${dia}/${mes}/${ano}`
+}
+
+export default function PublicacaoForm({ onClickX, onSucess, onErro, ref, modoEdicao = false, dadosIniciais = null }) {
+    const [dados, setDados] = useState({
+        titulo: dadosIniciais?.titulo || '',
+        descricao: dadosIniciais?.descricao || '',
+        categorias: dadosIniciais?.categoria || [],
+        expiracao: formatarDataInicial(dadosIniciais?.expiracao),
+        email: dadosIniciais?.email || '',
+        telefone: dadosIniciais?.telefone || '',
+        link: dadosIniciais?.link || '',
+        imagem: ''
+    })
     const [tocados, setTocados] = useState({})
     const [categoriasAbertas, setCategoriasAbertas] = useState(false)
     const [calendarioAberto, setCalendarioAberto] = useState(false)
@@ -32,6 +49,8 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
     const [modeloSelecionado, setModeloSelecionado] = useState(null)
     const [imagem, setImagem] = useState(null)
     const [anexo, setAnexo] = useState(null)
+    const [imagemExistente, setImagemExistente] = useState(dadosIniciais?.imagem || null)
+    const [anexoExistente, setAnexoExistente] = useState(dadosIniciais?.anexo || null)
     const [enviando, setEnviando] = useState(false)
 
     const hoje = startOfDay(new Date())
@@ -56,7 +75,6 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
     const tocar = (campo) => () => setTocados((prev) => ({ ...prev, [campo]: true }))
 
     function alternarCategoria(c) {
-        console.log(anexo)
         setDados((prev) => ({
             ...prev,
             categorias: prev.categorias.includes(c) ? prev.categorias.filter((x) => x !== c) : [...prev.categorias, c],
@@ -68,7 +86,6 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
         if (!formValido || enviando) return
         setEnviando(true)
         try {
-            // O backend aceita uma única categoria por enquanto
             const formPub = new FormData()
 
             formPub.append('titulo', dados.titulo)
@@ -76,18 +93,35 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
             formPub.append('expiracao', format(dataExpiracao, 'yyyy-MM-dd'))
             dados.categorias.forEach((c) => formPub.append('categoria', c))
 
-            if (dados.email) formPub.append('email', dados.email)
-            if (dados.telefone) formPub.append('telefone', dados.telefone)
-            if (dados.link) formPub.append('link', dados.link)
+            formPub.append('email', dados.email || '')
+            formPub.append('telefone', dados.telefone || '')
+            formPub.append('link', dados.link || '')
 
-            if (tipoImagem === 'anexar' && imagem) formPub.append('imagem', imagem)
-            if (anexo) formPub.append('anexo', anexo)
-            console.log(imagem, tipoImagem)
+            if (tipoImagem === 'anexar' && imagem) {
+                formPub.append('imagem', imagem)
+            } else if (modoEdicao && dadosIniciais?.imagem && !imagemExistente) {
+                formPub.append('remover_imagem', 'true')
+            }
 
-            await createPub(formPub)
+            if (anexo) {
+                formPub.append('anexo', anexo)
+            } else if (modoEdicao && dadosIniciais?.anexo && !anexoExistente) {
+                formPub.append('remover_anexo', 'true')
+            }
+
+            if (modoEdicao) {
+                await editarPublicacao(dadosIniciais.id, formPub)
+            } else {
+                await createPub(formPub)
+            }
+
             onSucess?.()
         } catch (error) {
-            onErro?.(error.response?.data?.mensagem || error.response?.data?.error || 'Não foi possível criar a publicação.')
+            onErro?.(
+                error.response?.data?.mensagem ||
+                error.response?.data?.error ||
+                (modoEdicao ? 'Não foi possível editar a publicação.' : 'Não foi possível criar a publicação.')
+            )
             console.log(error)
         } finally {
             setEnviando(false)
@@ -97,7 +131,7 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
     return (
         <div ref={ref} className="bg-[#fcfcfc] border border-[#e5e5e5] rounded-[16px] w-full max-w-[726px] max-h-[90vh] flex flex-col overflow-hidden font-poppins text-[#3c4043]">
             <header className="bg-white border-b border-[#e5e5e5] p-[32px] flex items-center justify-between shrink-0">
-                <h2 className="text-[20px] font-semibold">Criar publicação</h2>
+                <h2 className="text-[20px] font-semibold">{modoEdicao ? 'Editar publicação' : 'Criar publicação'}</h2>
                 <button type="button" onClick={onClickX} className="size-[24px] cursor-pointer"><img src={closeIcon} /></button>
             </header>
 
@@ -193,11 +227,27 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
                         <Radio label="Anexar imagem" checked={tipoImagem === 'anexar'} onClick={() => setTipoImagem('anexar')} />
                         <Radio label="Modelos do mural" checked={tipoImagem === 'modelos'} onClick={() => setTipoImagem('modelos')} />
                     </div>
-                    {tipoImagem === 'anexar' ? 
-                        imagem? 
-                        <UploadedFile file={imagem} onClickTrash={() => setImagem(null)}/> :
-                        <Dropzone formatos="JPG, JPEG ou PNG" aceitos={['image/jpeg', 'image/png']} arquivo={imagem} onArquivo={setImagem} />
-                     : (
+                    {tipoImagem === 'anexar' ? (
+                        imagem ? (
+                            <UploadedFile file={imagem} onClickTrash={() => setImagem(null)} />
+                        ) : imagemExistente ? (
+                            <div className="bg-white p-[16px] rounded-[8px] border-dashed border border-[#e5e5e5] flex justify-between items-center gap-[16px]">
+                                <div className="flex items-center gap-[12px] overflow-hidden">
+                                    <img src={imagemExistente} alt="Imagem atual" className="size-[48px] rounded-[6px] object-cover shrink-0" />
+                                    <span className="text-[14px] truncate">Imagem atual da publicação</span>
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => setImagemExistente(null)}
+                                    className="size-[42px] border border-[#e5e5e5] flex items-center justify-center rounded-[50px] hover:bg-[#e5e5e5] shrink-0"
+                                >
+                                    <Trash className="stroke-[#ea4335] size-[16px]" />
+                                </button>
+                            </div>
+                        ) : (
+                            <Dropzone formatos="JPG, JPEG ou PNG" aceitos={['image/jpeg', 'image/png']} arquivo={imagem} onArquivo={setImagem} />
+                        )
+                    ) : (
                         <div className="grid grid-cols-2 gap-[12px]">
                             {[0, 1, 2, 3].map((i) => (
                                 <button
@@ -237,17 +287,29 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
 
                 <div className="flex flex-col gap-[12px]">
                     <span className="text-[14px] font-medium">Anexar arquivo</span>
-                    
-                    {anexo?
-                      <UploadedFile file={anexo} onClickTrash={() => setAnexo(null)}/>
-                    : <Dropzone formatos="PDF" aceitos={['application/pdf']} arquivo={anexo} onArquivo={setAnexo} />
-                    }   
+
+                    {anexo ? (
+                        <UploadedFile file={anexo} onClickTrash={() => setAnexo(null)} />
+                    ) : anexoExistente ? (
+                        <UploadedFile
+                            file={{
+                                name: anexoExistente.titulo || 'Documento anexado',
+                                type: `application/${(anexoExistente.tipo || 'pdf').toLowerCase()}`,
+                                size: (anexoExistente.tamanho || 0) * 1024
+                            }}
+                            onClickTrash={() => setAnexoExistente(null)}
+                        />
+                    ) : (
+                        <Dropzone formatos="PDF" aceitos={['application/pdf']} arquivo={anexo} onArquivo={setAnexo} />
+                    )}
                 </div>
             </div>
 
             <footer className="bg-white border-t border-[#e5e5e5] p-[32px] flex items-center justify-between shrink-0">
                 <Button type="button" variant="text" className="h-[45px] text-[#3c4043]" onClick={onClickX}>Cancelar</Button>
-                <Button type="button" variant="cta" className="h-[45px]" disabled={!formValido || enviando} onClick={handleSubmit}>Criar publicação</Button>
+                <Button type="button" variant="cta" className="h-[45px]" disabled={!formValido || enviando} onClick={handleSubmit}>
+                    {modoEdicao ? 'Salvar alterações' : 'Criar publicação'}
+                </Button>
             </footer>
         </div>
     )

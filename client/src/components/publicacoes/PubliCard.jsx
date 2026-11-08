@@ -6,11 +6,12 @@ import copiarLink from "../../utils/copiarLink";
 import timestampMsg from "../../utils/timestampMsg";
 import viewObserver from "../../utils/viewObserver";
 import isUserLoggedIn from "../../utils/auth";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BiSolidFilePdf } from "react-icons/bi";
 import { ArrowUpRight, Pencil, Trash } from "lucide-react";
 import CopiarLinkBtn from "./CopiarLinkBtn";
 import ExcluirPubModal from "./ExcluirPubModal";
+import PublicacaoForm from "./PublicacaoForm/PubCreationForm";
 import Toast from "../toasts/Toast";
 
 export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, titulo, descricao, link,
@@ -23,8 +24,11 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
   const [threeDotsClicked, setThreeDotsClicked] = useState(false)
   const [excluirClicked, setExcluirClicked] = useState(false)
   const [excluida, setExcluida] = useState(false)
+  const [editarClicked, setEditarClicked] = useState(false)
 
   const [toastSucessoExclusao, setToastSucessoExclusao] = useState(false);
+  const [toastSucessoEdicao, setToastSucessoEdicao] = useState(false);
+  const [erroEdicao, setErroEdicao] = useState(null);
 
   return (
     <div>
@@ -34,7 +38,7 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
             <div className={`${autor[0].toLowerCase() < "l" ? "bg-[#F072C5]" : "bg-[#22D3EE]"} size-[40px] rounded-[50px] flex items-center justify-center`}> {autor[0].toUpperCase()} </div>
             <div className="flex flex-col justify-between">
               <span className="font-medium"> {autor} </span>
-              <span> {categoria.map((c, i) => c + ' · ')} Publicado {timestampMsg(new Date(), new Date(criadoEm))} </span>
+              <span> {categoria.map((c) => c + ' · ')} Publicado {timestampMsg(new Date(), new Date(criadoEm))} </span>
             </div>
           </div>
 
@@ -46,7 +50,10 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
               </button>}
             {threeDotsClicked &&
               <div className="absolute flex flex-col items-start right-0 top-[36px] w-[250px] bg-white rounded-[8px] shadow-lg shadow-black/20 overflow-hidden">
-                <button className="w-full flex items-center gap-[8px] text-left px-[16px] py-[12px] hover:bg-[rgba(60,64,67,0.06)]">
+                <button
+                  onClick={() => { setEditarClicked(true); setThreeDotsClicked(false); }}
+                  className="w-full flex items-center gap-[8px] text-left px-[16px] py-[12px] hover:bg-[rgba(60,64,67,0.06)]"
+                >
                   <Pencil className="size-[14px]" />
                   <span className="text-[14px] relative top-[1px]"> Editar </span>
                 </button>
@@ -141,11 +148,54 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
           />
         </div>}
 
+      {editarClicked && (
+        <div className="bg-black/50 fixed z-3 h-full inset-0 flex items-center justify-center p-[16px]">
+          <PublicacaoForm
+            modoEdicao={true}
+            dadosIniciais={{
+              id,
+              titulo,
+              descricao,
+              categoria,
+              imagem,
+              link,
+              email,
+              telefone,
+              anexo,
+              expiracao
+            }}
+            onClickX={() => setEditarClicked(false)}
+            onSucess={() => {
+              setEditarClicked(false);
+              setToastSucessoEdicao(true);
+              setTimeout(() => window.location.reload(), 1200);
+            }}
+            onErro={(mensagem) => setErroEdicao(mensagem)}
+          />
+        </div>
+      )}
+
       {toastSucessoExclusao && (
         <Toast
           titulo="Publicação excluída!"
           mensagem="A sua publicação foi removida com sucesso."
           onClose={() => {setToastSucessoExclusao(false)}}
+        />
+      )}
+
+      {toastSucessoEdicao && (
+        <Toast
+          titulo="Publicação editada!"
+          mensagem="As alterações foram salvas com sucesso."
+          onClose={() => setToastSucessoEdicao(false)}
+        />
+      )}
+
+      {erroEdicao && (
+        <Toast
+          titulo="Erro ao editar publicação"
+          mensagem={erroEdicao}
+          onClose={() => setErroEdicao(null)}
         />
       )}
     </div>

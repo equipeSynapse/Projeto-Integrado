@@ -1,30 +1,53 @@
 import { useState } from 'react'
 import closeIcon from '../assets/icons/close.svg'
 import { InputField } from './InputField'
+import { excluirConta } from '../services/excluirConta'
+import { useNavigate } from 'react-router-dom'
 
 export default function ApagarContaForm({ onClickX }) {
+    const navigate = useNavigate();
+    const [excluindo, setExcluindo] = useState(false);
+    const [erro, setErro] = useState("");
 
     const [formData, setFormData] = useState({
         nomeUsuario: "",
         senha: "",
-        confirmacao: ""
+        confirmacao: false
     })
 
     const isInputsEmpty = !(formData.nomeUsuario && formData.senha && formData.confirmacao)
 
     function handleChange(field) {
         return (event) => {
-            setFormData((prev) => ({ ...prev, [field]: event.target.value }));
-            console.log(formData.confirmacao)
+            const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
+            setFormData((prev) => ({ ...prev, [field]: value }));
+            setErro("");
         };
     }
 
+    async function handleSubmit(e) {
+        e.preventDefault();
+        if (isInputsEmpty || excluindo) return;
+
+        setExcluindo(true);
+        setErro("");
+
+        try {
+            // Se necessário, você pode validar o nome de usuário/senha no backend ou direto pelo token
+            await excluirConta();
+            navigate("/");
+            window.location.reload();
+        } catch (error) {
+            setErro(error.response?.data?.mensagem || "Não foi possível apagar a conta.");
+            setExcluindo(false);
+        }
+    }
 
     return (
         <div className="relative w-[726px] h-[746px] bg-[#fafafa] rounded-[16px] overflow-hidden font-poppins">
             <header className='flex items-center p-[32px] justify-between bg-white border-b border-b-[#e5e5e5]'>
                 <span className='text-[20px] font-semibold'> Apagar conta </span>
-                <button className="size-[20px] md:size-[24px]" onClick={onClickX}> <img src={closeIcon} /> </button>
+                <button type="button" className="size-[20px] md:size-[24px] cursor-pointer" onClick={onClickX}> <img src={closeIcon} /> </button>
             </header>
 
             <div className='p-[32px] flex flex-col gap-[24px]'>
@@ -36,7 +59,13 @@ export default function ApagarContaForm({ onClickX }) {
                     </p>
                 </div>
 
-                <form className='flex flex-col gap-[24px]'>
+                {erro && (
+                    <div className="p-[12px] bg-red-50 border border-[#ea4335] text-[#ea4335] text-[13px] rounded-[8px]">
+                        {erro}
+                    </div>
+                )}
+
+                <form onSubmit={handleSubmit} className='flex flex-col gap-[24px]'>
                     <InputField
                         label="Usuário *"
                         inputPlaceholder="Usuário"
@@ -46,6 +75,7 @@ export default function ApagarContaForm({ onClickX }) {
 
                     <InputField
                         label="Senha *"
+                        inputType="password"
                         inputPlaceholder="Senha"
                         inputValue={formData.senha}
                         inputOnChange={handleChange("senha")}
@@ -53,12 +83,13 @@ export default function ApagarContaForm({ onClickX }) {
 
                     <div className='flex items-center gap-[12px]'>
                         <input 
-                            className='size-[16px]' 
+                            className='size-[16px] cursor-pointer' 
                             type="checkbox" 
                             id="concordancia-exclusao" 
-                            onChange={(event) => setFormData((prev) => ({ ...prev, ["confirmacao"]: event.target.checked }))} 
+                            checked={formData.confirmacao}
+                            onChange={handleChange("confirmacao")} 
                         />
-                        <label htmlFor="concordancia-exclusao" className='text-[14px] font-semibold'> Eu entendo que contas apagadas não podem ser recuperadas </label>
+                        <label htmlFor="concordancia-exclusao' className='text-[14px] font-semibold cursor-pointer"> Eu entendo que contas apagadas não podem ser recuperadas </label>
                     </div>
                 </form>
 
@@ -66,8 +97,21 @@ export default function ApagarContaForm({ onClickX }) {
 
             <div className="absolute bottom-0 h-[110px] w-full bg-white border-t-2 border-[#e5e5e5] 
                             text-[14px] flex items-center justify-between py-[24px] px-[32px]">
-                <button type="button" className="h-[42px] md:h-[48px] px-[18px] md:px-[20px] py-[4px] md:py-[8px] hover:bg-gray-100 rounded-full"> Cancelar </button>
-                <button type="submit" className={`${isInputsEmpty ? 'bg-gray-100' : 'bg-[#3c4043]'} transition duration-500 text-white h-[42px] md:h-[48px] px-[18px] md:px-[20px] py-[2px] md:py-[8px] rounded-full`}> Desativar </button>
+                <button 
+                    type="button" 
+                    onClick={onClickX}
+                    className="h-[42px] md:h-[48px] px-[18px] md:px-[20px] py-[4px] md:py-[8px] hover:bg-gray-100 rounded-full cursor-pointer"
+                > 
+                    Cancelar 
+                </button>
+                <button 
+                    type="button" 
+                    disabled={isInputsEmpty || excluindo}
+                    onClick={handleSubmit}
+                    className={`${isInputsEmpty || excluindo ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-[#ea4335] text-white hover:bg-red-600 cursor-pointer'} transition duration-500 h-[42px] md:h-[48px] px-[18px] md:px-[20px] py-[2px] md:py-[8px] rounded-full`}
+                > 
+                    {excluindo ? "Apagando..." : "Desativar"} 
+                </button>
             </div>
         </div>
     )

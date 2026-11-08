@@ -185,7 +185,7 @@ projeto-mural-colaborativo/
 | RF21   | O sistema deve permitir que o moderador aprove ou rejeite uma denúncia. | `EM ANDAMENTO ⌛` |
 | RF22   | O sistema deve excluir uma publicação quando o moderador aprovar uma denúncia. | `EM ANDAMENTO ⌛` |
 | RF23   | O sistema deve permitir que o usuário exclua sua conta. | `FEITO ✅` |
-| RF24   | O sistema deve permitir que o usuário edite suas informações da conta. | `EM ANDAMENTO ⌛` |
+| RF24   | O sistema deve permitir que o usuário edite suas informações da conta. | `FEITO ✅` |
 | RF25   | O sistema deve permitir que o usuário redefina sua senha em caso de esquecimento. | `FEITO ✅` |
 | RF26   | O sistema deve fornecer a opção de copiar link (URL única) de uma publicação. | `FEITO ✅` |
 

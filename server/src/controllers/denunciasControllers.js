@@ -24,7 +24,7 @@ export const criarDenuncia = async (req, res) => {
 
     } catch (error) {
         if (error.code === '23505') {
-            res.status(409).json({ mensagem: "O usuário só pode enviar uma única denúncia por publicação." })
+            return res.status(409).json({ mensagem: "O usuário só pode enviar uma única denúncia por publicação." })
         }
 
         if (error.code === '22P02') {

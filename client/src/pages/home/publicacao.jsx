@@ -11,6 +11,8 @@ import { ChevronRight, Plus } from "lucide-react";
 import timestampMsg from "../../utils/timestampMsg";
 import Destaques from "../../components/publicacoes/Destaques";
 import useHeader from "../../components/Header";
+import PublicacaoForm from "../../components/publicacoes/PublicacaoForm/PubCreationForm";
+import Toast from "../../components/toasts/Toast";
 
 export default function PublicacaoPage() {
     const { id } = useParams();
@@ -20,7 +22,11 @@ export default function PublicacaoPage() {
     const [isLoginOpen, setIsLoginOpen] = useState(false);
     const loginModalRef = useRef(null)
 
-    const {Header} = useHeader({ onClickEntre: () => setIsLoginOpen(true), onClickCadastro: () => setIsCadastroOpen(true)})
+    const [isPublicacaoOpen, setIsPublicacaoOpen] = useState(false);
+
+    const { Header } = useHeader({ onClickEntre: () => setIsLoginOpen(true), onClickCadastro: () => setIsCadastroOpen(true) })
+
+    const [pubErro, setPubErro] = useState(null);
 
     useEffect(() => {
         if (isLoginOpen && loginModalRef.current) {
@@ -54,7 +60,7 @@ export default function PublicacaoPage() {
                 </aside>
 
                 <section className="flex flex-col gap-[24px] w-[778px] max-w-[960px]">
-                    
+
                     <Button onClick={() => navigate('/')}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
                         <span> Voltar à página inicial </span>
@@ -78,20 +84,20 @@ export default function PublicacaoPage() {
                             expiracao={p.expiracao}
                         />
                     ))}
-                    
+
                 </section>
 
                 <aside className="sticky top-[130px] font-poppins flex flex-col gap-[24px] text-[#3c4043]">
                     <div className="bg-white flex flex-col gap-[12px] border w-[290px] h-[270px] p-[36px] rounded-[12px] border-[#e5e5e5]">
                         <span className="font-semibold"> O mural também é seu </span>
                         <p> Compartilhe avisos, eventos, oportunidades ou conteúdos que podem interessar à comunidade. </p>
-                        <Button variant="cta" className="w-full mt-[8px]" onClick={() => {isUserLoggedIn() ? null : setIsLoginOpen(true)}}> 
-                            <Plus className="size-[20px]"/> 
-                            <span> Criar Publicação </span> 
+                        <Button variant="cta" className="w-full mt-[8px]" onClick={() => { isUserLoggedIn() ? setIsPublicacaoOpen(true) : setIsLoginOpen(true) }}>
+                            <Plus className="size-[20px]" />
+                            <span> Criar Publicação </span>
                         </Button>
                     </div>
 
-                    <Destaques dataPosts={publicacoes}/>
+                    <Destaques dataPosts={publicacoes} />
                 </aside>
             </main>
 
@@ -100,6 +106,20 @@ export default function PublicacaoPage() {
                     <LoginForm ref={loginModalRef} onClickX={() => setIsLoginOpen(false)} onSucess={() => setTimeout(() => setIsLoginOpen(false), 3000)} />
                 </div>
             )}
+
+            {isPublicacaoOpen && (
+                <div className="fixed inset-0 z-3 flex justify-center items-center bg-black/50 p-[16px]">
+                    <PublicacaoForm
+                        onClickX={() => setIsPublicacaoOpen(false)}
+                        onSucess={() => { setIsPublicacaoOpen(false); window.location.reload() }}
+                        onErro={(mensagem) => setPubErro(mensagem)}
+                    />
+                </div>
+            )}
+
+             {pubErro &&
+                    <Toast titulo="Erro ao criar publicação" mensagem={pubErro} onClose={() => setPubErro(null)} />
+            }
         </div>
     );
 }

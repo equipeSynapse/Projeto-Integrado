@@ -101,7 +101,7 @@ export default function HomePage() {
                     </section>
                 </section>
 
-                <aside className="sticky top-[130px] font-poppins flex flex-col gap-[24px] text-[#3c4043]">
+                <aside className="sticky top-[-190px] font-poppins flex flex-col gap-[24px] text-[#3c4043]">
                     <div className="bg-white flex flex-col gap-[12px] border w-[290px] h-[270px] p-[36px] rounded-[12px] border-[#e5e5e5]">
                         <span className="font-semibold"> O mural também é seu </span>
                         <p> Compartilhe avisos, eventos, oportunidades ou conteúdos que podem interessar à comunidade. </p>

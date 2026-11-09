@@ -1,4 +1,6 @@
-export function InputSearch({ value, onChange, onKeyDown, placeholder = "Pesquisar por título ou usuário" }) {
+import { X } from "lucide-react";
+
+export function InputSearch({ value, onChange, onClickX, placeholder = "Pesquisar por título ou usuário" }) {
     return (
         <div className="relative flex items-center w-[400px]">
             <svg
@@ -19,10 +21,11 @@ export function InputSearch({ value, onChange, onKeyDown, placeholder = "Pesquis
                 type="text"
                 value={value}
                 onChange={onChange}
-                onKeyDown={onKeyDown}
                 placeholder={placeholder}
                 className="bg-white border border-[#e5e5e5] focus:border-[#8d8d8d] border-solid font-poppins font-normal h-[48px] leading-none outline-none pl-[48px] pr-[48px] py-[10px] rounded-[50px] text-[#1f1f1f] text-[14px] w-full placeholder:text-[#909090]"
             />
+
+            {value && <X onClick={onClickX} className="absolute right-[24px] size-[16px] stroke-[#909090] hover:cursor-pointer"/>}
         </div>
     );
 }

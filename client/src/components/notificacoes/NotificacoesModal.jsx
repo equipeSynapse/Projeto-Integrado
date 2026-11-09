@@ -75,7 +75,7 @@ export default function NotificacoesModal({ onClose }) {
 
             <div className="py-[32px] flex flex-col gap-[32px] h-[80%] overflow-y-auto scrollbar-none">
                 {secoes(tabAtual).map((s, i) =>
-                    <div key={i} className="flex flex-col gap-[12px]">
+                    (s.array.length > 0) && <div key={i} className="flex flex-col gap-[12px]">
                         <span className="ml-[28px] text-[20px] text-[#3C4043] font-semibold"> {s.titulo} </span>
                         <div className="flex flex-col gap-[4px]">
                             {s.array.map((n) =>

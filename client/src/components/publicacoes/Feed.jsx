@@ -1,9 +1,10 @@
+import { isAfter, isToday } from "date-fns";
 import { PubliCard } from "./PubliCard";
 
 export default function Feed( { list } ) {
     return (
         <section className="flex flex-col">
-            {list.map((p) => (
+            {list.filter((p) => isAfter(p.expiracao, new Date()) || isToday(p.expiracao, new Date())).map((p) => (
                 <PubliCard
                     key={p.id}
                     id={p.id}

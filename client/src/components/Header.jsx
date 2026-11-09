@@ -101,7 +101,7 @@ export default function useHeader({ className, showSearch, children, onClickEntr
                 </div>
                 :
                 <div className="flex justify-between gap-[24px] items-center h-[10px] text-nowrap">
-                    <Button variant="text" onClick={onClickEntre}> Entre </Button>
+                    <Button variant="text" onClick={onClickEntre}> Entrar </Button>
                     <Button variant="cta" onClick={onClickCadastro}> Cadastre-se </Button>
                 </div>}
 

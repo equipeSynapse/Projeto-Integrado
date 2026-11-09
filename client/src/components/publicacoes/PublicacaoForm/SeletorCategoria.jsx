@@ -26,14 +26,15 @@ export default function SeletorCategoria({valor, onAlternar, opcoes, erro}) {
                     const selecionado = valor.includes(c);
 
                     return (
-                    <div
+                    <button
                         key={c}
                         type="button"
+                        onClick={() => onAlternar(c)}
                         className="w-full text-left px-[16px] py-[10px] text-[14px] flex gap-[12px] items-center hover:bg-[rgba(60,64,67,0.06)]"
                     >
-                        <input type="checkbox" checked={selecionado} onClick={() => onAlternar(c)} className="size-[16px] accent-[#3C4043] hover:cursor-pointer"/>
+                        <input type="checkbox" checked={selecionado} className="size-[16px] accent-[#3C4043]"/>
                         <span>{c}</span>
-                    </div>
+                    </button>
                 )})}
             </div>
         )}

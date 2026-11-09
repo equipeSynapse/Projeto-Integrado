@@ -22,7 +22,7 @@ export function EditProfileForm({ onClickX, onClickApagarConta }) {
     const [erroServidor, setErroServidor] = useState("");
 
     const passwordsMismatch = formData.confirmarSenhaNova.length > 0 && formData.confirmarSenhaNova !== formData.senhaNova;
-    const isInputsEmpty = labelTab === "Conta" ? !(formData.nomeCompleto && formData.nomeUsuario && formData.bio) :
+    const isInputsEmpty = labelTab === "Conta" ? !(formData.nomeCompleto && formData.nomeUsuario) :
         (!formData.senhaAtual || !formData.senhaNova || !formData.confirmarSenhaNova)
 
     function handleChange(field) {

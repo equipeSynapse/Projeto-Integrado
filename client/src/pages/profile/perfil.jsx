@@ -59,7 +59,7 @@ export default function PerfilPage() {
                             </div>
                             <div className="relative top-[-60px] flex flex-col gap-[12px]">
                                 <span className="text-[20px] font-bold"> {isUserLoggedIn().usuario} </span>
-                                <p className="text-[16px] text-[#434343]"> Exemplo de Bio </p>
+                                <p className="text-[16px] text-[#434343]"> {isUserLoggedIn().bio} </p>
                             </div>
                         </div>
                     </section>

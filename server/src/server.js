@@ -5,6 +5,7 @@ import postsRoutes from "./routes/postsRoutes.js";
 import categoriasRoutes from "./routes/categoriasRoutes.js";
 import notificacoesRoutes from "./routes/notificacoesRoutes.js";
 import denunciasRoutes from "./routes/denunciasRoutes.js";
+import profanityRoute from "./routes/profanityRoute.js";
 import cors from "cors";
 import { schema } from "./database/schema.js";
 import { pool } from "./database/db.js";
@@ -28,6 +29,7 @@ app.use("/api/posts", postsRoutes)
 app.use("/api/categorias", categoriasRoutes)
 app.use("/api/notificacoes", notificacoesRoutes)
 app.use("/api/denuncias", denunciasRoutes)
+app.use("/api", profanityRoute)
 
 async function configurarBanco() {
     await pool.query(schema);

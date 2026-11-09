@@ -13,6 +13,7 @@ import mascararTelefone from '../../../utils/mascararTelefone'
 import parseData from '../../../utils/parseData'
 import UploadedFile from './UploadedFile'
 import SeletorCategoria from './SeletorCategoria'
+import { checarProfanidade } from '../../../services/checarProfanidade'
 
 // Valores do enum public.categoria no banco
 const CATEGORIAS = ['Avisos Administrativos', 'Bolsas', 'Comunidade', 'Divulgação', 'Estágios', 'Eventos']
@@ -35,6 +36,12 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
     const [anexo, setAnexo] = useState(null)
     const [enviando, setEnviando] = useState(false)
 
+    const [errosProfanidade, setErrosProfanidade] = useState({
+        titulo: undefined, 
+        descricao: undefined,
+        email: undefined
+    })
+
     const hoje = startOfDay(new Date())
     const dataDigitada = parseData(dados.expiracao)
     const dataExpiracao = dataDigitada && !isBefore(dataDigitada, hoje) ? dataDigitada : null
@@ -45,20 +52,33 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
     else if (!dataExpiracao) erroExpiracao = 'A data não pode ser anterior a hoje'
 
     const erros = {
-        titulo: (!dados.titulo.trim() && MSG_OBRIGATORIO),
+        titulo: !dados.titulo.trim() && MSG_OBRIGATORIO,
         descricao: !dados.descricao.trim() && MSG_OBRIGATORIO,
         categorias: dados.categorias.length === 0 && MSG_OBRIGATORIO,
         expiracao: erroExpiracao,
     }
 
-    const formValido = !Object.values(erros).some(Boolean)
-    const erroVisivel = (campo) => tocados[campo] && erros[campo]
+    const erroVisivel = (campo) => {
+        if (!tocados[campo]) return null;
+        return erros[campo] || errosProfanidade[campo];
+    } 
+    const formValido = !Object.values(erros).some(Boolean) && !Object.values(errosProfanidade).some(Boolean)
 
     const alterar = (campo) => (e) => setDados((prev) => ({ ...prev, [campo]: e.target.value }))
-    const tocar = (campo) => () => setTocados((prev) => ({ ...prev, [campo]: true }))
+    const tocar = (campo) => async () => {
+        setTocados((prev) => ({ ...prev, [campo]: true }))
+
+        const temProfanidade = await checarProfanidade(dados[campo]);
+
+        if (temProfanidade) {
+            setErrosProfanidade((prev) => ({ ...prev, [campo]: MSG_PROFANIDADE }))
+        } else {
+            setErrosProfanidade((prev) => ({ ...prev, [campo]: undefined }))
+        }
+        
+    }
 
     function alternarCategoria(c) {
-        console.log(anexo)
         setDados((prev) => ({
             ...prev,
             categorias: prev.categorias.includes(c) ? prev.categorias.filter((x) => x !== c) : [...prev.categorias, c],
@@ -188,8 +208,8 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
                     )}
                 </div>
 
-                <Campo label="E-mail">
-                    <input value={dados.email} onChange={alterar('email')} placeholder="exemplo@email.com" className={`${inputBase} ${borda(false)} h-[48px] px-[16px] py-[10px]`} />
+                <Campo label="E-mail" erro={erroVisivel('email')}>
+                    <input value={dados.email} onChange={alterar('email')} onBlur={tocar('email')} placeholder="exemplo@email.com" className={`${inputBase} ${borda(erroVisivel('email'))} h-[48px] px-[16px] py-[10px]`} />
                 </Campo>
 
                 <Campo label="Telefone/Celular">

@@ -1,13 +1,18 @@
 import { useState } from 'react'
 import closeIcon from '../assets/icons/close.svg'
 import { InputField } from './InputField'
+import { excluirConta } from '../services/excluirConta';
+import { useNavigate } from 'react-router-dom';
 
 export default function ApagarContaForm({ onClickX }) {
+    const navigate = useNavigate();
+    const [excluindo, setExcluindo] = useState(false);
+    const [erro, setErro] = useState("");
 
     const [formData, setFormData] = useState({
         nomeUsuario: "",
         senha: "",
-        confirmacao: ""
+        confirmacao: false
     })
 
     const isInputsEmpty = !(formData.nomeUsuario && formData.senha && formData.confirmacao)
@@ -15,10 +20,26 @@ export default function ApagarContaForm({ onClickX }) {
     function handleChange(field) {
         return (event) => {
             setFormData((prev) => ({ ...prev, [field]: event.target.value }));
-            console.log(formData.confirmacao)
         };
     }
 
+    async function handleSubmit(e) {
+        e.preventDefault();
+        if (isInputsEmpty || excluindo) return;
+
+        setExcluindo(true);
+        setErro("");
+
+        try {
+            await excluirConta(formData.nomeUsuario, formData.senha);
+            navigate("/");
+            window.location.reload();
+        } catch (error) {
+            setErro(error.response?.data?.mensagem || "Não foi possível apagar a conta.");
+            console.log(erro)
+            setExcluindo(false);
+        }
+    }
 
     return (
         <div className="relative w-[726px] h-[746px] bg-[#fafafa] rounded-[16px] overflow-hidden font-poppins">
@@ -52,22 +73,24 @@ export default function ApagarContaForm({ onClickX }) {
                     />
 
                     <div className='flex items-center gap-[12px]'>
-                        <input 
-                            className='size-[16px]' 
-                            type="checkbox" 
-                            id="concordancia-exclusao" 
-                            onChange={(event) => setFormData((prev) => ({ ...prev, ["confirmacao"]: event.target.checked }))} 
+                        <input
+                            className='size-[16px]'
+                            type="checkbox"
+                            id="concordancia-exclusao"
+                            onChange={(event) => setFormData((prev) => ({ ...prev, ["confirmacao"]: event.target.checked }))}
                         />
                         <label htmlFor="concordancia-exclusao" className='text-[14px] font-semibold'> Eu entendo que contas apagadas não podem ser recuperadas </label>
                     </div>
                 </form>
 
+                {erro && (<p className='text-[14px] text-[#EA4335]'> Dados Inválidos para realizar a exclusão! </p>)}
+
             </div>
 
             <div className="absolute bottom-0 h-[110px] w-full bg-white border-t-2 border-[#e5e5e5] 
                             text-[14px] flex items-center justify-between py-[24px] px-[32px]">
-                <button type="button" className="h-[42px] md:h-[48px] px-[18px] md:px-[20px] py-[4px] md:py-[8px] hover:bg-gray-100 rounded-full"> Cancelar </button>
-                <button type="submit" className={`${isInputsEmpty ? 'bg-gray-100' : 'bg-[#3c4043]'} transition duration-500 text-white h-[42px] md:h-[48px] px-[18px] md:px-[20px] py-[2px] md:py-[8px] rounded-full`}> Desativar </button>
+                <button type="button" onClick={onClickX} className="h-[42px] md:h-[48px] px-[18px] md:px-[20px] py-[4px] md:py-[8px] hover:bg-gray-100 rounded-full"> Cancelar </button>
+                <button type="submit" onClick={handleSubmit} className={`${isInputsEmpty ? 'bg-gray-100' : 'bg-[#3c4043]'} transition duration-500 text-white h-[42px] md:h-[48px] px-[18px] md:px-[20px] py-[2px] md:py-[8px] rounded-full`}> Desativar </button>
             </div>
         </div>
     )

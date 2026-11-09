@@ -1,6 +1,8 @@
 import { pool } from "../database/db.js";
 import { enviarAnexo, enviarImagem, removerAnexo, removerImagem, urlAnexo } from "../lib/storage.js";
 import { urlImagem } from "../lib/storage.js";
+import {v4 as uuidv4} from "uuid";
+import { checarProfanidade } from "../utils/checkProfanity.js";
 
 export const buscarPublicacoes = async (req, res) => {
     try {
@@ -23,11 +25,11 @@ export const buscarPublicacoes = async (req, res) => {
 }
 
 export const criarPublicacao = async (req, res) => {
-    let imagemPath = null
+    let imagemData = null
     let anexoData = null
 
     try {
-        const { titulo, descricao, email, telefone, link, anexo, expiracao } = req.body;
+        const { titulo, descricao, email, telefone, link, expiracao } = req.body;
 
         const arquivoImagem = req.files?.imagem?.[0]
         const arquivoAnexo = req.files?.anexo?.[0]
@@ -46,12 +48,18 @@ export const criarPublicacao = async (req, res) => {
             });
         }
 
-        if (arquivoImagem) imagemPath = await enviarImagem(arquivoImagem)
+        if (checarProfanidade(titulo) || checarProfanidade(descricao) || checarProfanidade(email) || checarProfanidade(telefone) || checarProfanidade(link)) {
+            return res.status(400).json({
+                mensagem: "O texto enviado possui termos impróprios. Por favor, revise."
+            })
+        }
+
+        if (arquivoImagem) imagemData = await enviarImagem(arquivoImagem)
         if (arquivoAnexo) anexoData = await enviarAnexo(arquivoAnexo)
 
         const query = `
             INSERT INTO publicacoes (autor_email, titulo, descricao, categoria, imagem, email, telefone, link, anexo, expiracao)
-            VALUES ($1, $2, $3, $4::public.categoria[], $5, $6, $7, $8, $9::json, $10) 
+            VALUES ($1, $2, $3, $4::public.categoria[], $5::json, $6, $7, $8, $9::json, $10) 
             RETURNING *;
         `;
 
@@ -60,15 +68,23 @@ export const criarPublicacao = async (req, res) => {
             titulo.trim(),
             descricao.trim(),
             categoria,
-            imagemPath?.trim() || null,
+            imagemData? JSON.stringify(imagemData) : null,
             email?.trim() || null,
             telefone?.trim() || null,
             link?.trim() || null,
             anexoData ? JSON.stringify(anexoData) : null,
-            expiracao
+            expiracao,
         ];
 
+        //Criação na tabela publicacoes
         const resultado = await pool.query(query, values);
+
+        //Criação da notificação
+        const notificacao = await pool.query("INSERT INTO notificacoes (tipo, publicacao_id) VALUES ('PUBLICACAO_NOVA', $1) RETURNING id", [resultado.rows[0].id]);
+
+        const notificacaoId = notificacao.rows[0].id;
+
+        await pool.query("INSERT INTO notificacoes_usuarios (notificacao_id, usuario_email) SELECT DISTINCT $1::uuid, uc.email_usuario FROM usuarios_categorias uc WHERE uc.categoria = ANY($2::categoria[])", [notificacaoId, categoria])
 
         return res.status(201).json({
             mensagem: "Publicação criada com sucesso!",
@@ -76,7 +92,7 @@ export const criarPublicacao = async (req, res) => {
         });
 
     } catch (error) {
-        await removerImagem(imagemPath)
+        await removerImagem(imagemData?.path)
         await removerAnexo(anexoData?.path)
         console.log("Erro ao criar publicação:", error);
         return res.status(500).json({
@@ -118,5 +134,118 @@ export const deletarPublicacao = async (req, res) => {
     } catch (error) {
         console.log("Erro ao excluir publicação:", error);
         return res.status(500).json({ error: "Erro interno ao excluir a publicação no servidor." });
+    }
+}
+
+export const editarPublicacao = async (req, res) => {
+    let novaImagemData = null;
+    let novoAnexoData = null;
+
+    try {
+        const { id } = req.params;
+        const { titulo, descricao, email, telefone, link, expiracao, remover_imagem, remover_anexo } = req.body;
+
+        const arquivoImagem = req.files?.imagem?.[0];
+        const arquivoAnexo = req.files?.anexo?.[0];
+
+        const autor_email = req.usuario.email;
+        const categoria = [].concat(req.body.categoria ?? []);
+
+        if (!titulo?.trim() || !descricao?.trim() || categoria?.length === 0 || !expiracao) {
+            return res.status(400).json({
+                dados: { titulo, descricao, categoria, expiracao },
+                mensagem: "Os campos obrigatórios (título, descrição, categoria e expiração) devem ser preenchidos."
+            });
+        }
+
+        const buscaAtual = await pool.query('SELECT * FROM publicacoes WHERE id = $1', [id]);
+
+        if (buscaAtual.rowCount === 0) {
+            return res.status(404).json({ mensagem: "Publicação não encontrada." });
+        }
+
+        const publicacaoAtual = buscaAtual.rows[0];
+
+        if (publicacaoAtual.autor_email !== autor_email) {
+            return res.status(403).json({ mensagem: "Não tem permissão para editar esta publicação." });
+        }
+
+        let imagemFinal = publicacaoAtual.imagem;
+        let anexoFinal = publicacaoAtual.anexo;
+
+        if (arquivoImagem) {
+            novaImagemData = await enviarImagem(arquivoImagem);
+            if (publicacaoAtual.imagem) {
+                await removerImagem(publicacaoAtual.imagem);
+            }
+            imagemFinal = novaImagemData || null;
+        } else if (remover_imagem === "true") {
+            if (publicacaoAtual.imagem) {
+                await removerImagem(publicacaoAtual.imagem);
+            }
+            imagemFinal = null;
+        }
+
+        if (arquivoAnexo) {
+            novoAnexoData = await enviarAnexo(arquivoAnexo);
+            if (publicacaoAtual.anexo?.path) {
+                await removerAnexo(publicacaoAtual.anexo.path);
+            }
+            anexoFinal = novoAnexoData;
+        } else if (remover_anexo === "true") {
+            if (publicacaoAtual.anexo?.path) {
+                await removerAnexo(publicacaoAtual.anexo.path);
+            }
+            anexoFinal = null;
+        }
+
+        const query = `
+            UPDATE publicacoes
+            SET titulo = $1,
+                descricao = $2,
+                categoria = $3::public.categoria[],
+                imagem = $4,
+                email = $5,
+                telefone = $6,
+                link = $7,
+                anexo = $8::json,
+                expiracao = $9
+            WHERE id = $10 AND autor_email = $11
+            RETURNING *, categoria::text[] AS categoria;
+        `;
+
+        const values = [
+            titulo.trim(),
+            descricao.trim(),
+            categoria,
+            imagemFinal,
+            email?.trim() || null,
+            telefone?.trim() || null,
+            link?.trim() || null,
+            anexoFinal ? JSON.stringify(anexoFinal) : null,
+            expiracao,
+            id,
+            autor_email
+        ];
+
+        const resultado = await pool.query(query, values);
+        const publicacaoAtualizada = resultado.rows[0];
+
+        return res.status(200).json({
+            mensagem: "Publicação atualizada com sucesso!",
+            publicacao: {
+                ...publicacaoAtualizada,
+                imagem: urlImagem(publicacaoAtualizada.imagem),
+                anexo: urlAnexo(publicacaoAtualizada.anexo)
+            }
+        });
+
+    } catch (error) {
+        if (novaImagemData?.path) await removerImagem(novaImagemData.path);
+        if (novoAnexoData?.path) await removerAnexo(novoAnexoData.path);
+        console.log("Erro ao editar publicação:", error);
+        return res.status(500).json({
+            error: "Erro interno ao editar a publicação no servidor."
+        });
     }
 }

@@ -2,7 +2,7 @@ import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/home/home';
 import PublicacaoPage from './pages/home/publicacao';
-import PerfilPage from './pages/home/profile/perfil';
+import PerfilPage from './pages/profile/perfil';
 import PrivateRoute from './PrivateRoute';
 import isUserLoggedIn from './utils/auth';
 import RedefinirSenhaPage from './pages/redefinirSenha/redefinirSenha';

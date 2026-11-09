@@ -8,7 +8,7 @@ import viewObserver from "../../utils/viewObserver";
 import isUserLoggedIn from "../../utils/auth";
 import { useEffect, useState } from "react";
 import { BiSolidFilePdf } from "react-icons/bi";
-import { ArrowUpRight, Pencil, Trash } from "lucide-react";
+import { ArrowUpRight, Megaphone, Pencil, Trash } from "lucide-react";
 import CopiarLinkBtn from "./CopiarLinkBtn";
 import ExcluirPubModal from "./ExcluirPubModal";
 import Toast from "../toasts/Toast";
@@ -44,12 +44,11 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
 
           <div className="relative flex gap-[24px] items-center">
             <div className="px-[12px] py-[6px] bg-[#e5e5e5] text-[12px] rounded-[50px]"> Expira em {new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(expiracao))} </div>
-            {usuario.usuario === autor &&
-              <button onClick={() => setThreeDotsClicked(!threeDotsClicked)}>
+            <button onClick={() => setThreeDotsClicked(!threeDotsClicked)}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3C4043" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /><circle cx="5" cy="12" r="1" /></svg>
-              </button>}
-            {threeDotsClicked &&
-              <div className="absolute flex flex-col items-start right-0 top-[36px] w-[250px] bg-white rounded-[8px] shadow-lg shadow-black/20 overflow-hidden">
+            </button>
+            {threeDotsClicked && (usuario.usuario == autor? 
+              (<div className="absolute flex flex-col items-start right-0 top-[36px] w-[250px] bg-white rounded-[8px] shadow-lg shadow-black/20 overflow-hidden">
                 <button onClick={() => setEditarClicked(true)} className="w-full flex items-center gap-[8px] text-left px-[16px] py-[12px] hover:bg-[rgba(60,64,67,0.06)]">
                   <Pencil className="size-[14px]" />
                   <span className="text-[14px] relative top-[1px]"> Editar </span>
@@ -58,7 +57,14 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
                   <Trash className="size-[14px] stroke-red-500" />
                   <span className="text-[14px] relative top-[1px]"> Excluir </span>
                 </button>
-              </div>}
+              </div>): 
+              (<div className="absolute flex flex-col items-start right-0 top-[36px] w-[250px] bg-white rounded-[8px] shadow-lg shadow-black/20 overflow-hidden">
+                <button onClick={() => ""} className="w-full flex items-center gap-[8px] text-left px-[16px] py-[12px] hover:bg-[rgba(60,64,67,0.06)] text-red-500">
+                  <Megaphone className="size-[14px] stroke-red-500" />
+                  <span className="text-[14px] relative top-[1px]"> Denunciar </span>
+                </button>
+              </div>))
+            }
           </div>
         </div>
 
@@ -127,10 +133,6 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
           </div>
           <div className="flex gap-[12px]">
             <CopiarLinkBtn onClick={() => copiarLink(id)} />
-            {isUserLoggedIn() && (<Button variant="text" className="text-[#ea4335]">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EA4335" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10a1 1 0 0 1-.4.8A6 6 0 0 1 16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528" /></svg>
-              <span>  Denunciar  </span>
-            </Button>)}
           </div>
 
         </div>

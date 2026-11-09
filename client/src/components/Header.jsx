@@ -32,7 +32,7 @@ export default function useHeader({ className, showSearch, children, onClickEntr
                 {children}
                 {showSearch && 
                 <div className="flex gap-6">
-                    <InputSearch onKeyDown={(e) => { if (e.key === 'Enter') setBusca(e.target.value) }} />
+                    <InputSearch value={busca} onClickX={() => setBusca("")} onChange={(e) => { setBusca(e.target.value) }} />
 
                     <Button variant="second" onClick={() => { setIsCalendarOpen(!isCalendarOpen) }}>
                         <Calendar className="size-[18px]" />
@@ -57,14 +57,18 @@ export default function useHeader({ className, showSearch, children, onClickEntr
                             <Home className={`size=[20px] ${location.pathname === '/' ? 'stroke-black':'stroke-[#909090] group-hover:stroke-black'}`}/> 
                             <span className={`${location.pathname === '/' ? 'font-semibold':'font-medium text-[#909090] group-hover:text-black'}`}> Início </span> 
                         </button>
-                        <button className="group flex items-center gap-[12px]" onClick={() => setIsNotificacoesOpen(true)}> 
-                            <Bell className="size=[20px] stroke-[#909090] group-hover:stroke-black"/> <span className="font-medium text-[#909090] group-hover:text-black"> Notificações </span> 
-                        </button>
                     </div>
                     <div className="relative">
-                        <button onClick={() => setIsUserMenuOpen(!isUserMenuOpen)} className="flex justify-center items-center bg-[#22D3EE] size-[50px] rounded-[50px]">
-                            <span className="text-[20px] font-medium text-[#073061]"> {isUserLoggedIn().usuario[0].toUpperCase()} </span>
-                        </button>
+                        <div className="flex items-center gap-[20px]">
+                            <button className="group flex items-center border p-[12px] rounded-[50px] border-[#e5e5e5] gap-[12px] hover:border-black" onClick={() => setIsNotificacoesOpen(true)}> 
+                                <Bell className="size-[20px] stroke-[#909090] group-hover:stroke-black"/>
+                            </button>
+                            <div className="h-[36px] border border-[#e5e5e5]"/>
+                            <button onClick={() => setIsUserMenuOpen(!isUserMenuOpen)} className="flex justify-center items-center bg-[#22D3EE] size-[50px] rounded-[50px]">
+                                <span className="text-[20px] font-medium text-[#073061]"> {isUserLoggedIn().usuario[0].toUpperCase()} </span>
+                            </button>
+                        </div>
+                        
                         {isUserMenuOpen &&
                             <div className="absolute flex flex-col items-start top-[80px] right-0 bg-white w-[230px] rounded-[8px] shadow-lg shadow-black/20">
                                 <button

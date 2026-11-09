@@ -75,7 +75,7 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
             {(!expandido && variant !== "completo" && (descricao.length > 60 || link || email || telefone || anexo)) ? <button className="text-[#8d8d8d] font-medium hover:cursor-pointer" onClick={() => setExpandido(true)}> mostrar mais </button> : ''}
           </p>
 
-          {(expandido || variant === "completo" || descricao.length < 60) && (link || email || telefone) ?
+          {(expandido || variant === "completo") && (link || email || telefone) ?
             <div className="flex flex-col gap-[24px]">
               <h3 className="font-semibold leading-none text-[14px] text-black"> Informações adicionais </h3>
               <div className="flex flex-col gap-[16px]">

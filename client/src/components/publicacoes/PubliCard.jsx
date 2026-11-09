@@ -8,7 +8,8 @@ import viewObserver from "../../utils/viewObserver";
 import isUserLoggedIn from "../../utils/auth";
 import { useEffect, useState } from "react";
 import { BiSolidFilePdf } from "react-icons/bi";
-import { ArrowUpRight, Pencil, Trash } from "lucide-react";
+import { ArrowUpRight, Flag, Pencil, Trash } from "lucide-react";
+import DenunciarPubModal from "./DenunciarPubModal";
 import CopiarLinkBtn from "./CopiarLinkBtn";
 import ExcluirPubModal from "./ExcluirPubModal";
 import Toast from "../toasts/Toast";
@@ -27,6 +28,7 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
   const [editarClicked, setEditarClicked] = useState(false)
   const [excluirClicked, setExcluirClicked] = useState(false)
   const [excluida, setExcluida] = useState(false)
+  const [denunciarClicked, setDenunciarClicked] = useState(false)
 
   const [toastSucessoExclusao, setToastSucessoExclusao] = useState(false);
 
@@ -127,8 +129,8 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
           </div>
           <div className="flex gap-[12px]">
             <CopiarLinkBtn onClick={() => copiarLink(id)} />
-            {isUserLoggedIn() && (<Button variant="text" className="text-[#ea4335]">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EA4335" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10a1 1 0 0 1-.4.8A6 6 0 0 1 16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528" /></svg>
+            {isUserLoggedIn() && usuario.usuario !== autor && (<Button variant="text" className="text-[#ea4335]" onClick={() => setDenunciarClicked(true)}>
+              <Flag className="size-[18px] stroke-[#EA4335]" />
               <span>  Denunciar  </span>
             </Button>)}
           </div>
@@ -151,6 +153,11 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
             onSucesso={() => { setExcluirClicked(false), setToastSucessoExclusao(true), setThreeDotsClicked(false), setExcluida(true) }} 
             onClickX={() => setExcluirClicked(false)} 
           />
+        </div>}
+
+      {denunciarClicked &&
+        <div className="bg-black/50 fixed z-2 h-full inset-0 flex items-center justify-center">
+          <DenunciarPubModal pubId={id} onClickX={() => setDenunciarClicked(false)} />
         </div>}
 
       {toastSucessoExclusao && (

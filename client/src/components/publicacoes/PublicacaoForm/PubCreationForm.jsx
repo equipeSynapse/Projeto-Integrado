@@ -124,8 +124,9 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
             </header>
 
             <div className="flex flex-col gap-[24px] p-[32px] overflow-y-auto">
-                <Campo label="Título *" erro={erroVisivel('titulo')}>
+                <Campo label="Título *" htmlFor="titulo-pub" erro={erroVisivel('titulo')}>
                     <input
+                        id="titulo-pub"
                         value={dados.titulo}
                         onChange={alterar('titulo')}
                         onBlur={tocar('titulo')}
@@ -134,8 +135,9 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
                     />
                 </Campo>
 
-                <Campo label="Descrição *" erro={erroVisivel('descricao')}>
+                <Campo label="Descrição *" htmlFor="descricao-pub" erro={erroVisivel('descricao')}>
                     <textarea
+                        id="descricao-pub"
                         value={dados.descricao}
                         onChange={alterar('descricao')}
                         onBlur={tocar('descricao')}
@@ -144,13 +146,14 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
                     />
                 </Campo>
 
-                <Campo label="Selecionar categoria *" erro={erroVisivel('categorias')}>
-                    <SeletorCategoria valor={dados.categorias} opcoes={CATEGORIAS} onAlternar={alternarCategoria} erro={erroVisivel('categorias')} />
+                <Campo label="Selecionar categoria *" htmlFor="categoria-pub" erro={erroVisivel('categorias')}>
+                    <SeletorCategoria id="categoria-pub" valor={dados.categorias} opcoes={CATEGORIAS} onAlternar={alternarCategoria} erro={erroVisivel('categorias')} />
                 </Campo>
 
-                <Campo label={<span className="flex items-center gap-[8px]">Exibir até... * <CircleHelp className="size-[14px]" /></span>} erro={erroVisivel('expiracao')}>
+                <Campo htmlFor="expiracao-pub" label={<span className="flex items-center gap-[8px]">Exibir até... * <CircleHelp className="size-[14px]" /></span>} erro={erroVisivel('expiracao')}>
                     <div className="relative w-full">
                         <input
+                            id="expiracao-pub"
                             value={dados.expiracao}
                             onChange={(e) => setDados((prev) => ({ ...prev, expiracao: mascararData(e.target.value) }))}
                             onBlur={tocar('expiracao')}
@@ -208,12 +211,13 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
                     )}
                 </div>
 
-                <Campo label="E-mail" erro={erroVisivel('email')}>
-                    <input value={dados.email} onChange={alterar('email')} onBlur={tocar('email')} placeholder="exemplo@email.com" className={`${inputBase} ${borda(erroVisivel('email'))} h-[48px] px-[16px] py-[10px]`} />
+                <Campo htmlFor="email-pub" label="E-mail" erro={erroVisivel('email')}>
+                    <input id="email-pub" value={dados.email} onChange={alterar('email')} onBlur={tocar('email')} placeholder="exemplo@email.com" className={`${inputBase} ${borda(erroVisivel('email'))} h-[48px] px-[16px] py-[10px]`} />
                 </Campo>
 
-                <Campo label="Telefone/Celular">
+                <Campo htmlFor="telefone-pub" label="Telefone/Celular">
                     <input
+                        id="telefone-pub"
                         value={dados.telefone}
                         onChange={(e) => setDados((prev) => ({ ...prev, telefone: mascararTelefone(e.target.value) }))}
                         placeholder="(00) 00000-0000"
@@ -223,8 +227,8 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
                     />
                 </Campo>
 
-                <Campo label="Link externo">
-                    <input value={dados.link} onChange={alterar('link')} placeholder="https://exemplo.com" className={`${inputBase} ${borda(false)} h-[48px] px-[16px] py-[10px]`} />
+                <Campo htmlFor="link-pub" label="Link externo">
+                    <input id="link-pub" value={dados.link} onChange={alterar('link')} placeholder="https://exemplo.com" className={`${inputBase} ${borda(false)} h-[48px] px-[16px] py-[10px]`} />
                 </Campo>
 
                 <div className="flex flex-col gap-[12px]">

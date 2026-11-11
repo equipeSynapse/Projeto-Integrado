@@ -35,14 +35,16 @@ export default function CategoriaCard({ texto, onClick }) {
 
     return (
         <div className="relative font-poppins">
-            <div
+            <button
                 onClick={() => { setCardClicado(!cardClicado), onClick() }}
-                className={`relative flex items-center h-[100px] max-w-[250px] px-[24px] py-[12px] text-left border ${cardClicado ? 'border-[#8d8d8d]' : 'border-[#e5e5e5]'}
+                aria-pressed={cardClicado}
+                className={`relative flex items-center w-full h-[100px] max-w-[250px] px-[24px] py-[12px] text-left border ${cardClicado ? 'border-[#8d8d8d]' : 'border-[#e5e5e5]'}
             rounded-[12px] overflow-hidden hover:cursor-pointer hover:border-[#8d8d8d] hover:shadow-xl hover:scale-104 transition-all duration-300`}
             >
                 <span className="font-poppins font-medium block max-w-[130px]"> {texto} </span>
                 <div className="absolute bg-[#e5e5e5] size-[100px] right-[-40px] bottom-[-50px] rounded-[50px]" />
-            </div>
+            </button>
+
             {isUserLoggedIn() && isCategoriaSeguida !== null && <div className="absolute right-[12px] top-[12px]">
                 <button
                     onClick={async (e) => {
@@ -53,6 +55,7 @@ export default function CategoriaCard({ texto, onClick }) {
                             :
                             await seguirCategoria(texto.replace(/["']/g, ""))
                     }}
+                    aria-label={isCategoriaSeguida ? `Ao desabilitar, você não receberá mais notificações da categoria ${texto}` : `Ao habilitar, você receberá notificações da categoria ${texto}`}
                     className=" size-[20px] flex items-center justify-center rounded-[50%] hover:bg-gray-200"
                 >
                     <Bell

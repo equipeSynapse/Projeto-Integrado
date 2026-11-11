@@ -1,9 +1,9 @@
 import InfoIcon from "../../../assets/icons/info.svg"
 
-export default function Campo({ label, erro, children, className = '' }) {
+export default function Campo({ label, erro, htmlFor, children, className = '' }) {
     return (
         <div className={`flex flex-col gap-[12px] items-start w-full ${className}`}>
-            {label && <span className="font-poppins font-medium leading-none text-[14px] text-[#3c4043] w-full">{label}</span>}
+            {label && <label htmlFor={htmlFor} className="font-poppins font-medium leading-none text-[14px] text-[#3c4043] w-full">{label}</label>}
             {children}
             {erro && (
                 <div className="flex gap-[8px] items-center">

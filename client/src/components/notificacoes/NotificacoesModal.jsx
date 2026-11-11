@@ -54,7 +54,7 @@ export default function NotificacoesModal({ onClose }) {
     const [tabAtual, setTabAtual] = useState("Todas")
 
     return (
-        <div className="relative h-full w-[588px] flex flex-col rounded-tl-[12px] bg-white">
+        <div className="relative h-full w-[588px] flex flex-col rounded-tl-[12px] bg-white z-10">
             <header className="border border-x-0 border-t-0 border-b-[#e5e5e5]">
                 <div className="flex justify-between items-center p-[32px]">
                     <span className="text-[20px] font-semibold text-[#3C4043]"> Notificações </span>

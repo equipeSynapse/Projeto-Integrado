@@ -106,7 +106,7 @@ export default function useHeader({ className, showSearch, children, onClickEntr
                 </div>}
 
                 {isNotificacoesOpen &&
-                    <div className="fixed inset-0 z-3 flex justify-end items-center bg-black/50">
+                    <div className="fixed inset-0 z-6 flex justify-end items-center bg-black/50">
                         <NotificacoesModal onClose={() => setIsNotificacoesOpen(false)} />
                     </div>
                 }

@@ -10,7 +10,7 @@ export function InputField({ onBlur, label, inputId, inputType, inputValue, inpu
 
   return (
     <div className="content-stretch flex flex-col gap-[8px] items-start relative shrink-0 w-full">
-      <label htmlFor="nomeUsuario" className="font-poppins font-medium leading-none relative shrink-0 text-[14px] text-black w-full">
+      <label htmlFor={inputId} className="font-poppins font-medium leading-none relative shrink-0 text-[14px] text-black w-full">
         {label}
       </label>
       <div className='w-full flex items-center'>

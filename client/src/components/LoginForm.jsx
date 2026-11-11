@@ -139,9 +139,9 @@ export default function LoginConta({onClickX, onClickRegister, onClickEsqueciSen
            {/*Botão: Mudar para Cadastro*/}
           <p className="font-poppins font-normal text-[14px] text-black text-center">
             <span className="leading-[1.5]">Ainda não tem uma conta? </span>
-            <span onClick={onClickRegister} className="font-poppins font-medium leading-[1.5] cursor-pointer underline">
+            <button onClick={onClickRegister} className="font-poppins font-medium leading-[1.5] cursor-pointer underline">
               Registre-se
-            </span>
+            </button>
           </p>
         </div>
 

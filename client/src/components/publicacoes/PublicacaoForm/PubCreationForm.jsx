@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { format, isBefore, startOfDay } from 'date-fns'
 import { Calendar, CircleHelp, Image } from 'lucide-react'
 import closeIcon from '../../../assets/icons/close.svg'
@@ -37,7 +37,7 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
     const [enviando, setEnviando] = useState(false)
 
     const [errosProfanidade, setErrosProfanidade] = useState({
-        titulo: undefined, 
+        titulo: undefined,
         descricao: undefined,
         email: undefined
     })
@@ -61,8 +61,27 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
     const erroVisivel = (campo) => {
         if (!tocados[campo]) return null;
         return erros[campo] || errosProfanidade[campo];
-    } 
+    }
     const formValido = !Object.values(erros).some(Boolean) && !Object.values(errosProfanidade).some(Boolean)
+
+    const modalRef = useRef(null);
+
+    useEffect(() => {
+        if (modalRef.current) {
+            modalRef.current.focus();
+        }
+
+        const handleKeyDown = (e) => {
+            if (e.key === "Escape") {
+                onClose();
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [onClickX]);
+
 
     const alterar = (campo) => (e) => setDados((prev) => ({ ...prev, [campo]: e.target.value }))
     const tocar = (campo) => async () => {
@@ -75,7 +94,7 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
         } else {
             setErrosProfanidade((prev) => ({ ...prev, [campo]: undefined }))
         }
-        
+
     }
 
     function alternarCategoria(c) {
@@ -117,10 +136,12 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
     }
 
     return (
-        <div ref={ref} className="bg-[#fcfcfc] border border-[#e5e5e5] rounded-[16px] w-full max-w-[726px] max-h-[90vh] flex flex-col overflow-hidden font-poppins text-[#3c4043]">
+        <div ref={modalRef} tabIndex={-1} className="bg-[#fcfcfc] border border-[#e5e5e5] rounded-[16px] w-full max-w-[726px] max-h-[90vh] flex flex-col overflow-hidden font-poppins text-[#3c4043]">
             <header className="bg-white border-b border-[#e5e5e5] p-[32px] flex items-center justify-between shrink-0">
                 <h2 className="text-[20px] font-semibold">Criar publicação</h2>
-                <button type="button" onClick={onClickX} className="size-[24px] cursor-pointer"><img src={closeIcon} /></button>
+                <button type="button" onClick={onClickX} aria-label='Fechar modal de criação de publicação' className="size-[24px] cursor-pointer">
+                    <img src={closeIcon} />
+                </button>
             </header>
 
             <div className="flex flex-col gap-[24px] p-[32px] overflow-y-auto">
@@ -188,27 +209,27 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
                         <Radio label="Anexar imagem" checked={tipoImagem === 'anexar'} onClick={() => setTipoImagem('anexar')} />
                         <Radio label="Modelos do mural" checked={tipoImagem === 'modelos'} onClick={() => setTipoImagem('modelos')} />
                     </div>
-                    {tipoImagem === 'anexar' ? 
-                        imagem? 
-                        <UploadedFile file={imagem} onClickTrash={() => setImagem(null)}/> :
-                        <Dropzone formatos="JPG, JPEG ou PNG" aceitos={['image/jpeg', 'image/png']} arquivo={imagem} onArquivo={setImagem} />
-                     : (
-                        <div className="grid grid-cols-2 gap-[12px]">
-                            {[0, 1, 2, 3].map((i) => (
-                                <button
-                                    key={i}
-                                    type="button"
-                                    onClick={() => setModeloSelecionado(i)}
-                                    className="relative bg-[#e5e5e5] border-[1.5px] border-[#e5e5e5] rounded-[8px] h-[139px] flex items-center justify-center cursor-pointer"
-                                >
-                                    <Image className="size-[32px] text-[#909090]" />
-                                    <span className={`absolute top-[10px] left-[10px] size-[22px] rounded-full border bg-white flex items-center justify-center ${modeloSelecionado === i ? 'border-[#3c4043]' : 'border-[#c4c4c4]'}`}>
-                                        {modeloSelecionado === i && <span className="size-[12px] rounded-full bg-[#3c4043]" />}
-                                    </span>
-                                </button>
-                            ))}
-                        </div>
-                    )}
+                    {tipoImagem === 'anexar' ?
+                        imagem ?
+                            <UploadedFile file={imagem} onClickTrash={() => setImagem(null)} /> :
+                            <Dropzone formatos="JPG, JPEG ou PNG" aceitos={['image/jpeg', 'image/png']} arquivo={imagem} onArquivo={setImagem} />
+                        : (
+                            <div className="grid grid-cols-2 gap-[12px]">
+                                {[0, 1, 2, 3].map((i) => (
+                                    <button
+                                        key={i}
+                                        type="button"
+                                        onClick={() => setModeloSelecionado(i)}
+                                        className="relative bg-[#e5e5e5] border-[1.5px] border-[#e5e5e5] rounded-[8px] h-[139px] flex items-center justify-center cursor-pointer"
+                                    >
+                                        <Image className="size-[32px] text-[#909090]" />
+                                        <span className={`absolute top-[10px] left-[10px] size-[22px] rounded-full border bg-white flex items-center justify-center ${modeloSelecionado === i ? 'border-[#3c4043]' : 'border-[#c4c4c4]'}`}>
+                                            {modeloSelecionado === i && <span className="size-[12px] rounded-full bg-[#3c4043]" />}
+                                        </span>
+                                    </button>
+                                ))}
+                            </div>
+                        )}
                 </div>
 
                 <Campo htmlFor="email-pub" label="E-mail" erro={erroVisivel('email')}>
@@ -233,15 +254,15 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
 
                 <div className="flex flex-col gap-[12px]">
                     <span className="text-[14px] font-medium">Anexar arquivo</span>
-                    
-                    {anexo?
-                      <UploadedFile file={anexo} onClickTrash={() => setAnexo(null)}/>
-                    : <Dropzone formatos="PDF" aceitos={['application/pdf']} arquivo={anexo} onArquivo={setAnexo} />
-                    }   
+
+                    {anexo ?
+                        <UploadedFile file={anexo} onClickTrash={() => setAnexo(null)} />
+                        : <Dropzone formatos="PDF" aceitos={['application/pdf']} arquivo={anexo} onArquivo={setAnexo} />
+                    }
                 </div>
             </div>
 
-            <footer className="bg-white border-t border-[#e5e5e5] p-[32px] flex items-center justify-between shrink-0">
+            <footer aria-label="Botões de cancelar e criar publicação" className="bg-white border-t border-[#e5e5e5] p-[32px] flex items-center justify-between shrink-0">
                 <Button type="button" variant="text" className="h-[45px] text-[#3c4043]" onClick={onClickX}>Cancelar</Button>
                 <Button type="button" variant="cta" className="h-[45px]" disabled={!formValido || enviando} onClick={handleSubmit}>Criar publicação</Button>
             </footer>

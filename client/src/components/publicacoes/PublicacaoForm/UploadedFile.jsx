@@ -18,7 +18,7 @@ export default function UploadedFile( {file, onClickTrash} ) {
             <span className='text-[12px] text-[#909090]'> {detalhe} </span>
         </div>
         <div>
-            <button onClick={onClickTrash} className='size-[42px] border border-[#e5e5e5] flex items-center justify-center rounded-[50px] hover:bg-[#e5e5e5]'>
+            <button onClick={onClickTrash} aria-label="Remover anexo" className='size-[42px] border border-[#e5e5e5] flex items-center justify-center rounded-[50px] hover:bg-[#e5e5e5]'>
                 <Trash className='stroke-[#ea4335] size-[16px]' />
             </button>
         </div>

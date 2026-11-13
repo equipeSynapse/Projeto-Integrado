@@ -1,6 +1,6 @@
 import { CheckCheck, X } from "lucide-react";
 import { getNotificacoes } from "../../services/notificacoes/obterNotificacoes";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useEffect } from "react";
 import { isSameDay, isSameMonth, isSameWeek } from "date-fns";
 import NotificacaoBlock from "./NotificacaoBlock";
@@ -10,7 +10,24 @@ import { marcarTodasComoLidas } from "../../services/notificacoes/marcarTodasCom
 
 export default function NotificacoesModal({ onClose }) {
     const [notificacoes, setNotificacoes] = useState([])
+    const modalRef = useRef(null);
 
+    useEffect(() => {
+        if (modalRef.current) {
+            modalRef.current.focus();
+        }
+
+        const handleKeyDown = (e) => {
+            if (e.key === "Escape") {
+                onClose();
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+        
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [onClose]);
+    
     useEffect(() => {
         getNotificacoes().then(setNotificacoes).catch(e => console.error("Erro ao buscar as notificações:", e))
     }, []);
@@ -54,11 +71,13 @@ export default function NotificacoesModal({ onClose }) {
     const [tabAtual, setTabAtual] = useState("Todas")
 
     return (
-        <div className="relative h-full w-[588px] flex flex-col rounded-tl-[12px] bg-white z-10">
+        <div ref={modalRef} tabIndex={-1} className="relative h-full w-[588px] flex flex-col rounded-tl-[12px] bg-white z-10">
             <header className="border border-x-0 border-t-0 border-b-[#e5e5e5]">
                 <div className="flex justify-between items-center p-[32px]">
                     <span className="text-[20px] font-semibold text-[#3C4043]"> Notificações </span>
-                    <button onClick={closeModal}> <X className="size-[24px] stroke-[#3C4043]" /> </button>
+                    <button onClick={closeModal} aria-label='Fechar modal de notificações'> 
+                        <X className="size-[24px] stroke-[#3C4043]" /> 
+                    </button>
                 </div>
                 <div className="flex gap-[12px] w-full justify-between px-[12px]">
                     <button className={`w-1/3 py-[8px] ${tabAtual === "Todas" && 'border-b-4 border-b-black'} transition-all`} onClick={() => setTabAtual("Todas")} >

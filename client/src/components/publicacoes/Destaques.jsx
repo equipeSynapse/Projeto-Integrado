@@ -20,7 +20,7 @@ export default function Destaques( { dataPosts }) {
                     className="border border-x-0 border-b-0 border-t-[#e5e5e5] pt-[16px] pb-[8px] hover:cursor-pointer"
                 >
                     <div className="flex gap-[14px] text-[14px]">
-                        <div className="bg-[#e5e5e5] aspect-square flex items-center justify-center size-[40px] rounded-[50%]"> SS </div>
+                        <div aria-hidden="true" className="bg-[#e5e5e5] aspect-square flex items-center justify-center size-[40px] rounded-[50%]"> SS </div>
                         <div className="flex flex-col items-start w-[150px]">
                             <span className="font-medium"> Secretaria SMD </span>
                             <span className="text-[#909090] text-[12px]"> Publicado {timestampMsg(new Date(), new Date(d.criado_em), true)}</span>

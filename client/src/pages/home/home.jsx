@@ -78,8 +78,8 @@ export default function HomePage() {
                     </div>
                 </aside>
 
-                <section className="flex flex-col gap-[24px] max-w-[960px]">
-                    <section className="md:w-[778px] flex flex-col gap-[24px]">
+                <div className="flex flex-col gap-[24px] max-w-[960px]">
+                    <section aria-label="Categorias de publicações" className="md:w-[778px] flex flex-col gap-[24px]">
                         <h2 className="text-[20px] font-semibold font-poppins"> Explorar categorias de publicações </h2>
                         <div className="grid grid-cols-2 md:grid-cols-3 grid-rows-3 md:grid-rows-2 gap-[12px]">
                             {categorias.map((c) =>
@@ -95,13 +95,13 @@ export default function HomePage() {
                         </div>
                     </section>
 
-                    <section className="max-w-[778px] flex flex-col gap-[24px]">
+                    <section aria-label="Feed de publicações" className="max-w-[778px] flex flex-col gap-[24px]">
                         <h2 className="text-[20px] font-semibold font-poppins"> Novidades para você </h2>
                         <Feed list={filtradas} />
                     </section>
-                </section>
+                </div>
 
-                <aside className="hidden 2xl:flex sticky top-[-190px] font-poppins flex-col gap-[24px] text-[#3c4043]">
+                <aside aria-label="Criação de publicações e destaques" className="hidden 2xl:flex sticky top-[-190px] font-poppins flex-col gap-[24px] text-[#3c4043]">
                     <div className="bg-white flex flex-col gap-[12px] border w-[290px] h-[270px] p-[36px] rounded-[12px] border-[#e5e5e5]">
                         <span className="font-semibold"> O mural também é seu </span>
                         <p> Compartilhe avisos, eventos, oportunidades ou conteúdos que podem interessar à comunidade. </p>

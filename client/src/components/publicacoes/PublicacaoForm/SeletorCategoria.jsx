@@ -41,7 +41,7 @@ export default function SeletorCategoria({ valor, onAlternar, opcoes, erro }) {
                             onClick={() => onAlternar(c)}
                             className="w-full text-left px-[16px] py-[10px] text-[14px] flex gap-[12px] items-center hover:bg-[rgba(60,64,67,0.06)]"
                         >
-                            <input type="checkbox" checked={selecionado} onKeyDown={(e) => {
+                            <input type="checkbox" checked={selecionado} aria-label={`Categoria ${c}`} onKeyDown={(e) => {
                                 if (e.key === "Enter" || e.key === " ") {
                                     e.preventDefault();
                                     onAlternar(c)

@@ -85,7 +85,9 @@ export function EditProfileForm({ onClickX, onClickApagarConta }) {
                 <div className="flex flex-row flex-start md:justify-between items-center px-[30px] pt-[30px] pb-[8px] md:pb-[12px] gap-4">
                     <button className="size-[20px] md:size-[24px] order-first md:hidden"> <ChevronLeft /> </button>
                     <h2 className="text-[20px] md:text-[20px] font-semibold"> Gerenciar Perfil </h2>
-                    <button className="size-[20px] md:size-[24px] hidden md:block" onClick={onClickX}> <img src={closeIcon} /> </button>
+                    <button className="size-[20px] md:size-[24px] hidden md:block" onClick={onClickX} aria-label='Fechar modal de edição de perfil'> 
+                        <img src={closeIcon} /> 
+                    </button>
                 </div>
 
                 <div className="flex justify-center text-[12px] md:text-[14px] font-medium pt-3">

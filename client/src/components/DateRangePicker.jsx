@@ -55,12 +55,12 @@ export default function DateRangePicker({onClickX}) {
         dataFim,
         ComponenteDate: (
         <div className="flex flex-col w-[720px] gap-[12px] p-[28px] font-poppins border border-[#e5e5e5] rounded-[16px] bg-white">
-           <div className='w-full flex justify-end'> <button onClick={onClickX}> <X className='size-[18px] hover:cursor-pointer'/> </button> </div>
+           <div className='w-full flex justify-end'> <button onClick={onClickX} aria-label='Fechar modal de seletor de data'> <X className='size-[18px] hover:cursor-pointer'/> </button> </div>
             <div className='flex'>
                 
             <div className="p-[28px] bg-white">
                 <div className="flex items-center justify-between mb-[12px]">
-                    <button onClick={mesAnterior} className="flex items-center hover:cursor-pointer"> <ChevronLeft size="18px"/> </button>
+                    <button onClick={mesAnterior} className="flex items-center hover:cursor-pointer" aria-label="Ir para mês anterior"> <ChevronLeft size="18px"/> </button>
                     <span className="font-semibold"> {format(dataAtual, 'MMMM yyyy', {locale: ptBR})} </span>
                 <div/>
             </div>
@@ -87,7 +87,7 @@ export default function DateRangePicker({onClickX}) {
                 <div className="flex items-center justify-between mb-[12px]">
                     <div/>
                     <span className="font-semibold"> {format(addMonths(dataAtual, 1), 'MMMM yyyy', {locale: ptBR})} </span>
-                    <button onClick={mesSeguinte} className="flex items-center hover:cursor-pointer"> <ChevronRight size="18px"/> </button>
+                    <button onClick={mesSeguinte} className="flex items-center hover:cursor-pointer" aria-label="Ir para mês seguinte"> <ChevronRight size="18px"/> </button>
                 </div>
 
                 <div className="weekdays grid grid-cols-7">

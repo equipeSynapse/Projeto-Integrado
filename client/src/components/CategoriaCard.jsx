@@ -38,7 +38,7 @@ export default function CategoriaCard({ texto, onClick }) {
             <button
                 onClick={() => { setCardClicado(!cardClicado), onClick() }}
                 aria-pressed={cardClicado}
-                className={`relative flex items-center w-full h-[100px] max-w-[250px] px-[24px] py-[12px] text-left border ${cardClicado ? 'border-[#8d8d8d]' : 'border-[#e5e5e5]'}
+                className={`relative flex items-center w-full h-[100px] px-[24px] py-[12px] text-left border ${cardClicado ? 'border-[#8d8d8d]' : 'border-[#e5e5e5]'}
             rounded-[12px] overflow-hidden hover:cursor-pointer hover:border-[#8d8d8d] hover:shadow-xl hover:scale-104 transition-all duration-300`}
             >
                 <span className="font-poppins font-medium block max-w-[130px]"> {texto} </span>

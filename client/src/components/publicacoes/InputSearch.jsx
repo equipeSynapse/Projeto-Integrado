@@ -2,7 +2,7 @@ import { X } from "lucide-react";
 
 export function InputSearch({ value, onChange, onClickX, placeholder = "Pesquisar por título ou usuário" }) {
     return (
-        <div className="relative flex items-center w-[400px]">
+        <div role="search" className="relative flex items-center w-[400px]">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"

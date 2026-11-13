@@ -71,17 +71,17 @@ export default function HomePage() {
         <div className="min-h-screen bg-white">
             {Header} 
 
-            <main className="flex justify-center gap-[48px] px-[60px] pt-[130px] pb-[48px] mx-auto items-start">
-                <aside className="sticky top-[130px]">
+            <main className="flex justify-center gap-[48px] px-[24px] pt-[130px] pb-[48px] mx-auto items-start">
+                <aside className="hidden 2xl:block sticky top-[130px]">
                     <div className="bg-white border w-[290px] h-[270px]">
 
                     </div>
                 </aside>
 
                 <section className="flex flex-col gap-[24px] max-w-[960px]">
-                    <section className="w-[778px] max-w-[778px] flex flex-col gap-[24px]">
+                    <section className="md:w-[778px] flex flex-col gap-[24px]">
                         <h2 className="text-[20px] font-semibold font-poppins"> Explorar categorias de publicações </h2>
-                        <div className="grid grid-cols-3 grid-rows-2 gap-[12px]">
+                        <div className="grid grid-cols-2 md:grid-cols-3 grid-rows-3 md:grid-rows-2 gap-[12px]">
                             {categorias.map((c) =>
                                 <CategoriaCard
                                     key={c}
@@ -101,7 +101,7 @@ export default function HomePage() {
                     </section>
                 </section>
 
-                <aside className="sticky top-[-190px] font-poppins flex flex-col gap-[24px] text-[#3c4043]">
+                <aside className="hidden 2xl:flex sticky top-[-190px] font-poppins flex-col gap-[24px] text-[#3c4043]">
                     <div className="bg-white flex flex-col gap-[12px] border w-[290px] h-[270px] p-[36px] rounded-[12px] border-[#e5e5e5]">
                         <span className="font-semibold"> O mural também é seu </span>
                         <p> Compartilhe avisos, eventos, oportunidades ou conteúdos que podem interessar à comunidade. </p>

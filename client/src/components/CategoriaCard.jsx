@@ -6,7 +6,7 @@ import { obterCategoriasSeguidas } from "../services/categorias/obterCategoriasS
 import { useEffect } from "react";
 import { desseguirCategoria } from "../services/categorias/desseguirCategoria";
 
-export default function CategoriaCard({ texto, onClick }) {
+export default function CategoriaCard({ texto, imagem, onClick }) {
     const usuario = isUserLoggedIn()?.usuario
 
     const [cardClicado, setCardClicado] = useState(false);
@@ -38,11 +38,11 @@ export default function CategoriaCard({ texto, onClick }) {
             <button
                 onClick={() => { setCardClicado(!cardClicado), onClick() }}
                 aria-pressed={cardClicado}
-                className={`relative flex items-center w-full h-[100px] px-[24px] py-[12px] text-left border ${cardClicado ? 'border-[#8d8d8d]' : 'border-[#e5e5e5]'}
-            rounded-[12px] overflow-hidden hover:cursor-pointer hover:border-[#8d8d8d] hover:shadow-xl hover:scale-104 transition-all duration-300`}
+                className={`relative flex items-center justify-between w-full h-[100px] px-[24px] py-[12px] text-left border ${cardClicado ? 'border-[#8d8d8d]' : 'border-[#e5e5e5]'}
+            rounded-[12px] bg-white overflow-hidden hover:cursor-pointer hover:border-[#8d8d8d] hover:shadow-xl hover:scale-104 transition-all duration-300`}
             >
-                <span className="font-poppins font-medium block max-w-[130px]"> {texto} </span>
-                <div className="absolute bg-[#e5e5e5] size-[100px] right-[-40px] bottom-[-50px] rounded-[50px]" />
+                <span className="font-bricolage text-[16px] font-medium block max-w-[130px]"> {texto} </span>
+                {imagem}
             </button>
 
             {isUserLoggedIn() && isCategoriaSeguida !== null && <div className="absolute right-[12px] top-[12px]">

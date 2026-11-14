@@ -7,12 +7,14 @@ import { InputSearch } from "./publicacoes/InputSearch";
 import DateRangePicker from "./DateRangePicker";
 import NotificacoesModal from "./notificacoes/NotificacoesModal";
 import MinhasDenuncias from "./denuncias/MinhasDenuncias";
+import { getNotificacoes } from "../services/notificacoes/obterNotificacoes";
 
 export default function useHeader({ className, showSearch, children, onClickEntre, onClickCadastro }) {
     const navigate = useNavigate();
     const location = useLocation();
 
     const [isNotificacoesOpen, setIsNotificacoesOpen] = useState(false)
+    const [notificacoes, setNotificacoes] = useState([])
 
     const [busca, setBusca] = useState("");
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
@@ -21,12 +23,18 @@ export default function useHeader({ className, showSearch, children, onClickEntr
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
     const [isMinhasDenunciasOpen, setIsMinhasDenunciasOpen] = useState(false);
 
+    useEffect(() => {
+        if (isUserLoggedIn()) {
+            getNotificacoes().then(setNotificacoes).catch(e => console.error("Erro ao buscar as notificações:", e))
+        }
+    }, []);
+
     return {
         busca,
         dataInicio,
         dataFim,
         Header: (
-            <header aria-label="Cabeçalho do site" className={`w-full bg-white fixed z-2 h-[82px] border-b-1 border-[#e5e5e5] flex items-center px-30 justify-between font-poppins text-[14px] ${className}`}>
+            <header aria-label="Cabeçalho do site" className={`w-full bg-white fixed z-2 h-[82px] border-b-1 border-[#e5e5e5] flex items-center px-30 justify-between font-poppins text-[14px] ${className} `}>
                 <div className="relative flex items-center gap-6 w-full">
                     <div> Logo </div>
                     {children}
@@ -60,9 +68,14 @@ export default function useHeader({ className, showSearch, children, onClickEntr
                         </nav>
                         <div className="relative">
                             <div className="flex items-center gap-[20px]">
-                                <button aria-label="Notificações" aria-haspopup="dialog" className="group flex items-center border p-[12px] rounded-[50px] border-[#e5e5e5] gap-[12px] hover:border-black" onClick={() => setIsNotificacoesOpen(true)}>
-                                    <Bell className="size-[20px] stroke-[#909090] group-hover:stroke-black" />
-                                </button>
+                                <div className="relative">
+                                    <button aria-label="Notificações" aria-haspopup="dialog" className="group flex items-center border p-[12px] rounded-[50px] border-[#e5e5e5] gap-[12px] hover:border-black" onClick={() => setIsNotificacoesOpen(true)}>
+                                        <Bell className="size-[20px] stroke-[#909090] group-hover:stroke-black" />
+                                    </button>
+                                    {notificacoes.filter((n) => !n.lida).length > 0 && <div className="absolute size-[20px] text-[10px] text-white top-[-4px] right-[-2px] p-[4px] flex items-center justify-center rounded-[12px] bg-[#FF9524]">
+                                        {notificacoes.filter((n) => !n.lida).length}
+                                    </div>}
+                                </div>
                                 <div className="h-[36px] border border-[#e5e5e5]" />
                                 <button aria-label={`Menu da conta de ${isUserLoggedIn().usuario}`} aria-expanded={isUserMenuOpen} onClick={() => setIsUserMenuOpen(!isUserMenuOpen)} className="flex justify-center items-center bg-[#22D3EE] size-[50px] rounded-[50px]">
                                     <span aria-hidden="true" className="text-[20px] font-medium text-[#073061]"> {isUserLoggedIn().usuario[0].toUpperCase()} </span>
@@ -118,6 +131,17 @@ export default function useHeader({ className, showSearch, children, onClickEntr
                         <MinhasDenuncias onClose={() => setIsMinhasDenunciasOpen(false)} />
                     </div>
                 }
+
+                <div className="absolute left-0 w-full grid grid-cols-8 bottom-[-4px]">
+                    <div className="bg-[#FF9524] h-[4px]" />
+                    <div className="bg-[#00D640] h-[4px]" />
+                    <div className="bg-[#FF2939] h-[4px]" />
+                    <div className="bg-[#FFE01A] h-[4px]" />
+                    <div className="bg-[#0C6BCF] h-[4px]" />
+                    <div className="bg-[#9B42FA] h-[4px]" />
+                    <div className="bg-[#05CCC2] h-[4px]" />
+                    <div className="bg-[#FC97D2] h-[4px]" />
+                </div>
             </header>
         )
     }

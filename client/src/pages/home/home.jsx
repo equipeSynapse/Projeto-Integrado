@@ -12,6 +12,12 @@ import Destaques from "../../components/publicacoes/Destaques";
 import PublicacaoForm from "../../components/publicacoes/PublicacaoForm/PubCreationForm";
 import Feed from "../../components/publicacoes/Feed";
 import useHeader from "../../components/Header";
+import digitalMarket from "../../assets/illustrations/Digital Marketing.svg"
+import BusinessDeal from "../../assets/illustrations/Business Deal.svg"
+import WomanFinding from "../../assets/illustrations/Woman finding something.svg"
+import BusinessIdea from "../../assets/illustrations/Business Idea.svg"
+import Dialogue from "../../assets/illustrations/Dialogue.svg"
+import digitalDivulgation from "../../assets/illustrations/Digital Divulgation.svg"
 
 export default function HomePage() {
     const { busca, dataInicio, dataFim, Header} = useHeader({showSearch: true, 
@@ -35,6 +41,14 @@ export default function HomePage() {
     const [toastMessage, setToastMessage] = useState(null);
 
     const categorias = ['Avisos Administrativos', 'Bolsas', 'Estágios', 'Eventos', 'Comunidade', 'Divulgação']
+    const categoriasImgs = [
+        {var: digitalMarket, style: "relative top-[8px] right-[28px]"},
+        {var: BusinessDeal, style: "relative top-[19px] left-[20px]"},
+        {var: WomanFinding, style: "relative top-[16px] left-[8px]"},
+        {var: BusinessIdea, style: "relative top-[8px] left-[32px]"},
+        {var: Dialogue, style: "relative top-[16px] left-[8px]"},
+        {var: digitalDivulgation, style: "relative top-[8px] left-[4px]"},
+    ]
     const [categoriasSelecionadas, setCategoriasSelecionadas] = useState([])
 
     useEffect(() => {
@@ -68,7 +82,7 @@ export default function HomePage() {
     );
 
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-[#F7F4EF]">
             {Header} 
 
             <main className="flex justify-center gap-[48px] px-[24px] pt-[130px] pb-[48px] mx-auto items-start">
@@ -80,12 +94,13 @@ export default function HomePage() {
 
                 <div className="flex flex-col gap-[24px] max-w-[960px]">
                     <section aria-label="Categorias de publicações" className="md:w-[778px] flex flex-col gap-[24px]">
-                        <h2 className="text-[20px] font-semibold font-poppins"> Explorar categorias de publicações </h2>
+                        <h2 className="text-[24px] font-semibold font-bricolage"> Explorar categorias de publicações </h2>
                         <div className="grid grid-cols-2 md:grid-cols-3 grid-rows-3 md:grid-rows-2 gap-[12px]">
-                            {categorias.map((c) =>
+                            {categorias.map((c, i) =>
                                 <CategoriaCard
                                     key={c}
                                     texto={c}
+                                    imagem={<img src={categoriasImgs[i]?.var} aria-hidden="true" className={categoriasImgs[i]?.style}/>}
                                     onClick={() => {
                                         if (categoriasSelecionadas.includes(c)) setCategoriasSelecionadas((prev) => prev.filter((item) => item != c))
                                         else setCategoriasSelecionadas((prev) => [...prev, c])
@@ -96,14 +111,14 @@ export default function HomePage() {
                     </section>
 
                     <section aria-label="Feed de publicações" className="max-w-[778px] flex flex-col gap-[24px]">
-                        <h2 className="text-[20px] font-semibold font-poppins"> Novidades para você </h2>
+                        <h2 className="text-[24px] font-semibold font-bricolage"> Novidades para você </h2>
                         <Feed list={filtradas} />
                     </section>
                 </div>
 
                 <aside aria-label="Criação de publicações e destaques" className="hidden 2xl:flex sticky top-[-190px] font-poppins flex-col gap-[24px] text-[#3c4043]">
                     <div className="bg-white flex flex-col gap-[12px] border w-[290px] h-[270px] p-[36px] rounded-[12px] border-[#e5e5e5]">
-                        <span className="font-semibold"> O mural também é seu </span>
+                        <span className="font-semibold font-bricolage text-[18px]"> O mural também é seu </span>
                         <p> Compartilhe avisos, eventos, oportunidades ou conteúdos que podem interessar à comunidade. </p>
                         <Button variant="cta" className="w-full mt-[8px]" onClick={() => { isUserLoggedIn() ? setIsPublicacaoOpen(true) : setIsLoginOpen(true) }}>
                             <Plus className="size-[20px]" />

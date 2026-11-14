@@ -11,7 +11,7 @@ export default function Destaques( { dataPosts }) {
 
     return (
         <div className="bg-white flex flex-col gap-[12px] border w-[290px] p-[36px] rounded-[12px] border-[#e5e5e5]">
-            <span className="font-semibold"> Últimos destaques </span>
+            <span className="font-semibold font-bricolage text-[18px]"> Últimos destaques </span>
             <span> Avisos Administrativos da Secretaria SMD. </span>
             {destaques.slice(0, 3).map((d) => (
                 <button 

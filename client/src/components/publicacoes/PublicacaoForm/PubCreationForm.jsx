@@ -100,7 +100,7 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
     function alternarCategoria(c) {
         setDados((prev) => ({
             ...prev,
-            categorias: prev.categorias.includes(c) ? prev.categorias.filter((x) => x !== c) : [...prev.categorias, c],
+            categorias: prev.categorias.includes(c) ? prev.categorias.filter((x) => x !== c) : prev.categorias.length < 2 ? [...prev.categorias, c] : [...prev.categorias],
         }))
         setTocados((prev) => ({ ...prev, categorias: true }))
     }

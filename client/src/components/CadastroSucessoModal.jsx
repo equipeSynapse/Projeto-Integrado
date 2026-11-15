@@ -28,14 +28,14 @@ export function CadastroSucessoModal({ email, onClose, onClickLoginBtn }) {
         </button>
 
         {/* Ícone de Sucesso */}
-        <div className="bg-[#D9D9D9] rounded-full size-[80px] flex items-center justify-center shrink-0">
-          <Check className="size-[48px] text-[#3c4043]" strokeWidth={2} aria-hidden="true" />
+        <div className="bg-sucesso rounded-full size-[80px] flex items-center justify-center shrink-0">
+          <Check className="size-[48px] text-[#3c4043] stroke-white" strokeWidth={2} aria-hidden="true" />
         </div>
 
         {/* Título */}
         <h1
           id="cadastro-sucesso-titulo"
-          className="font-poppins font-semibold leading-none text-[28px] text-black text-center mt-[32px]"
+          className="font-bricolage font-semibold leading-none text-[32px] text-black text-center mt-[32px]"
         >
           Cadastro realizado!
         </h1>
@@ -43,13 +43,13 @@ export function CadastroSucessoModal({ email, onClose, onClickLoginBtn }) {
         {/* Mensagem sobre o envio do e-mail (com o e-mail obrigatoriamente na linha de baixo) */}
         <p className="font-poppins font-normal text-[16px] leading-[1.5] text-[#3c4043] text-center mt-[14px] w-full">
           Enviamos um e-mail de ativação para
-          <span className="block font-medium text-[#3c4043] break-all mt-[2px]">
+          <span className="block font-medium text-principal break-all mt-[2px]">
             {email}
           </span>
         </p>
 
         {/* Bloco "Próximo passo" */}
-        <div className="bg-[#f8f8f8] rounded-[8px] w-full mt-[24px] p-[20px] flex flex-col gap-[8px]">
+        <div className="bg-[#F0E7F6] rounded-[8px] w-full mt-[24px] p-[20px] flex flex-col gap-[8px]">
           <p className="font-poppins font-medium text-[16px] leading-[1.5] text-black">Próximo passo</p>
           <p className="font-poppins font-normal text-[16px] leading-[1.6] text-[#3c4043]">
             Acesse seu e-mail e clique no link de ativação para confirmar sua conta e começar a utilizar o Mural Colaborativo.

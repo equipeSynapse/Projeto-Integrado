@@ -6,13 +6,16 @@ export default function Toast({titulo, mensagem, onClose}){
     }, [onClose])
 
     return (
-        <div className="z-20 fixed top-20 right-20 flex flex-col w-[400px] h-[106px] font-poppins rounded-[8px] overflow-hidden animate-[slideIn_0.3s_ease-out]">
+        <div className="bg-white z-20 fixed top-20 right-20 flex flex-col w-[400px] h-[106px] font-poppins rounded-[8px] overflow-hidden animate-[slideIn_0.3s_ease-out]">
             <div className="flex flex-col gap-[6px] justify-center h-[100px] bg-white py-[28px] px-[24px]">
                 <span className="text-[16px] font-semibold"> {titulo} </span>
                 <span className=""> {mensagem} </span>
             </div>
 
-            <div className="bg-black h-[6px] animate-[toastTimeOut_5.2s]"/>
+            <div className="bg-[#C9E5D1]">
+               <div className="bg-sucesso h-[6px] animate-[toastTimeOut_5.2s]"/>
+            </div>
+            
 
             <style>{`
                 @keyframes slideIn {

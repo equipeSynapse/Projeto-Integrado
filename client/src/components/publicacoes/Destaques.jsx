@@ -2,7 +2,7 @@ import { ChevronRight } from "lucide-react";
 import timestampMsg from "../../utils/timestampMsg";
 import { useNavigate } from "react-router-dom";
 
-export default function Destaques( { dataPosts }) {
+export default function Destaques({ dataPosts }) {
     const navigate = useNavigate();
 
     const destaques = dataPosts.filter(
@@ -13,19 +13,20 @@ export default function Destaques( { dataPosts }) {
         <div className="bg-white flex flex-col gap-[12px] border w-[290px] p-[36px] rounded-[12px] border-[#e5e5e5]">
             <span className="font-semibold font-bricolage text-[18px]"> Últimos destaques </span>
             <span> Avisos Administrativos da Secretaria SMD. </span>
+
             {destaques.slice(0, 3).map((d) => (
-                <button 
-                    key={d.id} 
-                    onClick={() => navigate(`/publicacao/${d.id}`)} 
+                <button
+                    key={d.id}
+                    onClick={() => navigate(`/publicacao/${d.id}`)}
                     className="border border-x-0 border-b-0 border-t-[#e5e5e5] pt-[16px] pb-[8px] hover:cursor-pointer"
                 >
                     <div className="flex gap-[14px] text-[14px]">
-                        <div aria-hidden="true" className="bg-[#e5e5e5] aspect-square flex items-center justify-center size-[40px] rounded-[50%]"> SS </div>
+                        <div className="bg-destaque aspect-square font-medium flex items-center justify-center size-[40px] [mask-image:url(assets/Molde.svg)] [mask-size:contain]"> SS </div>
                         <div className="flex flex-col items-start w-[150px]">
                             <span className="font-medium"> Secretaria SMD </span>
                             <span className="text-[#909090] text-[12px]"> Publicado {timestampMsg(new Date(), new Date(d.criado_em), true)}</span>
                         </div>
-                            <ChevronRight className="stroke-[#909090] size-[20px]" />
+                        <ChevronRight className="stroke-[#909090] size-[20px]" />
                     </div>
                     <span className="text-[14px] line-clamp-2 mt-[16px] text-left"> {d.descricao} </span>
                 </button>

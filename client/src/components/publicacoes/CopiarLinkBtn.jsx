@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Button from "../Button";
-import circleCheckIcon from "../../assets/icons/circle-check.svg"
+import { CircleCheck } from "lucide-react";
 
 export default function CopiarLinkBtn({ onClick }) {
     const [btnClicado, setBtnClicado] = useState(false);
@@ -20,7 +20,7 @@ export default function CopiarLinkBtn({ onClick }) {
         }} variant="text" aria-live="polite">
             <div className="relative">
                 <div className={`flex justify-center gap-[12px] ${btnClicado? 'opacity-100':'opacity-0'}`} aria-hidden={!btnClicado}>
-                    <img aria-hidden="true" src={circleCheckIcon} className="size-[18px]" />
+                    <CircleCheck className="size-[18px]" />
                     <span> Link Copiado! </span>
                     
                 </div>

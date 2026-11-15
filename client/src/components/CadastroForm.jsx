@@ -3,10 +3,10 @@ import { CadastroSucessoModal } from "./CadastroSucessoModal";
 import closeIcon from "../assets/icons/close.svg";
 import checkMetIcon from "../assets/icons/check-met.svg";
 import checkUnmetIcon from "../assets/icons/check-unmet.svg";
-import circleCheckIcon from "../assets/icons/circle-check.svg";
 import { cadastrarUsuario } from "../services/cadastro";
 import { verificarNomeUsuario } from "../services/verificarNomeUsuario";
 import { InputField } from "./InputField";
+import { Check, CircleCheck, X } from "lucide-react";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9.-]+\.)?ufc\.br$/i;
 
@@ -105,14 +105,14 @@ export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn}) {
       </div>
 
       <div className="-translate-x-1/2 absolute content-stretch flex h-[30px] items-center justify-center left-1/2 top-[181px]">
-        <div className="bg-[#3c4043] content-stretch flex flex-col items-center justify-center relative rounded-[15px] shrink-0 size-[30px]">
+        <div className="bg-[#5B2B82] content-stretch flex flex-col items-center justify-center relative rounded-[15px] shrink-0 size-[30px]">
           <p className="font-poppins font-normal leading-[normal] relative shrink-0 text-[14px] text-white whitespace-nowrap">
             1
           </p>
         </div>
         <div className="bg-[#3c4043] h-[3px] relative shrink-0 w-[70px]" />
         <div
-          className={`content-stretch flex flex-col items-center justify-center relative rounded-[15px] shrink-0 size-[30px] ${isStep2 ? "bg-[#3c4043]" : "bg-[#e5e5e5]"
+          className={`content-stretch flex flex-col items-center justify-center relative rounded-[15px] shrink-0 size-[30px] ${isStep2 ? "bg-[#5B2B82]" : "bg-[#e5e5e5]"
             }`}
         >
           <p
@@ -142,14 +142,13 @@ export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn}) {
                 {passwordRequirements.map(({ label, met }) => (
                   <div key={label} className="content-stretch flex gap-[12px] items-center relative shrink-0 w-full">
                     <div className="relative shrink-0 size-[14px]">
-                      <img
-                        alt=""
-                        src={met ? checkMetIcon : checkUnmetIcon}
-                        className="absolute block inset-0 max-w-none size-full"
-                      />
+                      {met? 
+                        <Check className={`size-[14px] ${met ? 'stroke-sucesso':'stroke-erro'}`}/>:
+                        <X className={`size-[14px] ${met ? 'stroke-sucesso':'stroke-erro'}`}/>
+                      }
                     </div>
-                    <div className="flex flex-col font-poppins font-medium justify-center leading-[0] relative shrink-0 text-[#3c4043] text-[14px] whitespace-nowrap">
-                      <p className="leading-[1.5]">{label}</p>
+                    <div className="flex flex-col font-poppins font-medium justify-center leading-[0] relative shrink-0 text-[14px] whitespace-nowrap">
+                      <p className={`leading-[1.5] ${met ? 'text-sucesso':'text-erro'}`}>{label}</p>
                     </div>
                   </div>
                 ))}
@@ -178,7 +177,7 @@ export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn}) {
               <button
                 type="submit"
                 disabled={!canSubmit}
-                className={`rounded-[50px] content-stretch flex flex-col w-[128px] h-[48px] items-center justify-center overflow-clip px-[24px] py-[12px] relative rounded-[8px] shrink-0 ${canSubmit ? "bg-[#3c4043] cursor-pointer" : "bg-[#9d9fa1] cursor-not-allowed"
+                className={`rounded-[50px] content-stretch flex flex-col w-[128px] h-[48px] items-center justify-center overflow-clip px-[24px] py-[12px] relative rounded-[8px] shrink-0 ${canSubmit ? "bg-principal cursor-pointer" : "bg-disabled cursor-not-allowed"
                   }`}
               >
                 <p className="font-poppins font-medium leading-none relative shrink-0 text-[14px] text-center text-white whitespace-nowrap">
@@ -231,7 +230,7 @@ export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn}) {
                 inputPlaceholder="Usuário"
                 errorVar={errors.nome_usuario}
               >
-                {isUserTaken == false && (<img src={circleCheckIcon} className="size-[16px] absolute right-[16px]"/>)}
+                {isUserTaken == false && (<CircleCheck className="size-[16px] absolute right-[16px] stroke-[#0DA83B]"/>)}
               </InputField>
               
             </div>
@@ -252,10 +251,9 @@ export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn}) {
             className="absolute content-stretch cursor-pointer flex flex-col h-[48px] items-center justify-center left-[31px] right-[31px] rounded-[8px] top-[594px]"
             style={
               isStep1Valid
-                ? { backgroundColor: "#3c4043", borderRadius: "50px" }
+                ? { backgroundColor: "#5B2B82", borderRadius: "50px" }
                 : {
-                  backgroundImage:
-                    "linear-gradient(90deg, rgba(60, 64, 67, 0.5) 0%, rgba(60, 64, 67, 0.5) 100%), linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 100%)",
+                  backgroundColor: "#C8B8D4",
                   borderRadius: "50px"
                 }
             }
@@ -267,7 +265,7 @@ export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn}) {
 
           <p className="absolute font-poppins font-normal leading-[0] left-[54px] right-[54px] text-[14px] text-black text-center top-[656px]">
             <span className="leading-[1.5]">Já tem uma conta? </span>
-            <button onClick={onClickEntrar} className="font-poppins font-medium leading-[1.5] cursor-pointer">
+            <button onClick={onClickEntrar} className="font-poppins font-medium leading-[1.5] cursor-pointer text-[#5B2B82]">
               Entrar
             </button>
           </p>

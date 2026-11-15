@@ -33,7 +33,7 @@ export default function EsqueciSenha({ onClickX, onClickVoltar, ref }) {
     }
 
     try {
-      await esqueciSenha(email.trim());
+      //await esqueciSenha(email.trim());
       setEnviado(true);
     } catch {
       setError("Erro de conexão. Tente novamente.");
@@ -50,12 +50,12 @@ export default function EsqueciSenha({ onClickX, onClickVoltar, ref }) {
       {enviado ? (
         <div className="flex flex-col flex-1 items-center text-center mt-[36px]">
           {/* Ícone de Sucesso */}
-          <div className="bg-[#D9D9D9] rounded-full size-[80px] flex items-center justify-center shrink-0">
-            <Check className="size-[48px] text-[#3c4043]" strokeWidth={2} aria-hidden="true" />
+          <div className="bg-sucesso rounded-full size-[80px] flex items-center justify-center shrink-0">
+            <Check className="size-[48px] stroke-white" strokeWidth={2} aria-hidden="true" />
           </div>
 
           <div className="flex flex-col gap-[14px] items-center mt-[32px]">
-            <p className="font-poppins font-semibold leading-none text-[28px] text-black">
+            <p className="font-bricolage font-semibold leading-none text-[32px] text-black">
               E-mail enviado!
             </p>
             <p className="font-poppins font-normal leading-[1.5] text-[#3c4043] text-[16px] w-[462px] max-w-full flex flex-col items-center">
@@ -65,7 +65,7 @@ export default function EsqueciSenha({ onClickX, onClickVoltar, ref }) {
           </div>
 
           {/* Bloco "Próximo passo" */}
-          <div className="bg-[#f9f9f9] rounded-[8px] w-full mt-[32px] p-[24px] flex flex-col gap-[14px] text-left">
+          <div className="bg-[#F0E7F6] rounded-[8px] w-full mt-[32px] p-[24px] flex flex-col gap-[14px] text-left">
             <p className="font-poppins font-medium leading-none text-[16px] text-black">Próximo passo</p>
             <p className="font-poppins font-normal leading-[1.5] text-[16px] text-[#3c4043]">
               Acesse seu e-mail e clique no link enviado para redefinir sua senha e recuperar o acesso à sua conta. Caso não encontre o e-mail,{" "}
@@ -79,7 +79,7 @@ export default function EsqueciSenha({ onClickX, onClickVoltar, ref }) {
         </div>
       ) : (
         <>
-          <p className="font-poppins font-semibold leading-[1.2] text-[28px] text-black text-center mt-[36px] mb-[33px]">
+          <p className="font-bricolage font-semibold leading-[1.2] text-[32px] text-black text-center mt-[36px] mb-[33px]">
             Insira seu e-mail para<br />redefinir a senha
           </p>
 
@@ -102,7 +102,7 @@ export default function EsqueciSenha({ onClickX, onClickVoltar, ref }) {
               <Button
                 type="submit"
                 variant="cta"
-                className={`h-[45px] ${isEmailValid? "":"!bg-[#9D9FA1] !hover:bg-[#9D9FA1]"}`}
+                className={`h-[45px] ${isEmailValid? "":"!bg-disabled hover:!bg-disabled"}`}
               >
                 Enviar
               </Button>

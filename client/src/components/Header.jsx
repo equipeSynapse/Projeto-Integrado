@@ -59,7 +59,7 @@ export default function useHeader({ className, showSearch, children, onClickEntr
 
                 {isUserLoggedIn() ?
 
-                    <div className="flex items-center gap-[48px]">
+                    <div className="flex items-center gap-[72px]">
                         <nav className="flex gap-12">
                             <Link to="/" className="group flex items-center gap-[12px]" onClick={() => navigate("/")} aria-current={location.pathname === '/' ? 'page' : undefined}>
                                 <Home className={`size-[20px] ${location.pathname === '/' ? 'stroke-black' : 'stroke-[#909090] group-hover:stroke-black'}`} />
@@ -69,18 +69,24 @@ export default function useHeader({ className, showSearch, children, onClickEntr
                         <div className="relative">
                             <div className="flex items-center gap-[20px]">
                                 <div className="relative">
-                                    <button aria-label="Notificações" aria-haspopup="dialog" className="group flex items-center border p-[12px] rounded-[50px] border-[#e5e5e5] gap-[12px] hover:border-black" onClick={() => setIsNotificacoesOpen(true)}>
-                                        <Bell className="size-[20px] stroke-[#909090] group-hover:stroke-black" />
+                                    <button aria-label="Notificações" aria-haspopup="dialog" className="group flex items-center border p-[8px] rounded-[50px] border-[#e5e5e5] gap-[12px] hover:border-black" onClick={() => setIsNotificacoesOpen(true)}>
+                                        <Bell className="size-[14px] stroke-[#909090] group-hover:stroke-black" />
                                     </button>
                                     {notificacoes.filter((n) => !n.lida).length > 0 && <div className="absolute size-[20px] text-[10px] text-white top-[-4px] right-[-2px] p-[4px] flex items-center justify-center rounded-[12px] bg-[#FF9524]">
                                         {notificacoes.filter((n) => !n.lida).length}
                                     </div>}
                                 </div>
                                 <div className="h-[36px] border border-[#e5e5e5]" />
-                                <button aria-label={`Menu da conta de ${isUserLoggedIn().usuario}`} aria-expanded={isUserMenuOpen} onClick={() => setIsUserMenuOpen(!isUserMenuOpen)} className="flex justify-center items-center bg-[#22D3EE] size-[50px] rounded-[50px]">
+                                  
+                                <button 
+                                    aria-label={`Menu da conta de ${isUserLoggedIn().usuario}`} 
+                                    aria-expanded={isUserMenuOpen} 
+                                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)} 
+                                    className="flex justify-center items-center bg-[#22D3EE] size-[50px] rounded-[50px] [mask-image:url(assets/Molde.svg)] [mask-size:contain]">
                                     <span aria-hidden="true" className="text-[20px] font-medium text-[#073061]"> {isUserLoggedIn().usuario[0].toUpperCase()} </span>
                                 </button>
                             </div>
+                            
 
                             {isUserMenuOpen &&
                                 <div className="absolute flex flex-col items-start top-[80px] right-0 bg-white w-[230px] rounded-[8px] shadow-lg shadow-black/20">

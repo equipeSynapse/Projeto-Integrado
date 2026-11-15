@@ -82,7 +82,7 @@ export default function LoginConta({onClickX, onClickRegister, onClickEsqueciSen
       </button>
 
       <div className="flex flex-col gap-[14px] items-center text-center mt-[36px] mb-[40px]">
-        <p className="font-poppins font-semibold leading-none text-[28px] text-black">
+        <p className="font-bricolage font-semibold leading-none text-[32px] text-black">
           Boas-vindas
         </p>
         <p className="font-poppins font-normal leading-[1.5] text-[#3c4043] text-[16px] max-w-[462px]">
@@ -117,7 +117,7 @@ export default function LoginConta({onClickX, onClickRegister, onClickEsqueciSen
           
           {/*Botão: Esqueceu a senha*/}
           <div className="w-full flex justify-end mt-[-10px]">
-            <button type="button" onClick={onClickEsqueciSenha} className="font-poppins font-medium text-[14px] text-black cursor-pointer hover:underline">
+            <button type="button" onClick={onClickEsqueciSenha} className="font-poppins font-medium text-[14px] text-[#5B2B82] cursor-pointer hover:underline">
               Esqueceu sua senha?
             </button>
           </div>  
@@ -128,7 +128,7 @@ export default function LoginConta({onClickX, onClickRegister, onClickEsqueciSen
           <Button
             type="submit"
             variant="cta"
-            className={`flex flex-col h-[48px] items-center justify-center w-full rounded-[8px] bg-[#3c4043] hover:bg-black cursor-pointer ${isFormValid? "":"!bg-[#9D9FA1] !hover:bg-[#9D9FA1]"}
+            className={`flex flex-col h-[48px] items-center justify-center w-full rounded-[8px] cursor-pointer ${isFormValid? "!bg-[#5B2B82] hover:!bg-[#482064]":"!bg-[#C8B8D4]"}
             }`}
           >
             <p className="font-poppins font-medium text-[14px] text-center text-white">
@@ -139,7 +139,7 @@ export default function LoginConta({onClickX, onClickRegister, onClickEsqueciSen
            {/*Botão: Mudar para Cadastro*/}
           <p className="font-poppins font-normal text-[14px] text-black text-center">
             <span className="leading-[1.5]">Ainda não tem uma conta? </span>
-            <button onClick={onClickRegister} className="font-poppins font-medium leading-[1.5] cursor-pointer underline">
+            <button onClick={onClickRegister} className="font-poppins font-medium text-[#5B2B82] leading-[1.5] cursor-pointer underline">
               Registre-se
             </button>
           </p>

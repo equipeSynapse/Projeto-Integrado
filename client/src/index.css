@@ -3,6 +3,13 @@
 @theme {
   --font-poppins: "Poppins", sans-serif;
   --font-bricolage: "Bricolage Grotesque", sans-serif;
+
+  --color-principal:#5B2B82;
+  --color-disabled: #C8B8D4;
+  --color-destaque: #FFE01A;
+
+  --color-sucesso: #0DA83B;
+  --color-erro: #ea4335;
 }
 
 body {

@@ -42,10 +42,10 @@ export default function HomePage() {
 
     const categorias = ['Avisos Administrativos', 'Bolsas', 'Estágios', 'Eventos', 'Comunidade', 'Divulgação']
     const categoriasImgs = [
-        {var: digitalMarket, style: "relative top-[8px] right-[28px]"},
+        {var: digitalMarket, style: "relative top-[8px] right-[36px]"},
         {var: BusinessDeal, style: "relative top-[19px] left-[20px]"},
         {var: WomanFinding, style: "relative top-[16px] left-[8px]"},
-        {var: BusinessIdea, style: "relative top-[8px] left-[32px]"},
+        {var: BusinessIdea, style: "relative top-[12px] left-[32px]"},
         {var: Dialogue, style: "relative top-[16px] left-[8px]"},
         {var: digitalDivulgation, style: "relative top-[8px] left-[4px]"},
     ]

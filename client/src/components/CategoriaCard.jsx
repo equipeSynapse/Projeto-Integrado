@@ -38,8 +38,8 @@ export default function CategoriaCard({ texto, imagem, onClick }) {
             <button
                 onClick={() => { setCardClicado(!cardClicado), onClick() }}
                 aria-pressed={cardClicado}
-                className={`relative flex items-center justify-between w-full h-[100px] px-[24px] py-[12px] text-left border ${cardClicado ? 'border-[#8d8d8d]' : 'border-[#e5e5e5]'}
-            rounded-[12px] bg-white overflow-hidden hover:cursor-pointer hover:border-[#8d8d8d] hover:shadow-xl hover:scale-104 transition-all duration-300`}
+                className={`relative flex items-center justify-between w-full h-[100px] px-[24px] py-[12px] text-left border ${cardClicado ? 'border-[#5B2B82] bg-[#F0E7F6]' : 'border-[#e5e5e5] bg-white'}
+            rounded-[12px] overflow-hidden hover:cursor-pointer hover:border-[#8d8d8d] hover:shadow-xl hover:scale-104 transition-scale duration-300`}
             >
                 <span className="font-bricolage text-[16px] font-medium block max-w-[130px]"> {texto} </span>
                 {imagem}
@@ -61,7 +61,7 @@ export default function CategoriaCard({ texto, imagem, onClick }) {
                     <Bell
                         onMouseEnter={() => setIsBellHovered(true)}
                         onMouseLeave={() => setIsBellHovered(false)}
-                        className={`size-[16px] stroke-[#8d8d8d] ${isCategoriaSeguida ? 'fill-[#8d8d8d]' : ''}`}
+                        className={`size-[16px] stroke-[#5B2B82] ${isCategoriaSeguida ? 'fill-[#5B2B82]' : ''}`}
                     />
                 </button>
 

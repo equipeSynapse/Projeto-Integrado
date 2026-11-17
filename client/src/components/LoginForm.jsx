@@ -4,11 +4,13 @@ import closeIcon from "../assets/icons/close.svg";
 import { InputField } from "./InputField";
 import { loginUsuario } from "../services/login";
 import Button from "../components/Button";
+import closeModal from "../utils/closeModal";
 
 // Garantir que o usuário insira um e-mail válido antes de tentar logar
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9.-]+\.)?ufc\.br$/i;
 
 export default function LoginConta({onClickX, onClickRegister, onClickEsqueciSenha, onSucess, ref}) {
+  closeModal(ref, onClickX)
 
   //Criando Fom com email e senha
   const [formData, setFormData] = useState({

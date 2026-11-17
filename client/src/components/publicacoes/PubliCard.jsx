@@ -13,7 +13,7 @@ import CopiarLinkBtn from "./CopiarLinkBtn";
 import ExcluirPubModal from "./ExcluirPubModal";
 import Toast from "../toasts/Toast";
 import PublicacaoEditForm from "./PublicacaoForm/PubEditForm";
-import DenunciarPubModal from "./DenunciarPubModal";
+import DenunciarPubModal from "../denuncias/DenunciarPubModal";
 
 export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, titulo, descricao, link,
   email, telefone, anexo, qtdVisualizacoes, expiracao }) {
@@ -134,7 +134,7 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
         <div className="w-full flex justify-between">
           <div className="flex items-center gap-[10px]">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#909090" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" /><circle cx="12" cy="12" r="3" /></svg>
-            <span className="text-[#909090]"> {qtdVisualizacoes} visualizações </span>
+            <span aria-label={`${qtdVisualizacoes} visualizações`} role="text" className="text-[#909090]"> {qtdVisualizacoes} visualizações </span>
           </div>
           <div className="flex gap-[12px]">
             <CopiarLinkBtn onClick={() => copiarLink(id)} />

@@ -1,12 +1,11 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { CadastroSucessoModal } from "./CadastroSucessoModal";
 import closeIcon from "../assets/icons/close.svg";
-import checkMetIcon from "../assets/icons/check-met.svg";
-import checkUnmetIcon from "../assets/icons/check-unmet.svg";
 import { cadastrarUsuario } from "../services/cadastro";
 import { verificarNomeUsuario } from "../services/verificarNomeUsuario";
 import { InputField } from "./InputField";
 import { Check, CircleCheck, X } from "lucide-react";
+import closeModal from "../utils/closeModal";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9.-]+\.)?ufc\.br$/i;
 
@@ -20,7 +19,10 @@ export function getPasswordRequirements(senha) {
   ];
 }
 
-export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn}) {
+export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn, ref}) {
+  
+  closeModal(ref, onClickX)
+
   const [sucessoEmail, setSucessoEmail] = useState(null);
 
   const [step, setStep] = useState(1);
@@ -85,7 +87,7 @@ export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn}) {
   }
 
   return (
-    <div className="bg-white border border-[#e5e5e5] border-solid h-177.5 relative rounded-[16px] w-141">
+    <div ref={ref} role="dialog" tabIndex={-1} aria-modal="true" className="bg-white border border-[#e5e5e5] border-solid h-177.5 relative rounded-[16px] w-141">
       <button onClick={onClickX} type="button" className="absolute cursor-pointer left-[509px] size-[24px] top-[31px]" aria-label="Fechar">
         <img alt="" src={closeIcon} className="absolute block inset-0 max-w-none size-full" />
       </button>

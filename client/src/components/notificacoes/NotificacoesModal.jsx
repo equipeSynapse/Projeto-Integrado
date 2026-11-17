@@ -7,26 +7,11 @@ import NotificacaoBlock from "./NotificacaoBlock";
 import Button from "../Button";
 import { excluirNotificacao } from "../../services/notificacoes/excluirNotificacao";
 import { marcarTodasComoLidas } from "../../services/notificacoes/marcarTodasComoLidas";
+import closeModal from "../../utils/closeModal";
 
 export default function NotificacoesModal({ onClose }) {
     const [notificacoes, setNotificacoes] = useState([])
     const modalRef = useRef(null);
-
-    useEffect(() => {
-        if (modalRef.current) {
-            modalRef.current.focus();
-        }
-
-        const handleKeyDown = (e) => {
-            if (e.key === "Escape") {
-                onClose();
-            }
-        };
-
-        window.addEventListener("keydown", handleKeyDown);
-        
-        return () => window.removeEventListener("keydown", handleKeyDown);
-    }, [onClose]);
     
     useEffect(() => {
         getNotificacoes().then(setNotificacoes).catch(e => console.error("Erro ao buscar as notificações:", e))
@@ -36,7 +21,9 @@ export default function NotificacoesModal({ onClose }) {
 
     const alternarPendente = (id) => setPendentesExclusao((prev) => prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]);
 
-    async function closeModal() {
+    closeModal(modalRef, onClose)
+    
+    async function closeModalandExclude() {
         onClose()
         if (pendentesExclusao.length > 0) {
             try {
@@ -75,7 +62,7 @@ export default function NotificacoesModal({ onClose }) {
             <header className="border border-x-0 border-t-0 border-b-[#e5e5e5]">
                 <div className="flex justify-between items-center p-[32px]">
                     <span className="text-[20px] font-semibold text-[#3C4043]"> Notificações </span>
-                    <button onClick={closeModal} aria-label='Fechar modal de notificações'> 
+                    <button onClick={closeModalandExclude} aria-label='Fechar modal de notificações'> 
                         <X className="size-[24px] stroke-[#3C4043]" /> 
                     </button>
                 </div>

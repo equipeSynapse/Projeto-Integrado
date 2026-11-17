@@ -49,8 +49,8 @@ export default function NotificacaoBlock({ data, excluida, onAlternar }) {
             </button>
 
             <div className="absolute flex flex-col justify-between items-end right-[32px] top-[24px] h-[50px]">
-                <button onClick={(e) => { e.stopPropagation() }} aria-label="Excluir Notificação">
-                    <Trash className="size-[16px] stroke-[#8D8D8D]" onClick={() => onAlternar(data.id)} />
+                <button onClick={(e) => { e.stopPropagation(); onAlternar(data.id) }} aria-label="Excluir Notificação">
+                    <Trash className="size-[16px] stroke-[#8D8D8D]"/>
                 </button>
                 <span className="text-[14px] text-[#8D8D8D] font-semibold inline-block">
                     {(timestampDiff < 60) ? `${timestampDiff} min` :

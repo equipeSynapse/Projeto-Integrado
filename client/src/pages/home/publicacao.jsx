@@ -4,6 +4,7 @@ import { getPublicacoes } from "../../services/publicacoes";
 import { InputSearch } from "../../components/publicacoes/InputSearch";
 import Button from "../../components/Button";
 import LoginForm from "../../components/LoginForm";
+import CadastroForm from "../../components/CadastroForm";
 import calendarIcon from "../../assets/icons/calendar.png";
 import isUserLoggedIn from "../../utils/auth";
 import { useNavigate, useParams } from "react-router-dom";
@@ -15,12 +16,16 @@ import PublicacaoForm from "../../components/publicacoes/PublicacaoForm/PubCreat
 import Toast from "../../components/toasts/Toast";
 
 export default function PublicacaoPage() {
+
     const { id } = useParams();
     const [publicacoes, setPublicacoes] = useState([]);
     const navigate = useNavigate();
 
     const [isLoginOpen, setIsLoginOpen] = useState(false);
     const loginModalRef = useRef(null)
+
+    const [isCadastroOpen, setIsCadastroOpen] = useState(false);
+    const cadastroModalRef = useRef(null)
 
     const [isPublicacaoOpen, setIsPublicacaoOpen] = useState(false);
 
@@ -107,6 +112,17 @@ export default function PublicacaoPage() {
                 </div>
             )}
 
+            {isCadastroOpen && (
+                <div className="fixed inset-0 z-3 flex justify-center items-center bg-black/50">
+                    <CadastroForm
+                        ref={cadastroModalRef}
+                        onClickX={() => setIsCadastroOpen(false)} onSucess={() => setTimeout(() => setIsCadastroOpen(false), 3000)}
+                        onClickEntrar={() => { setIsCadastroOpen(false); setIsLoginOpen(true) }}
+                        onClickLoginBtn={() => { setIsCadastroOpen(false); setIsLoginOpen(true) }}
+                    />
+                </div>
+            )}
+
             {isPublicacaoOpen && (
                 <div className="fixed inset-0 z-3 flex justify-center items-center bg-black/50 p-[16px]">
                     <PublicacaoForm
@@ -117,8 +133,8 @@ export default function PublicacaoPage() {
                 </div>
             )}
 
-             {pubErro &&
-                    <Toast titulo="Erro ao criar publicação" mensagem={pubErro} onClose={() => setPubErro(null)} />
+            {pubErro &&
+                <Toast titulo="Erro ao criar publicação" mensagem={pubErro} onClose={() => setPubErro(null)} />
             }
         </div>
     );

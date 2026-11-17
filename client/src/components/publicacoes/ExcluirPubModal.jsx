@@ -2,9 +2,14 @@ import closeIcon from "../../assets/icons/close.svg";
 import { Trash } from "lucide-react";
 import Button from "../Button";
 import { excluirPublicacao } from "../../services/excluirPublicacao";
+import { useRef } from "react";
+import closeModal from "../../utils/closeModal";
 
 
 export default function ExcluirPubModal( {onClickX, pubId, onSucesso} ) {
+    const modalRef = useRef(null);
+
+    closeModal(modalRef, onClickX)
 
     async function handleExcluir() {
         try {
@@ -17,7 +22,7 @@ export default function ExcluirPubModal( {onClickX, pubId, onSucesso} ) {
     }
 
     return (
-        <div className="w-[564px] bg-white rounded-[16px] p-[32px] font-poppins">
+        <div ref={modalRef} role="dialog" tabIndex={-1} aria-modal="true" className="w-[564px] bg-white rounded-[16px] p-[32px] font-poppins">
             <div className="flex justify-end"> 
                 <button onClick={onClickX} aria-label='Fechar modal de exclusão de publicação'> 
                     <img src={closeIcon} /> 

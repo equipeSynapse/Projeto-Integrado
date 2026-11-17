@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { format, isBefore, parseISO, startOfDay } from 'date-fns'
 import { Calendar, CircleHelp, Image } from 'lucide-react'
 import closeIcon from '../../../assets/icons/close.svg'
@@ -13,6 +13,7 @@ import parseData from '../../../utils/parseData'
 import UploadedFile from './UploadedFile'
 import SeletorCategoria from './SeletorCategoria'
 import { editarPublicacao } from '../../../services/editarPublicacao'
+import closeModal from '../../../utils/closeModal'
 
 // Valores do enum public.categoria no banco
 const CATEGORIAS = ['Avisos Administrativos', 'Bolsas', 'Comunidade', 'Divulgação', 'Estágios', 'Eventos']
@@ -24,7 +25,7 @@ function borda(erro) {
     return erro ? 'border-[#ea4335]' : 'border-[#e5e5e5] focus:border-[#8d8d8d]'
 }
 
-export default function PublicacaoEditForm({ onClickX, onSucess, onErro, ref, dadosPub }) {
+export default function PublicacaoEditForm({ onClickX, onSucess, onErro, dadosPub }) {
     const inicial = {
         titulo: dadosPub.titulo,
         descricao: dadosPub.descricao,
@@ -82,6 +83,9 @@ export default function PublicacaoEditForm({ onClickX, onSucess, onErro, ref, da
     const alterar = (campo) => (e) => setDados((prev) => ({ ...prev, [campo]: e.target.value }))
     const tocar = (campo) => () => setTocados((prev) => ({ ...prev, [campo]: true }))
 
+    const modalRef = useRef(null)
+    closeModal(modalRef, onClickX)
+
     function alternarCategoria(c) {
         setDados((prev) => ({
             ...prev,
@@ -122,7 +126,7 @@ export default function PublicacaoEditForm({ onClickX, onSucess, onErro, ref, da
     }
 
     return (
-        <div ref={ref} className="bg-[#fcfcfc] border border-[#e5e5e5] rounded-[16px] w-full max-w-[726px] max-h-[90vh] flex flex-col overflow-hidden font-poppins text-[#3c4043]">
+        <div ref={modalRef} aria-modal="true" role="dialog" tabIndex={-1} className="bg-[#fcfcfc] border border-[#e5e5e5] rounded-[16px] w-full max-w-[726px] max-h-[90vh] flex flex-col overflow-hidden font-poppins text-[#3c4043]">
             <header className="bg-white border-b border-[#e5e5e5] p-[32px] flex items-center justify-between shrink-0">
                 <h2 className="text-[20px] font-semibold">Editar publicação</h2>
                 <button type="button" onClick={onClickX} className="size-[24px] cursor-pointer"><img src={closeIcon} /></button>

@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Megaphone, Check, CircleAlert } from "lucide-react";
 import closeIcon from "../../assets/icons/close.svg";
 import Button from "../Button";
 import { criarDenuncia } from "../../services/criarDenuncia";
+import closeModal from "../../utils/closeModal";
 
 const MOTIVOS = [
     "Conteúdo inadequado ou ofensivo",
@@ -21,6 +22,9 @@ export default function DenunciarPubModal({ pubId, onClickX }) {
     const [erroApi, setErroApi] = useState("");
 
     const erroMotivo = tentouEnviar && !motivo;
+
+    const modalRef = useRef(null);
+    closeModal(modalRef, onClickX)
 
     async function handleEnviar() {
         setTentouEnviar(true);
@@ -57,7 +61,7 @@ export default function DenunciarPubModal({ pubId, onClickX }) {
     );
 
     if (enviada) return (
-        <div className="w-[564px] h-[800px] max-h-[95vh] flex flex-col bg-white rounded-[16px] p-[32px] font-poppins">
+        <div ref={modalRef} tabIndex={-1} role="dialog" aria-modal="true" className="w-[564px] h-[800px] max-h-[95vh] flex flex-col bg-white rounded-[16px] p-[32px] font-poppins">
             {cabecalho(<Check className="size-[48px] text-[#3c4043]" strokeWidth={2} aria-hidden="true" />, "Agradecemos o feedback!")}
             <p className="text-[16px] leading-[1.5] text-center text-[#3c4043] mt-[14px]">
                 Sua denúncia ajuda a manter o Mural SMD <br />seguro para todos e todas!
@@ -73,7 +77,7 @@ export default function DenunciarPubModal({ pubId, onClickX }) {
     );
 
     return (
-        <div className="w-[564px] max-h-[95vh] overflow-y-auto bg-white rounded-[16px] p-[32px] font-poppins">
+        <div ref={modalRef} tabIndex={-1} role="dialog" aria-modal="true" className="w-[564px] max-h-[95vh] overflow-y-auto bg-white rounded-[16px] p-[32px] font-poppins">
             {cabecalho(<Megaphone className="size-[48px] stroke-[#8d8d8d]" />, <>Você quer denunciar <br />esta publicação?</>)}
 
             <fieldset className="mt-[32px] flex flex-col gap-[12px]">

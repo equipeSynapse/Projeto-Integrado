@@ -14,6 +14,7 @@ import parseData from '../../../utils/parseData'
 import UploadedFile from './UploadedFile'
 import SeletorCategoria from './SeletorCategoria'
 import { checarProfanidade } from '../../../services/checarProfanidade'
+import closeModal from '../../../utils/closeModal'
 
 // Valores do enum public.categoria no banco
 const CATEGORIAS = ['Avisos Administrativos', 'Bolsas', 'Comunidade', 'Divulgação', 'Estágios', 'Eventos']
@@ -66,22 +67,7 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
 
     const modalRef = useRef(null);
 
-    useEffect(() => {
-        if (modalRef.current) {
-            modalRef.current.focus();
-        }
-
-        const handleKeyDown = (e) => {
-            if (e.key === "Escape") {
-                onClose();
-            }
-        };
-
-        window.addEventListener("keydown", handleKeyDown);
-
-        return () => window.removeEventListener("keydown", handleKeyDown);
-    }, [onClickX]);
-
+    closeModal(modalRef, onClickX)
 
     const alterar = (campo) => (e) => setDados((prev) => ({ ...prev, [campo]: e.target.value }))
     const tocar = (campo) => async () => {

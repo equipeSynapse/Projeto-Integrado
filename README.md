@@ -6,6 +6,7 @@
 
 # Mural Colaborativo 🖼️📰
 
+
 <p> Alisson da Silva - Repositório destinado ao desenvolvimento de um mural colaborativo para o comunidade acadêmica do SMD realizado em 2026.2 pela equipe Synapse para a disciplina de Projeto Integrado I do curso de Sistemas e Mídias Digitais da Universidade Federal do Ceará (UFC).</p>
 
 ---

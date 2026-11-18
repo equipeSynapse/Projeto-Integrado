@@ -1,0 +1,27 @@
+import express from "express";
+import * as authController from "../controllers/authControllers.js";
+import { authMiddleware } from "../middlewares/authMiddleware.js";
+
+const router = express.Router();
+
+// Para realizar esses endpoint, foi utilizado como base de estudo a estrutura do projeto do Cadê a Sala?, além de explicações de sintaxe feitas com o auxílio do Gemini
+
+router.post('/cadastrar', authController.cadastrar)
+
+router.post('/verificar-nome-usuario', authController.verificarNomeUsuario)
+
+router.get('/ativar-conta', authController.ativarConta)
+
+router.post('/login', authController.login)
+
+router.post('/esqueci-senha', authController.esqueciSenha)
+
+router.get('/validar-token', authController.validarToken)
+
+router.patch('/redefinir-senha', authController.redefinirSenha)
+
+router.put('/perfil', authMiddleware, authController.atualizarPerfil)
+
+router.delete('/conta', authMiddleware, authController.excluirConta)
+
+export default router;

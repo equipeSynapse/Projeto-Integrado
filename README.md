@@ -1,0 +1,229 @@
+<div align="right" width="400">
+  <img width="150" height="81" alt="principal_Instituto" src="https://github.com/user-attachments/assets/8a3c6fdc-f4ed-4a26-9b60-a2cf098b8740" />
+  <img width="50" height="81" alt="ufc-logo" src="https://github.com/user-attachments/assets/4185e65f-d29b-4272-b75a-8531863aaaaf" />
+</div>
+
+
+# Mural Colaborativo 🖼️📰
+
+<p> Alisson da Silva - Repositório destinado ao desenvolvimento de um mural colaborativo para o comunidade acadêmica do SMD realizado em 2026.2 pela equipe Synapse para a disciplina de Projeto Integrado I do curso de Sistemas e Mídias Digitais da Universidade Federal do Ceará (UFC).</p>
+
+---
+
+<div align="center">
+  
+  [Sobre](#sobre) • [Membros](#membros-da-equipe) • [Orientação](#orientação-docente) • [Tecnologias](#tecnologias)  • [Arquitetura](#arquitetura-de-pastas) • [Requisitos](#requisitos)
+
+</div>
+
+<br>
+
+## Sobre
+
+<p> 
+A partir de dados coletados com a secretaria, professores, alunos e Centro Acadêmico (CA) do SMD, foi identificado que a divulgação de informações ocorre atualmente de forma descentralizada, através de diferentes meios de comunicação. Essa descentralização pode fazer com que alunos que não possuem acesso ou vínculo com determinados canais de divulgação deixem de receber conteúdos relevantes. Além disso, foram identificadas a baixa atratividade das informações divulgadas e a ausência de mecanismos que permitam acompanhar o alcance das publicações. Como forma de aproximar o sistema do cotidiano acadêmico, o Mural Colaborativo SMD possui como metáfora de utilização o flanelógrafo, presente nos espaços de convivência do bloco do SMD, em que são fixados avisos e outras informações de interesse da comunidade acadêmica. O sistema deve ser um meio de divulgação que faça parte do cotidiano dos discentes, docentes e entes organizadores do curso, como a secretaria e CA do bloco de SMD. Para isso, a aplicação possui como premissa possibilitar que todos os usuários utilizem o recurso de maneira ética e harmoniosa para fortalecer um ambiente colaborativo de compartilhamento de informações. Também, apresentará os conteúdos de forma mais atrativa e organizada, a fim de facilitar sua compreensão e localização de publicações pelos usuários.
+</p>
+
+<br>
+
+## Membros da Equipe
+
+<table>
+  <tr>
+    <td width="340" align="center"> <img height="320" alt="Foto de Alisson Lucas" src="https://github.com/user-attachments/assets/335035b8-072d-4f52-815f-3947e60a954b" /> </td>
+    <td width="340" align="center"> <img height="320" alt="Foto de Anderson Maia" src="https://github.com/user-attachments/assets/a3341e75-7362-45d8-9697-f74d2631b342" /> </td>
+    <td width="340" align="center"> <img height="320" alt="Foto de Naamã Alecsander" src="https://github.com/user-attachments/assets/e23d5a86-d277-4238-9f3c-ee9ca7184629" /> </td>
+  </tr>
+
+
+  <tr>
+    <td align="center"> <a href="https://github.com/AlissonLucas01"> <b> Alisson da Silva Lucas </b> </a> </td>
+    <td align="center"> <a href="https://github.com/TheAnders007"> <b> Anderson Maia Santos </b> </a> </td>
+    <td align="center"> <a href="https://github.com/alecsandernst"> <b> Naamã Alecsander de Sousa Tavares </b> </a> </td>
+  </tr>
+
+  <tr>
+    <td align="center"> Desenvolvimento Visual </td>
+    <td align="center"> Desenvolvimento Full Stack e Liderança Técnica </td>
+    <td align="center"> Desenvolvimento Full Stack </td>
+  </tr>
+
+  <tr> <td colspan=3> </td></tr>
+
+  <tr>
+    <td width="340" align="center"> <img height="320" alt="Foto de Pedro Bruno" src="https://github.com/user-attachments/assets/7e8a7da8-6eb7-4b56-80f9-fdff70ca930d" /> </td>
+    <td width="340" align="center"> <img height="320" alt="Foto de Thalita Suzy" src="https://github.com/user-attachments/assets/56dfdfef-75ae-4b57-84ae-b96f38b0b557" /> </td>
+    <td width="340" align="center"> <img height="320" alt="Foto de Yan Lucas" src="https://github.com/user-attachments/assets/0af30c50-b714-4fb5-b9ec-1fc6ebea1816" /> </td>
+  </tr>
+
+
+  <tr>
+    <td align="center"> <a href="https://github.com/Pedro-Bruno41">  <b> Pedro Bruno Rodrigues de Almeida </b> </a> </td>
+    <td align="center"> <a href="https://github.com/thalitaasuzy"> <b> Thalita Suzy Rodrigues Sampaio </b> </a> </td>
+    <td align="center"> <a href="https://github.com/YanRabelo">  <b> Yan Lucas Gondim Rabelo </b> </a> </td>
+  </tr>
+
+  <tr>
+    <td align="center"> Desenvolvimento Visual </td>
+    <td align="center"> Desenvolvimento Full Stack </td>
+    <td align="center"> Gestão do Projeto e Design Lead </td>
+  </tr>
+</table>
+
+<br>
+
+## Orientação Docente
+
+<table>
+  <tr>
+   <td align="center" width="520"> <img height="180" src="https://virtual.ufc.br/wp-content/uploads/2022/10/servletrecuperafoto-22.png" alt="Foto da professora Cátia Luzia"> </td>
+   <td align="center" width="520"> <img height="180" src="https://virtual.ufc.br/wp-content/uploads/2022/10/servletrecuperafoto-44.png" alt="Foto do professor Wellington Sarmento"> </td>
+  </tr>
+
+  <tr>
+   <td align="center"> <a href="http://lattes.cnpq.br/2462245257053946"> <b> Cátia Luzia Oliveira da Silva </b> </a> </td>
+   <td align="center"> <a href="http://lattes.cnpq.br/1015561507843037"> <b> Wellington Wagner Ferreira Sarmento </b> </a> </td>
+  </tr>
+</table>
+
+<br>
+
+## Tecnologias
+
+### Frontend
+
+- **React**
+- **Vite**
+- **Tailwind CSS**
+
+### Backend
+
+- **Node**
+- **Express**
+- **PostgreSQL/Supabase**
+- **bcrypt**
+- **uuid**
+- **jsonwebtoken**
+- **nodemailer**
+
+### Testes
+
+- **Postman**
+
+<br>
+
+## Arquitetura de Pastas
+
+````text
+projeto-mural-colaborativo/
+|
+├── client/
+|    └── src/
+|    |     ├── assets/
+|    |     ├── components/
+|    |     ├── pages/
+|    |     ├── services/
+|    |     ├── utils/
+|    |     ├── index.css
+|    |     └── main.jsx
+|    ├── eslint.config.js
+|    ├── index.html
+|    ├── package-lock.json
+|    ├── package.json
+|    └── vite.config.js
+|
+├── server/
+|    └── src/
+|    |     ├── controllers/
+|    |     ├── database/
+|    |     ├── lib/
+|    |     ├── middlewares/
+|    |     ├── routes/
+|    |     ├── services/
+|    |     ├── templates/
+|    |     ├── utils/
+|    |     └── server.js
+|    └── supabase/
+|    |     ├── migrations/
+|    |     └── config.toml
+|    └── .env
+|    ├── package-lock.json
+|    └── package.json
+|
+├── gitignore
+├── LICENSE
+├── README.md
+└── Relatório Técnico
+
+````
+
+
+## Requisitos
+
+| Código | Descrição | Estado |
+| ---    | ---       | ---    |
+| RF01   | O sistema deve permitir que usuários logados ou não logados visualizem as publicações disponíveis no mural. | `FEITO ✅` |
+| RF02   | O sistema deve permitir o registro de contas de usuários, guardando informações como nome completo, nome de usuário, e-mail institucional e senha. | `FEITO ✅` |
+| RF03   | O sistema deve permitir o envio de um e-mail para que o usuário possa ativar sua conta. | `FEITO ✅` |
+| RF04   | O sistema deve permitir que o usuário realize login através do e-mail institucional e senha. | `FEITO ✅` |
+| RF05   | O sistema deve permitir que usuários logados criem novas publicações. | `FEITO ✅` |
+| RF06   | O sistema deve permitir o preenchimento de título, descrição, categoria, imagem, informação de contato, link para mais informações e prazo de validade no cadastro de uma publicação. | `FEITO ✅` |
+| RF07   | O sistema deve mostrar o título, a descrição, a categoria, a imagem, as informações de contato, o nome de usuário e a data de publicação respectiva à postagem. | `FEITO ✅` |
+| RF08   | O sistema deve permitir a classificação das publicações por categorias. | `FEITO ✅` |
+| RF09   | O sistema deve permitir que os usuários filtrem as publicações por título, por categoria, por período de publicação e por usuário. | `FEITO ✅` |
+| RF10   | O sistema deve permitir que o usuário acesse o link para mais informações das publicações. | `FEITO ✅` |
+| RF11   | O sistema deve mostrar as publicações de acordo com os filtros aplicados. | `FEITO ✅` |
+| RF12   | O sistema deve permitir que o usuário visualize as suas publicações. | `FEITO ✅` |
+| RF13   | O sistema deve permitir a exclusão e a edição das publicações criadas. | `FEITO ✅` |
+| RF14   | O sistema deve permitir mostrar o número de visualizações das publicações. | `FEITO ✅` |
+| RF15   | O sistema deve permitir que o usuário siga uma categoria para receber atualizações. | `FEITO ✅` |
+| RF16   | O sistema deve permitir notificações de categorias seguidas pelo usuário. | `FEITO ✅` |
+| RF17   | O sistema deve bloquear/censurar palavras indesejadas nos campos de título, descrição e informações de contato no formulário de cadastro de publicação. | `FEITO ✅` |
+| RF18   | O sistema deve permitir que os usuários denunciem publicações através de uma justificativa. | `FEITO ✅` |
+| RF19   | O sistema deve permitir que o usuário com o e-mail institucional casmd@virtual.ufc.br (CA) possua permissões de moderadores. | `EM ANDAMENTO ⌛` |
+| RF20   | O sistema deve permitir que o CA visualize as denúncias criadas das publicações. | `EM ANDAMENTO ⌛` |
+| RF21   | O sistema deve permitir que o moderador aprove ou rejeite uma denúncia. | `EM ANDAMENTO ⌛` |
+| RF22   | O sistema deve excluir uma publicação quando o moderador aprovar uma denúncia. | `EM ANDAMENTO ⌛` |
+| RF23   | O sistema deve permitir que o usuário exclua sua conta. | `FEITO ✅` |
+| RF24   | O sistema deve permitir que o usuário edite suas informações da conta. | `FEITO ✅` |
+| RF25   | O sistema deve permitir que o usuário redefina sua senha em caso de esquecimento. | `FEITO ✅` |
+| RF26   | O sistema deve fornecer a opção de copiar link (URL única) de uma publicação. | `FEITO ✅` |
+
+---
+
+## Como Executar o Projeto
+
+### Frontend
+
+```bash
+>>> cd client
+>>> npm install
+>>> npm run dev
+```
+
+### Backend
+
+1. Instalação de dependências
+```bash
+>>> cd server
+>>> npm install
+```
+
+2. Configuração das variáveis secretas
+```env
+EMAIL_USER=Endereço de Email que vai enviar email de confirmação
+EMAIL_PASSWORD=Senha de App do endereço de email informado acima
+MAILTRAP_USER=Credencial de usuário no Mailtrap para teste de envio de email
+MAILTRAP_PASSWORD=Credencial de senha no Mailtrap para teste de envio de email
+DATABASE_URI=URI do Banco de Dados Supabase
+JWT_SECRET=Chave para assinatura e verificação dos tokens
+SUPABASE_URL=URL do endpoint da API do projeto supabase
+SUPABASE_SERVICE_ROLE_KEY=Chave de API do supabase com permissões administrativas
+```
+
+3. Execução do servidor
+```bash
+npm start
+```
+
+<img width="1040" height="50" alt="banner_Synapse" src="https://github.com/user-attachments/assets/128722f2-2c54-4f19-b92e-dda2f37f05c5" />

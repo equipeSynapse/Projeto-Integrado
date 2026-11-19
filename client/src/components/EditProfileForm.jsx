@@ -7,6 +7,7 @@ import { InputField } from './InputField'
 import isUserLoggedIn from '../utils/auth';
 import { atualizarPerfil } from '../services/atualizarPerfil';
 import { useModal } from '../utils/closeModal';
+import Button from './Button';
 
 export function EditProfileForm({ onClickX, onClickApagarConta }) {
     // Foco ao abrir, Esc para fechar, anúncio como diálogo e página de fundo bloqueada
@@ -184,7 +185,21 @@ export function EditProfileForm({ onClickX, onClickApagarConta }) {
             <div className="absolute bottom-0 px-[16px] md:px-[30px] py-[16px] w-full bg-white border-t-2 border-[#e5e5e5]">
                  <div className='flex justify-between items-center text-[12px] md:text-[14px] font-medium'>
                    <button type="button" className="h-[42px] md:h-[48px] px-[18px] md:px-[20px] py-[4px] md:py-[8px] hover:bg-gray-100 rounded-full"> Cancelar </button>
-                   <button onClick={handleSubmit} className={`${isInputsEmpty ? 'bg-gray-100':'bg-[#3c4043]'} transition duration-500 text-white h-[42px] md:h-[48px] px-[18px] md:px-[20px] py-[2px] md:py-[8px] rounded-full`}> Salvar </button>
+                   <Button
+                       variant="cta"
+                       onClick={handleSubmit}
+                       loading={enviando}
+                       // Na aba Segurança o botão troca a senha; na aba Conta, salva os dados do perfil
+                       loadingText={labelTab === "Segurança" ? "Alterando..." : "Salvando..."}
+                       className={`transition duration-500 !text-[12px] md:!text-[14px] h-[42px] md:h-[48px] !px-[18px] md:!px-[20px] !py-[2px] md:!py-[8px] !rounded-full ${enviando
+                           ? ""
+                           : isInputsEmpty
+                               ? "!bg-gray-100 hover:!bg-gray-100"
+                               : "!bg-[#3c4043] hover:!bg-black"
+                           }`}
+                   >
+                       Salvar
+                   </Button>
                  </div>
            </div>
         </div>)

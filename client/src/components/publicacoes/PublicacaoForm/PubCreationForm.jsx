@@ -254,7 +254,7 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
 
             <footer aria-label="Botões de cancelar e criar publicação" className="bg-white border-t border-[#e5e5e5] p-[32px] flex items-center justify-between shrink-0">
                 <Button type="button" variant="text" className="h-[45px] text-[#3c4043]" onClick={onClickX}>Cancelar</Button>
-                <Button type="button" variant="cta" className="h-[45px]" disabled={!formValido || enviando} onClick={handleSubmit}>Criar publicação</Button>
+                <Button type="button" variant="cta" className="h-[45px]" disabled={!formValido} loading={enviando} loadingText="Criando..." onClick={handleSubmit}>Criar publicação</Button>
             </footer>
         </div>
     )

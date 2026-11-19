@@ -3,6 +3,7 @@ import closeIcon from '../assets/icons/close.svg'
 import { InputField } from './InputField'
 import { excluirConta } from '../services/excluirConta';
 import { useNavigate } from 'react-router-dom';
+import Button from './Button';
 
 export default function ApagarContaForm({ onClickX }) {
     const navigate = useNavigate();
@@ -92,7 +93,21 @@ export default function ApagarContaForm({ onClickX }) {
             <div className="absolute bottom-0 h-[110px] w-full bg-white border-t-2 border-[#e5e5e5] 
                             text-[14px] flex items-center justify-between py-[24px] px-[32px]">
                 <button type="button" onClick={onClickX} className="h-[42px] md:h-[48px] px-[18px] md:px-[20px] py-[4px] md:py-[8px] hover:bg-gray-100 rounded-full"> Cancelar </button>
-                <button type="submit" onClick={handleSubmit} className={`${isInputsEmpty ? 'bg-gray-100' : 'bg-[#3c4043]'} transition duration-500 text-white h-[42px] md:h-[48px] px-[18px] md:px-[20px] py-[2px] md:py-[8px] rounded-full`}> Desativar </button>
+                <Button
+                    type="submit"
+                    variant="cta"
+                    onClick={handleSubmit}
+                    loading={excluindo}
+                    loadingText="Desativando..."
+                    className={`transition duration-500 h-[42px] md:h-[48px] !px-[18px] md:!px-[20px] !py-[2px] md:!py-[8px] !rounded-full ${excluindo
+                        ? ""
+                        : isInputsEmpty
+                            ? "!bg-gray-100 hover:!bg-gray-100"
+                            : "!bg-[#3c4043] hover:!bg-black"
+                        }`}
+                >
+                    Desativar
+                </Button>
             </div>
         </div>
     )

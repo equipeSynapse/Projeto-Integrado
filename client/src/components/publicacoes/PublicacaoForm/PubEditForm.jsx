@@ -252,7 +252,7 @@ export default function PublicacaoEditForm({ onClickX, onSucess, onErro, dadosPu
 
             <footer className="bg-white border-t border-[#e5e5e5] p-[32px] flex items-center justify-between shrink-0">
                 <Button type="button" variant="text" className="h-[45px] text-[#3c4043]" onClick={onClickX}>Cancelar</Button>
-                <Button type="button" variant="cta" className="h-[45px]" disabled={!formValido || enviando || !houveMudanca} onClick={handleSubmit}>Salvar alterações</Button>
+                <Button type="button" variant="cta" className="h-[45px]" disabled={!formValido || !houveMudanca} loading={enviando} loadingText="Salvando..." onClick={handleSubmit}>Salvar alterações</Button>
             </footer>
         </div>
     )

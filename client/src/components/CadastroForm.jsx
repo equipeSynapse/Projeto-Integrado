@@ -4,6 +4,7 @@ import closeIcon from "../assets/icons/close.svg";
 import { cadastrarUsuario } from "../services/cadastro";
 import { verificarNomeUsuario } from "../services/verificarNomeUsuario";
 import { InputField } from "./InputField";
+import Button from "../components/Button";
 import { Check, CircleCheck, X } from "lucide-react";
 import closeModal from "../utils/closeModal";
 
@@ -19,8 +20,8 @@ export function getPasswordRequirements(senha) {
   ];
 }
 
-export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn, ref}) {
-  
+export default function CriarConta({ onClickX, onClickEntrar, onClickLoginBtn, ref }) {
+
   closeModal(ref, onClickX)
 
   const [sucessoEmail, setSucessoEmail] = useState(null);
@@ -74,8 +75,13 @@ export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn, re
     setStep(1);
   }
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (isLoading) return;
+
+    setIsLoading(true);
     try {
       await cadastrarUsuario({ ...formData })
       console.log("Usuário cadastrado com sucesso")
@@ -83,8 +89,11 @@ export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn, re
     } catch (error) {
       console.error("Erro ao criar usuário:", error)
       alert("Erro ao criar usuário: " + error.response.data.mensagem);
+    } finally {
+      setIsLoading(false);
     }
   }
+
 
   return (
     <div ref={ref} role="dialog" tabIndex={-1} aria-modal="true" className="bg-white border border-[#e5e5e5] border-solid h-177.5 relative rounded-[16px] w-141">
@@ -92,10 +101,7 @@ export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn, re
         <img alt="" src={closeIcon} className="absolute block inset-0 max-w-none size-full" />
       </button>
 
-      <div
-        className={`absolute content-stretch flex flex-col gap-[14px] items-center left-[31px] not-italic text-center top-[67px] ${isStep2 ? "w-[502px]" : "right-[31px]"
-          }`}
-      >
+      <div className="absolute content-stretch flex flex-col gap-[14px] items-center left-[31px] right-[31px] not-italic text-center top-[67px]">
         <p className="font-poppins font-semibold leading-none min-w-full relative shrink-0 text-[28px] text-black w-[min-content]">
           Crie sua conta
         </p>
@@ -144,13 +150,13 @@ export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn, re
                 {passwordRequirements.map(({ label, met }) => (
                   <div key={label} className="content-stretch flex gap-[12px] items-center relative shrink-0 w-full">
                     <div className="relative shrink-0 size-[14px]">
-                      {met? 
-                        <Check className={`size-[14px] ${met ? 'stroke-sucesso':'stroke-erro'}`}/>:
-                        <X className={`size-[14px] ${met ? 'stroke-sucesso':'stroke-erro'}`}/>
+                      {met ?
+                        <Check className={`size-[14px] ${met ? 'stroke-sucesso' : 'stroke-erro'}`} /> :
+                        <X className={`size-[14px] ${met ? 'stroke-sucesso' : 'stroke-erro'}`} />
                       }
                     </div>
                     <div className="flex flex-col font-poppins font-medium justify-center leading-[0] relative shrink-0 text-[14px] whitespace-nowrap">
-                      <p className={`leading-[1.5] ${met ? 'text-sucesso':'text-erro'}`}>{label}</p>
+                      <p className={`leading-[1.5] ${met ? 'text-sucesso' : 'text-erro'}`}>{label}</p>
                     </div>
                   </div>
                 ))}
@@ -176,17 +182,23 @@ export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn, re
                 </p>
               </button>
 
-              <button
+              <Button
                 type="submit"
+                variant="cta"
+                loading={isLoading}
+                loadingText="Criando..."
                 disabled={!canSubmit}
-                className={`rounded-[50px] content-stretch flex flex-col w-[128px] h-[48px] items-center justify-center overflow-clip px-[24px] py-[12px] relative rounded-[8px] shrink-0 ${canSubmit ? "bg-principal cursor-pointer" : "bg-disabled cursor-not-allowed"
+                className={`!flex-row !w-[128px] !h-[48px] !py-[12px] !rounded-[50px] !gap-[8px] relative overflow-clip whitespace-nowrap shrink-0 ${isLoading
+                  ? "!px-[12px]"
+                  : canSubmit
+                    ? "!px-[24px] !bg-principal hover:!bg-principal cursor-pointer"
+                    : "!px-[24px] !bg-disabled hover:!bg-disabled cursor-not-allowed"
                   }`}
               >
                 <p className="font-poppins font-medium leading-none relative shrink-0 text-[14px] text-center text-white whitespace-nowrap">
                   Criar conta
                 </p>
-              </button>
-
+              </Button>
 
             </div>
           </div>
@@ -232,9 +244,9 @@ export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn, re
                 inputPlaceholder="Usuário"
                 errorVar={errors.nome_usuario}
               >
-                {isUserTaken == false && (<CircleCheck className="size-[16px] absolute right-[16px] stroke-[#0DA83B]"/>)}
+                {isUserTaken == false && (<CircleCheck className="size-[16px] absolute right-[16px] stroke-[#0DA83B]" />)}
               </InputField>
-              
+
             </div>
 
             <InputField
@@ -275,7 +287,7 @@ export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn, re
       )}
 
       {sucessoEmail && (
-        <CadastroSucessoModal email={sucessoEmail} onClose={() => {setSucessoEmail(null); onClickX()}} onClickLoginBtn={onClickLoginBtn} />
+        <CadastroSucessoModal email={sucessoEmail} onClose={() => { setSucessoEmail(null); onClickX() }} onClickLoginBtn={onClickLoginBtn} />
       )}
     </div>
   );

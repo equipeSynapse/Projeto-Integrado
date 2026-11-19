@@ -308,15 +308,23 @@ export default function RedefinirSenhaPage() {
                     </div>
 
                     <div className="flex flex-col items-center w-full mt-[72px]">
-                        <button
+                        <Button
                             type="submit"
-                            disabled={!canSubmit}
-                            className={`flex flex-col h-[48px] items-center justify-center w-full rounded-full ${canSubmit ? "bg-[#3c4043] hover:bg-black cursor-pointer" : "bg-[#9d9fa1] cursor-not-allowed"}`}
+                            variant="cta"
+                            loading={loading}
+                            loadingText="Redefinindo..."
+                            disabled={!canSubmit && !loading}
+                            className={`!flex-col h-[48px] w-full !rounded-full ${loading
+                                    ? ""
+                                    : canSubmit
+                                        ? "!bg-[#3c4043] hover:!bg-black cursor-pointer"
+                                        : "!bg-[#9d9fa1] hover:!bg-[#9d9fa1] cursor-not-allowed"
+                                }`}
                         >
                             <p className="font-poppins font-medium text-[14px] text-center text-white">
-                                {loading ? "Redefinindo..." : "Redefinir senha"}
+                                Redefinir senha
                             </p>
-                        </button>
+                        </Button>
                     </div>
                 </form>
             </>

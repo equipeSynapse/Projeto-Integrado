@@ -9,7 +9,7 @@ import closeModal from "../utils/closeModal";
 // Garantir que o usuário insira um e-mail válido antes de tentar logar
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9.-]+\.)?ufc\.br$/i;
 
-export default function LoginConta({onClickX, onClickRegister, onClickEsqueciSenha, onSucess, ref}) {
+export default function LoginConta({ onClickX, onClickRegister, onClickEsqueciSenha, onSucess, ref }) {
   closeModal(ref, onClickX)
 
   //Criando Fom com email e senha
@@ -17,10 +17,12 @@ export default function LoginConta({onClickX, onClickRegister, onClickEsqueciSen
     email: "",
     senha: "",
   });
-  
+
   const [errors, setErrors] = useState({});
-  const [serverError, setServerError] = useState(""); 
-  
+  const [serverError, setServerError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [feedback, setFeedback] = useState(null);
+
   // Validação simples para habilitar/desabilitar o botão
   // O formulário só pode ser submetido se o email não estiver vazio, e a senha não estiver vazia
   const isFormValid = EMAIL_REGEX.test(formData.email.trim()) && formData.senha.length > 0;
@@ -30,37 +32,43 @@ export default function LoginConta({onClickX, onClickRegister, onClickEsqueciSen
     return (event) => {
       setFormData((prev) => ({ ...prev, [field]: event.target.value }));
       setErrors((prev) => ({ ...prev, [field]: undefined }));
-      setServerError(""); 
+      setServerError("");
+      setFeedback(null);
     };
   }
 
   // Função de submissão Login
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isLoading) return;
 
     const nextErrors = {};
-    
-    // 1. Erro de campo vazio 
+
+    // 1. Erro de campo vazio
     if (!formData.email.trim()) {
-      nextErrors.email = "Preencha este campo"; 
+      nextErrors.email = "Preencha este campo";
     } else if (!EMAIL_REGEX.test(formData.email.trim())) {
       nextErrors.email = "E-mail inválido. Utilize seu e-mail institucional.";
     }
 
     if (!formData.senha.trim()) {
-      nextErrors.senha = "Preencha este campo"; 
+      nextErrors.senha = "Preencha este campo";
     }
-  
+
     setErrors(nextErrors);
 
     if (Object.keys(nextErrors).length === 0) {
+      setIsLoading(true);
+      setFeedback(null);
+
       try {
         const response = await loginUsuario({ email: formData.email, senha: formData.senha });
         console.log("Login realizado com sucesso", response);
         localStorage.setItem("token", response.token);
-        onSucess()
+        setFeedback({ type: "success", message: "Login realizado com sucesso!" });
+        onSucess();
       } catch (error) {
-        // 2. Erro de credenciais incorretas 
+        // 2. Erro de credenciais incorretas
         if (error.response && error.response.status === 401) {
           setErrors({
             email: "E-mail ou senha incorreta",
@@ -70,15 +78,18 @@ export default function LoginConta({onClickX, onClickRegister, onClickEsqueciSen
           // Caso seja outro erro
           setErrors({ email: "Erro de conexão. Tente novamente." });
         }
+        setFeedback({ type: "error", message: "Não foi possível entrar. Tente novamente." });
+      } finally {
+        setIsLoading(false);
       }
-  }
-}
+    }
+  };
 
 
   return (
-    
+
     <div ref={ref} role="dialog" tabIndex={-1} aria-modal="true" className="bg-white border border-[#e5e5e5] border-solid min-h-[550px] relative rounded-[16px] w-141 p-[31px]">
-      
+
       <button type="button" onClick={onClickX} className="absolute cursor-pointer right-[31px] top-[31px] size-[24px]" aria-label="Fechar">
         <img alt="Fechar" src={closeIcon} className="block inset-0 max-w-none size-full" />
       </button>
@@ -92,15 +103,15 @@ export default function LoginConta({onClickX, onClickRegister, onClickEsqueciSen
         </p>
       </div>
 
-     
+
       <form onSubmit={handleSubmit} className="flex flex-col flex-1">
-        
+
         {/*Campos de Texto*/}
         <div className="flex flex-col gap-[24px] w-full">
           <InputField
             label="E-mail institucional *"
             inputId="email"
-            inputType="text" 
+            inputType="text"
             inputValue={formData.email}
             inputOnChange={handleChange("email")}
             inputPlaceholder="exemplo@ufc.br"
@@ -116,32 +127,43 @@ export default function LoginConta({onClickX, onClickRegister, onClickEsqueciSen
             inputPlaceholder="Digite sua senha"
             errorVar={errors.senha}
           />
-          
+
           {/*Botão: Esqueceu a senha*/}
           <div className="w-full flex justify-end mt-[-10px]">
             <button type="button" onClick={onClickEsqueciSenha} className="font-poppins font-medium text-[14px] text-[#5B2B82] cursor-pointer hover:underline">
               Esqueceu sua senha?
             </button>
-          </div>  
+          </div>
         </div>
 
         {/*Botão: Enviar*/}
         <div className="mt-auto pt-[80px] flex flex-col gap-[16px] items-center w-full">
+          {feedback && (
+            <p
+              className={`font-poppins text-[14px] text-center ${feedback.type === "error" ? "text-red-600" : "text-green-600"}`}
+              role={feedback.type === "error" ? "alert" : "status"}
+            >
+              {feedback.message}
+            </p>
+          )}
+
           <Button
             type="submit"
             variant="cta"
-            className={`flex flex-col h-[48px] items-center justify-center w-full rounded-[8px] cursor-pointer ${isFormValid? "!bg-[#5B2B82] hover:!bg-[#482064]":"!bg-[#C8B8D4]"}
-            }`}
+            loading={isLoading}
+            loadingText="Logando..."
+            disabled={!isFormValid}
+            className={`h-[48px] w-full rounded-[8px] cursor-pointer ${isFormValid && !isLoading ? "!bg-[#5B2B82] hover:!bg-[#482064]" : "!bg-[#C8B8D4] hover:!bg-[#C8B8D4]"}`}
           >
             <p className="font-poppins font-medium text-[14px] text-center text-white">
               Entrar
             </p>
           </Button>
 
-           {/*Botão: Mudar para Cadastro*/}
+          {/*Botão: Mudar para Cadastro*/}
           <p className="font-poppins font-normal text-[14px] text-black text-center">
             <span className="leading-[1.5]">Ainda não tem uma conta? </span>
-            <button onClick={onClickRegister} className="font-poppins font-medium text-[#5B2B82] leading-[1.5] cursor-pointer underline">
+            <button type="button" onClick={onClickRegister} className="font-poppins font-medium text-[#5B2B82] leading-[1.5] cursor-pointer underline">
               Registre-se
             </button>
           </p>

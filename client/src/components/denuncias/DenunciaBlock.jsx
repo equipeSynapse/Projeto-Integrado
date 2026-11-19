@@ -17,7 +17,7 @@ export default function DenunciaBlock({ data, excluida, onAlternar }) {
             <div className="h-full flex items-end">
                 <button className="group flex items-center gap-[12px]" onClick={() => onAlternar(data.id)}>
                     <Undo2 className="size-[20px] stroke-[#8D8D8D] group-hover:stroke-black" />
-                    <span className="text-[#8D8D8D] group-hover:text-black"> Desfazer </span>
+                    <span className="text-[#6b6b6b] group-hover:text-black"> Desfazer </span>
                 </button>
             </div>
         </div>
@@ -52,7 +52,7 @@ export default function DenunciaBlock({ data, excluida, onAlternar }) {
                 <button onClick={(e) => { e.stopPropagation() }} aria-label="Excluir Notificação">
                     <Trash className="size-[16px] stroke-[#8D8D8D]" onClick={() => onAlternar(data.id)} />
                 </button>
-                <span className="text-[14px] text-[#8D8D8D] font-semibold inline-block">
+                <span className="text-[14px] text-[#6b6b6b] font-semibold inline-block">
                     {(timestampDiff < 60) ? `${timestampDiff} min` :
                         (timestampDiff / 60 < 24) ? `${Math.round(timestampDiff / 60)} h` :
                             `${Math.round(timestampDiff / (60 * 24))} d`}

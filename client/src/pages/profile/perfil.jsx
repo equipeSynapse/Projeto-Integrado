@@ -44,7 +44,7 @@ export default function PerfilPage() {
         <div className="min-h-screen bg-white">
             {Header}
 
-            <main className="relative flex justify-center gap-[48px] px-[60px] py-[130px] mx-auto font-poppins">
+            <main id="conteudo" tabIndex={-1} className="relative flex justify-center gap-[48px] px-[60px] py-[130px] mx-auto font-poppins outline-none">
                 <section className="w-[778px] flex flex-col gap-[32px]">
                     <section className="overflow-hidden rounded-[10px] border border-[#e5e5e5]">
                         <div className="bg-[#bababa] h-[260px] w-full" />
@@ -53,12 +53,12 @@ export default function PerfilPage() {
                                 <div className="relative flex justify-center items-center top-[-100px] bg-[#22D3EE] size-[190px] rounded-[50%]">
                                     <span className="text-[90px] font-medium text-[#073061]"> {isUserLoggedIn().usuario[0].toUpperCase()}</span>
                                 </div>
-                                <button onClick={() => setIsEditProfileOpen(true)} className="relative top-[-50px]">
+                                <button onClick={() => setIsEditProfileOpen(true)} aria-label="Gerenciar perfil" aria-haspopup="dialog" className="relative top-[-50px]">
                                     <Settings className="size-[24px] stroke-[#3c4043]" />
                                 </button>
                             </div>
                             <div className="relative top-[-60px] flex flex-col gap-[12px]">
-                                <span className="text-[20px] font-bold"> {isUserLoggedIn().usuario} </span>
+                                <h1 className="text-[20px] font-bold"> {isUserLoggedIn().usuario} </h1>
                                 <p className="text-[16px] text-[#434343]"> {isUserLoggedIn().bio} </p>
                             </div>
                         </div>

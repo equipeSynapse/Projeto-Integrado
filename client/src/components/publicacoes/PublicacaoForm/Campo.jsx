@@ -7,7 +7,7 @@ export default function Campo({ label, erro, htmlFor, children, className = '' }
             {children}
             {erro && (
                 <div className="flex gap-[8px] items-center">
-                    <img src={InfoIcon} className="size-[14px]" />
+                    <img src={InfoIcon} alt="" className="size-[14px]" />
                     <p className="font-poppins text-[12px] leading-none text-[#ea4335]">{erro}</p>
                 </div>
             )}

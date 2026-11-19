@@ -45,7 +45,7 @@ export default function ApagarContaForm({ onClickX }) {
         <div className="relative w-[726px] h-[746px] bg-[#fafafa] rounded-[16px] overflow-hidden font-poppins">
             <header className='flex items-center p-[32px] justify-between bg-white border-b border-b-[#e5e5e5]'>
                 <span className='text-[20px] font-semibold'> Apagar conta </span>
-                <button className="size-[20px] md:size-[24px]" onClick={onClickX} aria-label='Fechar modal de exclusão de conta'> <img src={closeIcon} /> </button>
+                <button className="size-[20px] md:size-[24px]" onClick={onClickX} aria-label='Fechar modal de exclusão de conta'> <img src={closeIcon} alt="" /> </button>
             </header>
 
             <div className='p-[32px] flex flex-col gap-[24px]'>

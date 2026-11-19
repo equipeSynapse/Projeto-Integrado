@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { marcarComoLida } from "../../services/notificacoes/marcarComoLida";
 import { useState } from "react";
 
-export default function NotificacaoBlock({ data, excluida, onAlternar }) {
+export default function NotificacaoBlock({ data, excluida, onAlternar, onAbrir }) {
     const navigate = useNavigate();
 
     const timestampDiff = Math.round((new Date() - new Date(data.gerada_em)) / (1000 * 60))
@@ -17,7 +17,7 @@ export default function NotificacaoBlock({ data, excluida, onAlternar }) {
             <div className="h-full flex items-end">
                 <button className="group flex items-center gap-[12px]" onClick={() => onAlternar(data.id)}>
                     <Undo2 className="size-[20px] stroke-[#8D8D8D] group-hover:stroke-black" />
-                    <span className="text-[#8D8D8D] group-hover:text-black"> Desfazer </span>
+                    <span className="text-[#6b6b6b] group-hover:text-black"> Desfazer </span>
                 </button>
             </div>
         </div>
@@ -30,10 +30,12 @@ export default function NotificacaoBlock({ data, excluida, onAlternar }) {
                         ${data.lida ? 'bg-[#F4F4F4]' : 'bg-white'} hover:bg-[#F4F4F4] hover:cursor-pointer`
                 }
                 onClick={async () => {
+                    if (!data.lida) { data.lida = true; marcarComoLida(data.id).catch((e) => console.error(e)) };
+                    // Fecha o modal antes de ir para a publicação, para o leitor de tela chegar à página nova
+                    onAbrir?.();
                     if (data.tipo === "PUBLICACAO_NOVA") {
                         navigate(`/publicacao/${data.publicacao_id}`)
                     };
-                    if (!data.lida) { data.lida = true; await marcarComoLida(data.id) };
                 }}
             >
                 <div className="size-[40px] bg-[#D9D9D9] rounded-[50%]" />
@@ -49,10 +51,10 @@ export default function NotificacaoBlock({ data, excluida, onAlternar }) {
             </button>
 
             <div className="absolute flex flex-col justify-between items-end right-[32px] top-[24px] h-[50px]">
-                <button onClick={(e) => { e.stopPropagation(); onAlternar(data.id) }} aria-label="Excluir Notificação">
+                <button onClick={(e) => { e.stopPropagation(); onAlternar(data.id) }} aria-label="Excluir Notificação" className="p-[6px] -m-[6px]">
                     <Trash className="size-[16px] stroke-[#8D8D8D]"/>
                 </button>
-                <span className="text-[14px] text-[#8D8D8D] font-semibold inline-block">
+                <span className="text-[14px] text-[#6b6b6b] font-semibold inline-block">
                     {(timestampDiff < 60) ? `${timestampDiff} min` :
                         (timestampDiff / 60 < 24) ? `${Math.round(timestampDiff / 60)} h` :
                             `${Math.round(timestampDiff / (60 * 24))} d`}

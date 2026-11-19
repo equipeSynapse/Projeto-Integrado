@@ -2,12 +2,17 @@ import closeIcon from '../assets/icons/close.svg'
 import checkMetIcon from "../assets/icons/check-met.svg";
 import checkUnmetIcon from "../assets/icons/check-unmet.svg";
 import { ChevronLeft } from 'lucide-react';
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { InputField } from './InputField'
 import isUserLoggedIn from '../utils/auth';
 import { atualizarPerfil } from '../services/atualizarPerfil';
+import { useModal } from '../utils/closeModal';
 
 export function EditProfileForm({ onClickX, onClickApagarConta }) {
+    // Foco ao abrir, Esc para fechar, anúncio como diálogo e página de fundo bloqueada
+    const modalRef = useRef(null)
+    useModal(modalRef, onClickX)
+
     const [labelTab, setLabelTab] = useState("Conta")
     const [errors, setErrors] = useState({});
     const [enviando, setEnviando] = useState(false);
@@ -80,19 +85,19 @@ export function EditProfileForm({ onClickX, onClickApagarConta }) {
     const passwordRequirements = getPasswordRequirements(formData.senhaNova);
 
     return (
-        <div className=" w-full md:w-[80%] md:w-[664px] h-full md:h-[800px] rounded-[16px] relative bg-[#fafafa] overflow-hidden font-poppins">
+        <div ref={modalRef} tabIndex={-1} className=" w-full md:w-[80%] md:w-[664px] h-full md:h-[800px] rounded-[16px] relative bg-[#fafafa] overflow-hidden font-poppins outline-none">
             <header className='bg-white border-b-2 border-[#e5e5e5] p-[2px]'>
                 <div className="flex flex-row flex-start md:justify-between items-center px-[30px] pt-[30px] pb-[8px] md:pb-[12px] gap-4">
-                    <button className="size-[20px] md:size-[24px] order-first md:hidden"> <ChevronLeft /> </button>
+                    <button className="size-[20px] md:size-[24px] order-first md:hidden" onClick={onClickX} aria-label="Voltar e fechar a edição de perfil"> <ChevronLeft /> </button>
                     <h2 className="text-[20px] md:text-[20px] font-semibold"> Gerenciar Perfil </h2>
-                    <button className="size-[20px] md:size-[24px] hidden md:block" onClick={onClickX} aria-label='Fechar modal de edição de perfil'> 
-                        <img src={closeIcon} /> 
+                    <button className="size-[20px] md:size-[24px] hidden md:block" onClick={onClickX} aria-label='Fechar modal de edição de perfil'>
+                        <img src={closeIcon} alt="" />
                     </button>
                 </div>
 
-                <div className="flex justify-center text-[12px] md:text-[14px] font-medium pt-3">
-                    <button onClick={() => setLabelTab("Conta")} className={`${labelTab === 'Conta' ? "border-b-2 md:border-b-4 border-black" : ""} p-[8px] md:p-[12px] w-30 md:w-70 transition-all`}>Conta</button>
-                    <button onClick={() => setLabelTab("Segurança")} className={`${labelTab === 'Segurança' ? "border-b-2 md:border-b-4 border-black" : ""} p-[8px] md:p-[12px] w-30 md:w-70 transition-all`}>Segurança</button>
+                <div role="tablist" aria-label="Seções do perfil" className="flex justify-center text-[12px] md:text-[14px] font-medium pt-3">
+                    <button role="tab" aria-selected={labelTab === 'Conta'} onClick={() => setLabelTab("Conta")} className={`${labelTab === 'Conta' ? "border-b-2 md:border-b-4 border-black" : ""} p-[8px] md:p-[12px] w-30 md:w-70 transition-all`}>Conta</button>
+                    <button role="tab" aria-selected={labelTab === 'Segurança'} onClick={() => setLabelTab("Segurança")} className={`${labelTab === 'Segurança' ? "border-b-2 md:border-b-4 border-black" : ""} p-[8px] md:p-[12px] w-30 md:w-70 transition-all`}>Segurança</button>
                 </div>
             </header>
 
@@ -161,7 +166,7 @@ export function EditProfileForm({ onClickX, onClickApagarConta }) {
 
                         <ul className='flex flex-col gap-[12px] md:gap-4 text-[12px] md:text-[14px] font-medium'>
                             {passwordRequirements.map(({ label, met }) =>
-                                <li className='flex flex-row items-center gap-2'> <img src={met ? checkMetIcon : checkUnmetIcon} /> <span> {label} </span> </li>
+                                <li className='flex flex-row items-center gap-2'> <img src={met ? checkMetIcon : checkUnmetIcon} alt={met ? "Atendido:" : "Pendente:"} /> <span> {label} </span> </li>
                             )}
                         </ul>
                     </div>

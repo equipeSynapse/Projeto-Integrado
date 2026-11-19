@@ -25,7 +25,7 @@ export default function ExcluirPubModal( {onClickX, pubId, onSucesso} ) {
         <div ref={modalRef} role="dialog" tabIndex={-1} aria-modal="true" className="w-[564px] bg-white rounded-[16px] p-[32px] font-poppins">
             <div className="flex justify-end"> 
                 <button onClick={onClickX} aria-label='Fechar modal de exclusão de publicação'> 
-                    <img src={closeIcon} /> 
+                    <img src={closeIcon} alt="" /> 
                 </button> 
             </div>
 

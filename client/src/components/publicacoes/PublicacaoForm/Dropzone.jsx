@@ -48,7 +48,7 @@ export default function Dropzone({ formatos, aceitos, arquivo, onArquivo }) {
                     </p>
                 </button>
 
-                <p className="font-poppins text-[12px] leading-none text-[#909090]">Formatos aceitos: {formatos} até 5mb</p>
+                <p className="font-poppins text-[12px] leading-none text-[#6b6b6b]">Formatos aceitos: {formatos} até 5mb</p>
 
                 <span role="status" className="sr-only">
                     {arquivo ? `Arquivo selecionado: ${arquivo.name}` : ""}

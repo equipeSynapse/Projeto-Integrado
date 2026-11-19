@@ -15,7 +15,7 @@ export default function UploadedFile( {file, onClickTrash} ) {
     <div className='bg-white p-[24px] rounded-[8px] border-dashed border border-[#e5e5e5] flex justify-between items-center'>
         <div className='flex flex-col gap-[8px]'>
             <span className='text-[14px]'> {titulo} </span>
-            <span className='text-[12px] text-[#909090]'> {detalhe} </span>
+            <span className='text-[12px] text-[#6b6b6b]'> {detalhe} </span>
         </div>
         <div>
             <button onClick={onClickTrash} aria-label="Remover anexo" className='size-[42px] border border-[#e5e5e5] flex items-center justify-center rounded-[50px] hover:bg-[#e5e5e5]'>

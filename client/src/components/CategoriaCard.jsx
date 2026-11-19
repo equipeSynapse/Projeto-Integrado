@@ -45,7 +45,7 @@ export default function CategoriaCard({ texto, imagem, onClick }) {
                 {imagem}
             </button>
 
-            {isUserLoggedIn() && isCategoriaSeguida !== null && <div className="absolute right-[12px] top-[12px]">
+            {isUserLoggedIn() && isCategoriaSeguida !== null && <div className="absolute right-[8px] top-[8px]">
                 <button
                     onClick={async (e) => {
                         e.stopPropagation();
@@ -56,7 +56,7 @@ export default function CategoriaCard({ texto, imagem, onClick }) {
                             await seguirCategoria(texto.replace(/["']/g, ""))
                     }}
                     aria-label={isCategoriaSeguida ? `Ao desabilitar, você não receberá mais notificações da categoria ${texto}` : `Ao habilitar, você receberá notificações da categoria ${texto}`}
-                    className=" size-[20px] flex items-center justify-center rounded-[50%] hover:bg-gray-200"
+                    className=" size-[28px] flex items-center justify-center rounded-[50%] hover:bg-gray-200"
                 >
                     <Bell
                         onMouseEnter={() => setIsBellHovered(true)}

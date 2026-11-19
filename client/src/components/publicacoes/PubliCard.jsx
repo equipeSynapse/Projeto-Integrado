@@ -6,7 +6,7 @@ import copiarLink from "../../utils/copiarLink";
 import timestampMsg from "../../utils/timestampMsg";
 import viewObserver from "../../utils/viewObserver";
 import isUserLoggedIn from "../../utils/auth";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BiSolidFilePdf } from "react-icons/bi";
 import { ArrowUpRight, Ellipsis, Megaphone, Pencil, Trash } from "lucide-react";
 import CopiarLinkBtn from "./CopiarLinkBtn";
@@ -20,6 +20,14 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
 
   const cardRef = viewObserver(id)
   const [expandido, setExpandido] = useState(false)
+  const descricaoRef = useRef(null)
+
+  // O botão "mostrar mais" some depois do clique; o foco vai para o texto completo,
+  // em vez de cair no topo da página
+  function expandir() {
+    setExpandido(true)
+    requestAnimationFrame(() => descricaoRef.current?.focus())
+  }
 
   const usuario = isUserLoggedIn();
 
@@ -75,9 +83,9 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
 
         <div className="flex flex-col gap-[24px] w-full">
           <h2 className="font-semibold leading-tight text-[16px] text-black">{titulo}</h2>
-          <p className="font-medium leading-stitch text-[14px] text-[#3c4043] whitespace-pre-wrap">
+          <p ref={descricaoRef} tabIndex={-1} className="font-medium leading-stitch text-[14px] text-[#3c4043] whitespace-pre-wrap outline-none">
             {((expandido || descricao.length < 60) || variant === "completo") ? descricao : `${descricao.slice(0, descricao.lastIndexOf(' ', 60))}... `}
-            {(!expandido && variant !== "completo" && (descricao.length > 60 || link || email || telefone || anexo)) ? <button className="text-[#8d8d8d] font-medium hover:cursor-pointer" onClick={() => setExpandido(true)}> mostrar mais </button> : ''}
+            {(!expandido && variant !== "completo" && (descricao.length > 60 || link || email || telefone || anexo)) ? <button className="text-[#6b6b6b] font-medium hover:cursor-pointer" onClick={expandir}> mostrar mais </button> : ''}
           </p>
 
           {(expandido || variant === "completo") && (link || email || telefone) ?
@@ -85,17 +93,17 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
               <h3 className="font-semibold leading-none text-[14px] text-black"> Informações adicionais </h3>
               <div className="flex flex-col gap-[16px]">
                 {link ? <div className="flex items-center gap-[10px]">
-                  <img src={link2Icon} className="size-[18px] rotate-135" />
+                  <img src={link2Icon} alt="Link externo:" className="size-[18px] rotate-135" />
                   <a href={link} className="underline" target="_blank" rel="noopener noreferrer"> {link} </a>
                 </div> : ''}
 
                 {email ? <div className="flex items-center gap-[10px]">
-                  <img src={mailIcon} className="size-[18px]" />
+                  <img src={mailIcon} alt="E-mail:" className="size-[18px]" />
                   <span> {email} </span>
                 </div> : ''}
 
                 {telefone ? <div className="flex items-center gap-[10px]">
-                  <img src={phoneIcon} className="size-[18px]" />
+                  <img src={phoneIcon} alt="Telefone:" className="size-[18px]" />
                   <span> {telefone} </span>
                 </div> : ''}
               </div>
@@ -109,17 +117,16 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
                     href={anexo.url}
                     target="_blank" 
                     rel="noopener noreferrer"
-                    alt={`Acessar Documento ${anexo.titulo}`}
                     className="flex justify-between items-center w-full h-[66px] px-[24px] py-[16px] border border-[#e5e5e5] rounded-[8px]"
                   >
                     <div className="flex items-center gap-[10px]">
                       <BiSolidFilePdf size="24px" color="#EA4345" />
                       <div className="flex flex-col gap-[4px]">
                         <span> {anexo.titulo} </span>
-                        <span className="text-[12px] text-[#909090]"> {anexo.tipo} · {anexo.tamanho}kb </span>
+                        <span className="text-[12px] text-[#6b6b6b]"> {anexo.tipo} · {anexo.tamanho}kb </span>
                       </div>
                     </div>
-                    <div> <ArrowUpRight size="18px" /> </div>
+                    <div> <ArrowUpRight size="18px" /> <span className="sr-only">(abre em nova aba)</span> </div>
                   </a>
             </div>
             : ""}
@@ -133,8 +140,8 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
 
         <div className="w-full flex justify-between">
           <div className="flex items-center gap-[10px]">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#909090" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" /><circle cx="12" cy="12" r="3" /></svg>
-            <span aria-label={`${qtdVisualizacoes} visualizações`} role="text" className="text-[#909090]"> {qtdVisualizacoes} visualizações </span>
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#909090" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" /><circle cx="12" cy="12" r="3" /></svg>
+            <span aria-label={`${qtdVisualizacoes} visualizações`} role="text" className="text-[#6b6b6b]"> {qtdVisualizacoes} visualizações </span>
           </div>
           <div className="flex gap-[12px]">
             <CopiarLinkBtn onClick={() => copiarLink(id)} />

@@ -85,14 +85,25 @@ export default function HomePage() {
         <div className="min-h-screen bg-[#F7F4EF]">
             {Header} 
 
-            <main className="flex justify-center gap-[48px] px-[24px] pt-[130px] pb-[48px] mx-auto items-start">
-                <aside className="hidden 2xl:block sticky top-[130px]">
+            <main id="conteudo" tabIndex={-1} className="flex justify-center gap-[48px] px-[24px] pt-[130px] pb-[48px] mx-auto items-start outline-none">
+                <h1 className="sr-only">Mural SMD: avisos, eventos e oportunidades da comunidade</h1>
+
+                <div aria-hidden="true" className="hidden 2xl:block sticky top-[130px]">
                     <div className="bg-white border w-[290px] h-[270px]">
 
                     </div>
-                </aside>
+                </div>
 
                 <div className="flex flex-col gap-[24px] max-w-[960px]">
+                    {/* Em telas menores que 1536px a coluna lateral some: este botão garante que dá para publicar em qualquer tamanho e zoom */}
+                    <div className="2xl:hidden flex flex-col md:flex-row md:items-center justify-between gap-[12px] bg-white border border-[#e5e5e5] rounded-[12px] p-[20px] md:w-[778px] font-poppins text-[#3c4043]">
+                        <p><span className="font-semibold">O mural também é seu.</span> Compartilhe avisos, eventos e oportunidades com a comunidade.</p>
+                        <Button variant="cta" className="shrink-0" onClick={() => { isUserLoggedIn() ? setIsPublicacaoOpen(true) : setIsLoginOpen(true) }}>
+                            <Plus className="size-[20px]" />
+                            <span> Criar Publicação </span>
+                        </Button>
+                    </div>
+
                     <section aria-label="Categorias de publicações" className="md:w-[778px] flex flex-col gap-[24px]">
                         <h2 className="text-[24px] font-semibold font-bricolage"> Explorar categorias de publicações </h2>
                         <div className="grid grid-cols-2 md:grid-cols-3 grid-rows-3 md:grid-rows-2 gap-[12px]">
@@ -100,7 +111,7 @@ export default function HomePage() {
                                 <CategoriaCard
                                     key={c}
                                     texto={c}
-                                    imagem={<img src={categoriasImgs[i]?.var} aria-hidden="true" className={categoriasImgs[i]?.style}/>}
+                                    imagem={<img src={categoriasImgs[i]?.var} alt="" aria-hidden="true" className={categoriasImgs[i]?.style}/>}
                                     onClick={() => {
                                         if (categoriasSelecionadas.includes(c)) setCategoriasSelecionadas((prev) => prev.filter((item) => item != c))
                                         else setCategoriasSelecionadas((prev) => [...prev, c])

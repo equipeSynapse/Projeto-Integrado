@@ -18,7 +18,7 @@ export default function SeletorCategoria({ valor, onAlternar, opcoes, erro }) {
             className={`w-full bg-white border border-solid rounded-[8px] ${erro ? 'border-[#ea4335]' : 'border-[#e5e5e5]'} flex items-center gap-[8px] px-[16px] py-[10px] min-h-[48px] cursor-pointer`}
         >
             <div className="flex flex-wrap gap-[4px] flex-1">
-                {valor.length === 0 && <span className="text-[14px] text-[#909090]">Selecione uma ou mais opções</span>}
+                {valor.length === 0 && <span className="text-[14px] text-[#6b6b6b]">Selecione uma ou mais opções</span>}
                 {valor.map((c) => (
                     <span key={c} className="bg-[#e7e7e7] rounded-[50px] px-[8px] py-[6px] flex items-center gap-[8px] text-[12px] leading-none">
                         {c}

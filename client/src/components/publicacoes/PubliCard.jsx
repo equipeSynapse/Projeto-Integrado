@@ -95,17 +95,17 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
               <h3 className="font-semibold leading-none text-[14px] text-black"> Informações adicionais </h3>
               <div className="flex flex-col gap-[16px]">
                 {link ? <div className="flex items-center gap-[10px]">
-                  <img src={link2Icon} alt="Link externo:" className="size-[18px] rotate-135" />
+                  <img aria-hidden="true" src={link2Icon} alt="Ícone de link externo:" className="size-[18px] rotate-135" />
                   <a href={link} className="underline" target="_blank" rel="noopener noreferrer"> {link} </a>
                 </div> : ''}
 
                 {email ? <div className="flex items-center gap-[10px]">
-                  <img src={mailIcon} alt="E-mail:" className="size-[18px]" />
+                  <img aria-hidden="true" src={mailIcon} alt="Ícone de e-mail:" className="size-[18px]" />
                   <span> {email} </span>
                 </div> : ''}
 
                 {telefone ? <div className="flex items-center gap-[10px]">
-                  <img src={phoneIcon} alt="Telefone:" className="size-[18px]" />
+                  <img aria-hidden="true" src={phoneIcon} alt="Ícone de telefone:" className="size-[18px]" />
                   <span> {telefone} </span>
                 </div> : ''}
               </div>

@@ -67,6 +67,36 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
 
     const modalRef = useRef(null);
 
+    useEffect(() => {
+        const modal = modalRef.current;
+        if (!modal) return;
+
+        modal.focus();
+
+        const prenderFoco = (e) => {
+            if (e.key !== 'Tab') return;
+
+            const focaveis = modal.querySelectorAll(
+                'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+            );
+            if (focaveis.length === 0) return;
+
+            const primeiro = focaveis[0];
+            const ultimo = focaveis[focaveis.length - 1];
+
+            if (e.shiftKey && document.activeElement === primeiro) {
+                e.preventDefault();
+                ultimo.focus();
+            } else if (!e.shiftKey && document.activeElement === ultimo) {
+                e.preventDefault();
+                primeiro.focus();
+            }
+        };
+
+        modal.addEventListener('keydown', prenderFoco);
+        return () => modal.removeEventListener('keydown', prenderFoco);
+    }, []);
+
     closeModal(modalRef, onClickX)
 
     const alterar = (campo) => (e) => setDados((prev) => ({ ...prev, [campo]: e.target.value }))
@@ -80,7 +110,6 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
         } else {
             setErrosProfanidade((prev) => ({ ...prev, [campo]: undefined }))
         }
-
     }
 
     function alternarCategoria(c) {
@@ -122,10 +151,17 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
     }
 
     return (
-        <div ref={modalRef} tabIndex={-1} className="bg-[#fcfcfc] border border-[#e5e5e5] rounded-[16px] w-full max-w-[726px] max-h-[90vh] flex flex-col overflow-hidden font-poppins text-[#3c4043]">
+        <div
+            ref={modalRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Criar publicação"
+            tabIndex={-1}
+            className="bg-[#fcfcfc] border border-[#e5e5e5] rounded-[16px] w-full max-w-[726px] max-h-[90vh] flex flex-col overflow-hidden font-poppins text-[#3c4043]"
+        >
             <header className="bg-white border-b border-[#e5e5e5] p-[32px] flex items-center justify-between shrink-0">
                 <h2 className="text-[20px] font-semibold">Criar publicação</h2>
-                <button type="button" onClick={onClickX} aria-label='Fechar modal de criação de publicação' className="size-[24px] cursor-pointer">
+                <button type="button" onClick={onClickX} aria-label="Fechar modal de criação de publicação" className="size-[24px] cursor-pointer">
                     <img src={closeIcon} alt="" />
                 </button>
             </header>
@@ -134,6 +170,8 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
                 <Campo label="Título *" htmlFor="titulo-pub" erro={erroVisivel('titulo')}>
                     <input
                         id="titulo-pub"
+                        required
+                        aria-invalid={Boolean(erroVisivel('titulo'))}
                         value={dados.titulo}
                         onChange={alterar('titulo')}
                         onBlur={tocar('titulo')}
@@ -145,6 +183,8 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
                 <Campo label="Descrição *" htmlFor="descricao-pub" erro={erroVisivel('descricao')}>
                     <textarea
                         id="descricao-pub"
+                        required
+                        aria-invalid={Boolean(erroVisivel('descricao'))}
                         value={dados.descricao}
                         onChange={alterar('descricao')}
                         onBlur={tocar('descricao')}
@@ -154,13 +194,22 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
                 </Campo>
 
                 <Campo label="Selecionar categoria *" htmlFor="categoria-pub" erro={erroVisivel('categorias')}>
-                    <SeletorCategoria id="categoria-pub" valor={dados.categorias} opcoes={CATEGORIAS} onAlternar={alternarCategoria} erro={erroVisivel('categorias')} />
+                    <SeletorCategoria
+                        id="categoria-pub"
+                        valor={dados.categorias}
+                        opcoes={CATEGORIAS}
+                        onAlternar={alternarCategoria}
+                        onBlur={() => setTocados((prev) => ({ ...prev, categorias: true }))}
+                        erro={erroVisivel('categorias')}
+                    />
                 </Campo>
 
                 <Campo htmlFor="expiracao-pub" label={<span className="flex items-center gap-[8px]">Exibir até... * <CircleHelp className="size-[14px]" /></span>} erro={erroVisivel('expiracao')}>
                     <div className="relative w-full">
                         <input
                             id="expiracao-pub"
+                            required
+                            aria-invalid={Boolean(erroVisivel('expiracao'))}
                             value={dados.expiracao}
                             onChange={(e) => setDados((prev) => ({ ...prev, expiracao: mascararData(e.target.value) }))}
                             onBlur={tocar('expiracao')}
@@ -169,7 +218,13 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
                             maxLength={10}
                             className={`${inputBase} ${borda(erroVisivel('expiracao'))} h-[48px] pl-[16px] pr-[48px] py-[10px]`}
                         />
-                        <button type="button" onClick={() => setCalendarioAberto((a) => !a)} aria-label="Escolher a data no calendário" aria-expanded={calendarioAberto} aria-haspopup="dialog" className="absolute right-[12px] top-1/2 -translate-y-1/2 p-[4px] cursor-pointer">
+                        <button
+                            type="button"
+                            aria-label="Abrir calendário"
+                            aria-expanded={calendarioAberto}
+                            onClick={() => setCalendarioAberto((a) => !a)}
+                            className="absolute right-[16px] top-1/2 -translate-y-1/2 cursor-pointer"
+                        >
                             <Calendar className="size-[16px]" />
                         </button>
                         {calendarioAberto && (
@@ -223,7 +278,15 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
                 </div>
 
                 <Campo htmlFor="email-pub" label="E-mail" erro={erroVisivel('email')}>
-                    <input id="email-pub" value={dados.email} onChange={alterar('email')} onBlur={tocar('email')} placeholder="exemplo@email.com" className={`${inputBase} ${borda(erroVisivel('email'))} h-[48px] px-[16px] py-[10px]`} />
+                    <input
+                        id="email-pub"
+                        aria-invalid={Boolean(erroVisivel('email'))}
+                        value={dados.email}
+                        onChange={alterar('email')}
+                        onBlur={tocar('email')}
+                        placeholder="exemplo@email.com"
+                        className={`${inputBase} ${borda(erroVisivel('email'))} h-[48px] px-[16px] py-[10px]`}
+                    />
                 </Campo>
 
                 <Campo htmlFor="telefone-pub" label="Telefone/Celular">

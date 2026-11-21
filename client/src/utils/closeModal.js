@@ -60,8 +60,35 @@ export default function useModal(modalRef, closeFunc) {
         pilhaDeModais.push(id);
 
         const handleKeyDown = (e) => {
-            if (e.key === "Escape" && pilhaDeModais[pilhaDeModais.length - 1] === id) {
-                fecharRef.current?.();
+            if (e.key === "Escape") {
+                closeFunc();
+                return;
+            }
+
+            if (e.key === "Tab" && modalRef.current) {
+                const focaveis = modalRef.current.querySelectorAll(
+                    'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+                );
+
+                if (focaveis.length === 0) {
+                    e.preventDefault();
+                    return;
+                }
+
+                const primeiro = focaveis[0];
+                const ultimo = focaveis[focaveis.length - 1];
+
+                if (e.shiftKey) {
+                    if (document.activeElement === primeiro || document.activeElement === modalRef.current) {
+                        e.preventDefault();
+                        ultimo.focus();
+                    }
+                } else {
+                    if (document.activeElement === ultimo || !modalRef.current.contains(document.activeElement)) {
+                        e.preventDefault();
+                        primeiro.focus();
+                    }
+                }
             }
         };
 
@@ -69,13 +96,9 @@ export default function useModal(modalRef, closeFunc) {
 
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
-            pilhaDeModais.splice(pilhaDeModais.indexOf(id), 1);
-            desfazerIsolamento();
-            if (previouslyFocusedElement && previouslyFocusedElement.isConnected) {
+            if (previouslyFocusedElement) {
                 previouslyFocusedElement.focus();
             }
         };
-    }, [modalRef]);
+    }, [closeFunc, modalRef]);
 }
-
-export { useModal };

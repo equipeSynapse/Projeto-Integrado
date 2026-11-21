@@ -40,135 +40,182 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
 
   const [toastSucessoExclusao, setToastSucessoExclusao] = useState(false);
 
+  const focusClass = "focus:outline-none focus:ring-2 focus:ring-[#22D3EE] rounded-[4px]";
+
   return (
     <div>
-     {!excluida && 
-      <article ref={cardRef} tabIndex="0" aria-label={`Publicação ${titulo}`} 
-        className="bg-white border border-[#e5e5e5] border-solid rounded-[16px] p-[20px] flex flex-col gap-[24px] items-start w-full md:w-[778px] mb-[24px] text-[14px] font-poppins"
-      >
-        <div className="w-full flex justify-between items-start">
-          <div className="flex gap-[12px]">
-            <div className={`${autor[0].toLowerCase() < "l" ? "bg-[#F072C5]" : "bg-[#22D3EE]"} size-[40px] rounded-[50px] flex items-center justify-center [mask-image:url(assets/Molde.svg)] [mask-size:contain]`}> {autor[0].toUpperCase()} </div>
-            <div className="flex flex-col justify-between">
-              <span className="font-medium"> {autor} </span>
-              <span> {categoria.map((c, i) => c + ' · ')} Publicado {timestampMsg(new Date(), new Date(criadoEm))} </span>
-            </div>
-          </div>
+      {!excluida &&
+        <article
+          ref={cardRef}
+          aria-labelledby={`pub-titulo-${id}`}
+          className="bg-white border border-[#e5e5e5] border-solid rounded-[16px] p-[20px] flex flex-col gap-[24px] items-start w-full md:w-[778px] mb-[24px] text-[14px] font-poppins"
+        >
+          <div className="w-full flex justify-between items-start">
+            <div className="flex gap-[12px]">
 
-          <div className="relative flex gap-[24px] items-center">
-            <div className="px-[12px] py-[6px] bg-[#e5e5e5] text-[12px] rounded-[50px]"> Expira em {new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(expiracao))} </div>
-            {isUserLoggedIn() && <button onClick={() => setThreeDotsClicked(!threeDotsClicked)} aria-label={`Mais opções para publicação ${titulo}`}>
-              <Ellipsis/>
-            </button>}
-            {threeDotsClicked && (usuario.usuario == autor? 
-              (<div className="absolute flex flex-col items-start right-0 top-[36px] w-[250px] bg-white rounded-[8px] shadow-lg shadow-black/20 overflow-hidden">
-                <button onClick={() => setEditarClicked(true)} className="w-full flex items-center gap-[8px] text-left px-[16px] py-[12px] hover:bg-[rgba(60,64,67,0.06)]">
-                  <Pencil className="size-[14px]" />
-                  <span className="text-[14px] relative top-[1px]"> Editar </span>
-                </button>
-                <button onClick={() => setExcluirClicked(true)} className="w-full flex items-center gap-[8px] text-left px-[16px] py-[12px] hover:bg-[rgba(60,64,67,0.06)] text-red-500">
-                  <Trash className="size-[14px] stroke-red-500" />
-                  <span className="text-[14px] relative top-[1px]"> Excluir </span>
-                </button>
-              </div>): 
-              (<div className="absolute flex flex-col items-start right-0 top-[36px] w-[250px] bg-white rounded-[8px] shadow-lg shadow-black/20 overflow-hidden">
-                <button onClick={() => setDenunciarClicked(true)} className="w-full flex items-center gap-[8px] text-left px-[16px] py-[12px] hover:bg-[rgba(60,64,67,0.06)] text-red-500">
-                  <Megaphone className="size-[14px] stroke-red-500" />
-                  <span className="text-[14px] relative top-[1px]"> Denunciar </span>
-                </button>
-              </div>))
-            }
-          </div>
-        </div>
+              <div
+                aria-hidden="true"
+                className={`${autor[0].toLowerCase() < "l" ? "bg-[#F072C5]" : "bg-[#22D3EE]"} size-[40px] rounded-[50px] flex items-center justify-center [mask-image:url(assets/Molde.svg)] [mask-size:contain]`}
+              >
+                {autor[0].toUpperCase()}
+              </div>
 
-        <div className="flex flex-col gap-[24px] w-full">
-          <h2 className="font-semibold leading-tight text-[16px] text-black">{titulo}</h2>
-          <p ref={descricaoRef} tabIndex={-1} className="font-medium leading-stitch text-[14px] text-[#3c4043] whitespace-pre-wrap outline-none">
-            {((expandido || descricao.length < 60) || variant === "completo") ? descricao : `${descricao.slice(0, descricao.lastIndexOf(' ', 60))}... `}
-            {(!expandido && variant !== "completo" && (descricao.length > 60 || link || email || telefone || anexo)) ? <button className="text-[#6b6b6b] font-medium hover:cursor-pointer" onClick={expandir}> mostrar mais </button> : ''}
-          </p>
-
-          {(expandido || variant === "completo") && (link || email || telefone) ?
-            <div className="flex flex-col gap-[24px]">
-              <h3 className="font-semibold leading-none text-[14px] text-black"> Informações adicionais </h3>
-              <div className="flex flex-col gap-[16px]">
-                {link ? <div className="flex items-center gap-[10px]">
-                  <img src={link2Icon} alt="Link externo:" className="size-[18px] rotate-135" />
-                  <a href={link} className="underline" target="_blank" rel="noopener noreferrer"> {link} </a>
-                </div> : ''}
-
-                {email ? <div className="flex items-center gap-[10px]">
-                  <img src={mailIcon} alt="E-mail:" className="size-[18px]" />
-                  <span> {email} </span>
-                </div> : ''}
-
-                {telefone ? <div className="flex items-center gap-[10px]">
-                  <img src={phoneIcon} alt="Telefone:" className="size-[18px]" />
-                  <span> {telefone} </span>
-                </div> : ''}
+              <div tabIndex={0} className={`flex flex-col justify-between ${focusClass}`}>
+                <span className="font-medium">Publicado por {autor}</span>
+                <span>{categoria.map((c) => c + ' · ')} Publicado {timestampMsg(new Date(), new Date(criadoEm))}</span>
               </div>
             </div>
-            : ''}
 
-          {(expandido || variant === "completo") && (anexo) ?
-            <div className="flex flex-col gap-[24px] w-full">
-              <h3 className="font-semibold leading-none text-[14px] text-black"> Material anexado </h3>
-                  <a
-                    href={anexo.url}
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="flex justify-between items-center w-full h-[66px] px-[24px] py-[16px] border border-[#e5e5e5] rounded-[8px]"
-                  >
-                    <div className="flex items-center gap-[10px]">
-                      <BiSolidFilePdf size="24px" color="#EA4345" />
-                      <div className="flex flex-col gap-[4px]">
-                        <span> {anexo.titulo} </span>
-                        <span className="text-[12px] text-[#6b6b6b]"> {anexo.tipo} · {anexo.tamanho}kb </span>
-                      </div>
-                    </div>
-                    <div> <ArrowUpRight size="18px" /> <span className="sr-only">(abre em nova aba)</span> </div>
-                  </a>
+            <div className="relative flex gap-[24px] items-center">
+              <div tabIndex={0} className={`px-[12px] py-[6px] bg-[#e5e5e5] text-[12px] rounded-[50px] ${focusClass}`}>
+                Expira em {new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(expiracao))}
+              </div>
+
+              {isUserLoggedIn() && (
+                <button
+                  onClick={() => setThreeDotsClicked(!threeDotsClicked)}
+                  aria-label={`Mais opções para publicação ${titulo}`}
+                  aria-expanded={threeDotsClicked}
+                  aria-haspopup="true"
+                  className={focusClass}
+                >
+                  <Ellipsis aria-hidden="true" />
+                </button>
+              )}
+
+              {threeDotsClicked && (usuario.usuario == autor ?
+                (<div role="menu" className="absolute flex flex-col items-start right-0 top-[36px] w-[250px] bg-white rounded-[8px] shadow-lg shadow-black/20 overflow-hidden z-10">
+                  <button role="menuitem" onClick={() => setEditarClicked(true)} className="w-full flex items-center gap-[8px] text-left px-[16px] py-[12px] hover:bg-[rgba(60,64,67,0.06)]">
+                    <Pencil aria-hidden="true" className="size-[14px]" />
+                    <span className="text-[14px] relative top-[1px]"> Editar </span>
+                  </button>
+                  <button role="menuitem" onClick={() => setExcluirClicked(true)} className="w-full flex items-center gap-[8px] text-left px-[16px] py-[12px] hover:bg-[rgba(60,64,67,0.06)] text-red-500">
+                    <Trash aria-hidden="true" className="size-[14px] stroke-red-500" />
+                    <span className="text-[14px] relative top-[1px]"> Excluir </span>
+                  </button>
+                </div>) :
+                (<div role="menu" className="absolute flex flex-col items-start right-0 top-[36px] w-[250px] bg-white rounded-[8px] shadow-lg shadow-black/20 overflow-hidden z-10">
+                  <button role="menuitem" onClick={() => setDenunciarClicked(true)} className="w-full flex items-center gap-[8px] text-left px-[16px] py-[12px] hover:bg-[rgba(60,64,67,0.06)] text-red-500">
+                    <Megaphone aria-hidden="true" className="size-[14px] stroke-red-500" />
+                    <span className="text-[14px] relative top-[1px]"> Denunciar </span>
+                  </button>
+                </div>))
+              }
             </div>
-            : ""}
-        </div>
-
-        {imagem && <div className="bg-[#e5e5e5] rounded-[16px] w-full min-h-[310px] shrink-0 overflow-hidden">
-          <img src={imagem.url} alt={titulo} className="size-full object-cover" />
-        </div>}
-
-        <hr className="w-full border-[#e5e5e5]" />
-
-        <div className="w-full flex justify-between">
-          <div className="flex items-center gap-[10px]">
-            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#909090" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" /><circle cx="12" cy="12" r="3" /></svg>
-            <span aria-label={`${qtdVisualizacoes} visualizações`} role="text" className="text-[#6b6b6b]"> {qtdVisualizacoes} visualizações </span>
-          </div>
-          <div className="flex gap-[12px]">
-            <CopiarLinkBtn onClick={() => copiarLink(id)} />
           </div>
 
-        </div>
+          <div className="flex flex-col gap-[24px] w-full">
+            <h2
+              id={`pub-titulo-${id}`}
+              tabIndex={0}
+              className={`font-semibold leading-tight text-[16px] text-black ${focusClass}`}
+            >
+              {titulo}
+            </h2>
 
-      </article>}
+            <p
+              tabIndex={0}
+              className={`font-medium leading-stitch text-[14px] text-[#3c4043] whitespace-pre-wrap ${focusClass}`}
+            >
+              {((expandido || descricao.length < 60) || variant === "completo") ? descricao : `${descricao.slice(0, descricao.lastIndexOf(' ', 60))}... `}
+              {(!expandido && variant !== "completo" && (descricao.length > 60 || link || email || telefone || anexo)) ? (
+                <button
+                  className={`text-[#8d8d8d] font-medium hover:cursor-pointer underline ${focusClass}`}
+                  onClick={() => setExpandido(true)}
+                  aria-expanded={expandido}
+                >
+                  mostrar mais
+                </button>
+              ) : ''}
+            </p>
+
+            {(expandido || variant === "completo") && (link || email || telefone) ?
+              <div className="flex flex-col gap-[24px]">
+                <h3 tabIndex={0} className={`font-semibold leading-none text-[14px] text-black ${focusClass}`}>
+                  Informações adicionais
+                </h3>
+                <div className="flex flex-col gap-[16px]">
+                  {link ? <div className="flex items-center gap-[10px]">
+                    <img src={link2Icon} alt="" aria-hidden="true" className="size-[18px] rotate-135" />
+                    <a href={link} className={`underline ${focusClass}`} target="_blank" rel="noopener noreferrer"> {link} </a>
+                  </div> : ''}
+
+                  {email ? <div tabIndex={0} className={`flex items-center gap-[10px] ${focusClass}`}>
+                    <img src={mailIcon} alt="" aria-hidden="true" className="size-[18px]" />
+                    <span> E-mail: {email} </span>
+                  </div> : ''}
+
+                  {telefone ? <div tabIndex={0} className={`flex items-center gap-[10px] ${focusClass}`}>
+                    <img src={phoneIcon} alt="" aria-hidden="true" className="size-[18px]" />
+                    <span> Telefone: {telefone} </span>
+                  </div> : ''}
+                </div>
+              </div>
+              : ''}
+
+            {(expandido || variant === "completo") && (anexo) ?
+              <div className="flex flex-col gap-[24px] w-full">
+                <h3 tabIndex={0} className={`font-semibold leading-none text-[14px] text-black ${focusClass}`}>
+                  Material anexado
+                </h3>
+                <a
+                  href={anexo.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Acessar Documento ${anexo.titulo}, ${anexo.tipo}, ${anexo.tamanho} kilobytes`}
+                  className={`flex justify-between items-center w-full h-[66px] px-[24px] py-[16px] border border-[#e5e5e5] rounded-[8px] ${focusClass}`}
+                >
+                  <div className="flex items-center gap-[10px]">
+                    <BiSolidFilePdf aria-hidden="true" size="24px" color="#EA4345" />
+                    <div className="flex flex-col gap-[4px]">
+                      <span> {anexo.titulo} </span>
+                      <span className="text-[12px] text-[#909090]"> {anexo.tipo} · {anexo.tamanho}kb </span>
+                    </div>
+                  </div>
+                  <div> <ArrowUpRight aria-hidden="true" size="18px" /> </div>
+                </a>
+              </div>
+              : ""}
+          </div>
+
+          {imagem && (
+            <div tabIndex={0} className={`bg-[#e5e5e5] rounded-[16px] w-full min-h-[310px] shrink-0 overflow-hidden ${focusClass}`}>
+              <img src={imagem.url} alt={`Imagem da publicação: ${titulo}`} className="size-full object-cover" />
+            </div>
+          )}
+
+          <hr className="w-full border-[#e5e5e5]" />
+
+          <div className="w-full flex justify-between items-center">
+            <div tabIndex={0} className={`flex items-center gap-[10px] ${focusClass}`}>
+              <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#909090" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" /><circle cx="12" cy="12" r="3" /></svg>
+              <span className="text-[#909090]"> {qtdVisualizacoes} visualizações </span>
+            </div>
+            <div className="flex gap-[12px]">
+              <CopiarLinkBtn onClick={() => copiarLink(id)} />
+            </div>
+          </div>
+
+        </article>}
 
       {denunciarClicked &&
-        <div className="bg-black/50 fixed z-2 h-full inset-0 flex items-center justify-center">
+        <div role="dialog" aria-modal="true" className="bg-black/50 fixed z-2 h-full inset-0 flex items-center justify-center">
           <DenunciarPubModal pubId={id} onClickX={() => setDenunciarClicked(false)} />
         </div>}
-      
-       {editarClicked &&
-        <div className="bg-black/50 fixed z-2 h-full inset-0 flex items-center justify-center">
-          <PublicacaoEditForm dadosPub={{id, titulo, descricao, categoria, expiracao, email, telefone, link, imagem, anexo}}
+
+      {editarClicked &&
+        <div role="dialog" aria-modal="true" className="bg-black/50 fixed z-2 h-full inset-0 flex items-center justify-center">
+          <PublicacaoEditForm dadosPub={{ id, titulo, descricao, categoria, expiracao, email, telefone, link, imagem, anexo }}
             onClickX={() => setEditarClicked(false)}
             onSucess={() => { setEditarClicked(false); window.location.reload() }}
           />
         </div>}
 
       {excluirClicked &&
-        <div className="bg-black/50 fixed z-2 h-full inset-0 flex items-center justify-center">
-          <ExcluirPubModal pubId={id} 
-            onSucesso={() => { setExcluirClicked(false), setToastSucessoExclusao(true), setThreeDotsClicked(false), setExcluida(true) }} 
-            onClickX={() => setExcluirClicked(false)} 
+        <div role="dialog" aria-modal="true" className="bg-black/50 fixed z-2 h-full inset-0 flex items-center justify-center">
+          <ExcluirPubModal pubId={id}
+            onSucesso={() => { setExcluirClicked(false), setToastSucessoExclusao(true), setThreeDotsClicked(false), setExcluida(true) }}
+            onClickX={() => setExcluirClicked(false)}
           />
         </div>}
 
@@ -176,7 +223,7 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
         <Toast
           titulo="Publicação excluída!"
           mensagem="A sua publicação foi removida com sucesso."
-          onClose={() => {setToastSucessoExclusao(false)}}
+          onClose={() => { setToastSucessoExclusao(false) }}
         />
       )}
     </div>

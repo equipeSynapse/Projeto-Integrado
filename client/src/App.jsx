@@ -20,7 +20,6 @@ function AnunciadorDeRota() {
     else if (pathname === '/redefinir-senha') nomeTela = 'Redefinir senha';
     else if (pathname === '/perfil') nomeTela = 'Meu perfil';
 
-    document.title = nomeTela;
     setMensagem(`Você está na tela: ${nomeTela}`);
   }, [pathname]);
 

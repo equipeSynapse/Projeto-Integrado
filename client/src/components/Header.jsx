@@ -40,7 +40,7 @@ export default function useHeader({ className, showSearch, children, onClickEntr
                 </a>
                 
                 <div className="relative flex items-center gap-6 w-full">
-                    <div> Logo </div>
+                    <img src="/logo.svg" className="size-[40px]"/>
                     {children}
                     {showSearch &&
                         <div className="flex gap-6">

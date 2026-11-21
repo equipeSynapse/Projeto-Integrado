@@ -46,13 +46,13 @@ export default function NotificacoesModal({ onClose }) {
 
         const notificacoesHoje = arrayNotif.filter((n) => isSameDay(n.gerada_em, new Date()))
         const notificacoesSemana = arrayNotif.filter((n) => isSameWeek(n.gerada_em, new Date()) && !notificacoesHoje.some((h) => h.id === n.id))
-        const notificacoesMes = arrayNotif.filter((n) => isSameMonth(n.gerada_em, new Date()) &&
+        const notificacoesMes = arrayNotif.filter((n) => 
         !notificacoesHoje.some((h) => h.id === n.id) &&
         !notificacoesSemana.some((s) => s.id === n.id))
 
         return [{titulo: "Hoje", array: notificacoesHoje},
                 {titulo: "Última semana", array: notificacoesSemana}, 
-                {titulo: "Este mês", array: notificacoesMes}]
+                {titulo: "Mais Antigas", array: notificacoesMes}]
     }
 
     const [tabAtual, setTabAtual] = useState("Todas")

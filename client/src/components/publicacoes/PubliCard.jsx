@@ -40,7 +40,7 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
       >
         <div className="w-full flex justify-between items-start">
           <div className="flex gap-[12px]">
-            <div className={`${autor[0].toLowerCase() < "l" ? "bg-[#F072C5]" : "bg-[#22D3EE]"} size-[40px] rounded-[50px] flex items-center justify-center [mask-image:url(assets/Molde.svg)] [mask-size:contain]`}> {autor[0].toUpperCase()} </div>
+            <div className={`${autor[0].toLowerCase() < "l" ? "bg-[#F072C5]" : "bg-[#22D3EE]"} size-[40px] rounded-[50px] flex items-center justify-center [mask-image:url(assets/Molde.svg)] mask-contain mask-no-repeat`}> {autor[0].toUpperCase()} </div>
             <div className="flex flex-col justify-between">
               <span className="font-medium"> {autor} </span>
               <span> {categoria.map((c, i) => c + ' · ')} Publicado {timestampMsg(new Date(), new Date(criadoEm))} </span>
@@ -85,17 +85,17 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
               <h3 className="font-semibold leading-none text-[14px] text-black"> Informações adicionais </h3>
               <div className="flex flex-col gap-[16px]">
                 {link ? <div className="flex items-center gap-[10px]">
-                  <img src={link2Icon} className="size-[18px] rotate-135" />
+                  <img aria-hidden="true" src={link2Icon} alt="Ícone de link externo:" className="size-[18px] rotate-135" />
                   <a href={link} className="underline" target="_blank" rel="noopener noreferrer"> {link} </a>
                 </div> : ''}
 
                 {email ? <div className="flex items-center gap-[10px]">
-                  <img src={mailIcon} className="size-[18px]" />
+                  <img aria-hidden="true" src={mailIcon} alt="Ícone de e-mail:" className="size-[18px]" />
                   <span> {email} </span>
                 </div> : ''}
 
                 {telefone ? <div className="flex items-center gap-[10px]">
-                  <img src={phoneIcon} className="size-[18px]" />
+                  <img aria-hidden="true" src={phoneIcon} alt="Ícone de telefone:" className="size-[18px]" />
                   <span> {telefone} </span>
                 </div> : ''}
               </div>

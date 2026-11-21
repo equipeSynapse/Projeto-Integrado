@@ -50,8 +50,8 @@ export default function PerfilPage() {
                         <div className="bg-[#bababa] h-[260px] w-full" />
                         <div className="px-[40px]">
                             <div className="flex w-full justify-between">
-                                <div className="relative flex justify-center items-center top-[-100px] bg-[#22D3EE] size-[190px] rounded-[50%]">
-                                    <span className="text-[90px] font-medium text-[#073061]"> {isUserLoggedIn().usuario[0].toUpperCase()}</span>
+                                <div role="img" aria-label={`Foto de perfil de ${isUserLoggedIn().usuario}`} className="relative flex justify-center items-center top-[-100px] bg-[#22D3EE] size-[190px] rounded-[50%] [mask-image:url(assets/Molde.svg)] mask-contain mask-no-repeat">
+                                    <span aria-hidden="true" className="text-[90px] font-medium text-[#073061]"> {isUserLoggedIn().usuario[0].toUpperCase()}</span>
                                 </div>
                                 <button onClick={() => setIsEditProfileOpen(true)} className="relative top-[-50px]">
                                     <Settings className="size-[24px] stroke-[#3c4043]" />

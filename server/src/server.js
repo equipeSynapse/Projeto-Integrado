@@ -11,7 +11,6 @@ import { schema } from "./database/schema.js";
 import { pool } from "./database/db.js";
 import { criarBuckets } from "./lib/storage.js";
 
-
 const app = express();
 export const port = 3000;
 

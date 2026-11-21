@@ -6,6 +6,7 @@ import { verificarNomeUsuario } from "../services/verificarNomeUsuario";
 import { InputField } from "./InputField";
 import { Check, CircleCheck, X } from "lucide-react";
 import closeModal from "../utils/closeModal";
+import Button from "./Button";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9.-]+\.)?ufc\.br$/i;
 
@@ -19,9 +20,9 @@ export function getPasswordRequirements(senha) {
   ];
 }
 
-export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn, ref}) {
-  
-  closeModal(ref, onClickX)
+export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn}) {
+  const modalRef = useRef(null);
+  closeModal(modalRef, onClickX);
 
   const [sucessoEmail, setSucessoEmail] = useState(null);
 
@@ -74,8 +75,14 @@ export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn, re
     setStep(1);
   }
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (isLoading) return;
+
+    setIsLoading(true);
+
     try {
       await cadastrarUsuario({ ...formData })
       console.log("Usuário cadastrado com sucesso")
@@ -83,18 +90,19 @@ export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn, re
     } catch (error) {
       console.error("Erro ao criar usuário:", error)
       alert("Erro ao criar usuário: " + error.response.data.mensagem);
+    } finally {
+      setIsLoading(false);
     }
   }
 
   return (
-    <div ref={ref} role="dialog" tabIndex={-1} aria-modal="true" className="bg-white border border-[#e5e5e5] border-solid h-177.5 relative rounded-[16px] w-141">
+    <div ref={modalRef} role="dialog" tabIndex={-1} aria-modal="true" className="bg-white border border-[#e5e5e5] border-solid h-177.5 relative rounded-[16px] w-141">
       <button onClick={onClickX} type="button" className="absolute cursor-pointer left-[509px] size-[24px] top-[31px]" aria-label="Fechar">
         <img alt="" src={closeIcon} className="absolute block inset-0 max-w-none size-full" />
       </button>
 
       <div
-        className={`absolute content-stretch flex flex-col gap-[14px] items-center left-[31px] not-italic text-center top-[67px] ${isStep2 ? "w-[502px]" : "right-[31px]"
-          }`}
+        className="absolute content-stretch flex flex-col gap-[14px] items-center left-[31px] not-italic text-center top-[67px]"
       >
         <p className="font-poppins font-semibold leading-none min-w-full relative shrink-0 text-[28px] text-black w-[min-content]">
           Crie sua conta
@@ -176,16 +184,21 @@ export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn, re
                 </p>
               </button>
 
-              <button
+              <Button
                 type="submit"
+                variant="cta"
+                loading={isLoading}
+                loadingText="Criando..."
                 disabled={!canSubmit}
-                className={`rounded-[50px] content-stretch flex flex-col w-[128px] h-[48px] items-center justify-center overflow-clip px-[24px] py-[12px] relative rounded-[8px] shrink-0 ${canSubmit ? "bg-principal cursor-pointer" : "bg-disabled cursor-not-allowed"
+                className={`!flex-row rounded-[50px] content-stretch flex flex-col w-[128px] h-[48px] items-center justify-center 
+                            overflow-clip px-[24px] py-[12px] relative rounded-[8px] shrink-0 
+                            ${canSubmit ? "bg-principal cursor-pointer" : "bg-disabled cursor-not-allowed"
                   }`}
               >
                 <p className="font-poppins font-medium leading-none relative shrink-0 text-[14px] text-center text-white whitespace-nowrap">
                   Criar conta
                 </p>
-              </button>
+              </Button>
 
 
             </div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import closeIcon from "../assets/icons/close.svg";
 import { InputField } from "./InputField";
@@ -9,8 +9,9 @@ import closeModal from "../utils/closeModal";
 // Garantir que o usuário insira um e-mail válido antes de tentar logar
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9.-]+\.)?ufc\.br$/i;
 
-export default function LoginConta({onClickX, onClickRegister, onClickEsqueciSenha, onSucess, ref}) {
-  closeModal(ref, onClickX)
+export default function LoginConta({onClickX, onClickRegister, onClickEsqueciSenha, onSucess}) {
+  const modalRef = useRef(null);
+  closeModal(modalRef, onClickX)
 
   //Criando Fom com email e senha
   const [formData, setFormData] = useState({
@@ -20,6 +21,7 @@ export default function LoginConta({onClickX, onClickRegister, onClickEsqueciSen
   
   const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState(""); 
+  const [isLoading, setIsLoading] = useState(false);
   
   // Validação simples para habilitar/desabilitar o botão
   // O formulário só pode ser submetido se o email não estiver vazio, e a senha não estiver vazia
@@ -38,6 +40,8 @@ export default function LoginConta({onClickX, onClickRegister, onClickEsqueciSen
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (isLoading) return;
+
     const nextErrors = {};
     
     // 1. Erro de campo vazio 
@@ -54,6 +58,8 @@ export default function LoginConta({onClickX, onClickRegister, onClickEsqueciSen
     setErrors(nextErrors);
 
     if (Object.keys(nextErrors).length === 0) {
+      setIsLoading(true);
+
       try {
         const response = await loginUsuario({ email: formData.email, senha: formData.senha });
         console.log("Login realizado com sucesso", response);
@@ -70,6 +76,8 @@ export default function LoginConta({onClickX, onClickRegister, onClickEsqueciSen
           // Caso seja outro erro
           setErrors({ email: "Erro de conexão. Tente novamente." });
         }
+      } finally {
+        setIsLoading(false);
       }
   }
 }
@@ -77,7 +85,7 @@ export default function LoginConta({onClickX, onClickRegister, onClickEsqueciSen
 
   return (
     
-    <div ref={ref} role="dialog" tabIndex={-1} aria-modal="true" className="bg-white border border-[#e5e5e5] border-solid min-h-[550px] relative rounded-[16px] w-141 p-[31px]">
+    <div ref={modalRef} role="dialog" tabIndex={-1} aria-modal="true" className="bg-white border border-[#e5e5e5] border-solid min-h-[550px] relative rounded-[16px] w-141 p-[31px]">
       
       <button type="button" onClick={onClickX} className="absolute cursor-pointer right-[31px] top-[31px] size-[24px]" aria-label="Fechar">
         <img alt="Fechar" src={closeIcon} className="block inset-0 max-w-none size-full" />
@@ -125,12 +133,17 @@ export default function LoginConta({onClickX, onClickRegister, onClickEsqueciSen
           </div>  
         </div>
 
+        
+
         {/*Botão: Enviar*/}
         <div className="mt-auto pt-[80px] flex flex-col gap-[16px] items-center w-full">
           <Button
             type="submit"
             variant="cta"
-            className={`flex flex-col h-[48px] items-center justify-center w-full rounded-[8px] cursor-pointer ${isFormValid? "!bg-[#5B2B82] hover:!bg-[#482064]":"!bg-[#C8B8D4]"}
+            loading={isLoading}
+            loadingText="Logando..."
+            disabled={!isFormValid}
+            className={`h-[48px] w-full rounded-[8px] cursor-pointer ${isFormValid && !isLoading? "!bg-[#5B2B82] hover:!bg-[#482064]":"!bg-[#C8B8D4] hover:!bg-[#C8B8D4]"}
             }`}
           >
             <p className="font-poppins font-medium text-[14px] text-center text-white">

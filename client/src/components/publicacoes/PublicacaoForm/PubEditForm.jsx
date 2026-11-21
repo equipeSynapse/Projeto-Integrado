@@ -129,7 +129,7 @@ export default function PublicacaoEditForm({ onClickX, onSucess, onErro, dadosPu
         <div ref={modalRef} aria-modal="true" role="dialog" tabIndex={-1} className="bg-[#fcfcfc] border border-[#e5e5e5] rounded-[16px] w-full max-w-[726px] max-h-[90vh] flex flex-col overflow-hidden font-poppins text-[#3c4043]">
             <header className="bg-white border-b border-[#e5e5e5] p-[32px] flex items-center justify-between shrink-0">
                 <h2 className="text-[20px] font-semibold">Editar publicação</h2>
-                <button type="button" onClick={onClickX} className="size-[24px] cursor-pointer"><img src={closeIcon} /></button>
+                <button type="button" onClick={onClickX} aria-label="Fechar modal de edição de publicação" className="size-[24px] cursor-pointer"><img src={closeIcon} /></button>
             </header>
 
             <div className="flex flex-col gap-[24px] p-[32px] overflow-y-auto">
@@ -168,7 +168,14 @@ export default function PublicacaoEditForm({ onClickX, onSucess, onErro, dadosPu
                             maxLength={10}
                             className={`${inputBase} ${borda(erroVisivel('expiracao'))} h-[48px] pl-[16px] pr-[48px] py-[10px]`}
                         />
-                        <button type="button" onClick={() => setCalendarioAberto((a) => !a)} className="absolute right-[16px] top-1/2 -translate-y-1/2 cursor-pointer">
+                        <button
+                            type="button"
+                            onClick={() => setCalendarioAberto((a) => !a)}
+                            aria-label="Escolher a data no calendário"
+                            aria-expanded={calendarioAberto}
+                            aria-haspopup="dialog"
+                            className="absolute right-[16px] top-1/2 -translate-y-1/2 cursor-pointer"
+                        >
                             <Calendar className="size-[16px]" />
                         </button>
                         {calendarioAberto && (
@@ -189,26 +196,29 @@ export default function PublicacaoEditForm({ onClickX, onSucess, onErro, dadosPu
                 <p className="text-[16px] font-medium">Informações adicionais <span className="text-[#909090]">(opcionais)</span></p>
 
                 <div className="flex flex-col gap-[12px]">
-                    <span className="text-[14px] font-medium">Imagem de destaque</span>
-                    <div className="flex gap-[24px]">
+                    <span id="rotulo-imagem-destaque" className="text-[14px] font-medium">Imagem de destaque</span>
+                    <div role="radiogroup" aria-labelledby="rotulo-imagem-destaque" className="flex gap-[24px]">
                         <Radio label="Anexar imagem" checked={tipoImagem === 'anexar'} onClick={() => setTipoImagem('anexar')} />
                         <Radio label="Modelos do mural" checked={tipoImagem === 'modelos'} onClick={() => setTipoImagem('modelos')} />
                     </div>
                     {tipoImagem === 'anexar' ?
                         imagem ?
-                            <UploadedFile file={imagem} onClickTrash={() => setImagem(null)}/> :
+                            <UploadedFile file={imagem} onClickTrash={() => setImagem(null)} /> :
                             <Dropzone formatos="JPG, JPEG ou PNG" aceitos={['image/jpeg', 'image/png']} arquivo={imagem} onArquivo={setImagem} />
                         : (
-                            <div className="grid grid-cols-2 gap-[12px]">
+                            <div role="radiogroup" aria-label="Modelos do mural" className="grid grid-cols-2 gap-[12px]">
                                 {[0, 1, 2, 3].map((i) => (
                                     <button
                                         key={i}
                                         type="button"
                                         onClick={() => setModeloSelecionado(i)}
+                                        role="radio"
+                                        aria-checked={modeloSelecionado === i}
+                                        aria-label={`Modelo ${i + 1}`}
                                         className="relative bg-[#e5e5e5] border-[1.5px] border-[#e5e5e5] rounded-[8px] h-[139px] flex items-center justify-center cursor-pointer"
                                     >
-                                        <Image className="size-[32px] text-[#909090]" />
-                                        <span className={`absolute top-[10px] left-[10px] size-[22px] rounded-full border bg-white flex items-center justify-center ${modeloSelecionado === i ? 'border-[#3c4043]' : 'border-[#c4c4c4]'}`}>
+                                        <Image className="size-[32px] text-[#6B6B6B]" />
+                                        <span aria-hidden="true" className={`absolute top-[10px] left-[10px] size-[22px] rounded-full border bg-white flex items-center justify-center ${modeloSelecionado === i ? 'border-[#3c4043]' : 'border-[#c4c4c4]'}`}>
                                             {modeloSelecionado === i && <span className="size-[12px] rounded-full bg-[#3c4043]" />}
                                         </span>
                                     </button>
@@ -240,7 +250,7 @@ export default function PublicacaoEditForm({ onClickX, onSucess, onErro, dadosPu
                     <span className="text-[14px] font-medium">Anexar arquivo</span>
 
                     {anexo ?
-                        <UploadedFile file={anexo} onClickTrash={() => setAnexo(null)}/>
+                        <UploadedFile file={anexo} onClickTrash={() => setAnexo(null)} />
                         : <Dropzone formatos="PDF" aceitos={['application/pdf']} arquivo={anexo} onArquivo={setAnexo} />
                     }
                 </div>
@@ -248,7 +258,7 @@ export default function PublicacaoEditForm({ onClickX, onSucess, onErro, dadosPu
 
             <footer className="bg-white border-t border-[#e5e5e5] p-[32px] flex items-center justify-between shrink-0">
                 <Button type="button" variant="text" className="h-[45px] text-[#3c4043]" onClick={onClickX}>Cancelar</Button>
-                <Button type="button" variant="cta" className="h-[45px]" disabled={!formValido || enviando || !houveMudanca} onClick={handleSubmit}>Salvar alterações</Button>
+                <Button type="button" variant="cta" className="h-[45px]" disabled={!formValido || !houveMudanca} loading={enviando} loadingText="Salvando..." onClick={handleSubmit}>Salvar alterações</Button>
             </footer>
         </div>
     )

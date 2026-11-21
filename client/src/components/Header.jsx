@@ -35,6 +35,10 @@ export default function useHeader({ className, showSearch, children, onClickEntr
         dataFim,
         Header: (
             <header aria-label="Cabeçalho do site" className={`w-full bg-white fixed z-2 h-[82px] border-b-1 border-[#e5e5e5] flex items-center px-30 justify-between font-poppins text-[14px] ${className} `}>
+                <a href="#conteudo" className="sr-only focus:not-sr-only focus:absolute focus:left-[16px] focus:top-[16px] focus:z-50 focus:bg-white focus:px-[16px] focus:py-[8px] focus:rounded-[8px] focus:shadow-lg focus:outline-2">
+                    Pular para o conteúdo
+                </a>
+                
                 <div className="relative flex items-center gap-6 w-full">
                     <div> Logo </div>
                     {children}
@@ -62,8 +66,8 @@ export default function useHeader({ className, showSearch, children, onClickEntr
                     <div className="flex items-center gap-[72px]">
                         <nav className="flex gap-12">
                             <Link to="/" className="group flex items-center gap-[12px]" onClick={() => navigate("/")} aria-current={location.pathname === '/' ? 'page' : undefined}>
-                                <Home className={`size-[20px] ${location.pathname === '/' ? 'stroke-black' : 'stroke-[#909090] group-hover:stroke-black'}`} />
-                                <span className={`${location.pathname === '/' ? 'font-semibold' : 'font-medium text-[#909090] group-hover:text-black'}`}> Início </span>
+                                <Home className={`size-[20px] ${location.pathname === '/' ? 'stroke-[#39194F]' : 'stroke-[#6B6B6B] group-hover:stroke-black'}`} />
+                                <span className={`${location.pathname === '/' ? 'font-semibold text-[#39194F]' : 'font-medium text-[#6B6B6B] group-hover:text-black'}`}> Início </span>
                             </Link>
                         </nav>
                         <div className="relative">
@@ -95,8 +99,8 @@ export default function useHeader({ className, showSearch, children, onClickEntr
                                         onClick={() => navigate("/perfil")}
                                         className="p-[16px] w-full text-left flex items-center gap-[12px] hover:bg-[rgba(60,64,67,0.06)]"
                                     >
-                                        <User className="stroke-[#909090] size-[16px]" />
-                                        <span className="text-[#909090]"> Minha Conta </span>
+                                        <User className="stroke-[#6B6B6B] size-[16px]" />
+                                        <span className="text-[#6B6B6B]"> Minha Conta </span>
                                     </Link>
 
                                     <div className="w-full flex justify-center"> <hr aria-hidden="true" className="border border-[#e5e5e5] w-[84%]" /> </div>
@@ -105,8 +109,8 @@ export default function useHeader({ className, showSearch, children, onClickEntr
                                         onClick={() => setIsMinhasDenunciasOpen(true)}
                                         className="p-[16px] w-full text-left flex items-center gap-[12px] hover:bg-[rgba(60,64,67,0.06)]"
                                     >
-                                        <Megaphone className="stroke-[#909090] size-[16px]" />
-                                        <span className="text-[#909090]"> Minhas Denúncias </span> </button>
+                                        <Megaphone className="stroke-[#6B6B6B] size-[16px]" />
+                                        <span className="text-[#6B6B6B]"> Minhas Denúncias </span> </button>
 
                                     <div className="w-full flex justify-center"> <hr aria-hidden="true" className="border border-[#e5e5e5] w-[84%]" /> </div>
 
@@ -127,13 +131,13 @@ export default function useHeader({ className, showSearch, children, onClickEntr
                     </div>}
 
                 {isNotificacoesOpen &&
-                    <div className="fixed inset-0 z-6 flex justify-end items-center bg-black/50">
+                    <div className="fixed inset-0 z-[100] flex justify-end items-center bg-black/50">
                         <NotificacoesModal onClose={() => setIsNotificacoesOpen(false)} />
                     </div>
                 }
 
                 {isMinhasDenunciasOpen &&
-                    <div className="fixed inset-0 z-3 flex justify-end items-center bg-black/50">
+                    <div className="fixed inset-0 z-[100] flex justify-end items-center bg-black/50">
                         <MinhasDenuncias onClose={() => setIsMinhasDenunciasOpen(false)} />
                     </div>
                 }

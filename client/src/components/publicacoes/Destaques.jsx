@@ -24,9 +24,9 @@ export default function Destaques({ dataPosts }) {
                         <div className="bg-destaque aspect-square font-medium flex items-center justify-center size-[40px] [mask-image:url(assets/Molde.svg)] [mask-size:contain]"> SS </div>
                         <div className="flex flex-col items-start w-[150px]">
                             <span className="font-medium"> Secretaria SMD </span>
-                            <span className="text-[#909090] text-[12px]"> Publicado {timestampMsg(new Date(), new Date(d.criado_em), true)}</span>
+                            <span className="text-[#6B6B6B] text-[12px]"> Publicado {timestampMsg(new Date(), new Date(d.criado_em), true)}</span>
                         </div>
-                        <ChevronRight className="stroke-[#909090] size-[20px]" />
+                        <ChevronRight className="stroke-[#6B6B6B] size-[20px]" />
                     </div>
                     <span className="text-[14px] line-clamp-2 mt-[16px] text-left"> {d.descricao} </span>
                 </button>

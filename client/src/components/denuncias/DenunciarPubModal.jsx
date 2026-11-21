@@ -105,7 +105,7 @@ export default function DenunciarPubModal({ pubId, onClickX }) {
             <hr className="border-[#e5e5e5] my-[24px]" />
 
             <p className="font-medium text-[16px] text-[#3c4043]">
-                Informações adicionais <span className="text-[#909090]">(opcionais)</span>
+                Informações adicionais <span className="text-[#6B6B6B]">(opcionais)</span>
             </p>
             <label className="flex flex-col gap-[12px] mt-[24px]">
                 <span className="font-medium text-[14px] leading-none text-black">Descreva o motivo</span>

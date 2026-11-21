@@ -16,6 +16,7 @@ export default function Feed( { list } ) {
                     link={p.link}
                     autor={p.nome_usuario}
                     email={p.email}
+                    telefone={p.telefone}
                     anexo={p.anexo}
                     qtdVisualizacoes={p.qtd_visualizacoes}
                     expiracao={p.expiracao}

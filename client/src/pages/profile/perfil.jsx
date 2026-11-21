@@ -44,21 +44,21 @@ export default function PerfilPage() {
         <div className="min-h-screen bg-white">
             {Header}
 
-            <main className="relative flex justify-center gap-[48px] px-[60px] py-[130px] mx-auto font-poppins">
+            <main id="conteudo" tabIndex={-1} className="relative flex justify-center gap-[48px] px-[60px] py-[130px] mx-auto font-poppins outline-none">
                 <section className="w-[778px] flex flex-col gap-[32px]">
                     <section className="overflow-hidden rounded-[10px] border border-[#e5e5e5]">
                         <div className="bg-[#bababa] h-[260px] w-full" />
                         <div className="px-[40px]">
                             <div className="flex w-full justify-between">
-                                <div role="img" aria-label={`Foto de perfil de ${isUserLoggedIn().usuario}`} className="relative flex justify-center items-center top-[-100px] bg-[#22D3EE] size-[190px] rounded-[50%] [mask-image:url(assets/Molde.svg)] mask-contain mask-no-repeat">
-                                    <span aria-hidden="true" className="text-[90px] font-medium text-[#073061]"> {isUserLoggedIn().usuario[0].toUpperCase()}</span>
+                                <div className="relative flex justify-center items-center top-[-100px] bg-[#22D3EE] size-[190px] rounded-[50%]">
+                                    <span className="text-[90px] font-medium text-[#073061]"> {isUserLoggedIn().usuario[0].toUpperCase()}</span>
                                 </div>
-                                <button onClick={() => setIsEditProfileOpen(true)} className="relative top-[-50px]">
+                                <button onClick={() => setIsEditProfileOpen(true)} aria-label="Gerenciar perfil" aria-haspopup="dialog" className="relative top-[-50px]">
                                     <Settings className="size-[24px] stroke-[#3c4043]" />
                                 </button>
                             </div>
                             <div className="relative top-[-60px] flex flex-col gap-[12px]">
-                                <span className="text-[20px] font-bold"> {isUserLoggedIn().usuario} </span>
+                                <h1 className="text-[20px] font-bold"> {isUserLoggedIn().usuario} </h1>
                                 <p className="text-[16px] text-[#434343]"> {isUserLoggedIn().bio} </p>
                             </div>
                         </div>
@@ -72,7 +72,7 @@ export default function PerfilPage() {
             </main>
 
             {
-                isEditProfileOpen && <div className="fixed inset-0 bg-black/50 flex justify-center items-center">
+                isEditProfileOpen && <div className="fixed inset-0 z-10 bg-black/50 flex justify-center items-center">
                     <EditProfileForm
                         onClickX={() => setIsEditProfileOpen(false)}
                         onClickApagarConta={() => { setIsEditProfileOpen(false), setIsApagarContaOpen(true) }}
@@ -81,7 +81,7 @@ export default function PerfilPage() {
             }
 
             {
-                isApagarContaOpen && <div className="fixed inset-0 bg-black/50 flex justify-center items-center">
+                isApagarContaOpen && <div className="fixed inset-0 z-10 bg-black/50 flex justify-center items-center">
                     <ApagarContaForm onClickX={() => { setIsApagarContaOpen(false), setIsEditProfileOpen(true) }} />
                 </div>
             }

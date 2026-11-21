@@ -6,7 +6,7 @@ import copiarLink from "../../utils/copiarLink";
 import timestampMsg from "../../utils/timestampMsg";
 import viewObserver from "../../utils/viewObserver";
 import isUserLoggedIn from "../../utils/auth";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BiSolidFilePdf } from "react-icons/bi";
 import { ArrowUpRight, Ellipsis, Megaphone, Pencil, Trash } from "lucide-react";
 import CopiarLinkBtn from "./CopiarLinkBtn";
@@ -20,6 +20,12 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
 
   const cardRef = viewObserver(id)
   const [expandido, setExpandido] = useState(false)
+  const descricaoRef = useRef(null)
+
+  function expandir() {
+    setExpandido(true)
+    requestAnimationFrame(() => descricaoRef.current?.focus())
+  }
 
   const usuario = isUserLoggedIn();
 
@@ -75,9 +81,9 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
 
         <div className="flex flex-col gap-[24px] w-full">
           <h2 className="font-semibold leading-tight text-[16px] text-black">{titulo}</h2>
-          <p className="font-medium leading-stitch text-[14px] text-[#3c4043] whitespace-pre-wrap">
+          <p ref={descricaoRef} tabIndex={-1} className="font-medium leading-stitch text-[14px] text-[#3c4043] whitespace-pre-wrap">
             {((expandido || descricao.length < 60) || variant === "completo") ? descricao : `${descricao.slice(0, descricao.lastIndexOf(' ', 60))}... `}
-            {(!expandido && variant !== "completo" && (descricao.length > 60 || link || email || telefone || anexo)) ? <button className="text-[#8d8d8d] font-medium hover:cursor-pointer" onClick={() => setExpandido(true)}> mostrar mais </button> : ''}
+            {(!expandido && variant !== "completo" && (descricao.length > 60 || link || email || telefone || anexo)) ? <button className="text-[#8d8d8d] font-medium hover:cursor-pointer" onClick={expandir}> mostrar mais </button> : ''}
           </p>
 
           {(expandido || variant === "completo") && (link || email || telefone) ?
@@ -116,10 +122,10 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
                       <BiSolidFilePdf size="24px" color="#EA4345" />
                       <div className="flex flex-col gap-[4px]">
                         <span> {anexo.titulo} </span>
-                        <span className="text-[12px] text-[#909090]"> {anexo.tipo} · {anexo.tamanho}kb </span>
+                        <span className="text-[12px] text-[#6B6B6B]"> {anexo.tipo} · {anexo.tamanho}kb </span>
                       </div>
                     </div>
-                    <div> <ArrowUpRight size="18px" /> </div>
+                    <div> <ArrowUpRight size="18px" /> <span className="sr-only">(abre em nova aba)</span> </div>
                   </a>
             </div>
             : ""}

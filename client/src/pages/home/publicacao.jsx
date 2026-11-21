@@ -57,19 +57,30 @@ export default function PublicacaoPage() {
         <div className="min-h-screen bg-white">
             {Header}
 
-            <main className="flex justify-center gap-[48px] px-[60px] pt-[130px] pb-[48px] mx-auto items-start">
-                <aside className="sticky top-[130px]">
+            <main id="conteudo" tabIndex={-1} className="flex justify-center gap-[48px] px-[60px] pt-[130px] pb-[48px] mx-auto items-start outline-none">
+                <h1 className="sr-only">{publicacao[0] ? `Publicação: ${publicacao[0].titulo}` : "Publicação"}</h1>
+
+                <div aria-hidden="true" className="sticky top-[130px]">
                     <div className="bg-white border w-[290px] h-[270px]">
 
                     </div>
-                </aside>
+                </div>
 
-                <section className="flex flex-col gap-[24px] w-[778px] max-w-[960px]">
+                <section aria-label="Publicação" className="flex flex-col gap-[24px] w-[778px] max-w-[960px]">
 
                     <Button onClick={() => navigate('/')}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
                         <span> Voltar à página inicial </span>
                     </Button>
+
+                    {/* Em telas menores que 1536px a coluna lateral some: este botão garante que dá para publicar em qualquer tamanho e zoom */}
+                    <div className="2xl:hidden flex flex-col md:flex-row md:items-center justify-between gap-[12px] bg-white border border-[#e5e5e5] rounded-[12px] p-[20px] font-poppins text-[#3c4043]">
+                        <p><span className="font-semibold">O mural também é seu.</span> Compartilhe avisos, eventos e oportunidades com a comunidade.</p>
+                        <Button variant="cta" className="shrink-0" onClick={() => { isUserLoggedIn() ? setIsPublicacaoOpen(true) : setIsLoginOpen(true) }}>
+                            <Plus className="size-[20px]" />
+                            <span> Criar Publicação </span>
+                        </Button>
+                    </div>
 
                     {publicacao.map((p) => (
                         <PubliCard
@@ -84,6 +95,7 @@ export default function PublicacaoPage() {
                             link={p.link}
                             autor={p.nome_usuario}
                             email={p.email}
+                            telefone={p.telefone}
                             anexo={p.anexo}
                             qtdVisualizacoes={p.qtd_visualizacoes}
                             expiracao={p.expiracao}

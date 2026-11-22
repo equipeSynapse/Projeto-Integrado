@@ -10,15 +10,18 @@ export default function Destaques({ dataPosts }) {
     )
 
     return (
-        <div className="bg-white flex flex-col gap-[12px] border w-[290px] p-[36px] rounded-[12px] border-[#e5e5e5]">
-            <span className="font-semibold font-bricolage text-[18px]"> Últimos destaques </span>
-            <span> Avisos Administrativos da Secretaria SMD. </span>
+        <div className="bg-white flex flex-col gap-[12px] border w-[290px] pb-[24px] rounded-[12px] border-[#e5e5e5]">
+            <div className="px-[36px] pt-[36px] py-[12px]">
+                <span className="font-semibold font-bricolage text-[18px]"> Últimos destaques </span>
+                <span> Avisos Administrativos da Secretaria SMD. </span>
+            </div>
 
+            <div className="flex flex-col">
             {destaques.slice(0, 3).map((d) => (
                 <button
                     key={d.id}
                     onClick={() => navigate(`/publicacao/${d.id}`)}
-                    className="border border-x-0 border-b-0 border-t-[#e5e5e5] pt-[16px] pb-[8px] hover:cursor-pointer"
+                    className="border border-x-0 border-b-0 border-t-[#e5e5e5] px-[36px] py-[16px] hover:cursor-pointer hover:bg-[#F4F4F4]"
                 >
                     <div className="flex gap-[14px] text-[14px]">
                         <div className="bg-destaque aspect-square font-medium flex items-center justify-center size-[40px] [mask-image:url(assets/Molde.svg)] [mask-size:contain]"> SS </div>
@@ -31,6 +34,7 @@ export default function Destaques({ dataPosts }) {
                     <span className="text-[14px] line-clamp-2 mt-[16px] text-left"> {d.descricao} </span>
                 </button>
             ))}
+            </div>
 
         </div>
     )

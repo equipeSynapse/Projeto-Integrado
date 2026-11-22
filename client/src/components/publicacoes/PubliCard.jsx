@@ -54,7 +54,7 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
           </div>
 
           <div className="relative flex gap-[24px] items-center">
-            <div className="px-[12px] py-[6px] bg-[#e5e5e5] text-[12px] rounded-[50px]"> Expira em {new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(expiracao))} </div>
+            <div className="px-[12px] py-[6px] bg-[#FFF7EE] font-medium text-[12px] text-[#AA5C09] rounded-[50px]"> Expira em {new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(expiracao))} </div>
             {isUserLoggedIn() && <button onClick={() => setThreeDotsClicked(!threeDotsClicked)} aria-label={`Mais opções para publicação ${titulo}`}>
               <Ellipsis/>
             </button>}

@@ -3,6 +3,7 @@ import { getNotificacoes } from "../../services/notificacoes/obterNotificacoes";
 import { useRef, useState } from "react";
 import { useEffect } from "react";
 import { isSameDay, isSameMonth, isSameWeek } from "date-fns";
+import error404 from "../../assets/illustrations/404 error.png"
 import NotificacaoBlock from "./NotificacaoBlock";
 import Button from "../Button";
 import { excluirNotificacao } from "../../services/notificacoes/excluirNotificacao";
@@ -12,7 +13,7 @@ import closeModal from "../../utils/closeModal";
 export default function NotificacoesModal({ onClose }) {
     const [notificacoes, setNotificacoes] = useState([])
     const modalRef = useRef(null);
-    
+
     useEffect(() => {
         getNotificacoes().then(setNotificacoes).catch(e => console.error("Erro ao buscar as notificações:", e))
     }, []);
@@ -22,7 +23,7 @@ export default function NotificacoesModal({ onClose }) {
     const alternarPendente = (id) => setPendentesExclusao((prev) => prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]);
 
     closeModal(modalRef, onClose)
-    
+
     async function closeModalandExclude() {
         onClose()
         if (pendentesExclusao.length > 0) {
@@ -39,7 +40,7 @@ export default function NotificacoesModal({ onClose }) {
 
     function secoes(tab) {
         let arrayNotif = []
-        
+
         if (tab === "Todas") arrayNotif = notificacoes
         else if (tab === "Lidas") arrayNotif = notificacoesLidas
         else if (tab === "Não Lidas") arrayNotif = notificacoesNaoLidas
@@ -47,12 +48,12 @@ export default function NotificacoesModal({ onClose }) {
         const notificacoesHoje = arrayNotif.filter((n) => isSameDay(n.gerada_em, new Date()))
         const notificacoesSemana = arrayNotif.filter((n) => isSameWeek(n.gerada_em, new Date()) && !notificacoesHoje.some((h) => h.id === n.id))
         const notificacoesMes = arrayNotif.filter((n) => isSameMonth(n.gerada_em, new Date()) &&
-        !notificacoesHoje.some((h) => h.id === n.id) &&
-        !notificacoesSemana.some((s) => s.id === n.id))
+            !notificacoesHoje.some((h) => h.id === n.id) &&
+            !notificacoesSemana.some((s) => s.id === n.id))
 
-        return [{titulo: "Hoje", array: notificacoesHoje},
-                {titulo: "Última semana", array: notificacoesSemana}, 
-                {titulo: "Este mês", array: notificacoesMes}]
+        return [{ titulo: "Hoje", array: notificacoesHoje },
+        { titulo: "Última semana", array: notificacoesSemana },
+        { titulo: "Este mês", array: notificacoesMes }]
     }
 
     const [tabAtual, setTabAtual] = useState("Todas")
@@ -61,9 +62,9 @@ export default function NotificacoesModal({ onClose }) {
         <div ref={modalRef} tabIndex={-1} aria-label="Notificações" className="relative h-full w-[588px] flex flex-col rounded-tl-[12px] bg-white z-10">
             <div className="border border-x-0 border-t-0 border-b-[#e5e5e5]">
                 <div className="flex justify-between items-center p-[32px]">
-                    <span className="text-[20px] font-semibold text-[#3C4043]"> Notificações </span>
-                    <button onClick={closeModalandExclude} aria-label='Fechar modal de notificações'> 
-                        <X className="size-[24px] stroke-[#3C4043]" /> 
+                    <span className="text-[24px] font-semibold font-bricolage text-[#3C4043]"> Notificações </span>
+                    <button onClick={closeModalandExclude} aria-label='Fechar modal de notificações'>
+                        <X className="size-[24px] stroke-[#3C4043]" />
                     </button>
                 </div>
                 {/* Abas: o leitor de tela anuncia "aba, selecionada, 1 de 3". Setas trocam de aba. */}
@@ -94,30 +95,39 @@ export default function NotificacoesModal({ onClose }) {
             </div>
 
             <div id="painel-notificacoes" role="tabpanel" aria-labelledby={`aba-notificacoes-${tabAtual}`} className="py-[32px] flex flex-col gap-[32px] h-[80%] overflow-y-auto scrollbar-none">
-                {secoes(tabAtual).map((s, i) =>
-                    (s.array.length > 0) && <div key={i} className="flex flex-col gap-[12px]">
-                        <span className="ml-[28px] text-[20px] text-[#3C4043] font-semibold"> {s.titulo} </span>
-                        <div className="flex flex-col gap-[4px]">
-                            {s.array.map((n) =>
-                                <NotificacaoBlock 
-                                    key={n.id} 
-                                    data={n} 
-                                    excluida={pendentesExclusao.includes(n.id)}
-                                    onAlternar={alternarPendente}
-                                    onAbrir={closeModalandExclude}/>
-                            )}
+                {secoes(tabAtual)[0].array.length > 0 || secoes(tabAtual)[1].array.length > 0 || secoes(tabAtual)[2].array.length > 0 ?
+                    secoes(tabAtual).map((s, i) =>
+                        (s.array.length > 0) &&
+                        <div key={i} className="flex flex-col gap-[12px]">
+                            <span className="ml-[28px] text-[20px] text-[#3C4043] font-semibold"> {s.titulo} </span>
+                            <div className="flex flex-col gap-[4px]">
+                                {s.array.map((n) =>
+                                    <NotificacaoBlock
+                                        key={n.id}
+                                        data={n}
+                                        excluida={pendentesExclusao.includes(n.id)}
+                                        onAlternar={alternarPendente}
+                                        onAbrir={closeModalandExclude} />
+                                )}
+                            </div>
                         </div>
-                    </div>
-                )}
+                    )
+                    :
+                    (<div className="w-full h-full flex flex-col justify-center items-center gap-[12px]">
+                        <img src={error404}/>
+                        <span className="font-medium text-[24px] text-[#909090] w-[50%] text-center"> Nenhuma notificação encontrada </span>
+                    </div>)
+                }
             </div>
 
             <div className="flex justify-center items-center flex-1 p-[32px] border border-x-0 border-b-0 border-t-[#e5e5e5]">
-                <Button 
-                    variant="cta" 
-                    className="w-full" 
+                <Button
+                    variant="cta"
+                    className="w-full"
                     onClick={async () => {
-                        await marcarTodasComoLidas(); 
-                        setNotificacoes(prev => prev.map((n) => ({ ...n, lida:true}))) }}
+                        await marcarTodasComoLidas();
+                        setNotificacoes(prev => prev.map((n) => ({ ...n, lida: true })))
+                    }}
                 >
                     <CheckCheck className="size-[20px]" />
                     <span> Marcar todas como lidas </span>

@@ -46,13 +46,13 @@ export default function DenunciarPubModal({ pubId, onClickX }) {
         }
     }
 
-    const cabecalho = (icone, titulo) => (
+    const cabecalho = (icone, titulo, bgColor) => (
         <>
             <div className="flex justify-end">
                 <button onClick={onClickX} aria-label="Fechar"> <img src={closeIcon} alt="" /> </button>
             </div>
             <div className="flex flex-col items-center gap-[32px] mt-[12px]">
-                <div className="flex items-center justify-center bg-[#d9d9d9] size-[80px] rounded-full">
+                <div className="flex items-center justify-center size-[80px] rounded-full" style={{backgroundColor: `var(--color-${bgColor})`}}>
                     {icone}
                 </div>
                 <h2 className="font-semibold text-[28px] leading-[1.5] text-center text-[#3c4043]">{titulo}</h2>
@@ -62,11 +62,11 @@ export default function DenunciarPubModal({ pubId, onClickX }) {
 
     if (enviada) return (
         <div ref={modalRef} tabIndex={-1} role="dialog" aria-modal="true" className="w-[564px] h-[800px] max-h-[95vh] flex flex-col bg-white rounded-[16px] p-[32px] font-poppins">
-            {cabecalho(<Check className="size-[48px] text-[#3c4043]" strokeWidth={2} aria-hidden="true" />, "Agradecemos o feedback!")}
+            {cabecalho(<Check className="size-[48px] stroke-white" strokeWidth={2} aria-hidden="true" />, "Agradecemos o feedback!", "sucesso")}
             <p className="text-[16px] leading-[1.5] text-center text-[#3c4043] mt-[14px]">
                 Sua denúncia ajuda a manter o Mural SMD <br />seguro para todos e todas!
             </p>
-            <div className="bg-[#f9f9f9] rounded-[8px] p-[24px] flex flex-col gap-[14px] mt-[32px] text-[16px] text-[#3c4043]">
+            <div className="bg-[#F0E7F6] rounded-[8px] p-[24px] flex flex-col gap-[14px] mt-[32px] text-[16px] text-[#3c4043]">
                 <span className="font-medium leading-none">O que vem a seguir?</span>
                 <p className="leading-[1.5]">
                     O moderador irá analisar a publicação e as justificativas da denúncia. Caso seja identificada uma violação, a publicação será removida do mural.
@@ -78,7 +78,7 @@ export default function DenunciarPubModal({ pubId, onClickX }) {
 
     return (
         <div ref={modalRef} tabIndex={-1} role="dialog" aria-modal="true" className="w-[564px] max-h-[95vh] overflow-y-auto bg-white rounded-[16px] p-[32px] font-poppins">
-            {cabecalho(<Megaphone className="size-[48px] stroke-[#8d8d8d]" />, <>Você quer denunciar <br />esta publicação?</>)}
+            {cabecalho(<Megaphone className="size-[48px] stroke-white" />, <>Você quer denunciar <br />esta publicação?</>, "principal")}
 
             <fieldset className="mt-[32px] flex flex-col gap-[12px]">
                 <legend className="font-medium text-[14px] text-black mb-[12px]">
@@ -119,7 +119,7 @@ export default function DenunciarPubModal({ pubId, onClickX }) {
             <div className="flex justify-between items-center mt-[32px]">
                 <Button onClick={onClickX}> Cancelar </Button>
                 <Button variant="cta" onClick={handleEnviar} disabled={enviando}
-                    className={!motivo && !enviando ? "!bg-[#9d9fa1]" : ""}>
+                    className={!(motivo || enviando) ? "!bg-disabled" : ""}>
                     {enviando ? "Enviando..." : "Enviar denúncia"}
                 </Button>
             </div>

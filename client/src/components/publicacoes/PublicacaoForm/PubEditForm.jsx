@@ -65,6 +65,7 @@ export default function PublicacaoEditForm({ onClickX, onSucess, onErro, dadosPu
     const hoje = startOfDay(new Date())
     const dataDigitada = parseData(dados.expiracao)
     const dataExpiracao = dataDigitada && !isBefore(dataDigitada, hoje) ? dataDigitada : null
+    const [isExpirIconHover, setIsExpirIconHover] = useState(false);
 
     let erroExpiracao = false
     if (!dados.expiracao.trim()) erroExpiracao = MSG_OBRIGATORIO
@@ -128,7 +129,7 @@ export default function PublicacaoEditForm({ onClickX, onSucess, onErro, dadosPu
     return (
         <div ref={modalRef} aria-modal="true" role="dialog" tabIndex={-1} aria-label="Modal de Edição de Publicação" className="bg-[#fcfcfc] border border-[#e5e5e5] rounded-[16px] w-full max-w-[726px] max-h-[90vh] flex flex-col overflow-hidden font-poppins text-[#3c4043]">
             <header className="bg-white border-b border-[#e5e5e5] p-[32px] flex items-center justify-between shrink-0">
-                <h2 className="text-[20px] font-semibold">Editar publicação</h2>
+                <h2 className="text-[24px] font-semibold font-bricolage">Editar publicação</h2>
                 <button type="button" onClick={onClickX} aria-label="Fechar modal de edição de publicação" className="size-[24px] cursor-pointer"><img src={closeIcon} /></button>
             </header>
 
@@ -161,7 +162,16 @@ export default function PublicacaoEditForm({ onClickX, onSucess, onErro, dadosPu
                     <SeletorCategoria valor={dados.categorias} opcoes={CATEGORIAS} onAlternar={alternarCategoria} erro={erroVisivel('categorias')} />
                 </Campo>
 
-                <Campo label={<span className="flex items-center gap-[8px]">Exibir até... * <CircleHelp className="size-[14px]" /></span>} erro={erroVisivel('expiracao')}>
+                <Campo 
+                    htmlFor="expiracao-pub" 
+                    label={<span className="flex items-center gap-[8px]">Exibir até... <span className='text-atencao'>*</span>
+                    <CircleHelp className="size-[14px] hover:cursor-pointer" onMouseEnter={() => setIsExpirIconHover(true)} 
+                    onMouseLeave={() => setIsExpirIconHover(false)}/></span>} erro={erroVisivel('expiracao')}
+                >
+                    {isExpirIconHover && <div className="z-2 absolute top-[24px] left-[0px] w-[300px] p-[8px] rounded-[8px] bg-[#3c4043] text-white text-center">
+                        <span className="text-[14px]"> A publicação será exibida até a data de validade definida. </span>
+                    </div>}                    
+                    
                     <div className="relative w-full">
                         <input
                             value={dados.expiracao}
@@ -264,7 +274,7 @@ export default function PublicacaoEditForm({ onClickX, onSucess, onErro, dadosPu
 
             <footer className="bg-white border-t border-[#e5e5e5] p-[32px] flex items-center justify-between shrink-0">
                 <Button type="button" variant="text" className="h-[45px] text-[#3c4043]" onClick={onClickX}>Cancelar</Button>
-                <Button type="button" variant="cta" className={`h-[45px] ${formValido? '':'!bg-disabled'}`} disabled={!formValido || !houveMudanca} loading={enviando} loadingText="Salvando..." onClick={handleSubmit}>Salvar alterações</Button>
+                <Button type="button" variant="cta" className={`h-[45px]`} disabled={!formValido || !houveMudanca} loading={enviando} loadingText="Salvando..." onClick={handleSubmit}>Salvar alterações</Button>
             </footer>
         </div>
     )

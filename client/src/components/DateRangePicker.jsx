@@ -5,7 +5,7 @@ import { ptBR } from 'date-fns/locale';
 import { useRef, useState } from 'react';
 import closeModal from '../utils/closeModal';
 
-export default function DateRangePicker({ onClickX }) {
+export default function useDateRangePicker({ onClickX }) {
     closeModal(onClickX)
 
     const [dataAtual, setDataAtual] = useState(new Date())
@@ -76,7 +76,13 @@ export default function DateRangePicker({ onClickX }) {
                                 if (!date) return <div key={index} />
                                 return (
                                     <div className={`${(isSameDay(date, dataFim)) ? 'bg-gray-200 rounded-r-[10px]' : (isSameDay(date, dataInicio)) ? 'bg-gray-200 rounded-l-[10px]' : ''}`}>
-                                        <button key={index} onClick={() => handleSelectDay(date)} className={`flex justify-center items-center w-10 h-10 ${(isSelectedStart(date) || isSelectedEnd(date)) ? 'bg-black text-white rounded-[10px] z-1' : (isInBetween(date)) ? 'bg-gray-200 rounded-[0px]' : 'hover:bg-[#e5e5e5] hover:rounded-[10px]'} hover:cursor-pointer`}>
+                                        <button 
+                                            key={index} 
+                                            onClick={() => handleSelectDay(date)} 
+                                            className={`flex justify-center items-center w-10 h-10 ${(isSelectedStart(date) || isSelectedEnd(date)) ? 
+                                            'bg-principal text-white rounded-[10px] z-1' : (isInBetween(date)) ? 'bg-[#e8e4eb] rounded-[0px]' : 
+                                            'hover:bg-[#e8e4eb] hover:rounded-[10px]'} hover:cursor-pointer`}
+                                        >
                                             {date.getDate()}
                                         </button>
                                     </div>
@@ -101,7 +107,7 @@ export default function DateRangePicker({ onClickX }) {
                                 if (!date) return <div key={index} />
                                 return (
                                     <div className={`${(isSameDay(date, dataFim) && dataInicio && !isSameDay(dataInicio, dataFim)) ? 'bg-gray-200 rounded-r-[10px]' : (isSameDay(date, dataInicio) && dataFim && !isSameDay(dataInicio, dataFim)) ? 'bg-gray-200 rounded-l-[10px]' : ''}`}>
-                                        <button key={index} onClick={() => handleSelectDay(date)} className={`flex justify-center items-center w-10 h-10 ${(isSelectedStart(date) || isSelectedEnd(date)) ? 'bg-black text-white rounded-[10px] z-1' : (isInBetween(date)) ? 'bg-gray-200 rounded-[0px]' : 'hover:bg-[#e5e5e5] hover:rounded-[10px]'} hover:cursor-pointer`}>
+                                        <button key={index} onClick={() => handleSelectDay(date)} className={`flex justify-center items-center w-10 h-10 ${(isSelectedStart(date) || isSelectedEnd(date)) ? 'bg-principal text-white rounded-[10px] z-1' : (isInBetween(date)) ? 'bg-[#e8e4eb] rounded-[0px]' : 'hover:bg-[#e8e4eb] hover:rounded-[10px]'} hover:cursor-pointer`}>
                                             {date.getDate()}
                                         </button>
                                     </div>

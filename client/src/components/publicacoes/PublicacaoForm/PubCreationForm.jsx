@@ -47,6 +47,7 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
     const dataDigitada = parseData(dados.expiracao)
     const dataExpiracao = dataDigitada && !isBefore(dataDigitada, hoje) ? dataDigitada : null
 
+    const [isExpirIconHover, setIsExpirIconHover] = useState(false);
     let erroExpiracao = false
     if (!dados.expiracao.trim()) erroExpiracao = MSG_OBRIGATORIO
     else if (!dataDigitada) erroExpiracao = 'Data inválida'
@@ -161,7 +162,16 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
                     <SeletorCategoria id="categoria-pub" valor={dados.categorias} opcoes={CATEGORIAS} onAlternar={alternarCategoria} erro={erroVisivel('categorias')} />
                 </Campo>
 
-                <Campo htmlFor="expiracao-pub" label={<span className="flex items-center gap-[8px]">Exibir até... <span className='text-atencao'>*</span><CircleHelp className="size-[14px]" /></span>} erro={erroVisivel('expiracao')}>
+                <Campo 
+                    htmlFor="expiracao-pub" 
+                    label={<span className="flex items-center gap-[8px]">Exibir até... <span className='text-atencao'>*</span>
+                    <CircleHelp className="size-[14px] hover:cursor-pointer" onMouseEnter={() => setIsExpirIconHover(true)} 
+                    onMouseLeave={() => setIsExpirIconHover(false)}/></span>} erro={erroVisivel('expiracao')}
+                >
+                    {isExpirIconHover && <div className="z-2 absolute top-[24px] left-[0px] w-[300px] p-[8px] rounded-[8px] bg-[#3c4043] text-white text-center">
+                        <span className="text-[14px]"> A publicação será exibida até a data de validade definida. </span>
+                    </div>}
+                    
                     <div className="relative w-full">
                         <input
                             id="expiracao-pub"
@@ -259,7 +269,7 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
 
             <footer aria-label="Botões de cancelar e criar publicação" className="bg-white border-t border-[#e5e5e5] p-[32px] flex items-center justify-between shrink-0">
                 <Button type="button" variant="text" className="h-[45px] text-[#3c4043]" onClick={onClickX}>Cancelar</Button>
-                <Button type="button" variant="cta" className={`h-[45px] ${formValido? '':'!bg-disabled'}`} disabled={!formValido} loading={enviando} loadingText="Criando..." onClick={handleSubmit}>Criar publicação</Button>            
+                <Button type="button" variant="cta" className={`h-[45px]`} disabled={!formValido} loading={enviando} loadingText="Criando..." onClick={handleSubmit}>Criar publicação</Button>            
             </footer>
         </div>
     )

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import isUserLoggedIn from "../utils/auth";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { InputSearch } from "./publicacoes/InputSearch";
-import DateRangePicker from "./DateRangePicker";
+import useDateRangePicker from "./DateRangePicker";
 import NotificacoesModal from "./notificacoes/NotificacoesModal";
 import MinhasDenuncias from "./denuncias/MinhasDenuncias";
 import { getNotificacoes } from "../services/notificacoes/obterNotificacoes";
@@ -18,7 +18,7 @@ export default function useHeader({ className, showSearch, children, onClickEntr
 
     const [busca, setBusca] = useState("");
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-    const { dataInicio, dataFim, ComponenteDate } = DateRangePicker({ onClickX: () => { setIsCalendarOpen(false) } });
+    const { dataInicio, dataFim, ComponenteDate } = useDateRangePicker({ onClickX: () => { setIsCalendarOpen(false) } });
 
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
     const [isMinhasDenunciasOpen, setIsMinhasDenunciasOpen] = useState(false);
@@ -47,13 +47,13 @@ export default function useHeader({ className, showSearch, children, onClickEntr
                             <InputSearch value={busca} onClickX={() => setBusca("")} onChange={(e) => { setBusca(e.target.value) }} />
 
                             <Button variant="second" onClick={() => { setIsCalendarOpen(!isCalendarOpen) }} aria-expanded={isCalendarOpen} aria-haspopup="dialog">
-                                <Calendar className="size-[18px]" />
                                 <span className="whitespace-nowrap">
                                     {(dataInicio && dataFim) ?
-                                        `${new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(dataInicio)} - 
-                                             ${new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(dataFim)}`
-                                        : "Período"}
+                                       <span className="text-principal"> Período: {new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(dataInicio)} -&nbsp;
+                                             {new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(dataFim)} </span>
+                                        : <span className="text-principal"> Período: <span className="text-[#909090]"> Data inicial </span>  -  <span className="text-[#909090]"> Data final </span> </span>}
                                 </span>
+                                <Calendar className="stroke-principal size-[18px]" />
                             </Button>
 
                             {isCalendarOpen && <div className="absolute z-2 left-[480px] top-[90px]"> {ComponenteDate} </div>}

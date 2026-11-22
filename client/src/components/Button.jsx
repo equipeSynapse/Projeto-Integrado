@@ -20,7 +20,7 @@ export default function Button({ variant, children, className, onClick, loading,
             aria-busy={loading ? true : undefined}
             className={`
                 ${variant ? variantStyles[variant] : variantStyles['text']} 
-                ${disabled ? 'disabled:bg-[#9d9fa1] disabled:hover:bg-[#9d9fa1] disabled:hover:cursor-not-allowed' : ''} 
+                ${disabled ? 'disabled:bg-disabled disabled:hover:bg-disabled disabled:hover:cursor-not-allowed' : ''} 
                 ${loadingStyles}
                 ${className || ''}`}
         >

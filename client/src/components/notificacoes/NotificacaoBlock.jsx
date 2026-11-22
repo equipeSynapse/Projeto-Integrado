@@ -1,4 +1,4 @@
-import { Trash, Undo2 } from "lucide-react";
+import { Bell, Trash, Undo2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { marcarComoLida } from "../../services/notificacoes/marcarComoLida";
 import { useState } from "react";
@@ -39,7 +39,7 @@ export default function NotificacaoBlock({ data, excluida, onAlternar, onAbrir }
                     
                 }}
             >
-                <div className="size-[40px] bg-[#D9D9D9] rounded-[50%]" />
+                {data.tipo === "PUBLICACAO_NOVA" && <div className="[mask-image:url(assets/Molde.svg)] mask-contain mask-no-repeat size-[60px] bg-[#e8e4eb] flex justify-center items-center rounded-[50%]"> <Bell className="stroke-principal size-[24px]"/> </div>}
                 <div className="flex justify-between flex-1 text-left">
                     {data.tipo === "PUBLICACAO_NOVA" &&
                         <div className="flex items-center w-[420px]">
@@ -53,7 +53,7 @@ export default function NotificacaoBlock({ data, excluida, onAlternar, onAbrir }
 
             <div className="absolute flex flex-col justify-between items-end right-[32px] top-[24px] h-[50px]">
                 <button onClick={(e) => { e.stopPropagation(); onAlternar(data.id) }} aria-label="Excluir Notificação">
-                    <Trash className="size-[16px] stroke-[#6B6B6B]"/>
+                    <Trash className="size-[16px] stroke-atencao"/>
                 </button>
                 <span className="text-[14px] text-[#6B6B6B] font-semibold inline-block">
                     {(timestampDiff < 60) ? `${timestampDiff} min` :

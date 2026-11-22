@@ -122,7 +122,7 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
     }
 
     return (
-        <div ref={modalRef} tabIndex={-1} className="bg-[#fcfcfc] border border-[#e5e5e5] rounded-[16px] w-full max-w-[726px] max-h-[90vh] flex flex-col overflow-hidden font-poppins text-[#3c4043]">
+        <div ref={modalRef} tabIndex={-1} aria-modal="true" aria-label="Modal de Criar Publicação" className="bg-[#fcfcfc] border border-[#e5e5e5] rounded-[16px] w-full max-w-[726px] max-h-[90vh] flex flex-col overflow-hidden font-poppins text-[#3c4043]">
             <header className="bg-white border-b border-[#e5e5e5] p-[32px] flex items-center justify-between shrink-0">
                 <h2 className="text-[24px] font-semibold font-bricolage">Criar publicação</h2>
                 <button type="button" onClick={onClickX} aria-label='Fechar modal de criação de publicação' className="size-[24px] cursor-pointer">
@@ -135,6 +135,8 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
                     <input
                         id="titulo-pub"
                         value={dados.titulo}
+                        required
+                        aria-invalid={!!erroVisivel('titulo')}
                         onChange={alterar('titulo')}
                         onBlur={tocar('titulo')}
                         placeholder="Título"
@@ -146,6 +148,8 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
                     <textarea
                         id="descricao-pub"
                         value={dados.descricao}
+                        required
+                        aria-invalid={!!erroVisivel('descricao')}
                         onChange={alterar('descricao')}
                         onBlur={tocar('descricao')}
                         placeholder="Descrição"
@@ -162,6 +166,8 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
                         <input
                             id="expiracao-pub"
                             value={dados.expiracao}
+                            required
+                            aria-invalid={!!erroVisivel('expiracao')}
                             onChange={(e) => setDados((prev) => ({ ...prev, expiracao: mascararData(e.target.value) }))}
                             onBlur={tocar('expiracao')}
                             placeholder="dd/mm/aaaa"
@@ -222,7 +228,7 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
                 </div>
 
                 <Campo htmlFor="email-pub" label="E-mail" erro={erroVisivel('email')}>
-                    <input id="email-pub" value={dados.email} onChange={alterar('email')} onBlur={tocar('email')} placeholder="exemplo@email.com" className={`${inputBase} ${borda(erroVisivel('email'))} h-[48px] px-[16px] py-[10px]`} />
+                    <input id="email-pub" value={dados.email} onChange={alterar('email')} aria-invalid={!!erroVisivel('email')} onBlur={tocar('email')} placeholder="exemplo@email.com" className={`${inputBase} ${borda(erroVisivel('email'))} h-[48px] px-[16px] py-[10px]`} />
                 </Campo>
 
                 <Campo htmlFor="telefone-pub" label="Telefone/Celular">

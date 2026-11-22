@@ -46,8 +46,8 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
       >
         <div className="w-full flex justify-between items-start">
           <div className="flex gap-[12px]">
-            <div className={`bg-destaque size-[40px] rounded-[50px] flex items-center justify-center [mask-image:url(assets/Molde.svg)] mask-contain mask-no-repeat`}> {autor[0].toUpperCase()} </div>
-            <div className="flex flex-col justify-between">
+            <div aria-hidden="true" className={`bg-destaque size-[40px] rounded-[50px] flex items-center justify-center [mask-image:url(assets/Molde.svg)] mask-contain mask-no-repeat`}> {autor[0].toUpperCase()} </div>
+            <div tabIndex={0} className="flex flex-col justify-between">
               <span className="font-medium"> {autor} </span>
               <span role="text" aria-label={`Publicado ${timestampMsg(new Date(), new Date(criadoEm))}`}> {categoria.map((c, i) => c + ' · ')} Publicado {timestampMsg(new Date(), new Date(criadoEm))} </span>
             </div>
@@ -80,27 +80,27 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
         </div>
 
         <div className="flex flex-col gap-[24px] w-full">
-          <h2 className="font-semibold leading-tight text-[16px] text-black">{titulo}</h2>
-          <p ref={descricaoRef} tabIndex={-1} className="font-medium leading-stitch text-[14px] text-[#3c4043] whitespace-pre-wrap">
+          <h2 tabIndex={0} className="font-semibold leading-tight text-[16px] text-black">{titulo}</h2>
+          <p ref={descricaoRef} tabIndex={0} className="font-medium leading-stitch text-[14px] text-[#3c4043] whitespace-pre-wrap">
             {((expandido || descricao.length < 60) || variant === "completo") ? descricao : `${descricao.slice(0, descricao.lastIndexOf(' ', 60))}... `}
             {(!expandido && variant !== "completo" && (descricao.length > 60 || link || email || telefone || anexo)) ? <button className="text-[#8d8d8d] font-medium hover:cursor-pointer" onClick={expandir}> mostrar mais </button> : ''}
           </p>
 
           {(expandido || variant === "completo") && (link || email || telefone) ?
             <div className="flex flex-col gap-[24px]">
-              <h3 className="font-semibold leading-none text-[14px] text-black"> Informações adicionais </h3>
+              <h3 tabIndex={0} className="font-semibold leading-none text-[14px] text-black"> Informações adicionais </h3>
               <div className="flex flex-col gap-[16px]">
-                {link ? <div className="flex items-center gap-[10px]">
+                {link ? <div tabIndex={0} className="flex items-center gap-[10px]">
                   <img aria-hidden="true" src={link2Icon} alt="Ícone de link externo:" className="size-[18px] rotate-135" />
                   <a href={link} className="underline" target="_blank" rel="noopener noreferrer"> {link} </a>
                 </div> : ''}
 
-                {email ? <div className="flex items-center gap-[10px]">
+                {email ? <div tabIndex={0} className="flex items-center gap-[10px]">
                   <img aria-hidden="true" src={mailIcon} alt="Ícone de e-mail:" className="size-[18px]" />
                   <span> {email} </span>
                 </div> : ''}
 
-                {telefone ? <div className="flex items-center gap-[10px]">
+                {telefone ? <div tabIndex={0} className="flex items-center gap-[10px]">
                   <img aria-hidden="true" src={phoneIcon} alt="Ícone de telefone:" className="size-[18px]" />
                   <span> {telefone} </span>
                 </div> : ''}
@@ -115,24 +115,24 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
                     href={anexo.url}
                     target="_blank" 
                     rel="noopener noreferrer"
-                    alt={`Acessar Documento ${anexo.titulo}`}
+                    aria-label={`Acessar Documento ${anexo.titulo}, ${anexo.tipo}, ${anexo.tamanho} kilobytes`}
                     className="flex justify-between items-center w-full h-[66px] px-[24px] py-[16px] border border-[#e5e5e5] rounded-[8px]"
                   >
                     <div className="flex items-center gap-[10px]">
-                      <BiSolidFilePdf size="24px" color="#EA4345" />
+                      <BiSolidFilePdf aria-hidden="true" size="24px" color="#EA4345" />
                       <div className="flex flex-col gap-[4px]">
                         <span> {anexo.titulo} </span>
                         <span className="text-[12px] text-[#6B6B6B]"> {anexo.tipo} · {anexo.tamanho}kb </span>
                       </div>
                     </div>
-                    <div> <ArrowUpRight size="18px" /> <span className="sr-only">(abre em nova aba)</span> </div>
+                    <ArrowUpRight size="18px" aria-hidden="true" /> <span className="sr-only">(abre em nova aba)</span>
                   </a>
             </div>
             : ""}
         </div>
 
-        {imagem && <div className="bg-[#e5e5e5] rounded-[16px] w-full min-h-[310px] shrink-0 overflow-hidden">
-          <img src={imagem.url} alt={titulo} className="size-full object-cover" />
+        {imagem && <div tabIndex={0} className="bg-[#e5e5e5] rounded-[16px] w-full min-h-[310px] shrink-0 overflow-hidden">
+          <img src={imagem.url} alt={`Imagem da publicação: ${titulo}`} className="size-full object-cover" />
         </div>}
 
         <hr className="w-full border-[#e5e5e5]" />

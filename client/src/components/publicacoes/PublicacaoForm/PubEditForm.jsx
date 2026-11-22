@@ -126,7 +126,7 @@ export default function PublicacaoEditForm({ onClickX, onSucess, onErro, dadosPu
     }
 
     return (
-        <div ref={modalRef} aria-modal="true" role="dialog" tabIndex={-1} className="bg-[#fcfcfc] border border-[#e5e5e5] rounded-[16px] w-full max-w-[726px] max-h-[90vh] flex flex-col overflow-hidden font-poppins text-[#3c4043]">
+        <div ref={modalRef} aria-modal="true" role="dialog" tabIndex={-1} aria-label="Modal de Edição de Publicação" className="bg-[#fcfcfc] border border-[#e5e5e5] rounded-[16px] w-full max-w-[726px] max-h-[90vh] flex flex-col overflow-hidden font-poppins text-[#3c4043]">
             <header className="bg-white border-b border-[#e5e5e5] p-[32px] flex items-center justify-between shrink-0">
                 <h2 className="text-[20px] font-semibold">Editar publicação</h2>
                 <button type="button" onClick={onClickX} aria-label="Fechar modal de edição de publicação" className="size-[24px] cursor-pointer"><img src={closeIcon} /></button>
@@ -137,6 +137,8 @@ export default function PublicacaoEditForm({ onClickX, onSucess, onErro, dadosPu
                     <input
                         value={dados.titulo}
                         onChange={alterar('titulo')}
+                        required
+                        aria-invalid={!!erroVisivel('titulo')}
                         onBlur={tocar('titulo')}
                         placeholder="Título"
                         className={`${inputBase} ${borda(erroVisivel('titulo'))} h-[48px] px-[16px] py-[10px]`}
@@ -146,6 +148,8 @@ export default function PublicacaoEditForm({ onClickX, onSucess, onErro, dadosPu
                 <Campo label="Descrição *" erro={erroVisivel('descricao')}>
                     <textarea
                         value={dados.descricao}
+                        required
+                        aria-invalid={!!erroVisivel('descricao')}
                         onChange={alterar('descricao')}
                         onBlur={tocar('descricao')}
                         placeholder="Descrição"
@@ -161,6 +165,8 @@ export default function PublicacaoEditForm({ onClickX, onSucess, onErro, dadosPu
                     <div className="relative w-full">
                         <input
                             value={dados.expiracao}
+                            required
+                            aria-invalid={!!erroVisivel('expiracao')}
                             onChange={(e) => setDados((prev) => ({ ...prev, expiracao: mascararData(e.target.value) }))}
                             onBlur={tocar('expiracao')}
                             placeholder="dd/mm/aaaa"
@@ -228,7 +234,7 @@ export default function PublicacaoEditForm({ onClickX, onSucess, onErro, dadosPu
                 </div>
 
                 <Campo label="E-mail">
-                    <input value={dados.email} onChange={alterar('email')} placeholder="exemplo@email.com" className={`${inputBase} ${borda(false)} h-[48px] px-[16px] py-[10px]`} />
+                    <input value={dados.email} onChange={alterar('email')} placeholder="exemplo@email.com" aria-invalid={!!erroVisivel("email")} className={`${inputBase} ${borda(false)} h-[48px] px-[16px] py-[10px]`} />
                 </Campo>
 
                 <Campo label="Telefone/Celular">

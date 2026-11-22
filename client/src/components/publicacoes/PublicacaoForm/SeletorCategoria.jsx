@@ -11,7 +11,8 @@ export default function SeletorCategoria({ valor, onAlternar, opcoes, erro }) {
                     const selecionado = valor.includes(c);
                     const desabilitado = valor.length === 2 && !valor.includes(c)
 
-                    return (<button
+                    return (
+                    <button
                         key={c}
                         role="checkbox"
                         aria-checked={selecionado}

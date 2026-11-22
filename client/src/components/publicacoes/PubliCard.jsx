@@ -46,7 +46,7 @@ export function PubliCard({ variant, id, autor, criadoEm, imagem, categoria, tit
       >
         <div className="w-full flex justify-between items-start">
           <div className="flex gap-[12px]">
-            <div className={`${autor[0].toLowerCase() < "l" ? "bg-[#F072C5]" : "bg-[#22D3EE]"} size-[40px] rounded-[50px] flex items-center justify-center [mask-image:url(assets/Molde.svg)] mask-contain mask-no-repeat`}> {autor[0].toUpperCase()} </div>
+            <div className={`bg-destaque size-[40px] rounded-[50px] flex items-center justify-center [mask-image:url(assets/Molde.svg)] mask-contain mask-no-repeat`}> {autor[0].toUpperCase()} </div>
             <div className="flex flex-col justify-between">
               <span className="font-medium"> {autor} </span>
               <span role="text" aria-label={`Publicado ${timestampMsg(new Date(), new Date(criadoEm))}`}> {categoria.map((c, i) => c + ' · ')} Publicado {timestampMsg(new Date(), new Date(criadoEm))} </span>

@@ -151,8 +151,8 @@ export default function RedefinirSenhaPage() {
             return (
                 <div className="flex flex-col flex-1 justify-between h-full text-center">
                     <div className="flex flex-col items-center">
-                        <div className="bg-[#EBEBEB] rounded-full size-[80px] mt-[36px] flex items-center justify-center shrink-0">
-                            <MailWarning className="size-[48px] text-[#3c4043]" strokeWidth={1.5} aria-hidden="true" />
+                        <div className="bg-erro rounded-full size-[80px] mt-[36px] flex items-center justify-center shrink-0">
+                            <MailWarning className="size-[48px] stroke-white" strokeWidth={1.5} aria-hidden="true" />
                         </div>
                         <p className="font-poppins font-semibold leading-none text-[28px] mt-[48px] text-black">
                             Link inválido
@@ -199,8 +199,8 @@ export default function RedefinirSenhaPage() {
             return (
                 <div className="flex flex-col flex-1 justify-between h-[100%] text-center">
                     <div className="flex flex-col items-center">
-                        <div className="bg-[#EBEBEB] rounded-full size-[80px] mt-[36px] flex items-center justify-center shrink-0">
-                            <MailWarning className="size-[48px] text-[#3c4043]" strokeWidth={1.5} aria-hidden="true" />
+                        <div className="bg-erro rounded-full size-[80px] mt-[36px] flex items-center justify-center shrink-0">
+                            <MailWarning className="size-[48px] stroke-white" strokeWidth={1.5} aria-hidden="true" />
                         </div>
                         <p className="font-poppins font-semibold leading-none text-[28px] text-[#3C4043] mt-[48px]">
                             Este link expirou
@@ -211,14 +211,14 @@ export default function RedefinirSenhaPage() {
                     </div>
 
                     <div className="w-full flex flex-col items-center">
-                        <button
-                            type="button"
+                        <Button
+                            variant="cta"
                             onClick={handleSolicitarNovoLink}
                             disabled={enviandoEmail}
-                            className="flex h-[48px] items-center justify-center w-full rounded-full bg-[#3c4043] hover:bg-black text-white font-poppins font-medium text-[15px] transition-colors disabled:bg-[#9d9fa1] cursor-pointer"
+                            className="flex h-[48px] items-center justify-center w-full rounded-full text-white font-poppins font-medium text-[15px] transition-colors disabled:bg-[#9d9fa1] cursor-pointer"
                         >
                             {enviandoEmail ? "Enviando..." : "Solicitar novo link"}
-                        </button>
+                        </Button>
                         {serverError && (
                             <p className="font-poppins text-[13px] text-red-500 mt-[8px]">
                                 {serverError}
@@ -233,8 +233,8 @@ export default function RedefinirSenhaPage() {
             return (
                 <div className="flex flex-col flex-1 items-center text-center justify-between">
                     <div className="flex flex-col items-center mt-[12px]">
-                        <div className="bg-[#EBEBEB] rounded-full size-[80px] flex items-center justify-center shrink-0">
-                            <Check className="size-[40px] text-[#3c4043]" strokeWidth={1.5} aria-hidden="true" />
+                        <div className="bg-sucesso rounded-full size-[80px] flex items-center justify-center shrink-0">
+                            <Check className="size-[40px] stroke-white text-[#3c4043]" strokeWidth={1.5} aria-hidden="true" />
                         </div>
                         <p className="font-poppins font-semibold leading-none text-[28px] text-[#3C4043] mt-[48px]">
                             Senha redefinida!
@@ -259,7 +259,7 @@ export default function RedefinirSenhaPage() {
         return (
             <>
                 <div className="flex flex-col gap-[14px] items-center text-center mt-[36px] mb-[24px]">
-                    <p className="font-poppins font-semibold leading-none text-[28px] text-black">
+                    <p className="font-bricolage font-semibold leading-none text-[32px] text-black">
                         Crie uma nova senha
                     </p>
                     <p className="font-poppins font-normal leading-[1.5] text-[#3c4043] text-[16px] max-w-[462px]">
@@ -313,11 +313,11 @@ export default function RedefinirSenhaPage() {
                             loading={loading}
                             loadingText="Redefinindo..."
                             disabled={!canSubmit && !loading}
-                            className={`!flex-col h-[48px] w-full !rounded-full ${loading
+                            className={`!flex-col justify-center h-[48px] w-full !rounded-full ${loading
                                 ? ""
                                 : canSubmit
-                                    ? "!bg-[#3c4043] hover:!bg-black cursor-pointer"
-                                    : "!bg-[#9d9fa1] hover:!bg-[#9d9fa1] cursor-not-allowed"
+                                    ? "!bg-principal hover:!bg-[#482064] cursor-pointer"
+                                    : "!bg-disabled hover:!bg-disabled cursor-not-allowed"
                                 }`}
                         >
                             <p className="font-poppins font-medium text-[14px] text-center text-white">

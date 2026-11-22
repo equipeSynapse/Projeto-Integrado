@@ -16,7 +16,7 @@ export function CadastroSucessoModal({ email, onClose, onClickLoginBtn }) {
         aria-modal="true"
         aria-labelledby="cadastro-sucesso-titulo"
         onClick={(event) => event.stopPropagation()}
-        className="bg-white rounded-[16px] relative w-141 max-w-full h-177.5 max-h-full flex flex-col items-center px-[31px] pt-[67px] pb-[33px]"
+        className="bg-white rounded-[16px] relative w-141 max-w-full h-178 max-h-full flex flex-col items-center px-[31px] pt-[67px] pb-[33px]"
       >
         <button
           type="button"

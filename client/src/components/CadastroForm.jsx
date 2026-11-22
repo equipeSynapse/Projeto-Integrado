@@ -58,9 +58,10 @@ export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn}) {
     event.preventDefault();
 
     const nextErrors = {};
-    if (!formData.nome_completo.trim()) nextErrors.nome_completo = "Campo obrigatório.";
-    if (!formData.nome_usuario.trim()) nextErrors.nome_usuario = "Campo obrigatório.";
+    if (!formData.nome_completo.trim()) nextErrors.nome_completo = "Insira seu nome de usuário.";
+    if (!formData.nome_usuario.trim()) nextErrors.nome_usuario = "Insira seu nome completo.";
     else if (isUserTaken) nextErrors.nome_usuario = "Esse nome de usuário já está em uso. Escolha outro para continuar."
+
     if (!formData.email.trim()) {
       nextErrors.email = "Campo obrigatório.";
     } else if (!EMAIL_REGEX.test(formData.email.trim())) {
@@ -96,15 +97,16 @@ export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn}) {
   }
 
   return (
-    <div ref={modalRef} role="dialog" tabIndex={-1} aria-modal="true" className="bg-white border border-[#e5e5e5] border-solid h-177.5 relative rounded-[16px] w-141">
-      <button onClick={onClickX} type="button" className="absolute cursor-pointer left-[509px] size-[24px] top-[31px]" aria-label="Fechar">
+    <div ref={modalRef} role="dialog" tabIndex={-1} aria-modal="true" className="relative bg-white border border-[#e5e5e5] border-solid h-178 items-center rounded-[16px] w-141">
+      <div className="flex flex-col p-[32px]">
+      <button onClick={onClickX} type="button" className="absolute cursor-pointer right-[32px] size-[24px] top-[31px]" aria-label="Fechar">
         <img alt="" src={closeIcon} className="absolute block inset-0 max-w-none size-full" />
       </button>
 
       <div
-        className="absolute content-stretch flex flex-col gap-[14px] items-center left-[31px] not-italic text-center top-[67px]"
+        className="content-stretch flex flex-col gap-[14px] items-center not-italic text-center mt-[32px]"
       >
-        <p className="font-poppins font-semibold leading-none min-w-full relative shrink-0 text-[28px] text-black w-[min-content]">
+        <p className="font-bricolage font-semibold leading-none min-w-full relative shrink-0 text-[32px] text-black w-[min-content]">
           Crie sua conta
         </p>
         <div className="flex flex-col font-poppins font-normal justify-center leading-[0] relative shrink-0 text-[#3c4043] text-[16px] w-[462px]">
@@ -178,11 +180,9 @@ export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn}) {
             </div>
 
             <div className="content-stretch flex flex-row justify-between items-center relative shrink-0 w-full">
-              <button type="button" onClick={handleBack} className="content-stretch cursor-pointer flex gap-[8px] px-[24px] py-[12px] items-center relative shrink-0">
-                <p className="font-poppins font-normal leading-[1.5] relative shrink-0 text-[14px] text-black text-center whitespace-nowrap">
-                  Voltar
-                </p>
-              </button>
+              <Button onClick={handleBack}>
+                  Voltar   
+              </Button>
 
               <Button
                 type="submit"
@@ -192,7 +192,7 @@ export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn}) {
                 disabled={!canSubmit}
                 className={`!flex-row rounded-[50px] content-stretch flex flex-col w-[128px] h-[48px] items-center justify-center 
                             overflow-clip px-[24px] py-[12px] relative rounded-[8px] shrink-0 
-                            ${canSubmit ? "bg-principal cursor-pointer" : "bg-disabled cursor-not-allowed"
+                            ${canSubmit ? "bg-principal cursor-pointer" : "!bg-disabled cursor-not-allowed"
                   }`}
               >
                 <p className="font-poppins font-medium leading-none relative shrink-0 text-[14px] text-center text-white whitespace-nowrap">
@@ -286,10 +286,13 @@ export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn}) {
           </p>
         </form>
       )}
+      </div>
 
+      <div className="absolute inset-0">
       {sucessoEmail && (
         <CadastroSucessoModal email={sucessoEmail} onClose={() => {setSucessoEmail(null); onClickX()}} onClickLoginBtn={onClickLoginBtn} />
       )}
+      </div>
     </div>
   );
 }

@@ -33,7 +33,7 @@ export default function EsqueciSenha({ onClickX, onClickVoltar, ref }) {
     }
 
     try {
-      //await esqueciSenha(email.trim());
+      await esqueciSenha(email.trim());
       setEnviado(true);
     } catch {
       setError("Erro de conexão. Tente novamente.");

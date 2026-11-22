@@ -142,7 +142,6 @@ export default function LoginConta({onClickX, onClickRegister, onClickEsqueciSen
             variant="cta"
             loading={isLoading}
             loadingText="Logando..."
-            disabled={!isFormValid}
             className={`h-[48px] w-full rounded-[8px] cursor-pointer ${isFormValid && !isLoading? "!bg-[#5B2B82] hover:!bg-[#482064]":"!bg-[#C8B8D4] hover:!bg-[#C8B8D4]"}
             }`}
           >

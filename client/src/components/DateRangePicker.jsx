@@ -54,7 +54,9 @@ export default function useDateRangePicker({ onClickX }) {
 
     return {
         dataInicio,
+        setDataInicio,
         dataFim,
+        setDataFim,
         ComponenteDate: (
             <div className="flex flex-col w-[720px] gap-[12px] p-[28px] font-poppins border border-[#e5e5e5] rounded-[16px] bg-white">
                 <div className='w-full flex justify-end'> <button onClick={onClickX} aria-label='Fechar modal de seletor de data'> <X className='size-[18px] hover:cursor-pointer' /> </button> </div>

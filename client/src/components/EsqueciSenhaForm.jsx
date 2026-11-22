@@ -86,7 +86,7 @@ export default function EsqueciSenha({ onClickX, onClickVoltar, ref }) {
           <form onSubmit={handleSubmit} className="flex flex-col flex-1">
             <InputField
               onBlur={() => !email.trim() && setError("Preencha este campo")}
-              label="E-mail institucional*"
+              label={<span> E-mail institucional <span className="text-atencao">*</span></span>}
               inputId="email"
               inputType="text"
               inputValue={email}

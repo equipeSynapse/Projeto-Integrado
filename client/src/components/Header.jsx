@@ -8,6 +8,9 @@ import useDateRangePicker from "./DateRangePicker";
 import NotificacoesModal from "./notificacoes/NotificacoesModal";
 import MinhasDenuncias from "./denuncias/MinhasDenuncias";
 import { getNotificacoes } from "../services/notificacoes/obterNotificacoes";
+import mascararData from "../utils/mascararData";
+import { isValid, parse } from "date-fns";
+import validarData from "../utils/validarData";
 
 export default function useHeader({ className, showSearch, children, onClickEntre, onClickCadastro }) {
     const navigate = useNavigate();
@@ -18,7 +21,9 @@ export default function useHeader({ className, showSearch, children, onClickEntr
 
     const [busca, setBusca] = useState("");
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-    const { dataInicio, dataFim, ComponenteDate } = useDateRangePicker({ onClickX: () => { setIsCalendarOpen(false) } });
+    const { dataInicio, setDataInicio, dataFim, setDataFim, ComponenteDate } = useDateRangePicker({ onClickX: () => { setIsCalendarOpen(false) } });
+    const [dataInicioTexto, setDataInicioTexto] = useState("");
+    const [dataFimTexto, setDataFimTexto] = useState("");
 
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
     const [isMinhasDenunciasOpen, setIsMinhasDenunciasOpen] = useState(false);
@@ -46,15 +51,60 @@ export default function useHeader({ className, showSearch, children, onClickEntr
                         <div className="flex gap-6">
                             <InputSearch value={busca} onClickX={() => setBusca("")} onChange={(e) => { setBusca(e.target.value) }} />
 
-                            <Button variant="second" onClick={() => { setIsCalendarOpen(!isCalendarOpen) }} aria-expanded={isCalendarOpen} aria-haspopup="dialog">
-                                <span className="whitespace-nowrap">
-                                    {(dataInicio && dataFim) ?
-                                       <span className="text-principal"> Período: {new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(dataInicio)} -&nbsp;
-                                             {new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(dataFim)} </span>
-                                        : <span className="text-principal"> Período: <span className="text-[#909090]"> Data inicial </span>  -  <span className="text-[#909090]"> Data final </span> </span>}
-                                </span>
-                                <Calendar className="stroke-principal size-[18px]" />
-                            </Button>
+                            <div className="flex items-center gap-2 border border-[#e5e5e5] px-[16px] rounded-[24px]">
+                                <span className="text-principal font-medium"> Período: </span>
+
+                                <div>
+                                    <input 
+                                        className="w-[90px] p-[4px]" 
+                                        placeholder="Data inicial"
+                                        value={dataInicio ? new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(dataInicio) : dataInicioTexto? dataInicioTexto : ""}
+                                        onChange={(e) => {
+                                            const dataFormatada = mascararData(e.target.value);
+                                            setDataInicioTexto(dataFormatada)
+
+                                            if (dataFormatada === "") {
+                                                setDataInicio(null); 
+                                            }
+
+                                            const dataValidada = validarData(dataFormatada)
+
+                                            if (dataValidada) {
+                                                setDataInicio(dataValidada)
+                                            } else {
+                                                setDataInicio(null)
+                                            }
+
+                                        }}
+                                        onBlur={() => setDataInicioTexto(null)}
+                                    />
+                                    <span> - </span>
+
+                                    <input 
+                                        className="w-[80px] p-[4px] ml-[12px]" 
+                                        placeholder="Data final"
+                                        value={dataFim ? new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(dataFim) : dataFimTexto? dataFimTexto : ""}
+                                        onChange={(e) => {
+                                            const dataFormatada = mascararData(e.target.value);
+                                            setDataFimTexto(dataFormatada)
+
+                                            if (dataFormatada === "") {
+                                                setDataFim(null); 
+                                            }
+
+                                            const dataValidada = validarData(dataFormatada)
+
+                                            if (dataValidada) {
+                                                setDataFim(dataValidada)
+                                            } else {
+                                                setDataFim(null)
+                                            }
+                                        }}
+                                        onBlur={() => setDataFimTexto(null)}
+                                    />
+                                </div>
+                                <button onClick={() => { setIsCalendarOpen(!isCalendarOpen) }} aria-expanded={isCalendarOpen}> <Calendar className="stroke-principal size-[18px]" /> </button>
+                            </div>
 
                             {isCalendarOpen && <div className="absolute z-2 left-[480px] top-[90px]"> {ComponenteDate} </div>}
                         </div>

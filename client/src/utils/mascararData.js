@@ -4,3 +4,4 @@ export default function mascararData(texto) {
     if (n.length > 2) return `${n.slice(0, 2)}/${n.slice(2)}`
     return n
 }
+

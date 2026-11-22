@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Check, MailWarning } from "lucide-react";
+import { Check, MailWarning, X } from "lucide-react";
 import checkMetIcon from "../../assets/icons/check-met.svg";
 import checkUnmetIcon from "../../assets/icons/check-unmet.svg";
 import { InputField } from "../../components/InputField";
@@ -174,8 +174,8 @@ export default function RedefinirSenhaPage() {
                 return (
                     <div className="flex flex-col flex-1 items-center justify-between text-center">
                         <div className="flex flex-col items-center mt-[48px]">
-                            <div className="bg-[#EBEBEB] rounded-full size-[80px] flex items-center justify-center shrink-0">
-                                <Check className="size-[40px] text-[#3c4043]" strokeWidth={1.5} aria-hidden="true" />
+                            <div className="bg-sucesso rounded-full size-[80px] flex items-center justify-center shrink-0">
+                                <Check className="size-[40px] stroke-white" strokeWidth={1.5} aria-hidden="true" />
                             </div>
                             <p className="font-poppins font-semibold leading-none text-[28px] text-[#3C4043] mt-[48px]">
                                 E-mail enviado!
@@ -282,15 +282,16 @@ export default function RedefinirSenhaPage() {
 
                         <div className="flex flex-col gap-[10px] items-start justify-center w-full">
                             {passwordRequirements.map(({ label, met }) => (
-                                <div key={label} className="flex gap-[12px] items-center w-full">
+                                <div key={label} className="content-stretch flex gap-[12px] items-center relative shrink-0 w-full">
                                     <div className="relative shrink-0 size-[14px]">
-                                        <img
-                                            alt=""
-                                            src={met ? checkMetIcon : checkUnmetIcon}
-                                            className="absolute block inset-0 max-w-none size-full"
-                                        />
+                                        {met ?
+                                            <Check className={`size-[14px] ${met ? 'stroke-sucesso' : 'stroke-erro'}`} /> :
+                                            <X className={`size-[14px] ${met ? 'stroke-sucesso' : 'stroke-erro'}`} />
+                                        }
                                     </div>
-                                    <p className="font-poppins font-medium leading-[1.5] text-[#3c4043] text-[14px] whitespace-nowrap">{label}</p>
+                                    <div className="flex flex-col font-poppins font-medium justify-center leading-[0] relative shrink-0 text-[14px] whitespace-nowrap">
+                                        <p className={`leading-[1.5] ${met ? 'text-sucesso' : 'text-erro'}`}>{label}</p>
+                                    </div>
                                 </div>
                             ))}
                         </div>
@@ -331,7 +332,8 @@ export default function RedefinirSenhaPage() {
     };
 
     return (
-        <div className="min-h-screen bg-black/50 flex justify-center items-center p-[16px]">
+        <div className="relative min-h-screen bg-[#F7F4EF] flex justify-center items-center p-[16px]">
+            <img src="/logo-completa.svg" className="absolute left-[32px] top-[32px] w-[120px]"/>
             <div role="main" className="bg-white border border-[#e5e5e5] border-solid relative rounded-[16px] w-[564px] min-h-[520px] max-w-full p-[36px] flex flex-col">
                 {renderContent()}
             </div>

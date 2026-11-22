@@ -141,7 +141,7 @@ export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn}) {
           <div className="absolute bottom-[33px] flex flex-col justify-between left-[31px] right-[31px] top-[235px]">
             <div className="content-stretch flex flex-col gap-[24px] items-start relative shrink-0 w-full">
               <InputField
-                label="Senha *"
+                label={<span> Senha <span className="text-atencao">*</span></span>}
                 inputId="senha"
                 inputType="password"
                 inputValue={formData.senha}
@@ -168,7 +168,7 @@ export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn}) {
 
               <div className="w-full">
                 <InputField
-                  label="Confirmar senha *"
+                  label={<span> Confirmar senha <span className="text-atencao">*</span></span>}
                   inputId="confirmarSenha"
                   inputType="password"
                   inputValue={formData.confirmarSenha}
@@ -209,7 +209,7 @@ export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn}) {
           <div className="absolute content-stretch flex flex-col gap-[24px] items-start left-[31px] right-[31px] top-[235px]">
 
             <InputField
-              label="Nome completo *"
+              label={<span> Nome completo <span className="text-atencao">*</span></span>}
               inputId="nomeCompleto"
               inputType="text"
               inputValue={formData.nome_completo}
@@ -237,7 +237,7 @@ export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn}) {
                   }
                 }
                 }
-                label="Usuário *"
+                label={<span> Usuário <span className="text-atencao">*</span></span>}
                 inputId="nomeUsuario"
                 inputType="text"
                 inputValue={formData.nome_usuario}
@@ -251,7 +251,7 @@ export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn}) {
             </div>
 
             <InputField
-              label="E-mail institucional *"
+              label={<span> E-mail institucional <span className="text-atencao">*</span></span>}
               inputId="email"
               inputType="text"
               inputValue={formData.email}
@@ -288,11 +288,12 @@ export default function CriarConta({onClickX, onClickEntrar, onClickLoginBtn}) {
       )}
       </div>
 
-      <div className="absolute inset-0">
+      
       {sucessoEmail && (
-        <CadastroSucessoModal email={sucessoEmail} onClose={() => {setSucessoEmail(null); onClickX()}} onClickLoginBtn={onClickLoginBtn} />
+        <div className="absolute inset-0">
+          <CadastroSucessoModal email={sucessoEmail} onClose={() => {setSucessoEmail(null); onClickX()}} onClickLoginBtn={onClickLoginBtn} />
+         </div>
       )}
-      </div>
     </div>
   );
 }

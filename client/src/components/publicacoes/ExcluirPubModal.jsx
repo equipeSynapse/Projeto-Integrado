@@ -42,8 +42,8 @@ export default function ExcluirPubModal( {onClickX, pubId, onSucesso} ) {
             </div>
 
             <div className="flex justify-between">
-                <Button onClick={onClickX} className="text-erro"> Cancelar </Button>
-                <Button variant="cta" onClick={handleExcluir} className="bg-erro hover:bg-[#D3372A]"> Excluir </Button>
+                <Button onClick={onClickX} className="!text-atencao"> Cancelar </Button>
+                <Button variant="cta" onClick={handleExcluir} className="!bg-atencao !hover:bg-[#D3372A]"> Excluir </Button>
             </div>
         </div>
     )

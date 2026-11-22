@@ -1,57 +1,45 @@
-import { ChevronDown, ChevronUp, X } from "lucide-react";
+import { Check, ChevronDown, ChevronUp, X } from "lucide-react";
 import { useState } from "react";
 
 export default function SeletorCategoria({ valor, onAlternar, opcoes, erro }) {
     const [categoriasAbertas, setCategoriasAbertas] = useState(false);
 
-    return (<div className="relative w-full">
-        <div
-            onClick={() => setCategoriasAbertas((a) => !a)}
-            onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    setCategoriasAbertas((a) => !a);
-                }
-            }}
-            aria-expanded={categoriasAbertas}
-            tabIndex={0}
-            className={`w-full bg-white border border-solid rounded-[8px] ${erro ? 'border-[#ea4335]' : 'border-[#e5e5e5]'} flex items-center gap-[8px] px-[16px] py-[10px] min-h-[48px] cursor-pointer`}
-        >
-            <div className="flex flex-wrap gap-[4px] flex-1">
-                {valor.length === 0 && <span className="text-[14px] text-[#909090]">Selecione uma ou mais opções</span>}
-                {valor.map((c) => (
-                    <span key={c} className="bg-[#e7e7e7] rounded-[50px] px-[8px] py-[6px] flex items-center gap-[8px] text-[12px] leading-none">
-                        {c}
-                        <button type="button" onClick={(e) => { e.stopPropagation(); onAlternar(c) }} aria-label={`Remover categoria ${c}`}>
-                            <X className="size-[16px]" />
-                        </button>
-                    </span>
-                ))}
-            </div>
-            {categoriasAbertas ? <ChevronUp className="size-[16px] shrink-0" /> : <ChevronDown className="size-[16px] shrink-0" />}
-        </div>
-        {categoriasAbertas && (
-            <div className="absolute z-10 top-[calc(100%+4px)] left-0 w-full bg-white border border-[#e5e5e5] rounded-[8px] shadow-lg shadow-black/10 py-[8px]">
-                {opcoes.map((c) => {
+    return (
+        <div role="group" aria-label="Seleção de Categorias" className="grid grid-cols-2 md:grid-cols-3 grid-rows-3 md:grid-rows-2 gap-[12px] w-full">
+            {
+                opcoes.map((c, i) => {
                     const selecionado = valor.includes(c);
+                    const desabilitado = valor.length === 2 && !valor.includes(c)
 
-                    return (
+                    return (<button
+                        key={c}
+                        role="checkbox"
+                        aria-checked={selecionado}
+                        aria-disabled={desabilitado}
+                        className="text-[12px] text-left p-[10px] border rounded-[8px] flex gap-[12px] items-center"
+                        disabled={desabilitado}
+                        style={{
+                            backgroundColor: selecionado ? "#F0E7F6" : valor.length === 2 ? "#F5F5F5" : "white",
+                            borderColor: selecionado ? "var(--color-principal)" : erro ? "var(--color-erro)" : "#e5e5e5"
+                        }}
+                        onClick={() => onAlternar(c)}
+                    >
                         <div
-                            key={c}
-                            onClick={() => onAlternar(c)}
-                            className="w-full text-left px-[16px] py-[10px] text-[14px] flex gap-[12px] items-center hover:bg-[rgba(60,64,67,0.06)]"
+                            aria-hidden="true"
+                            className={`border size-[16px] bg-white rounded-[2px] flex justify-center items-center`}
+                            style={{
+                                borderColor: selecionado ? "var(--color-principal)" : erro ? "var(--color-erro)" : "#e5e5e5",
+                                backgroundColor: selecionado ? "var(--color-principal)" : "white"
+                            }}
                         >
-                            <input type="checkbox" checked={selecionado} aria-label={`Categoria ${c}`} onKeyDown={(e) => {
-                                if (e.key === "Enter" || e.key === " ") {
-                                    e.preventDefault();
-                                    onAlternar(c)
-                                }
-                            }} className="size-[16px] accent-[#3C4043]" />
-                            <span>{c}</span>
+                            {selecionado && <Check className="stroke-white" />}
                         </div>
-                    )
-                })}
-            </div>
-        )}
-    </div>)
+                        {c}
+                    </button>)
+                }
+                )}
+        </div>
+
+
+    )
 }

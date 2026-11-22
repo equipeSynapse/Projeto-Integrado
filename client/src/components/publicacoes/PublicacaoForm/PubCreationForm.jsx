@@ -124,14 +124,14 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
     return (
         <div ref={modalRef} tabIndex={-1} className="bg-[#fcfcfc] border border-[#e5e5e5] rounded-[16px] w-full max-w-[726px] max-h-[90vh] flex flex-col overflow-hidden font-poppins text-[#3c4043]">
             <header className="bg-white border-b border-[#e5e5e5] p-[32px] flex items-center justify-between shrink-0">
-                <h2 className="text-[20px] font-semibold">Criar publicação</h2>
+                <h2 className="text-[24px] font-semibold font-bricolage">Criar publicação</h2>
                 <button type="button" onClick={onClickX} aria-label='Fechar modal de criação de publicação' className="size-[24px] cursor-pointer">
                     <img src={closeIcon} />
                 </button>
             </header>
 
             <div className="flex flex-col gap-[24px] p-[32px] overflow-y-auto">
-                <Campo label="Título *" htmlFor="titulo-pub" erro={erroVisivel('titulo')}>
+                <Campo label={<span>Título <span className='text-atencao'>*</span></span>} htmlFor="titulo-pub" erro={erroVisivel('titulo')}>
                     <input
                         id="titulo-pub"
                         value={dados.titulo}
@@ -142,7 +142,7 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
                     />
                 </Campo>
 
-                <Campo label="Descrição *" htmlFor="descricao-pub" erro={erroVisivel('descricao')}>
+                <Campo label={<span>Descrição <span className='text-atencao'>*</span></span>} htmlFor="descricao-pub" erro={erroVisivel('descricao')}>
                     <textarea
                         id="descricao-pub"
                         value={dados.descricao}
@@ -153,11 +153,11 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
                     />
                 </Campo>
 
-                <Campo label="Selecionar categoria *" htmlFor="categoria-pub" erro={erroVisivel('categorias')}>
+                <Campo label={<span>Selecionar até duas categorias <span className='text-atencao'>*</span> </span>} htmlFor="categoria-pub" erro={erroVisivel('categorias')}>
                     <SeletorCategoria id="categoria-pub" valor={dados.categorias} opcoes={CATEGORIAS} onAlternar={alternarCategoria} erro={erroVisivel('categorias')} />
                 </Campo>
 
-                <Campo htmlFor="expiracao-pub" label={<span className="flex items-center gap-[8px]">Exibir até... * <CircleHelp className="size-[14px]" /></span>} erro={erroVisivel('expiracao')}>
+                <Campo htmlFor="expiracao-pub" label={<span className="flex items-center gap-[8px]">Exibir até... <span className='text-atencao'>*</span><CircleHelp className="size-[14px]" /></span>} erro={erroVisivel('expiracao')}>
                     <div className="relative w-full">
                         <input
                             id="expiracao-pub"
@@ -253,7 +253,7 @@ export default function PublicacaoForm({ onClickX, onSucess, onErro, ref }) {
 
             <footer aria-label="Botões de cancelar e criar publicação" className="bg-white border-t border-[#e5e5e5] p-[32px] flex items-center justify-between shrink-0">
                 <Button type="button" variant="text" className="h-[45px] text-[#3c4043]" onClick={onClickX}>Cancelar</Button>
-                <Button type="button" variant="cta" className="h-[45px]" disabled={!formValido} loading={enviando} loadingText="Criando..." onClick={handleSubmit}>Criar publicação</Button>            
+                <Button type="button" variant="cta" className={`h-[45px] ${formValido? '':'!bg-disabled'}`} disabled={!formValido} loading={enviando} loadingText="Criando..." onClick={handleSubmit}>Criar publicação</Button>            
             </footer>
         </div>
     )

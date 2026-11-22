@@ -25,8 +25,8 @@ export default function Dropzone({ formatos, aceitos, arquivo, onArquivo }) {
                 className="relative bg-white border border-dashed border-[#e5e5e5] flex flex-col gap-[20px] h-[192px] items-center justify-center p-[24px] rounded-[8px] w-full cursor-pointer"
             >
                 <input ref={inputRef} type="file" accept={aceitos.join(',')} className="hidden" onChange={(e) => { receber(e.target.files[0]); e.target.value = '' }} />
-                <div className="size-[48px] rounded-full bg-[#f2f2f2] flex items-center justify-center">
-                    <CloudUpload className="size-[20px] text-[#3c4043]" />
+                <div className="size-[48px] rounded-full bg-[#F0E7F6] flex items-center justify-center">
+                    <CloudUpload className="size-[20px] text-[#3c4043] stroke-principal" />
                 </div>
 
                 {arquivo &&
@@ -44,7 +44,7 @@ export default function Dropzone({ formatos, aceitos, arquivo, onArquivo }) {
                     className="after:absolute after:inset-0 after:rounded-[8px] focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-[#3c4043]"
                 >
                     <p className="font-poppins text-[14px] text-center text-[#3c4043] w-[208px] leading-[1.5]">
-                        <span className="font-medium">Arraste e solte</span> ou <span className="font-medium">clique</span> para escolher o arquivo
+                        <span className="font-medium text-principal">Clique</span> ou <span className="font-medium text-principal">arraste e solte</span> para escolher o arquivo
                     </p>
                 </button>
 

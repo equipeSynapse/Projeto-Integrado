@@ -85,10 +85,10 @@ export default function NotificacoesModal({ onClose }) {
                             aria-selected={tabAtual === aba}
                             aria-controls="painel-notificacoes"
                             tabIndex={tabAtual === aba ? 0 : -1}
-                            className={`w-1/3 py-[8px] ${tabAtual === aba && 'border-b-4 border-b-black'} transition-all`}
+                            className={`w-1/3 py-[8px] font-medium ${tabAtual === aba ? 'border-b-4 border-b-principal text-principal':'text-[#6b6b6b]'} transition-all`}
                             onClick={() => setTabAtual(aba)}
                         >
-                            <span> {aba} </span> <span className="font-semibold text-[#6b6b6b]"> {qtd} </span>
+                            <span> {aba} </span> <span> {qtd} </span>
                         </button>
                     ))}
                 </div>

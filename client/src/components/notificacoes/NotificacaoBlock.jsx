@@ -1,4 +1,4 @@
-import { Bell, Trash, Undo2 } from "lucide-react";
+import { Bell, Check, Trash, Undo2, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { marcarComoLida } from "../../services/notificacoes/marcarComoLida";
 import { useState } from "react";
@@ -39,15 +39,25 @@ export default function NotificacaoBlock({ data, excluida, onAlternar, onAbrir }
                     
                 }}
             >
-                {data.tipo === "PUBLICACAO_NOVA" && <div className="[mask-image:url(assets/Molde.svg)] mask-contain mask-no-repeat size-[60px] bg-[#e8e4eb] flex justify-center items-center rounded-[50%]"> <Bell className="stroke-principal size-[24px]"/> </div>}
+                <div 
+                    className="[mask-image:url(assets/Molde.svg)] mask-contain mask-no-repeat size-[60px] flex justify-center items-center rounded-[50%]"
+                    style={{backgroundColor: data.tipo === "PUBLICACAO_NOVA" ? "#E8E4EB": data.denuncia_status === "APROVADA" ? "#E2EEE6":"#FEE0EF"}}
+                > 
+                    {data.tipo === "PUBLICACAO_NOVA" &&  <Bell className="stroke-principal size-[24px]"/> }
+                    {data.tipo === "STATUS_DENUNCIA" &&  (data.denuncia_status === "APROVADA" ? 
+                        <Check className="stroke-sucesso size-[24px]"/> : <X className="stroke-erro size-[24px]"/>
+                    ) }
+                </div>
+
                 <div className="flex justify-between flex-1 text-left">
-                    {data.tipo === "PUBLICACAO_NOVA" &&
                         <div className="flex items-center w-[420px]">
                             <span className="text-[16px] text-[#3C4043] font-semibold line-clamp-2">
-                                Nova publicação, venha ver! {data.titulo_publicacao}
+                                {data.tipo === "PUBLICACAO_NOVA" && `Nova publicação, venha ver! ${data.titulo_publicacao}` }
+                                {(data.tipo === "STATUS_DENUNCIA" && data.denuncia_status == "APROVADA") && `Sua denúncia foi aprovada!` }
+                                {(data.tipo === "STATUS_DENUNCIA" && data.denuncia_status == "REJEITADA") && `Sua denúncia foi rejeitada!` }
                             </span>
                         </div>
-                    }
+                    
                 </div>
             </button>
 

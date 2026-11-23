@@ -4,10 +4,11 @@ export const obterNotificacoes = async (req, res) => {
     try {
         const email_usuario = req.usuario.email;
 
-        const query = `SELECT n.id, n.tipo, n.gerada_em, nu.lida, n.publicacao_id, p.titulo AS titulo_publicacao
+        const query = `SELECT n.id, n.tipo, n.gerada_em, nu.lida, n.publicacao_id, p.titulo AS titulo_publicacao, d.status AS denuncia_status
                  FROM notificacoes_usuarios nu 
                  INNER JOIN notificacoes n ON n.id = nu.notificacao_id 
                  LEFT JOIN publicacoes p ON p.id = n.publicacao_id 
+                 LEFT JOIN denuncias d ON d.id = n.denuncia_id 
                  WHERE nu.usuario_email = $1
                  ORDER BY n.gerada_em DESC`
 

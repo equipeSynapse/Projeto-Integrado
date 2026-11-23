@@ -100,6 +100,12 @@ export const atualizarStatusDenuncia = async (req, res) => {
             await pool.query("DELETE FROM publicacoes WHERE id = $1;", [denuncia.publicacao_id])
         }
 
+        const notificacao = await pool.query("INSERT INTO notificacoes (tipo, denuncia_id) VALUES ('STATUS_DENUNCIA', $1) RETURNING id;", [denuncia.id])
+
+        const notificacaoId = notificacao.rows[0].id;
+
+        await pool.query("INSERT INTO notificacoes_usuarios (notificacao_id, usuario_email) VALUES ($1, $2)", [notificacaoId, denuncia.usuario_email])
+
         return res.status(200).json({
             mensagem: "Status de denúncia atualizado!",
             denuncia: rows[0]

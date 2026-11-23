@@ -12,7 +12,7 @@ export const getNotificacoes = async () => {
         });
         return response.data.notificacoes;
     } catch (error) {
-        console.error('Erro ao buscar publicações:', error);
+        console.error('Erro ao buscar notificações:', error);
         throw error;
     }
 }

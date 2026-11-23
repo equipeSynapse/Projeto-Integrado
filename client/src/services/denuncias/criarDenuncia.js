@@ -1,4 +1,4 @@
-import api from "./api";
+import api from "../api";
 
 export async function criarDenuncia({ publicacao_id, motivo, descricao }) {
     try {

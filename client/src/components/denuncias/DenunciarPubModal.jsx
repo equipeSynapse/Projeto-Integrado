@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { Megaphone, Check, CircleAlert } from "lucide-react";
 import closeIcon from "../../assets/icons/close.svg";
 import Button from "../Button";
-import { criarDenuncia } from "../../services/criarDenuncia";
+import { criarDenuncia } from "../../services/denuncias/criarDenuncia";
 import closeModal from "../../utils/closeModal";
 
 const MOTIVOS = [

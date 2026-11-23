@@ -17,7 +17,6 @@ export default function PerfilPage() {
     const [isApagarContaOpen, setIsApagarContaOpen] = useState(false);
 
     const [publicacoes, setPublicacoes] = useState([]);
-    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
     useEffect(() => {
         const fetchPublicacoes = async () => {

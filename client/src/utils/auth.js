@@ -11,6 +11,7 @@ export default function isUserLoggedIn() {
 
         if (Date.now() > expToken) {
             localStorage.removeItem('token');
+            window.location.reload();
             return null;
         }
 

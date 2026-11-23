@@ -3,7 +3,7 @@ import { getPublicacoes } from "../../services/publicacoes";
 import Button from "../../components/Button";
 import CadastroForm from '../../components/CadastroForm';
 import LoginForm from "../../components/LoginForm";
-import { Plus } from "lucide-react";
+import { Plus, Settings } from "lucide-react";
 import EsqueciSenhaForm from "../../components/EsqueciSenhaForm";
 import isUserLoggedIn from "../../utils/auth";
 import CategoriaCard from "../../components/CategoriaCard";
@@ -18,12 +18,16 @@ import WomanFinding from "../../assets/illustrations/Woman finding something.svg
 import BusinessIdea from "../../assets/illustrations/Business Idea.svg"
 import Dialogue from "../../assets/illustrations/Dialogue.svg"
 import digitalDivulgation from "../../assets/illustrations/Digital Divulgation.svg"
+import banner from "../../assets/illustrations/Banner.png"
+import { EditProfileForm } from "../../components/EditProfileForm";
+import ApagarContaForm from "../../components/ApagarContaForm";
 
 export default function HomePage() {
-    const { busca, dataInicio, dataFim, Header} = useHeader({showSearch: true, 
-                                                                    onClickEntre: () => setIsLoginOpen(true), 
-                                                                    onClickCadastro: () => setIsCadastroOpen(true)
-                                                            })
+    const { busca, dataInicio, dataFim, Header } = useHeader({
+        showSearch: true,
+        onClickEntre: () => setIsLoginOpen(true),
+        onClickCadastro: () => setIsCadastroOpen(true)
+    })
 
     const [publicacoes, setPublicacoes] = useState([]);
 
@@ -38,16 +42,19 @@ export default function HomePage() {
 
     const [isEsqueciSenhaOpen, setIsEsqueciSenhaOpen] = useState(false)
 
+    const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
+    const [isApagarContaOpen, setIsApagarContaOpen] = useState(false);
+
     const [toastMessage, setToastMessage] = useState(null);
 
     const categorias = ['Avisos Administrativos', 'Bolsas', 'Estágios', 'Eventos', 'Comunidade', 'Divulgação']
     const categoriasImgs = [
-        {var: digitalMarket, style: "relative top-[8px] right-[36px]"},
-        {var: BusinessDeal, style: "relative top-[19px] left-[20px]"},
-        {var: WomanFinding, style: "relative top-[16px] left-[8px]"},
-        {var: BusinessIdea, style: "relative top-[12px] left-[32px]"},
-        {var: Dialogue, style: "relative top-[16px] left-[8px]"},
-        {var: digitalDivulgation, style: "relative top-[8px] left-[4px]"},
+        { var: digitalMarket, style: "relative top-[8px] right-[36px]" },
+        { var: BusinessDeal, style: "relative top-[19px] left-[20px]" },
+        { var: WomanFinding, style: "relative top-[16px] left-[8px]" },
+        { var: BusinessIdea, style: "relative top-[12px] left-[32px]" },
+        { var: Dialogue, style: "relative top-[16px] left-[8px]" },
+        { var: digitalDivulgation, style: "relative top-[8px] left-[4px]" },
     ]
     const [categoriasSelecionadas, setCategoriasSelecionadas] = useState([])
 
@@ -75,7 +82,7 @@ export default function HomePage() {
     const filtradas = publicacoes.filter(
         (p) =>
             (p.titulo.toLowerCase().includes(busca.toLowerCase()) ||
-            (p.nome_usuario ?? "").toLowerCase().includes(termo)) &&
+                (p.nome_usuario ?? "").toLowerCase().includes(termo)) &&
             (categoriasSelecionadas.length == 0 || p.categoria?.some((c) => categoriasSelecionadas.includes(c))) &&
             (!dataInicio || new Date(dataInicio) <= new Date(p.criado_em)) &&
             (!dataFim || new Date(dataFim) >= new Date(p.criado_em))
@@ -83,16 +90,31 @@ export default function HomePage() {
 
     return (
         <div className="min-h-screen bg-[#F7F4EF]">
-            {Header} 
+            {Header}
 
             <main id="conteudo" tabIndex={-1} className="flex justify-center gap-[48px] px-[24px] pt-[130px] pb-[48px] mx-auto items-start outline-none">
                 <h1 className="sr-only">Mural SMD: avisos, eventos e oportunidades da comunidade</h1>
 
-                <div aria-hidden="true" className="hidden 2xl:block sticky top-[130px]">
-                    <div className="bg-white border w-[290px] h-[270px]">
+                <aside className="hidden 2xl:block sticky top-[130px]">
+                    {isUserLoggedIn() && <div className="bg-white border border-[#e5e5e5] w-[290px] rounded-[12px] overflow-hidden">
+                        <div className="bg-[#bababa] h-[130px] w-full" style={{ backgroundImage: `url(${banner})` }} />
+                        <div className="px-[32px]">
+                            <div className="relative flex justify-center items-center top-[-42px] bg-destaque size-[80px] [mask-image:url(assets/Molde.svg)] mask-contain mask-no-repeat">
+                                <span className="text-[32px] font-medium text-[#073061]"> {isUserLoggedIn().usuario[0].toUpperCase()}</span>
+                            </div>
 
-                    </div>
-                </div>
+                            <div className="font-poppins relative top-[-24px] flex flex-col gap-[12px]">
+                                <div className="flex justify-between items-center">
+                                    <span className="text-[14px] text-[#3C4043] font-medium"> {isUserLoggedIn().usuario} </span>
+                                    <button onClick={() => setIsEditProfileOpen(true)} aria-label="Gerenciar perfil" aria-haspopup="dialog">
+                                        <Settings className="size-[16px] stroke-principal" />
+                                    </button>
+                                </div>
+                                <p className="text-[14px] text-[#3C4043]"> {isUserLoggedIn().bio} </p>
+                            </div>
+                        </div>
+                    </div>}
+                </aside>
 
                 <div className="flex flex-col gap-[24px] max-w-[960px]">
                     {/* Em telas menores que 1536px a coluna lateral some: este botão garante que dá para publicar em qualquer tamanho e zoom */}
@@ -111,7 +133,7 @@ export default function HomePage() {
                                 <CategoriaCard
                                     key={c}
                                     texto={c}
-                                    imagem={<img src={categoriasImgs[i]?.var} alt="" aria-hidden="true" className={categoriasImgs[i]?.style}/>}
+                                    imagem={<img src={categoriasImgs[i]?.var} alt="" aria-hidden="true" className={categoriasImgs[i]?.style} />}
                                     onClick={() => {
                                         if (categoriasSelecionadas.includes(c)) setCategoriasSelecionadas((prev) => prev.filter((item) => item != c))
                                         else setCategoriasSelecionadas((prev) => [...prev, c])
@@ -192,6 +214,21 @@ export default function HomePage() {
 
             {toastMessage &&
                 <Toast titulo="Boas-vindas ao Mural SMD!" mensagem="Seu login foi realizado com sucesso." onClose={() => setToastMessage(false)} />
+            }
+
+            {
+                isEditProfileOpen && <div className="fixed inset-0 z-10 bg-black/50 flex justify-center items-center">
+                    <EditProfileForm
+                        onClickX={() => setIsEditProfileOpen(false)}
+                        onClickApagarConta={() => { setIsEditProfileOpen(false), setIsApagarContaOpen(true) }}
+                    />
+                </div>
+            }
+
+            {
+                isApagarContaOpen && <div className="fixed inset-0 z-10 bg-black/50 flex justify-center items-center">
+                    <ApagarContaForm onClickX={() => { setIsApagarContaOpen(false), setIsEditProfileOpen(true) }} />
+                </div>
             }
         </div>
     );

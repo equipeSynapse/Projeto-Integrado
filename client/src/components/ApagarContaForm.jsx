@@ -45,7 +45,7 @@ export default function ApagarContaForm({ onClickX }) {
     return (
         <div className="relative w-[726px] h-[746px] bg-[#fafafa] rounded-[16px] overflow-hidden font-poppins">
             <header className='flex items-center p-[32px] justify-between bg-white border-b border-b-[#e5e5e5]'>
-                <span className='text-[20px] font-semibold'> Apagar conta </span>
+                <span className='text-[24px] font-semibold font-bricolage'> Apagar conta </span>
                 <button className="size-[20px] md:size-[24px]" onClick={onClickX} aria-label='Fechar modal de exclusão de conta'> <img src={closeIcon} alt="" /> </button>
             </header>
 
@@ -60,7 +60,7 @@ export default function ApagarContaForm({ onClickX }) {
 
                 <form className='flex flex-col gap-[24px]'>
                     <InputField
-                        label="Usuário *"
+                        label={<span> Usuário <span className='text-atencao'>*</span> </span>}
                         inputPlaceholder="Usuário"
                         inputId="usuario"
                         inputValue={formData.nomeUsuario}
@@ -68,7 +68,7 @@ export default function ApagarContaForm({ onClickX }) {
                     />
 
                     <InputField
-                        label="Senha *"
+                        label={<span> Senha <span className='text-atencao'>*</span> </span>}
                         inputPlaceholder="Senha"
                         inputId="senha"
                         inputValue={formData.senha}
@@ -77,12 +77,12 @@ export default function ApagarContaForm({ onClickX }) {
 
                     <div className='flex items-center gap-[12px]'>
                         <input
-                            className='size-[16px]'
+                            className='size-[16px] hover:cursor-pointer accent-principal'
                             type="checkbox"
                             id="concordancia-exclusao"
                             onChange={(event) => setFormData((prev) => ({ ...prev, ["confirmacao"]: event.target.checked }))}
                         />
-                        <label htmlFor="concordancia-exclusao" className='text-[14px] font-semibold'> Eu entendo que contas apagadas não podem ser recuperadas </label>
+                        <label htmlFor="concordancia-exclusao" className='text-[14px] font-medium hover:cursor-pointer'> Eu entendo que contas apagadas não podem ser recuperadas </label>
                     </div>
                 </form>
 
@@ -92,7 +92,7 @@ export default function ApagarContaForm({ onClickX }) {
 
             <div className="absolute bottom-0 h-[110px] w-full bg-white border-t-2 border-[#e5e5e5] 
                             text-[14px] flex items-center justify-between py-[24px] px-[32px]">
-                <button type="button" onClick={onClickX} className="h-[42px] md:h-[48px] px-[18px] md:px-[20px] py-[4px] md:py-[8px] hover:bg-gray-100 rounded-full"> Cancelar </button>
+                <Button onClick={onClickX} className="h-[42px] md:h-[48px] px-[18px] md:px-[20px] py-[4px] md:py-[8px]"> Cancelar </Button>
                 <Button
                     type="submit"
                     variant="cta"
@@ -102,8 +102,8 @@ export default function ApagarContaForm({ onClickX }) {
                     className={`transition duration-500 h-[42px] md:h-[48px] !px-[18px] md:!px-[20px] !py-[2px] md:!py-[8px] !rounded-full ${excluindo
                         ? ""
                         : isInputsEmpty
-                            ? "!bg-gray-100 hover:!bg-gray-100"
-                            : "!bg-[#3c4043] hover:!bg-black"
+                            ? "!bg-disabled hover:!bg-disabled"
+                            : ""
                         }`}
                 >
                     Desativar

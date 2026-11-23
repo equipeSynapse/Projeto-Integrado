@@ -1,19 +1,19 @@
 import { useState, useEffect, useRef } from "react";
 import { PubliCard } from "../../components/publicacoes/PubliCard";
 import { getPublicacoes } from "../../services/publicacoes";
-import { InputSearch } from "../../components/publicacoes/InputSearch";
 import Button from "../../components/Button";
 import LoginForm from "../../components/LoginForm";
 import CadastroForm from "../../components/CadastroForm";
-import calendarIcon from "../../assets/icons/calendar.png";
 import isUserLoggedIn from "../../utils/auth";
 import { useNavigate, useParams } from "react-router-dom";
-import { ChevronRight, Plus } from "lucide-react";
-import timestampMsg from "../../utils/timestampMsg";
+import { ChevronRight, Plus, Settings } from "lucide-react";
 import Destaques from "../../components/publicacoes/Destaques";
 import useHeader from "../../components/Header";
 import PublicacaoForm from "../../components/publicacoes/PublicacaoForm/PubCreationForm";
 import Toast from "../../components/toasts/Toast";
+import ApagarContaForm from "../../components/ApagarContaForm";
+import { EditProfileForm } from "../../components/EditProfileForm";
+import banner from "../../assets/illustrations/Banner.png"
 
 export default function PublicacaoPage() {
 
@@ -28,6 +28,9 @@ export default function PublicacaoPage() {
     const cadastroModalRef = useRef(null)
 
     const [isPublicacaoOpen, setIsPublicacaoOpen] = useState(false);
+
+    const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
+    const [isApagarContaOpen, setIsApagarContaOpen] = useState(false);
 
     const { Header } = useHeader({ onClickEntre: () => setIsLoginOpen(true), onClickCadastro: () => setIsCadastroOpen(true) })
 
@@ -60,11 +63,26 @@ export default function PublicacaoPage() {
             <main id="conteudo" tabIndex={-1} className="flex justify-center gap-[48px] px-[60px] pt-[130px] pb-[48px] mx-auto items-start outline-none">
                 <h1 className="sr-only">{publicacao[0] ? `Publicação: ${publicacao[0].titulo}` : "Publicação"}</h1>
 
-                <div aria-hidden="true" className="sticky top-[130px]">
-                    <div className="bg-white border w-[290px] h-[270px]">
+                <aside className="hidden 2xl:block sticky top-[130px]">
+                    {isUserLoggedIn() && <div className="bg-white border border-[#e5e5e5] w-[290px] h-[300px] rounded-[12px] overflow-hidden">
+                        <div className="bg-[#bababa] h-[130px] w-full" style={{ backgroundImage: `url(${banner})` }} />
+                        <div className="px-[32px]">
+                            <div className="relative flex justify-center items-center top-[-42px] bg-destaque size-[80px] [mask-image:url(assets/Molde.svg)] mask-contain mask-no-repeat">
+                                <span className="text-[32px] font-medium text-[#073061]"> {isUserLoggedIn().usuario[0].toUpperCase()}</span>
+                            </div>
 
-                    </div>
-                </div>
+                            <div className="font-poppins relative top-[-24px] flex flex-col gap-[12px]">
+                                <div className="flex justify-between items-center">
+                                    <span className="text-[14px] text-[#3C4043] font-medium"> {isUserLoggedIn().usuario} </span>
+                                    <button onClick={() => setIsEditProfileOpen(true)} aria-label="Gerenciar perfil" aria-haspopup="dialog">
+                                        <Settings className="size-[16px] stroke-principal" />
+                                    </button>
+                                </div>
+                                <p className="text-[14px] text-[#3C4043]"> {isUserLoggedIn().bio} </p>
+                            </div>
+                        </div>
+                    </div>}
+                </aside>
 
                 <section aria-label="Publicação" className="flex flex-col gap-[24px] w-[778px] max-w-[960px]">
 
@@ -147,6 +165,21 @@ export default function PublicacaoPage() {
 
             {pubErro &&
                 <Toast titulo="Erro ao criar publicação" mensagem={pubErro} onClose={() => setPubErro(null)} />
+            }
+
+            {
+                isEditProfileOpen && <div className="fixed inset-0 z-10 bg-black/50 flex justify-center items-center">
+                    <EditProfileForm
+                        onClickX={() => setIsEditProfileOpen(false)}
+                        onClickApagarConta={() => { setIsEditProfileOpen(false), setIsApagarContaOpen(true) }}
+                    />
+                </div>
+            }
+
+            {
+                isApagarContaOpen && <div className="fixed inset-0 z-10 bg-black/50 flex justify-center items-center">
+                    <ApagarContaForm onClickX={() => { setIsApagarContaOpen(false), setIsEditProfileOpen(true) }} />
+                </div>
             }
         </div>
     );

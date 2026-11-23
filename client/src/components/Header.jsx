@@ -1,5 +1,5 @@
 import Button from "./Button";
-import { Bell, Calendar, Home, LogOut, Megaphone, User } from "lucide-react";
+import { Bell, Calendar, Flag, Home, LogOut, Megaphone, User } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import isUserLoggedIn from "../utils/auth";
 import { useLocation, useNavigate, Link } from "react-router-dom";
@@ -115,10 +115,15 @@ export default function useHeader({ className, showSearch, children, onClickEntr
 
                     <div className="flex items-center gap-[72px]">
                         <nav className="flex gap-12">
-                            <Link to="/" className="group flex items-center gap-[12px]" onClick={() => navigate("/")} aria-current={location.pathname === '/' ? 'page' : undefined}>
+                            <Link to="/" className="group flex items-center gap-[12px]" aria-current={location.pathname === '/' ? 'page' : undefined}>
                                 <Home className={`size-[20px] ${location.pathname === '/' ? 'stroke-[#39194F]' : 'stroke-[#6B6B6B] group-hover:stroke-black'}`} />
                                 <span className={`${location.pathname === '/' ? 'font-semibold text-[#39194F]' : 'font-medium text-[#6B6B6B] group-hover:text-black'}`}> Início </span>
                             </Link>
+                            {isUserLoggedIn().email === "casmd@virtual.ufc.br" && 
+                            <Link to="/denuncias" className="group flex items-center gap-[12px]" aria-current={location.pathname === '/' ? 'page' : undefined}>
+                                <Flag className={`size-[20px] ${location.pathname === '/denuncias' ? 'stroke-[#39194F]' : 'stroke-[#6B6B6B] group-hover:stroke-black'}`} />
+                                <span className={`${location.pathname === '/denuncias' ? 'font-semibold text-[#39194F]' : 'font-medium text-[#6B6B6B] group-hover:text-black'}`}> Denúncias </span>
+                            </Link>}
                         </nav>
                         <div className="relative">
                             <div className="flex items-center gap-[20px]">
@@ -136,7 +141,7 @@ export default function useHeader({ className, showSearch, children, onClickEntr
                                     aria-label={`Menu da conta de ${isUserLoggedIn().usuario}`} 
                                     aria-expanded={isUserMenuOpen} 
                                     onClick={() => setIsUserMenuOpen(!isUserMenuOpen)} 
-                                    className="flex justify-center items-center bg-[#22D3EE] size-[50px] rounded-[50px] [mask-image:url(assets/Molde.svg)] [mask-size:contain]">
+                                    className="flex justify-center items-center bg-destaque size-[50px] rounded-[50px] [mask-image:url(assets/Molde.svg)] mask-contain mask-no-repeat">
                                     <span aria-hidden="true" className="text-[20px] font-medium text-[#073061]"> {isUserLoggedIn().usuario[0].toUpperCase()} </span>
                                 </button>
                             </div>
@@ -192,16 +197,6 @@ export default function useHeader({ className, showSearch, children, onClickEntr
                     </div>
                 }
 
-                <div className="absolute left-0 w-full grid grid-cols-8 bottom-[-4px]">
-                    <div className="bg-[#FF9524] h-[4px]" />
-                    <div className="bg-[#00D640] h-[4px]" />
-                    <div className="bg-[#FF2939] h-[4px]" />
-                    <div className="bg-[#FFE01A] h-[4px]" />
-                    <div className="bg-[#0C6BCF] h-[4px]" />
-                    <div className="bg-[#9B42FA] h-[4px]" />
-                    <div className="bg-[#05CCC2] h-[4px]" />
-                    <div className="bg-[#FC97D2] h-[4px]" />
-                </div>
             </header>
         )
     }

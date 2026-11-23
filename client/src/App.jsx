@@ -4,9 +4,10 @@ import HomePage from './pages/home/home';
 import PublicacaoPage from './pages/home/publicacao';
 import PerfilPage from './pages/profile/perfil';
 import PrivateRoute from './PrivateRoute';
-import isUserLoggedIn from './utils/auth';
 import RedefinirSenhaPage from './pages/redefinirSenha/redefinirSenha';
 import { useEffect, useState } from 'react';
+import AdminRoute from './AdminRoute';
+import DenunciasPage from './pages/denuncias/denuncias';
 
 function AnunciadorDeRota() {
   const { pathname } = useLocation();
@@ -43,6 +44,10 @@ function App() {
 
         <Route element={<PrivateRoute/>}>
           <Route path="/perfil" element={<PerfilPage/>} />
+        </Route>
+
+        <Route element={<AdminRoute/>}>
+            <Route path="/denuncias" element={<DenunciasPage/>} />
         </Route>
         
       </Routes>

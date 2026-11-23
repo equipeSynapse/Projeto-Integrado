@@ -123,11 +123,19 @@ export const deletarPublicacao = async (req, res) => {
         // Pega o req.usuario.email para garantir que o usuário só apague o próprio post
         const autor_email = req.usuario.email;
 
-        const resultado = await pool.query('DELETE FROM publicacoes WHERE id = $1 RETURNING *', [id]);
+        const buscaPub = await pool.query('SELECT * FROM publicacoes WHERE id = $1', [id]);
 
-        if (resultado.rowCount === 0) {
+        if (buscaPub.rowCount === 0) {
             return res.status(404).json({ mensagem: "Publicação não encontrada." });
         }
+        
+        console.log(buscaPub.rows, autor_email);
+
+        if (buscaPub.rows[0].autor_email !== autor_email) {
+            return res.status(403).json({ mensagem: "Não é possível deletar a publicação de outro usuário." });
+        }
+
+        await pool.query('DELETE FROM publicacoes WHERE id = $1 AND autor_email = $2 RETURNING *', [id, autor_email]);
 
         return res.status(200).json({ mensagem: "Publicação excluída com sucesso!" });
 

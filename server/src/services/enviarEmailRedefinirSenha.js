@@ -7,7 +7,7 @@ export const enviarEmailRedefinirSenha = (destinatario, token) => {
    transporter.sendMail({
         from: `Mural Colaborativo - <${process.env.EMAIL_USER}>`,
         to: destinatario,
-        subject: "Mensagem de Ativação de Conta - Mural Colaborativo",
+        subject: "Mensagem de Redefinição de Senha - Mural Colaborativo",
         html: emailRedefinicaoSenhaTemplate(link)
     }, (error, info) => {
         

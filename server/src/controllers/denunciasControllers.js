@@ -116,3 +116,34 @@ export const atualizarStatusDenuncia = async (req, res) => {
         return res.status(500).json({error: "Erro ao atualizar status de denúncia."})
     }
 }
+
+export const excluirDenuncia = async (req, res) => {
+    try {
+    const email_usuario = req.usuario.email;
+    const id = req.params.id;
+
+    const buscaDenuncia = await pool.query(
+        'SELECT usuario_email FROM denuncias WHERE id = $1',
+        [id]
+    );
+
+    if (buscaDenuncia.rowCount === 0) {
+        return res.status(404).json({ mensagem: "Denúncia não encontrada." });
+    }
+
+    if (buscaDenuncia.rows[0].usuario_email !== email_usuario) {
+        return res.status(403).json({ mensagem: "Não é possível deletar a denúncia de outro usuário." });
+    }
+
+    await pool.query(
+        'DELETE FROM denuncias WHERE id = $1 AND usuario_email = $2 RETURNING *',
+        [id, email_usuario]
+    );
+
+    return res.status(200).json({ mensagem: "Denúncia excluída com sucesso!" });
+
+    } catch (error) {
+        console.error("Erro ao excluir denúncia:", error);
+        return res.status(500).json({ error: "Erro interno ao excluir a denúncia no servidor." });
+    }
+}

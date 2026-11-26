@@ -9,5 +9,6 @@ router.post("/", authMiddleware, denunciasController.criarDenuncia)
 router.get("/usuario", authMiddleware, denunciasController.listarMinhasDenuncias)
 router.get("/", authMiddleware, moderadorMiddleware, denunciasController.listarTodasDenuncias)
 router.patch("/status/:id", authMiddleware, moderadorMiddleware, denunciasController.atualizarStatusDenuncia)
+router.delete("/:id", authMiddleware, denunciasController.excluirDenuncia)
 
 export default router;

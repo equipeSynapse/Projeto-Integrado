@@ -22,7 +22,7 @@ export default function NotificacoesModal({ onClose }) {
 
     const alternarPendente = (id) => setPendentesExclusao((prev) => prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]);
 
-    closeModal(modalRef, onClose)
+    closeModal(modalRef, closeModalandExclude)
 
     async function closeModalandExclude() {
         onClose()

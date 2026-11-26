@@ -10,7 +10,7 @@ export async function criarDenuncia({ publicacao_id, motivo, descricao }) {
         );
         return data;
     } catch (error) {
-        console.error("Erro ao criar denúncia:", error);
+        console.error("Erro ao criar denúncia:", error.response.data);
         throw error;
     }
 }

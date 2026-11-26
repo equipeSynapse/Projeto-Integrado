@@ -1,12 +1,18 @@
 import { Trash, Undo2 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { marcarComoLida } from "../../services/notificacoes/marcarComoLida";
 import { useState } from "react";
 
 export default function DenunciaBlock({ data, excluida, onAlternar }) {
-    const navigate = useNavigate();
+    const [conteudoExpand, setConteudoExpand] = useState(false)
+    const timestampDiff = Math.round((new Date() - new Date(data.criada_em)) / (1000 * 60))
+    const conteudo = data.status === "PENDENTE" ? data.descricao : data.resposta
 
-    const timestampDiff = Math.round((new Date() - new Date(data.gerada_em)) / (1000 * 60))
+    function expandir() {
+        setConteudoExpand(true);
+    }
+
+    function recolher() {
+        setConteudoExpand(false);
+    }
 
     if (excluida) return (
         <div className={`px-[32px] py-[16px] h-[90px] flex items-center justify-between gap-[12px] border border-[#e5e5e5] 
@@ -24,33 +30,46 @@ export default function DenunciaBlock({ data, excluida, onAlternar }) {
     )
 
     return (
-        <div className="relative">
-            <button
-                className={`px-[32px] py-[16px] w-full h-[90px] flex items-center gap-[12px] border border-[#e5e5e5] rounded-[8px] 
-                        ${data.lida ? 'bg-[#F4F4F4]' : 'bg-white'} hover:bg-[#F4F4F4] hover:cursor-pointer`
-                }
-                onClick={async () => {
-                    if (data.tipo === "PUBLICACAO_NOVA") {
-                        navigate(`/publicacao/${data.publicacao_id}`)
-                    };
-                    if (!data.lida) { data.lida = true; await marcarComoLida(data.id) };
-                }}
+        <div className="relative flex justify-between px-[32px] py-[16px] border border-[#e5e5e5] rounded-[8px] bg-white">
+            <div
+                className={`w-full flex items-center gap-[12px] `}
             >
-                <div className="size-[40px] bg-[#D9D9D9] rounded-[50%]" />
                 <div className="flex justify-between flex-1 text-left">
-                    {data.tipo === "PUBLICACAO_NOVA" &&
-                        <div className="flex items-center w-[420px]">
-                            <span className="text-[16px] text-[#3C4043] font-semibold line-clamp-2">
-                                Nova publicação, venha ver! {data.titulo_publicacao}
-                            </span>
-                        </div>
-                    }
-                </div>
-            </button>
+                    <div className="flex flex-col items-start w-[420px] text-[#3C4043]">
+                        <h3 className="text-[16px] text-[#3C4043] font-medium">
+                            {data.titulo_publicacao}
+                        </h3>
+                        <span className="mt-[2px]"> Motivo: {data.motivo} </span>
 
-            <div className="absolute flex flex-col justify-between items-end right-[32px] top-[24px] h-[50px]">
-                <button onClick={(e) => { e.stopPropagation() }} aria-label="Excluir Notificação">
-                    <Trash className="size-[16px] stroke-[#6B6B6B]" onClick={() => onAlternar(data.id)} />
+                    <div className="mt-[8px]">
+                        {conteudo?.length > 50 ?
+                            (conteudoExpand ?
+                            (<p className="text-[#8D8D8D]"> 
+                                {conteudo}... &nbsp; &nbsp;
+                                <button onClick={() => recolher()} className="inline text-[#909090] font-medium"> 
+                                    mostrar menos
+                                </button>
+                            </p>)
+                            :
+                            (<p className="text-[#8D8D8D]"> 
+                                {conteudo.slice(0, conteudo.lastIndexOf(' ', 50))}... &nbsp; &nbsp;
+                                <button onClick={() => expandir()} className="inline text-[#909090] font-medium"> 
+                                    mostrar mais
+                                </button>
+                            </p>)
+                            )
+                            :
+                            (<p> {conteudo} </p>)
+                        }
+                    </div>    
+                    
+                    </div>
+                </div>
+            </div>
+
+            <div className="flex flex-col justify-between items-end whitespace-nowrap">
+                <button onClick={() => onAlternar(data.id)} aria-label="Excluir Notificação">
+                    <Trash className="size-[16px] stroke-atencao" />
                 </button>
                 <span className="text-[14px] text-[#8D8D8D] font-semibold inline-block">
                     {(timestampDiff < 60) ? `${timestampDiff} min` :
